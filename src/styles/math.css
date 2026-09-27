@@ -1,0 +1,43 @@
+/* KaTeX Isolation & Typesetting */
+.math-inline-isolated {
+  display: inline-block;
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  font-family: KaTeX_Main, 'Times New Roman', serif;
+  vertical-align: middle;
+  margin: 0 0.25rem;
+  line-height: 1;
+}
+
+.math-block-isolated {
+  display: block;
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  text-align: center;
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Ensure fractions have sufficient clearance in RTL text */
+.katex .mfrac {
+  margin: 0 0.15em;
+}
+
+.katex-display {
+  margin: 0.5em 0 !important;
+}
+
+.katex {
+  font-size: 1.12em;
+  text-rendering: auto;
+}
+
+/* RTL context text containing inline math */
+.math-text {
+  line-height: 1.8;
+}
