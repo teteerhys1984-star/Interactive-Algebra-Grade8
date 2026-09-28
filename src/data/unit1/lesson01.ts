@@ -1,3 +1,5 @@
+import type { FinalAssessment, TeacherArea } from '../assessment';
+
 export interface SourceRef {
   page: number;
   section: string;
@@ -23,7 +25,10 @@ export type BlockType =
   | 'interactive-exercise'
   | 'mcq'
   | 'fill-blank'
-  | 'word-problem';
+  | 'word-problem'
+  | 'teach' // شرح موسّع بأسلوب المعلّم (محتوى إضافي حول المصدر)
+  | 'insight' // بصيرة رياضية / لماذا تعمل القاعدة
+  | 'mistake'; // مقارنة صواب/خطأ
 
 export interface ContentBlock {
   id: string;
@@ -39,9 +44,18 @@ export interface ContentBlock {
     math?: string;
     solution?: string;
     explanation?: string;
+    verifyNote?: string;
   }[];
   interactiveType?: string;
   interactiveData?: any;
+  /**
+   * When true, this block is added pedagogical explanation authored by the
+   * platform (a teacher-style aid) rather than verbatim textbook source. The
+   * UI tags it as «شرح الأستاذ» so source fidelity stays transparent.
+   */
+  authored?: boolean;
+  /** Optional note shown when a source item could not be read with certainty. */
+  verifyNote?: string;
 }
 
 export interface LessonData {
@@ -53,6 +67,10 @@ export interface LessonData {
   description: string;
   sourcePages: number[];
   steps: LessonStep[];
+  /** Optional comprehensive final assessment (introduced with Lesson 2). */
+  finalAssessment?: FinalAssessment;
+  /** Optional teacher-facing resources gated behind a password. */
+  teacherArea?: TeacherArea;
 }
 
 export const lesson01Data: LessonData = {

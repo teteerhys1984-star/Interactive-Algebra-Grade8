@@ -6,6 +6,10 @@ import { MultipleChoiceQuestion } from '../interactive/MultipleChoiceQuestion';
 import { FillInBlanksQuestion } from '../interactive/FillInBlanksQuestion';
 import { IntruderFinderQuestion } from '../interactive/IntruderFinderQuestion';
 import { JuiceVisualizer } from '../interactive/JuiceVisualizer';
+import { FractionMultiplyExplorer } from '../interactive/FractionMultiplyExplorer';
+import { SignProductExplorer } from '../interactive/SignProductExplorer';
+import { DistributiveExpander } from '../interactive/DistributiveExpander';
+import { PracticeCheck } from '../interactive/PracticeCheck';
 import {
   Sparkles,
   BookOpen,
@@ -16,6 +20,10 @@ import {
   Compass,
   Eye,
   RefreshCw,
+  GraduationCap,
+  Brain,
+  Scale,
+  AlertCircle,
 } from 'lucide-react';
 
 interface SourceContentBlockProps {
@@ -43,6 +51,16 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
         return <PenTool size={20} style={{ color: 'var(--color-emerald-600)' }} />;
       case 'tip':
         return <Lightbulb size={20} style={{ color: 'var(--color-amber-500)' }} />;
+      case 'teach':
+        return <GraduationCap size={20} style={{ color: '#0ea5e9' }} />;
+      case 'insight':
+        return <Brain size={20} style={{ color: '#8b5cf6' }} />;
+      case 'mistake':
+        return <Scale size={20} style={{ color: 'var(--color-rose-600)' }} />;
+      case 'example':
+        return <PenTool size={20} style={{ color: 'var(--color-teal-600)' }} />;
+      case 'interactive-exercise':
+        return <Sparkles size={20} style={{ color: '#0ea5e9' }} />;
       default:
         return <CheckCircle size={20} style={{ color: 'var(--color-primary-600)' }} />;
     }
@@ -62,6 +80,16 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
         return 'practice-block';
       case 'tip':
         return 'tip-block';
+      case 'teach':
+        return 'teach-block';
+      case 'insight':
+        return 'insight-block';
+      case 'mistake':
+        return 'mistake-block';
+      case 'example':
+        return 'example-block';
+      case 'interactive-exercise':
+        return 'interactive-block';
       default:
         return '';
     }
@@ -81,10 +109,23 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
           <div className="block-icon">{getBlockIcon(block.type)}</div>
           <h3 className="block-title">{block.title}</h3>
         </div>
-        <span className="source-ref-tag" title="مرجع الكتاب المدرسي الأصلي">
-          {formatSourceRef(block.sourceRef)}
-        </span>
+        {block.authored ? (
+          <span className="source-ref-tag authored-tag" title="شرح إضافي من المنصة (ليس من نص الكتاب)">
+            شرح الأستاذ
+          </span>
+        ) : (
+          <span className="source-ref-tag" title="مرجع الكتاب المدرسي الأصلي">
+            {formatSourceRef(block.sourceRef)}
+          </span>
+        )}
       </div>
+
+      {block.verifyNote && (
+        <div className="verify-note">
+          <AlertCircle size={16} />
+          <span>{block.verifyNote}</span>
+        </div>
+      )}
 
       {block.content && (
         <div className="block-body-text" style={{ fontSize: '1.025rem', marginBottom: '1rem' }}>
@@ -123,6 +164,22 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
 
       {block.interactiveType === 'juice-mixer' && <JuiceVisualizer />}
 
+      {block.interactiveType === 'fraction-multiply' && (
+        <FractionMultiplyExplorer initial={block.interactiveData?.initial} />
+      )}
+
+      {block.interactiveType === 'sign-product' && (
+        <SignProductExplorer initial={block.interactiveData?.initial} />
+      )}
+
+      {block.interactiveType === 'distributive' && (
+        <DistributiveExpander initial={block.interactiveData?.initial} />
+      )}
+
+      {block.interactiveType === 'practice-check' && block.interactiveData?.questions && (
+        <PracticeCheck questions={block.interactiveData.questions} />
+      )}
+
       {/* Sub-items (exercises, worked examples, rules) */}
       {block.subItems && block.subItems.length > 0 && (
         <div className="solver-steps">
@@ -147,6 +204,12 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
                 {item.explanation && (
                   <div style={{ fontSize: '0.9rem', color: 'var(--color-slate-600)', marginTop: '0.5rem' }}>
                     <MathText text={item.explanation} />
+                  </div>
+                )}
+                {item.verifyNote && (
+                  <div className="verify-note">
+                    <AlertCircle size={16} />
+                    <span>{item.verifyNote}</span>
                   </div>
                 )}
                 {item.solution && (

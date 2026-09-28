@@ -11,6 +11,9 @@ interface LessonDrawerProps {
   currentStepIndex: number;
   completedSteps: number[];
   onSelectStep: (index: number) => void;
+  hasAssessment?: boolean;
+  assessmentActive?: boolean;
+  onSelectAssessment?: () => void;
 }
 
 export const LessonDrawer: React.FC<LessonDrawerProps> = ({
@@ -20,6 +23,9 @@ export const LessonDrawer: React.FC<LessonDrawerProps> = ({
   currentStepIndex,
   completedSteps,
   onSelectStep,
+  hasAssessment = false,
+  assessmentActive = false,
+  onSelectAssessment,
 }) => {
   if (!isOpen) return null;
 
@@ -40,12 +46,22 @@ export const LessonDrawer: React.FC<LessonDrawerProps> = ({
         <div style={{ flex: 1, overflowY: 'auto' }}>
           <LessonOutline
             steps={lesson.steps}
-            currentStepIndex={currentStepIndex}
+            currentStepIndex={assessmentActive ? -1 : currentStepIndex}
             completedSteps={completedSteps}
             onSelectStep={(idx) => {
               onSelectStep(idx);
               onClose();
             }}
+            hasAssessment={hasAssessment}
+            assessmentActive={assessmentActive}
+            onSelectAssessment={
+              onSelectAssessment
+                ? () => {
+                    onSelectAssessment();
+                    onClose();
+                  }
+                : undefined
+            }
           />
         </div>
 

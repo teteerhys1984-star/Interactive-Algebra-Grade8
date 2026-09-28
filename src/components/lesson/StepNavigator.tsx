@@ -8,6 +8,7 @@ interface StepNavigatorProps {
   onNext: () => void;
   onComplete: () => void;
   isLastStep: boolean;
+  completeLabel?: string;
 }
 
 export const StepNavigator: React.FC<StepNavigatorProps> = ({
@@ -17,6 +18,7 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
   onNext,
   onComplete,
   isLastStep,
+  completeLabel = 'إتمام الدرس',
 }) => {
   return (
     <footer className="step-navigator">
@@ -38,10 +40,10 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
         <button
           className="nav-action-btn complete-btn"
           onClick={onComplete}
-          aria-label="إتمام الدرس"
+          aria-label={completeLabel}
         >
           <CheckCircle2 size={18} />
-          <span>إتمام الدرس</span>
+          <span>{completeLabel}</span>
         </button>
       ) : (
         <button

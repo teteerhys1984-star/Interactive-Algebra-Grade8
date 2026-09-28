@@ -5,6 +5,7 @@ import { LessonDrawer } from './LessonDrawer';
 import { StepRenderer } from './StepRenderer';
 import { StepNavigator } from './StepNavigator';
 import { CompletionState } from './CompletionState';
+import { FinalAssessment } from '../assessment/FinalAssessment';
 
 interface LessonExperienceProps {
   lesson: LessonData;
@@ -24,12 +25,16 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(initialStep);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [isLessonCompleted, setIsLessonCompleted] = useState<boolean>(false);
+  const [showAssessment, setShowAssessment] = useState<boolean>(false);
+
+  const hasAssessment = !!lesson.finalAssessment;
 
   // Sync initialStep when it changes
   useEffect(() => {
     if (initialStep >= 0 && initialStep < lesson.steps.length) {
       setCurrentStepIndex(initialStep);
       setIsLessonCompleted(false);
+      setShowAssessment(false);
     }
   }, [initialStep, lesson.steps.length]);
 
@@ -52,27 +57,52 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
   const handleNext = () => {
     if (currentStepIndex < lesson.steps.length - 1) {
       setCurrentStepIndex((prev) => prev + 1);
+    } else if (hasAssessment) {
+      setShowAssessment(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setIsLessonCompleted(true);
     }
   };
 
+  // Last-step primary action.
   const handleComplete = () => {
-    setIsLessonCompleted(true);
+    if (hasAssessment) {
+      setShowAssessment(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      setIsLessonCompleted(true);
+    }
   };
 
   const handleSelectStep = (index: number) => {
     setCurrentStepIndex(index);
     setIsLessonCompleted(false);
+    setShowAssessment(false);
+  };
+
+  const handleSelectAssessment = () => {
+    setShowAssessment(true);
+    setIsLessonCompleted(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleGoToStepFromAssessment = (index: number) => {
+    setShowAssessment(false);
+    setIsLessonCompleted(false);
+    setCurrentStepIndex(index);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRestart = () => {
     setCurrentStepIndex(0);
     setIsLessonCompleted(false);
+    setShowAssessment(false);
   };
 
   const currentStep = lesson.steps[currentStepIndex];
   const isLastStep = currentStepIndex === lesson.steps.length - 1;
+  const completeLabel = hasAssessment ? 'الانتقال إلى الاختبار الشامل' : 'إتمام الدرس';
 
   return (
     <div className="lesson-layout">
@@ -82,6 +112,9 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
         currentStepIndex={currentStepIndex}
         completedSteps={completedSteps}
         onSelectStep={handleSelectStep}
+        hasAssessment={hasAssessment}
+        assessmentActive={showAssessment}
+        onSelectAssessment={handleSelectAssessment}
       />
 
       {/* Drawer for mobile */}
@@ -92,6 +125,9 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
         currentStepIndex={currentStepIndex}
         completedSteps={completedSteps}
         onSelectStep={handleSelectStep}
+        hasAssessment={hasAssessment}
+        assessmentActive={showAssessment}
+        onSelectAssessment={handleSelectAssessment}
       />
 
       {/* Main Viewport */}
@@ -101,6 +137,12 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
             lessonTitle={lesson.title}
             onRestart={handleRestart}
             onBackToUnit={onNavigateBack}
+          />
+        ) : showAssessment && lesson.finalAssessment ? (
+          <FinalAssessment
+            assessment={lesson.finalAssessment}
+            onExit={() => setIsLessonCompleted(true)}
+            onGoToStep={handleGoToStepFromAssessment}
           />
         ) : (
           <>
@@ -117,6 +159,7 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
               onNext={handleNext}
               onComplete={handleComplete}
               isLastStep={isLastStep}
+              completeLabel={completeLabel}
             />
           </>
         )}

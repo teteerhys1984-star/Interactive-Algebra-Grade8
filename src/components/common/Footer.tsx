@@ -1,4 +1,5 @@
 import React from 'react';
+import { Lock } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -10,6 +11,10 @@ export const Footer: React.FC = () => {
         <p className="footer-copy">
           منصة الجبر التفاعلية — الصف الثامن • المنهاج المدرسي السوري
         </p>
+        <a className="footer-teacher-link" href="#/teacher" title="مساحة المدرّس (تتطلب كلمة مرور)">
+          <Lock size={13} />
+          <span>مساحة المدرّس</span>
+        </a>
       </div>
     </footer>
   );

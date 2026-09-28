@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export interface RouteState {
-  view: 'home' | 'unit' | 'lesson';
+  view: 'home' | 'unit' | 'lesson' | 'teacher';
   unitId?: string;
   lessonId?: string;
   stepIndex?: number;
@@ -14,6 +14,11 @@ export function parseHash(hash: string): RouteState {
   }
 
   const parts = clean.split('/').filter(Boolean);
+
+  // Pattern: #/teacher — teacher area (password gated)
+  if (parts[0] === 'teacher') {
+    return { view: 'teacher' };
+  }
 
   // Pattern: #/unit/:unitId
   if (parts[0] === 'unit' && parts[1]) {

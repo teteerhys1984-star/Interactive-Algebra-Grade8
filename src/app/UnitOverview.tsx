@@ -123,14 +123,16 @@ export const UnitOverview: React.FC<UnitOverviewProps> = ({
               </p>
               <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '0.75rem', backgroundColor: 'var(--color-slate-100)', padding: '0.2rem 0.6rem', borderRadius: '4px', color: 'var(--color-slate-700)', fontWeight: 600 }}>
-                  6 خطوات تفاعلية
+                  {lesson.steps.length} خطوات تفاعلية
                 </span>
                 <span style={{ fontSize: '0.75rem', backgroundColor: 'var(--color-teal-50)', padding: '0.2rem 0.6rem', borderRadius: '4px', color: 'var(--color-teal-600)', fontWeight: 600 }}>
-                  خاصة 1 وخاصة 2
-                </span>
-                <span style={{ fontSize: '0.75rem', backgroundColor: 'var(--color-primary-50)', padding: '0.2rem 0.6rem', borderRadius: '4px', color: 'var(--color-primary-700)', fontWeight: 600 }}>
                   تحقق من فهمك وتدرب
                 </span>
+                {lesson.finalAssessment && (
+                  <span style={{ fontSize: '0.75rem', backgroundColor: 'var(--color-primary-50)', padding: '0.2rem 0.6rem', borderRadius: '4px', color: 'var(--color-primary-700)', fontWeight: 600 }}>
+                    اختبار شامل
+                  </span>
+                )}
               </div>
             </div>
 
@@ -138,7 +140,7 @@ export const UnitOverview: React.FC<UnitOverviewProps> = ({
               className="nav-action-btn next-btn"
               onClick={() => onSelectLesson(unit.id, lesson.id)}
             >
-              <span>دخول الدرس 1</span>
+              <span>دخول الدرس {lesson.number}</span>
               <ChevronLeft size={16} />
             </button>
           </div>
