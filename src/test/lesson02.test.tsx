@@ -23,7 +23,8 @@ describe('Lesson 2 — الضرب (Pages 8, 9, 10, 11)', () => {
   describe('Curriculum registry', () => {
     it('registers Lesson 2 alongside Lesson 1 in Unit 1 without breaking Lesson 1', () => {
       const unit1 = curriculum[0];
-      expect(unit1.lessons.map((l) => l.id)).toEqual(['lesson-1', 'lesson-2']);
+      // الوحدة تنمو مع الدروس الجديدة؛ المهم بقاء الدرسين 1 و 2 مسجّلين وبالترتيب.
+      expect(unit1.lessons.map((l) => l.id).slice(0, 2)).toEqual(['lesson-1', 'lesson-2']);
       expect(getLessonById('unit-1', 'lesson-1')).toBeDefined();
       expect(getLessonById('unit-1', 'lesson-2')).toBeDefined();
     });

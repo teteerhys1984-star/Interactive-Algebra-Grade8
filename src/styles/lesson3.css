@@ -1,0 +1,392 @@
+/* ==========================================================================
+   الدرس الثالث — القسمة (الصفحات 12 → 16)
+   تنسيقات المكوّنات التفاعلية الجديدة فقط. لا تعديل على تنسيقات الدرسين 1 و 2.
+   ========================================================================== */
+
+/* ------------------------- مختبر المقلوب (ReciprocalExplorer) ------------- */
+.rc-explorer .rc-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.rc-cell {
+  background: var(--color-slate-50);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+
+.rc-cell-main {
+  background: var(--color-primary-50);
+  border-color: var(--color-primary-200);
+}
+
+.rc-cell-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.rc-nozero {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 800;
+  color: var(--color-rose-600);
+  font-size: 0.9rem;
+}
+
+.rc-check {
+  margin: 0.75rem 0 0.25rem;
+  padding: 0.6rem 0.75rem;
+  background: #ffffff;
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.rc-check-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  font-size: 0.92rem;
+  color: var(--color-slate-700);
+}
+
+/* --------------------- باني خطوات القسمة (DivisionStepBuilder) ------------ */
+.db-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.db-field-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-primary-700);
+  background: var(--color-primary-50);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+.db-expression {
+  margin: 0.9rem 0 0.4rem;
+}
+
+.db-stages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.db-stage-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  background: var(--color-slate-50);
+  border-inline-start: 3px solid var(--color-primary-400);
+  border-radius: var(--radius-lg);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.93rem;
+  color: var(--color-slate-800);
+}
+
+.db-stage-final {
+  background: var(--color-emerald-50);
+  border-inline-start-color: var(--color-emerald-500);
+}
+
+.db-stage-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-primary-700);
+  flex-shrink: 0;
+}
+
+.db-stage-final .db-stage-tag {
+  color: var(--color-emerald-700);
+}
+
+.db-note {
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+  color: var(--color-slate-700);
+  text-align: center;
+}
+
+/* ------------------ ترتيب الأولويات (OrderOfOperationsSorter) ------------- */
+.oo-head,
+.cf-head,
+.ck-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 800;
+  color: var(--color-primary-800);
+  font-size: 0.95rem;
+}
+
+.oo-expression {
+  margin: 0.8rem 0;
+}
+
+.oo-pool {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.oo-card {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  text-align: start;
+  background: #ffffff;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 0.65rem 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.oo-card:hover:not(:disabled) {
+  border-color: var(--color-primary-300);
+}
+
+.oo-card.oo-chosen {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+}
+
+.oo-card.oo-right {
+  border-color: var(--color-emerald-500);
+  background: var(--color-emerald-50);
+}
+
+.oo-card.oo-misplaced {
+  border-color: var(--color-amber-500);
+  background: var(--color-amber-50);
+}
+
+.oo-order {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  background: var(--color-slate-200);
+  color: var(--color-slate-700);
+}
+
+.oo-card.oo-chosen .oo-order {
+  background: var(--color-primary-600);
+  color: #ffffff;
+}
+
+.oo-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  min-width: 0;
+}
+
+.oo-conclusion {
+  margin-top: 0.8rem;
+  font-size: 0.92rem;
+  color: var(--color-slate-700);
+}
+
+/* ------------------ الكسر المركّب (CompoundFractionReader) ---------------- */
+.cf-reader {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cf-item {
+  border-bottom: 1px dashed var(--border-subtle);
+  padding-bottom: 1.2rem;
+}
+
+.cf-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.cf-expression {
+  margin: 0.7rem 0;
+}
+
+.cf-readings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.6rem;
+}
+
+.cf-reading {
+  background: #ffffff;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 0.7rem 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.cf-reading:hover:not(:disabled) {
+  border-color: var(--color-primary-300);
+}
+
+/* ------------------ لوحة الآلة الحاسبة (CalculatorKeys) ------------------- */
+.ck-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.8rem 0;
+  justify-content: flex-start;
+}
+
+.ck-key {
+  min-width: 30px;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid transparent;
+}
+
+.ck-key-num {
+  background: var(--color-slate-100);
+  color: var(--color-slate-800);
+  border-color: var(--color-slate-200);
+}
+
+.ck-key-op {
+  background: var(--color-primary-600);
+  color: #ffffff;
+}
+
+.ck-screen-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.ck-screen-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.ck-screen {
+  display: inline-block;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.ck-note {
+  margin-top: 0.7rem;
+  font-size: 0.86rem;
+  color: var(--color-slate-700);
+}
+
+/* ------------------------------- الاستجابة ------------------------------- */
+@media (max-width: 640px) {
+  .db-controls,
+  .rc-explorer .fm-controls {
+    gap: 0.6rem;
+  }
+
+  .oo-card {
+    align-items: flex-start;
+  }
+
+  .ck-keys {
+    justify-content: center;
+  }
+
+  .rc-explorer .rc-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* منع خروج المعادلات الطويلة عن الشاشة داخل بطاقات الدرس الثالث */
+.rc-explorer .math-block-isolated,
+.db-builder .math-block-isolated,
+.oo-sorter .math-block-isolated,
+.cf-reader .math-block-isolated {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding-bottom: 0.2rem;
+}
+
+/* ------- فصل «المطبوع في الكتاب» عن «إعادة البناء» في لوحة الآلة الحاسبة ------ */
+.ck-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.8rem 0;
+  padding: 0.6rem 0.7rem;
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: #ffffff;
+}
+
+.ck-row-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+.ck-tag-book {
+  background: var(--color-teal-50);
+  color: var(--color-teal-700);
+}
+
+.ck-tag-platform {
+  background: var(--color-amber-50);
+  color: var(--color-amber-800);
+}
+
+.ck-row-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.ck-row .ck-keys {
+  margin: 0.35rem 0 0.1rem;
+}
+
+.ck-screen-wrap {
+  margin-top: 0.6rem;
+}
