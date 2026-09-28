@@ -8,6 +8,9 @@ interface LessonSidebarProps {
   currentStepIndex: number;
   completedSteps: number[];
   onSelectStep: (index: number) => void;
+  hasAssessment?: boolean;
+  assessmentActive?: boolean;
+  onSelectAssessment?: () => void;
 }
 
 export const LessonSidebar: React.FC<LessonSidebarProps> = ({
@@ -15,6 +18,9 @@ export const LessonSidebar: React.FC<LessonSidebarProps> = ({
   currentStepIndex,
   completedSteps,
   onSelectStep,
+  hasAssessment = false,
+  assessmentActive = false,
+  onSelectAssessment,
 }) => {
   return (
     <aside className="lesson-sidebar">
@@ -26,9 +32,12 @@ export const LessonSidebar: React.FC<LessonSidebarProps> = ({
       <div style={{ flex: 1, overflowY: 'auto' }}>
         <LessonOutline
           steps={lesson.steps}
-          currentStepIndex={currentStepIndex}
+          currentStepIndex={assessmentActive ? -1 : currentStepIndex}
           completedSteps={completedSteps}
           onSelectStep={onSelectStep}
+          hasAssessment={hasAssessment}
+          assessmentActive={assessmentActive}
+          onSelectAssessment={onSelectAssessment}
         />
       </div>
 

@@ -1,13 +1,16 @@
 import React from 'react';
 import { LessonStep } from '../../data/unit1/lesson01';
 import { MathText } from '../math/MathText';
-import { Check } from 'lucide-react';
+import { Check, ClipboardCheck } from 'lucide-react';
 
 interface LessonOutlineProps {
   steps: LessonStep[];
   currentStepIndex: number;
   completedSteps: number[];
   onSelectStep: (index: number) => void;
+  hasAssessment?: boolean;
+  assessmentActive?: boolean;
+  onSelectAssessment?: () => void;
 }
 
 export const LessonOutline: React.FC<LessonOutlineProps> = ({
@@ -15,6 +18,9 @@ export const LessonOutline: React.FC<LessonOutlineProps> = ({
   currentStepIndex,
   completedSteps,
   onSelectStep,
+  hasAssessment = false,
+  assessmentActive = false,
+  onSelectAssessment,
 }) => {
   return (
     <nav className="lesson-outline" aria-label="فهرس خطوات الدرس">
@@ -58,6 +64,26 @@ export const LessonOutline: React.FC<LessonOutlineProps> = ({
             </li>
           );
         })}
+
+        {hasAssessment && onSelectAssessment && (
+          <li>
+            <button
+              className={`outline-item-btn assessment-outline-btn ${assessmentActive ? 'active' : ''}`}
+              onClick={onSelectAssessment}
+              aria-current={assessmentActive ? 'step' : undefined}
+            >
+              <div className={`step-indicator ${assessmentActive ? 'active' : 'upcoming'}`}>
+                <ClipboardCheck size={14} />
+              </div>
+              <div className="outline-info">
+                <div className="outline-step-title">الاختبار الشامل</div>
+                <div className="outline-step-meta">
+                  <span>تقويم نهائي</span>
+                </div>
+              </div>
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   );

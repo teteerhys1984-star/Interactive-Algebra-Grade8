@@ -1,0 +1,141 @@
+/* ============================================================= */
+/* Teacher Area + Password Gate                                   */
+/* ============================================================= */
+
+.teacher-gate-wrap {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+}
+.teacher-gate {
+  max-width: 440px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  padding: 2.25rem 1.75rem;
+  text-align: center;
+}
+.tg-icon {
+  width: 64px; height: 64px; margin: 0 auto 1rem;
+  background: linear-gradient(135deg, var(--color-primary-800), var(--color-primary-600));
+  color: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.teacher-gate h1 { font-size: 1.5rem; font-weight: 900; color: var(--color-slate-900); }
+.tg-sub { color: var(--text-muted); font-size: 0.92rem; margin: 0.5rem 0 1.5rem; line-height: 1.6; }
+.tg-form { display: flex; flex-direction: column; gap: 0.5rem; text-align: start; }
+.tg-form label { font-weight: 700; font-size: 0.88rem; }
+.tg-form input {
+  padding: 0.7rem 0.9rem; border: 2px solid var(--border-strong);
+  border-radius: var(--radius-md); font-size: 1rem;
+}
+.tg-form input:focus { outline: none; border-color: var(--color-primary-500); box-shadow: 0 0 0 3px var(--color-primary-100); }
+.tg-error {
+  color: var(--color-rose-600); font-size: 0.85rem; font-weight: 700;
+  background: var(--color-rose-50); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);
+}
+.tg-submit { justify-content: center; margin-top: 0.4rem; }
+.tg-note {
+  display: flex; gap: 0.5rem; align-items: flex-start;
+  margin-top: 1.5rem; padding: 0.75rem 0.9rem;
+  background: var(--color-amber-50); border: 1px solid var(--color-amber-100);
+  border-radius: var(--radius-md); color: var(--color-amber-800);
+  font-size: 0.78rem; line-height: 1.55; text-align: start;
+}
+.tg-note svg { flex-shrink: 0; margin-top: 2px; }
+.tg-back {
+  margin-top: 1.25rem; display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.85rem; font-weight: 700; color: var(--color-primary-600);
+}
+
+/* Teacher content */
+.teacher-area { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; width: 100%; }
+.ta-topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem;
+}
+.ta-topbar-title {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 1.3rem; font-weight: 900; color: var(--color-slate-900);
+}
+.ta-topbar-actions { display: flex; gap: 0.75rem; }
+.ta-topbar-actions .tg-back { margin-top: 0; }
+.ta-logout { color: var(--color-rose-600); }
+
+.ta-lesson-tabs { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.ta-tab {
+  padding: 0.5rem 1rem; border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong); background: #fff; font-weight: 700; font-size: 0.9rem;
+}
+.ta-tab.active { background: var(--color-primary-600); color: #fff; border-color: var(--color-primary-600); }
+
+.ta-content { display: flex; flex-direction: column; gap: 1.25rem; }
+.ta-lesson-head {
+  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+  background: #fff; border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-sm);
+}
+.ta-lesson-head h2 { font-size: 1.35rem; font-weight: 900; }
+
+.ta-section {
+  background: #fff; border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: 1.4rem 1.5rem; box-shadow: var(--shadow-sm);
+}
+.ta-section h3 {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 1.1rem; font-weight: 800; color: var(--color-primary-800);
+  margin-bottom: 0.85rem;
+}
+.ta-list { padding-inline-start: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.ta-list li { line-height: 1.7; color: var(--color-slate-800); }
+
+.ta-mistakes { display: flex; flex-direction: column; gap: 0.85rem; }
+.ta-mistake { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; }
+.ta-mistake-bad, .ta-mistake-fix { padding: 0.6rem 0.85rem; font-size: 0.92rem; line-height: 1.6; }
+.ta-mistake-bad { background: var(--color-rose-50); }
+.ta-mistake-fix { background: var(--color-emerald-50); }
+.ta-mistake-bad span, .ta-mistake-fix span { font-weight: 800; }
+.ta-mistake-bad span { color: var(--color-rose-600); }
+.ta-mistake-fix span { color: var(--color-emerald-700); }
+
+.ta-keys { display: flex; flex-direction: column; gap: 1rem; }
+.ta-key-group { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); }
+.ta-key-head {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;
+  padding: 0.6rem 0.85rem; background: var(--color-slate-50);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.ta-key-title { font-weight: 800; font-size: 0.92rem; }
+.ta-key-items { display: flex; flex-direction: column; }
+.ta-key-item {
+  display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+  padding: 0.55rem 0.85rem; border-bottom: 1px dashed var(--border-subtle);
+}
+.ta-key-item:last-child { border-bottom: none; }
+.ta-key-ref {
+  min-width: 40px; font-weight: 800; color: var(--color-primary-700);
+  background: var(--color-primary-50); padding: 0.15rem 0.5rem; border-radius: var(--radius-sm);
+  text-align: center;
+}
+.ta-key-answer { flex: 1; }
+.ta-key-note {
+  width: 100%; font-size: 0.78rem; color: var(--color-amber-800);
+  background: var(--color-amber-50); padding: 0.35rem 0.6rem; border-radius: var(--radius-sm);
+}
+.ta-empty { color: var(--text-muted); text-align: center; padding: 2rem; }
+
+/* Footer teacher link */
+.footer-teacher-link {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.8rem; font-weight: 600; color: var(--color-slate-400);
+  margin-top: 0.4rem;
+}
+.footer-teacher-link:hover { color: var(--color-primary-600); }
+
+@media (max-width: 640px) {
+  .ta-key-item { flex-direction: column; align-items: flex-start; }
+}

@@ -204,7 +204,7 @@ export const CourseHome: React.FC<CourseHomeProps> = ({
                       style={{ backgroundColor: 'var(--color-primary-600)', color: '#ffffff', width: '100%', justifyContent: 'center' }}
                       onClick={() => onSelectLesson(unit.id, lesson.id)}
                     >
-                      <span>فتح الدرس التفاعلي (6 خطوات)</span>
+                      <span>فتح الدرس التفاعلي ({lesson.steps.length} خطوات)</span>
                       <ChevronLeft size={16} />
                     </button>
                   </div>

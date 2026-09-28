@@ -6,6 +6,7 @@ import { Footer } from '../components/common/Footer';
 import { CourseHome } from './CourseHome';
 import { UnitOverview } from './UnitOverview';
 import { LessonExperience } from '../components/lesson/LessonExperience';
+import { TeacherArea } from '../components/teacher/TeacherArea';
 
 export const App: React.FC = () => {
   const { route, navigate } = useHashRoute();
@@ -77,6 +78,10 @@ export const App: React.FC = () => {
             isDrawerOpen={isDrawerOpen}
             onCloseDrawer={() => setIsDrawerOpen(false)}
           />
+        )}
+
+        {route.view === 'teacher' && (
+          <TeacherArea onNavigateHome={handleNavigateHome} />
         )}
       </div>
 
