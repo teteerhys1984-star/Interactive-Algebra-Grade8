@@ -353,6 +353,17 @@
   color: var(--color-slate-900);
 }
 
+/* رياضيات داخل عنوان الكتلة: تبقى معزولة LTR ومحاذاة على خط الكتابة العربي */
+.block-title .math-text {
+  line-height: inherit;
+}
+
+.block-title .math-inline-isolated {
+  font-size: 0.95em;
+  vertical-align: -0.1em;
+  margin-inline: 0.15em;
+}
+
 .source-ref-tag {
   font-size: 0.75rem;
   font-weight: 600;

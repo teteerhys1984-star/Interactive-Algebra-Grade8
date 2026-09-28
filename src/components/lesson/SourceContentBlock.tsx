@@ -10,6 +10,11 @@ import { FractionMultiplyExplorer } from '../interactive/FractionMultiplyExplore
 import { SignProductExplorer } from '../interactive/SignProductExplorer';
 import { DistributiveExpander } from '../interactive/DistributiveExpander';
 import { PracticeCheck } from '../interactive/PracticeCheck';
+import { ReciprocalExplorer } from '../interactive/ReciprocalExplorer';
+import { DivisionStepBuilder } from '../interactive/DivisionStepBuilder';
+import { OrderOfOperationsSorter } from '../interactive/OrderOfOperationsSorter';
+import { CompoundFractionReader } from '../interactive/CompoundFractionReader';
+import { CalculatorKeys } from '../interactive/CalculatorKeys';
 import {
   Sparkles,
   BookOpen,
@@ -107,7 +112,11 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
       <div className="block-header">
         <div className="block-title-group">
           <div className="block-icon">{getBlockIcon(block.type)}</div>
-          <h3 className="block-title">{block.title}</h3>
+          <h3 className="block-title">
+            {/* عنوان الكتلة يمر عبر MathText نفسه المستخدم في النص: العربية تبقى RTL
+                والتعبير الرياضي يُرسم داخل عنصر dir="ltr" مع unicode-bidi: isolate. */}
+            <MathText text={block.title} />
+          </h3>
         </div>
         {block.authored ? (
           <span className="source-ref-tag authored-tag" title="شرح إضافي من المنصة (ليس من نص الكتاب)">
@@ -178,6 +187,39 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
 
       {block.interactiveType === 'practice-check' && block.interactiveData?.questions && (
         <PracticeCheck questions={block.interactiveData.questions} />
+      )}
+
+      {block.interactiveType === 'reciprocal-explorer' && (
+        <ReciprocalExplorer initial={block.interactiveData?.initial} />
+      )}
+
+      {block.interactiveType === 'division-builder' && (
+        <DivisionStepBuilder initial={block.interactiveData?.initial} />
+      )}
+
+      {block.interactiveType === 'operations-order' && block.interactiveData?.steps && (
+        <OrderOfOperationsSorter
+          expression={block.interactiveData.expression}
+          steps={block.interactiveData.steps}
+          shuffled={block.interactiveData.shuffled}
+          conclusion={block.interactiveData.conclusion}
+        />
+      )}
+
+      {block.interactiveType === 'compound-fraction' && block.interactiveData?.items && (
+        <CompoundFractionReader items={block.interactiveData.items} />
+      )}
+
+      {block.interactiveType === 'calculator-keys' && (
+        <CalculatorKeys
+          printedKeys={block.interactiveData?.printedKeys}
+          keys={block.interactiveData?.keys}
+          reconstructed={block.interactiveData?.reconstructed}
+          screen={block.interactiveData?.screen}
+          screenSource={block.interactiveData?.screenSource}
+          caption={block.interactiveData?.caption}
+          note={block.interactiveData?.note}
+        />
       )}
 
       {/* Sub-items (exercises, worked examples, rules) */}

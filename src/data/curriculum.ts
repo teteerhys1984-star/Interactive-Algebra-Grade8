@@ -1,5 +1,6 @@
 import { lesson01Data, LessonData } from './unit1/lesson01';
 import { lesson02Data } from './unit1/lesson02';
+import { lesson03Data } from './unit1/lesson03';
 import { warmupData } from './unit1/warmup';
 
 export interface UnitData {
@@ -18,9 +19,9 @@ export const curriculum: UnitData[] = [
     number: 1,
     title: 'الأعداد العادية والعمليات عليها',
     description: 'الوحدة الأولى من كتاب الجبر للصف الثامن: الكسور العادية، العمليات الحسابية، التبسيط والمقارنة.',
-    sourcePages: [3, 4, 5, 6, 7, 8, 9, 10, 11],
+    sourcePages: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     warmup: warmupData,
-    lessons: [lesson01Data, lesson02Data],
+    lessons: [lesson01Data, lesson02Data, lesson03Data],
   },
 ];
 

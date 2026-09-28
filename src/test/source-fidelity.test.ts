@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { lesson01Data } from '../data/unit1/lesson01';
+import { lesson03Data } from '../data/unit1/lesson03';
 import { warmupData } from '../data/unit1/warmup';
 
 describe('Authoritative Source-Fidelity Audit', () => {
@@ -74,6 +75,70 @@ describe('Authoritative Source-Fidelity Audit', () => {
       // Verify Exercise 3 has all 7 sub-items
       const ex3 = step6.blocks.find((b) => b.title?.includes('3. احسب بصيغة كسر'));
       expect(ex3?.subItems?.length).toBe(7);
+    });
+  });
+
+
+  describe('Lesson 3 (Pages 12, 13, 14, 15, 16)', () => {
+    const l3Blocks = lesson03Data.steps.flatMap((s) => s.blocks);
+
+    it('verifies Lesson 3 title is "القسمة" and covers pages 12 → 16', () => {
+      expect(lesson03Data.title).toBe('القسمة');
+      expect(lesson03Data.number).toBe(3);
+      expect(lesson03Data.sourcePages).toEqual([12, 13, 14, 15, 16]);
+    });
+
+    it('verifies every section of the source appears in the lesson', () => {
+      const sections = new Set(l3Blocks.map((b) => b.sourceRef.section));
+      ['نشاط', 'نشاط ①', 'نشاط ②', 'نشاط ③', 'تعلّم', 'اكتساب معارف', 'مثال', 'تحقّق من فهمك', 'تدرّب'].forEach(
+        (sec) => expect([...sections].some((s) => s.includes(sec))).toBe(true),
+      );
+    });
+
+    it('verifies the page-12 activity keeps its three parts', () => {
+      const step1And2And3 = lesson03Data.steps.slice(0, 3).flatMap((s) => s.blocks);
+      expect(step1And2And3.some((b) => b.title.includes('① « مقلوب كسر »'))).toBe(true);
+      expect(step1And2And3.some((b) => b.title.includes('② « القسمة هي الضرب بالمقلوب »'))).toBe(true);
+      expect(step1And2And3.some((b) => b.title.includes('③ 1. أوجد القيمة التامة'))).toBe(true);
+    });
+
+    it('verifies the reciprocal rules and the division rules are quoted verbatim', () => {
+      const learnBlocks = l3Blocks.filter((b) => b.type === 'learn');
+      expect(learnBlocks.length).toBe(2);
+      const allMath = learnBlocks.flatMap((b) => b.subItems?.map((s) => s.math ?? '') ?? []);
+      expect(allMath).toContain('x \\times \\frac{1}{x} = 1');
+      expect(allMath).toContain('h \\div \\frac{d}{c} = h \\times \\frac{c}{d}');
+      expect(allMath).toContain('\\frac{a}{b} \\div \\frac{d}{c} = \\frac{a}{b} \\times \\frac{c}{d}');
+    });
+
+    it('verifies page 16 exercises are complete (4 تحقّق + 5 تدرّب)', () => {
+      expect(lesson03Data.steps[8].blocks.filter((b) => !b.authored).length).toBe(4);
+      const practice = lesson03Data.steps[9].blocks.filter(
+        (b) => b.id.startsWith('l3-p16-practice') && !b.authored,
+      );
+      expect(practice.length).toBe(5);
+    });
+
+    it('has no verifyNote left: every page 12-16 segment was confirmed against the source', () => {
+      const flagged = l3Blocks.filter((b) => b.verifyNote || b.subItems?.some((s) => s.verifyNote));
+      expect(flagged.map((b) => b.id)).toEqual([]);
+    });
+
+    it('keeps the four تحقّق ① reciprocals exactly as printed (7/9, -3/8, 9/-4, 3.4/3)', () => {
+      const one = lesson03Data.steps[8].blocks.find((b) => b.id === 'l3-p16-check-1');
+      expect(one?.subItems?.map((s) => s.math)).toEqual([
+        '\\frac{7}{9}',
+        '\\frac{-3}{8}',
+        '\\frac{9}{-4}',
+        '\\frac{3.4}{3}',
+      ]);
+    });
+
+    it('keeps the printed تدرّب numbering ①–⑤ exactly as the book prints it', () => {
+      const items = lesson03Data.steps[9].blocks
+        .filter((b) => !b.authored)
+        .map((b) => b.sourceRef?.item);
+      expect(items).toEqual(['①', '②', '③', '④', '⑤']);
     });
   });
 

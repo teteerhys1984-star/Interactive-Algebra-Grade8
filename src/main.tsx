@@ -5,6 +5,7 @@ import './styles/global.css';
 import './styles/lesson.css';
 import './styles/interactive.css';
 import './styles/lesson2.css';
+import './styles/lesson3.css';
 import './styles/assessment.css';
 import './styles/teacher.css';
 
