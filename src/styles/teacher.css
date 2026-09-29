@@ -73,6 +73,67 @@
 }
 .ta-tab.active { background: var(--color-primary-600); color: #fff; border-color: var(--color-primary-600); }
 
+/* Lesson 4 teacher-area sections */
+.ta-section-selector {
+  display: flex;
+  gap: 0.55rem;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+  scrollbar-width: thin;
+}
+.ta-section-tab {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--color-slate-700);
+  font-weight: 700;
+  font-size: 0.84rem;
+  text-align: start;
+}
+.ta-section-tab:hover { border-color: var(--color-primary-400); color: var(--color-primary-700); }
+.ta-section-tab.active {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #fff;
+}
+.ta-section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.25rem;
+  border-radius: 50%;
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.ta-section-tab.active .ta-section-number { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.ta-section-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.ta-section-status span:first-child { direction: ltr; }
+.ta-section-navigator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
 .ta-content { display: flex; flex-direction: column; gap: 1.25rem; }
 .ta-lesson-head {
   display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
@@ -138,4 +199,5 @@
 
 @media (max-width: 640px) {
   .ta-key-item { flex-direction: column; align-items: flex-start; }
+  .ta-section-navigator .nav-action-btn { padding: 0.65rem 0.9rem; font-size: 0.88rem; }
 }
