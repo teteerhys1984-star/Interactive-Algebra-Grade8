@@ -9,6 +9,8 @@ interface StepNavigatorProps {
   onComplete: () => void;
   isLastStep: boolean;
   completeLabel?: string;
+  /** When the next step opens a new group, show its title as a hint. */
+  nextGroupTitle?: string;
 }
 
 export const StepNavigator: React.FC<StepNavigatorProps> = ({
@@ -19,6 +21,7 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
   onComplete,
   isLastStep,
   completeLabel = 'إتمام الدرس',
+  nextGroupTitle,
 }) => {
   return (
     <footer className="step-navigator">
@@ -32,8 +35,11 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
         <span>الخطوة السابقة</span>
       </button>
 
-      <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)' }}>
+      <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)', textAlign: 'center' }}>
         {currentStepIndex + 1} / {totalSteps}
+        {nextGroupTitle && (
+          <span className="next-group-hint">التالي: {nextGroupTitle}</span>
+        )}
       </span>
 
       {isLastStep ? (

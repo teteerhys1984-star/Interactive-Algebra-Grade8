@@ -101,6 +101,21 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
   };
 
   const currentStep = lesson.steps[currentStepIndex];
+
+  // Presentation-only grouping info for the current step (no flow change).
+  const currentGroup = (() => {
+    if (!currentStep?.groupId || !currentStep.groupTitle) return undefined;
+    const indices = lesson.steps
+      .map((step, index) => ({ step, index }))
+      .filter(({ step }) => step.groupId === currentStep.groupId)
+      .map(({ index }) => index);
+    return {
+      title: currentStep.groupTitle,
+      positionInGroup: indices.indexOf(currentStepIndex) + 1,
+      groupSize: indices.length,
+      completedInGroup: indices.filter((i) => completedSteps.includes(i)).length,
+    };
+  })();
   const isLastStep = currentStepIndex === lesson.steps.length - 1;
   const completeLabel = hasAssessment ? 'الانتقال إلى الاختبار الشامل' : 'إتمام الدرس';
 
@@ -150,6 +165,7 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
               step={currentStep}
               stepIndex={currentStepIndex}
               totalSteps={lesson.steps.length}
+              group={currentGroup}
             />
 
             <StepNavigator
@@ -160,6 +176,11 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
               onComplete={handleComplete}
               isLastStep={isLastStep}
               completeLabel={completeLabel}
+              nextGroupTitle={
+                currentGroup && lesson.steps[currentStepIndex + 1]?.groupId !== currentStep.groupId
+                  ? lesson.steps[currentStepIndex + 1]?.groupTitle
+                  : undefined
+              }
             />
           </>
         )}
