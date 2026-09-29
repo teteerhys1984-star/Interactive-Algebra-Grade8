@@ -1,0 +1,347 @@
+{
+  "lesson": "تمارين الوحدة الأولى",
+  "sourcePages": [
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "questions": [
+    {
+      "question": 1,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 1",
+      "lessonStep": "exercise-1"
+    },
+    {
+      "question": 2,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 2",
+      "lessonStep": "exercise-2"
+    },
+    {
+      "question": 3,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 3",
+      "lessonStep": "exercise-3"
+    },
+    {
+      "question": 4,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 4",
+      "lessonStep": "exercise-4"
+    },
+    {
+      "question": 5,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 5",
+      "lessonStep": "exercise-5"
+    },
+    {
+      "question": 6,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 6",
+      "lessonStep": "exercise-6"
+    },
+    {
+      "question": 7,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 7",
+      "lessonStep": "exercise-7"
+    },
+    {
+      "question": 8,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 8",
+      "lessonStep": "exercise-8"
+    },
+    {
+      "question": 9,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 9",
+      "lessonStep": "exercise-9"
+    },
+    {
+      "question": 10,
+      "page": 17,
+      "verification": "verified",
+      "sourceRef": "ص17، تمرين 10",
+      "lessonStep": "exercise-10"
+    },
+    {
+      "question": 11,
+      "page": 18,
+      "verification": "verified",
+      "sourceRef": "ص18، تمرين 11",
+      "lessonStep": "exercise-11"
+    },
+    {
+      "question": 12,
+      "page": 18,
+      "verification": "verified",
+      "sourceRef": "ص18، تمرين 12",
+      "lessonStep": "exercise-12"
+    },
+    {
+      "question": 13,
+      "page": 18,
+      "verification": "verified",
+      "sourceRef": "ص18، تمرين 13",
+      "lessonStep": "exercise-13"
+    },
+    {
+      "question": 14,
+      "page": 18,
+      "verification": "verified",
+      "sourceRef": "ص18، تمرين 14",
+      "lessonStep": "exercise-14"
+    },
+    {
+      "question": 15,
+      "page": 18,
+      "verification": "verified",
+      "sourceRef": "ص18، تمرين 15",
+      "lessonStep": "exercise-15"
+    },
+    {
+      "question": 16,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 16",
+      "lessonStep": "exercise-16"
+    },
+    {
+      "question": 17,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 17",
+      "lessonStep": "exercise-17"
+    },
+    {
+      "question": 18,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 18",
+      "lessonStep": "exercise-18"
+    },
+    {
+      "question": 19,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 19",
+      "lessonStep": "exercise-19"
+    },
+    {
+      "question": 20,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 20",
+      "lessonStep": "exercise-20"
+    },
+    {
+      "question": 21,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 21",
+      "lessonStep": "exercise-21"
+    },
+    {
+      "question": 22,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 22",
+      "lessonStep": "exercise-22"
+    },
+    {
+      "question": 23,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 23",
+      "lessonStep": "exercise-23"
+    },
+    {
+      "question": 24,
+      "page": 19,
+      "verification": "verified",
+      "sourceRef": "ص19، تمرين 24",
+      "lessonStep": "exercise-24"
+    },
+    {
+      "question": 25,
+      "page": 20,
+      "verification": "verified",
+      "sourceRef": "ص20، تمرين 25",
+      "lessonStep": "exercise-25"
+    },
+    {
+      "question": 26,
+      "page": 20,
+      "verification": "verified",
+      "sourceRef": "ص20، تمرين 26",
+      "lessonStep": "exercise-26"
+    },
+    {
+      "question": 27,
+      "page": 20,
+      "verification": "verified",
+      "sourceRef": "ص20، تمرين 27",
+      "lessonStep": "exercise-27"
+    },
+    {
+      "question": 28,
+      "page": 20,
+      "verification": "verified",
+      "sourceRef": "ص20، تمرين 28",
+      "lessonStep": "exercise-28"
+    },
+    {
+      "question": 29,
+      "page": 20,
+      "verification": "verified",
+      "sourceRef": "ص20، تمرين 29",
+      "lessonStep": "exercise-29"
+    },
+    {
+      "question": 30,
+      "page": 20,
+      "verification": "verified",
+      "sourceRef": "ص20، تمرين 30",
+      "lessonStep": "exercise-30"
+    },
+    {
+      "question": 31,
+      "page": 21,
+      "verification": "verified",
+      "sourceRef": "ص21، تمرين 31",
+      "lessonStep": "exercise-31"
+    },
+    {
+      "question": 32,
+      "page": 21,
+      "verification": "verified",
+      "sourceRef": "ص21، تمرين 32",
+      "lessonStep": "exercise-32"
+    },
+    {
+      "question": 33,
+      "page": 21,
+      "verification": "verified",
+      "sourceRef": "ص21، تمرين 33",
+      "lessonStep": "exercise-33"
+    },
+    {
+      "question": 34,
+      "page": 21,
+      "verification": "verified",
+      "sourceRef": "ص21، تمرين 34",
+      "lessonStep": "exercise-34"
+    },
+    {
+      "question": 35,
+      "page": 21,
+      "verification": "verified",
+      "sourceRef": "ص21، تمرين 35",
+      "lessonStep": "exercise-35"
+    },
+    {
+      "question": 36,
+      "page": 21,
+      "verification": "verified",
+      "sourceRef": "ص21، تمرين 36",
+      "lessonStep": "exercise-36"
+    },
+    {
+      "question": 37,
+      "page": 22,
+      "verification": "verified",
+      "sourceRef": "ص22، تمرين 37",
+      "lessonStep": "exercise-37"
+    },
+    {
+      "question": 38,
+      "page": 22,
+      "verification": "verified",
+      "sourceRef": "ص22، تمرين 38",
+      "lessonStep": "exercise-38"
+    },
+    {
+      "question": 39,
+      "page": 22,
+      "verification": "verified",
+      "sourceRef": "ص22، تمرين 39",
+      "lessonStep": "exercise-39"
+    },
+    {
+      "question": 40,
+      "page": 22,
+      "verification": "verified",
+      "sourceRef": "ص22، تمرين 40",
+      "lessonStep": "exercise-40"
+    },
+    {
+      "question": 41,
+      "page": 22,
+      "verification": "verified",
+      "sourceRef": "ص22، تمرين 41",
+      "lessonStep": "exercise-41"
+    },
+    {
+      "question": 42,
+      "page": 22,
+      "verification": "verified",
+      "sourceRef": "ص22، تمرين 42",
+      "lessonStep": "exercise-42"
+    },
+    {
+      "question": 43,
+      "page": 24,
+      "verification": "verified",
+      "sourceRef": "ص24، تمرين 43",
+      "lessonStep": "exercise-43"
+    },
+    {
+      "question": 44,
+      "page": 24,
+      "verification": "verified",
+      "sourceRef": "ص24، تمرين 44",
+      "lessonStep": "exercise-44"
+    },
+    {
+      "question": 45,
+      "page": 24,
+      "verification": "verified",
+      "sourceRef": "ص24، تمرين 45",
+      "lessonStep": "exercise-45"
+    },
+    {
+      "question": 46,
+      "page": 24,
+      "verification": "verified",
+      "sourceRef": "ص24، تمرين 46",
+      "lessonStep": "exercise-46"
+    },
+    {
+      "question": 47,
+      "page": 24,
+      "verification": "verified",
+      "sourceRef": "ص24، تمرين 47",
+      "lessonStep": "exercise-47"
+    }
+  ],
+  "verifiedCount": 47,
+  "totalQuestions": 47,
+  "verifyNoteCount": 0,
+  "status": "47/47 verified"
+}

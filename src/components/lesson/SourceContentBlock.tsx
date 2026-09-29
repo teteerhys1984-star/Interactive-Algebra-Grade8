@@ -154,6 +154,27 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
         </div>
       )}
 
+      {block.interactiveType === 'sailboat-svg' && (
+        <div className="sailboat-visual" role="img" aria-label="رسم القارب الشراعي في السؤال 15">
+          <svg viewBox="0 0 520 360" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <title>قارب شراعي ذو شراعين</title>
+            <path d="M55 300 L465 300 L420 335 L100 335 Z" fill="#f3a85b" stroke="#276477" strokeWidth="4"/>
+            <line x1="260" y1="45" x2="260" y2="300" stroke="#404b54" strokeWidth="5"/>
+            <polygon points="260,55 260,205 75,300" fill="#f9df5d" stroke="#355d75" strokeWidth="4"/>
+            <polygon points="260,205 260,300 425,300" fill="#f9df5d" stroke="#355d75" strokeWidth="4"/>
+            <line x1="260" y1="55" x2="260" y2="205" stroke="#333" strokeWidth="2"/>
+            <line x1="260" y1="205" x2="260" y2="300" stroke="#333" strokeWidth="2"/>
+            <line x1="260" y1="205" x2="260" y2="300" stroke="#444" strokeWidth="2"/>
+            <line x1="260" y1="205" x2="260" y2="300" stroke="#444" strokeWidth="2"/>
+            <text x="276" y="135" fontSize="24" fill="#333">h</text>
+            <text x="220" y="260" fontSize="21" fill="#333">3 m</text>
+            <text x="155" y="320" fontSize="21" fill="#333">4 m</text>
+            <text x="350" y="320" fontSize="21" fill="#333">3 m</text>
+            <path d="M258 295 h18 v18 h-18" fill="none" stroke="#333" strokeWidth="2"/>
+          </svg>
+        </div>
+      )}
+
       {/* Interactive elements if specified */}
       {block.interactiveType === 'mcq' && block.interactiveData && (
         <MultipleChoiceQuestion options={block.interactiveData.options} />

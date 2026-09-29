@@ -52,7 +52,7 @@ describe('Lesson 3 — القسمة (Pages 12, 13, 14, 15, 16)', () => {
   describe('Curriculum registry', () => {
     it('registers Lesson 3 in Unit 1 next to Lessons 1 and 2', () => {
       const unit1 = curriculum[0];
-      expect(unit1.lessons.map((l) => l.id)).toEqual(['lesson-1', 'lesson-2', 'lesson-3']);
+      expect(unit1.lessons.map((l) => l.id)).toEqual(['lesson-1', 'lesson-2', 'lesson-3', 'lesson-4']);
       expect(getLessonById('unit-1', 'lesson-3')).toBeDefined();
     });
 
