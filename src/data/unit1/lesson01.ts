@@ -12,6 +12,10 @@ export interface LessonStep {
   subtitle?: string;
   sourcePages: number[];
   blocks: ContentBlock[];
+  /** Optional pedagogical group this step belongs to (presentation only). */
+  groupId?: string;
+  /** Display title of the group (presentation only). */
+  groupTitle?: string;
 }
 
 export type BlockType =

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ContentBlock } from '../../data/unit1/lesson01';
 import { Math } from '../math/Math';
 import { MathText } from '../math/MathText';
+import { parseInlineMath } from '../math/parseInlineMath';
 import { MultipleChoiceQuestion } from '../interactive/MultipleChoiceQuestion';
 import { FillInBlanksQuestion } from '../interactive/FillInBlanksQuestion';
 import { IntruderFinderQuestion } from '../interactive/IntruderFinderQuestion';
@@ -33,9 +34,39 @@ import {
 
 interface SourceContentBlockProps {
   block: ContentBlock;
+  /**
+   * Presentation flag: when the surrounding layout already provides a labelled
+   * section heading (Lesson 4 exercise view), the block's own header is hidden
+   * to avoid a duplicated title. Defaults to false, so existing lessons are
+   * rendered exactly as before.
+   */
+  hideHeader?: boolean;
+  /**
+   * Presentation flag: hide `mathFormula` when the *same* expression is already
+   * visible inline inside `content` (some Lesson 4 source items repeat it).
+   * Off by default, so Lessons 1–3 render exactly as before.
+   */
+  dedupeMath?: boolean;
 }
 
-export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block }) => {
+/** Normalises a TeX string for comparison only — nothing is re-rendered from it. */
+const normaliseTex = (tex: string): string =>
+  tex
+    .replace(/\\left|\\right/g, '')
+    .replace(/\\,|\\;|\\!|\\quad|\\qquad/g, '')
+    .replace(/[{}\s]/g, '');
+
+/** True when `formula` is already visible as inline/block math inside `content`. */
+export const isMathDuplicatedInText = (content: string, formula?: string): boolean => {
+  if (!formula || !content) return false;
+  const target = normaliseTex(formula);
+  if (!target) return false;
+  return parseInlineMath(content)
+    .filter((token) => token.type === 'math')
+    .some((token) => normaliseTex(token.content) === target);
+};
+
+export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, hideHeader = false, dedupeMath = false }) => {
   const [revealedSolutions, setRevealedSolutions] = useState<Record<number, boolean>>({});
 
   const toggleSubItemSolution = (idx: number) => {
@@ -108,7 +139,8 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
   };
 
   return (
-    <article className={`source-content-block ${getBlockClass(block.type)}`}>
+    <article className={`source-content-block ${getBlockClass(block.type)}${hideHeader ? ' headerless' : ''}`}>
+      {!hideHeader && (
       <div className="block-header">
         <div className="block-title-group">
           <div className="block-icon">{getBlockIcon(block.type)}</div>
@@ -128,6 +160,7 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
           </span>
         )}
       </div>
+      )}
 
       {block.verifyNote && (
         <div className="verify-note">
@@ -142,7 +175,7 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block })
         </div>
       )}
 
-      {block.mathFormula && (
+      {block.mathFormula && !(dedupeMath && isMathDuplicatedInText(block.content, block.mathFormula)) && (
         <div style={{ margin: '1rem 0' }}>
           <Math math={block.mathFormula} display />
         </div>

@@ -58,6 +58,28 @@ const sourceItems: ExerciseSource[] = [
   {n:47,page:24,text:'مع حرف أو حرفين. 1. في كل حالة، احسب $A$ عند كل من القيم الآتية للحرف $x$: $x=-2$، $x=-0.5$، $x=\\frac73$، $x=-\\frac23$، وذلك للعبارتين $A=2x+3$ و $A=\\frac{x-3}{7}$. 2. في حالة $x=-\\frac78$ و $y=\\frac3{10}$، احسب: $x+y$، $x-y$، $2-xy$، $x\\div y+4$.',math:'A=2x+3\\ ;\\ A=\\frac{x-3}{7}',thinking:'نعوّض كل قيمة لـx في كل عبارة، ثم نعوّض قيمتي x وy في الجزء الثاني مع الالتزام بترتيب العمليات.',hint:'اكتب كل تعويض بين قوسين، واحسب الضرب والقسمة قبل الجمع والطرح.',solution:'لـ$A=2x+3$ القيم هي $-1,2,\\frac{25}{3},\\frac53$. ولـ$A=\\frac{x-3}{7}$ القيم هي $-\\frac57,-\\frac12,-\\frac2{21},-\\frac{11}{21}$. وعند $x=-\\frac78,y=\\frac3{10}$: $x+y=-\\frac{23}{40}$، $x-y=-\\frac{47}{40}$، $2-xy=\\frac{181}{80}$، و$x\\div y+4=\\frac{13}{12}$.',result:'نتائج التعويض كما في الحل، والجزء الثاني: $-\\frac{23}{40},-\\frac{47}{40},\\frac{181}{80},\\frac{13}{12}$',verifyNote:''},
 ];
 
+/**
+ * تجميع تربوي لعرض التمارين فقط: لا يغيّر أي نص أو حل أو ترتيب للتمارين 1–47،
+ * بل يقسّم التسلسل نفسه إلى محطات تعلّم متتابعة لتحسين التنظيم والتنقل.
+ */
+type ExerciseGroup = { id: string; title: string; from: number; to: number };
+
+const exerciseGroups: ExerciseGroup[] = [
+  { id: 'g1', title: 'المحطة 1: إحماء سريع — العمليات والإشارات والكسور', from: 1, to: 10 },
+  { id: 'g2', title: 'المحطة 2: الضرب والاختصار والحساب بالآلة', from: 11, to: 13 },
+  { id: 'g3', title: 'المحطة 3: العبارات الجبرية ومواقف تطبيقية', from: 14, to: 16 },
+  { id: 'g4', title: 'المحطة 4: المقلوب والقسمة على كسر', from: 17, to: 20 },
+  { id: 'g5', title: 'المحطة 5: ترتيب العمليات والأقواس وتصحيح الأخطاء', from: 21, to: 25 },
+  { id: 'g6', title: 'المحطة 6: التبسيط والتعويض وحساب الخوارج', from: 26, to: 29 },
+  { id: 'g7', title: 'المحطة 7: المقارنة والكسور من كمية ومسائل تطبيقية', from: 30, to: 36 },
+  { id: 'g8', title: 'المحطة 8: النسب والنسب المئوية', from: 37, to: 38 },
+  { id: 'g9', title: 'المحطة 9: الحساب الحرفي — التبسيط والنشر', from: 39, to: 42 },
+  { id: 'g10', title: 'المحطة 10: تمارين مركبة والمعادلات', from: 43, to: 47 },
+];
+
+const groupOf = (n: number): ExerciseGroup =>
+  exerciseGroups.find((g) => n >= g.from && n <= g.to) ?? exerciseGroups[exerciseGroups.length - 1];
+
 const lesson04FinalAssessment: FinalAssessment = {
   title: 'الاختبار الختامي: تمارين الوحدة الأولى',
   description: 'اختبار أصلي من 20 سؤالًا يقيس مهارات الحساب والكسور والجبر والتطبيق.',
@@ -114,7 +136,7 @@ const lesson04TeacherArea: TeacherArea = {
 export const lesson04Data: LessonData = {
   id:'lesson-4', number:4, unitId:'unit-1', unitTitle:'الوحدة الأولى: الأعداد العادية والعمليات عليها',
   title:'تمارين الوحدة الأولى', description:'47 تحدياً ختامياً مرتبة كما في صفحات 17–23 من الكتاب.', sourcePages:[17,18,19,20,21,22,24],
-  steps: sourceItems.map((item): LessonStep => ({ id:`exercise-${item.n}`, title:`تمرين ${item.n}`, subtitle:`من الكتاب • الصفحة ${item.page}`, sourcePages:[item.page], blocks:[
+  steps: sourceItems.map((item): LessonStep => ({ id:`exercise-${item.n}`, title:`تمرين ${item.n}`, subtitle:`من الكتاب • الصفحة ${item.page}`, sourcePages:[item.page], groupId:groupOf(item.n).id, groupTitle:groupOf(item.n).title, blocks:[
     {id:`source-${item.n}`,type:'activity',title:'📖 من الكتاب',sourceRef:{page:item.page,section:`تمرين ${item.n}`},content:item.text,mathFormula:item.math,interactiveType:item.n===15?'sailboat-svg':undefined}, 
     {id:`think-${item.n}`,type:'teach',authored:true,title:'🧠 كيف نفكر؟',sourceRef:{page:item.page,section:'شرح المنصة'},content:item.thinking,},
     {id:`hint-${item.n}`,type:'tip',authored:true,title:'💡 تلميح',sourceRef:{page:item.page,section:'تلميح المنصة'},content:item.hint},
@@ -124,5 +146,7 @@ export const lesson04Data: LessonData = {
   finalAssessment: lesson04FinalAssessment,
   teacherArea: lesson04TeacherArea,
 };
+
+export const lesson04ExerciseGroups = exerciseGroups;
 
 export const lesson04SourceAudit = sourceItems.map(({n,page}) => ({question:n, sourcePage:page, sourceRef:`ص${page}، تمرين ${n}`}));
