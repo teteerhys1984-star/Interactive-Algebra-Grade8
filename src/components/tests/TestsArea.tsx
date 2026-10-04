@@ -66,7 +66,7 @@ export const TestsArea: React.FC<TestsAreaProps> = ({ onStartTest }) => {
 
       <TestSection
         title="اختبارات الدروس"
-        intro="أربعة اختبارات مستقلة، عشرون سؤالًا في كل اختبار، مع تدرّج في الصعوبة وتنوّع في أنماط الأسئلة."
+        intro={`${lessonTests.length} اختبارات مستقلة، عشرون سؤالًا في كل اختبار، مع تدرّج في الصعوبة وتنوّع في أنماط الأسئلة.`}
         tests={lessonTests}
         onStartTest={onStartTest}
       />

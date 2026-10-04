@@ -2,8 +2,12 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import App from '../app/App';
 import { parseHash } from '../app/useHashRoute';
+import { curriculumLessonRefs } from '../data/tests/lessonTests';
+import { LESSON_TEST_QUESTION_COUNT } from '../data/tests/policy';
 import { getTestsByType, resolveTest } from '../data/tests/registry';
 import { lesson04Data } from '../data/unit1/lesson04';
+
+const expectedCatalogSize = getTestsByType('lesson').length + getTestsByType('unit').length;
 
 describe('student Test Area routes and regression', () => {
   beforeEach(() => {
@@ -20,7 +24,7 @@ describe('student Test Area routes and regression', () => {
     expect(parseHash('#/teacher')).toEqual({ view: 'teacher' });
   });
 
-  it('shows four lesson tests and the 60-question unit test, but no empty comprehensive section', () => {
+  it('shows one card per registered test, but no empty comprehensive section', () => {
     window.location.hash = '#/tests';
     const { container } = render(<App />);
 
@@ -28,15 +32,15 @@ describe('student Test Area routes and regression', () => {
     expect(screen.getByRole('heading', { name: 'اختبارات الدروس' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'اختبارات الوحدات' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'اختبارات شاملة' })).not.toBeInTheDocument();
-    expect(container.querySelectorAll('.test-card')).toHaveLength(5);
-    expect(screen.getAllByRole('button', { name: /بدء الاختبار/ })).toHaveLength(5);
+    expect(container.querySelectorAll('.test-card')).toHaveLength(expectedCatalogSize);
+    expect(screen.getAllByRole('button', { name: /بدء الاختبار/ })).toHaveLength(expectedCatalogSize);
     expect(screen.getByRole('link', { name: 'حلول الاختبارات' })).toHaveAttribute('href', '#/tests/solutions');
 
-    expect(getTestsByType('lesson').map((test) => test.lessonId)).toEqual([
-      'lesson-1', 'lesson-2', 'lesson-3', 'lesson-4',
-    ]);
-    expect(getTestsByType('lesson').every((test) => test.questionIds.length === 20)).toBe(true);
-    expect(resolveTest('u1-test-unit-1')?.questionCount).toBe(60);
+    expect(getTestsByType('lesson').map((test) => test.lessonId))
+      .toEqual(curriculumLessonRefs().map((lesson) => lesson.lessonId));
+    expect(getTestsByType('lesson').every((test) => test.questionIds.length === LESSON_TEST_QUESTION_COUNT)).toBe(true);
+    expect(resolveTest('u1-test-unit-1')?.questionCount)
+      .toBe(Object.values(resolveTest('u1-test-unit-1')?.coverageBlueprint ?? {}).reduce((sum, n) => sum + n, 0));
   });
 
   it('opens full worked solutions directly, without requiring a prior attempt', async () => {
@@ -45,7 +49,7 @@ describe('student Test Area routes and regression', () => {
 
     expect(screen.getByRole('heading', { name: 'حلول الاختبارات' })).toBeInTheDocument();
     const solutionLinks = screen.getAllByRole('button', { name: /عرض الحلول الكاملة/ });
-    expect(solutionLinks).toHaveLength(5);
+    expect(solutionLinks).toHaveLength(expectedCatalogSize);
     fireEvent.click(solutionLinks[solutionLinks.length - 1]);
 
     await waitFor(() => expect(container.querySelectorAll('.test-solution-card')).toHaveLength(5));

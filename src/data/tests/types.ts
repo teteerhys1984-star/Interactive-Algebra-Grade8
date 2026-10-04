@@ -43,6 +43,13 @@ export interface TestQuestionBase {
   primaryLessonId: string;
   /** One or more curriculum concepts; integrated questions may span lessons. */
   curriculumRefs: CurriculumConceptRef[];
+  /**
+   * Optional author-declared provenance: the lesson topics this question was
+   * built from. When omitted it is derived from `curriculumRefs` through the
+   * curriculum concept catalog, so it is always available to audits, coverage
+   * reports, and quality review. It is never shown to students.
+   */
+  sourceTopics?: string[];
   /** Correct answer and worked solution remain attached to the same question. */
   solution: TestSolution;
 }
@@ -118,6 +125,64 @@ export interface TestDefinition {
   estimatedMinutes: number;
   /** Expected primary-lesson distribution, validated for unit assessments. */
   coverageBlueprint?: Record<string, number>;
+  /** Expected difficulty distribution; validated whenever it is declared. */
+  difficultyBlueprint?: Record<QuestionDifficulty, number>;
+  /**
+   * Content blueprint of a lesson test: authored from the lesson itself before
+   * its questions, and verified against the actual question set.
+   */
+  blueprint?: LessonTestBlueprint;
+  /**
+   * Lessons of this unit that the test deliberately does not cover yet. Unit
+   * tests are never extended automatically when a lesson is added; declaring a
+   * pending lesson keeps that gap explicit and reviewed instead of silent.
+   */
+  pendingLessonCoverage?: PendingLessonCoverage[];
+}
+
+/** One concept a lesson test must cover, with the number of questions devoted to it. */
+export interface LessonTestBlueprintConcept {
+  /** Must exist in the curriculum concept catalog of the lesson. */
+  conceptId: string;
+  /** Human-readable concept title, kept in sync with the catalog. */
+  title: string;
+  /** Number of questions in this test that assess the concept. */
+  questionCount: number;
+  /** What students must be able to do (skills the questions measure). */
+  skills: string[];
+}
+
+/**
+ * Content-driven blueprint for one lesson test. It is authored after reading the
+ * lesson and before writing the questions, then verified by the audit so it
+ * cannot drift away from the questions it describes.
+ */
+export interface LessonTestBlueprint {
+  lessonId: string;
+  /** Lesson steps the covered concepts are taught in. */
+  sourceSteps: string[];
+  /** Balanced coverage: concept by concept, with the questions devoted to each. */
+  concepts: LessonTestBlueprintConcept[];
+  /** Planned difficulty distribution; must add up to the test question count. */
+  difficultyPlan: Record<QuestionDifficulty, number>;
+  /** Planned question-type distribution; must add up to the test question count. */
+  questionTypePlan: Partial<Record<TestQuestionType, number>>;
+  /** Misconceptions taught in the lesson that the test probes. */
+  commonMistakes: string[];
+  /**
+   * Required whenever `difficultyPlan` deviates from the recommended profile,
+   * so a deviation is a documented pedagogical choice rather than an accident.
+   */
+  deviationRationale?: string;
+}
+
+/** A unit lesson intentionally not covered by its unit test yet. */
+export interface PendingLessonCoverage {
+  lessonId: string;
+  /** Why coverage is deferred; free text shown in the audit report. */
+  reason: string;
+  /** Where the follow-up is tracked (issue, milestone, task). */
+  trackedBy: string;
 }
 
 export interface ResolvedTest extends Omit<TestDefinition, 'questionIds'> {

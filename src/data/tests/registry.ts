@@ -1,3 +1,5 @@
+import { curriculum } from '../curriculum';
+import { lessonBlueprints } from './blueprints';
 import { lesson1TestQuestions } from './unit1/lesson-1';
 import { lesson2TestQuestions } from './unit1/lesson-2';
 import { lesson3TestQuestions } from './unit1/lesson-3';
@@ -17,6 +19,7 @@ const lessonDefinitions: TestDefinition[] = [
     difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
     coverageLabel: 'جمع وطرح الكسور، الإشارات، وتوحيد المقامات',
     estimatedMinutes: 25,
+    blueprint: lessonBlueprints['lesson-1'],
   },
   {
     id: 'u1-test-lesson-2',
@@ -29,6 +32,7 @@ const lessonDefinitions: TestDefinition[] = [
     difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
     coverageLabel: 'ضرب الكسور، الإشارات، خاصية التوزيع، والحدود المتشابهة',
     estimatedMinutes: 25,
+    blueprint: lessonBlueprints['lesson-2'],
   },
   {
     id: 'u1-test-lesson-3',
@@ -41,6 +45,7 @@ const lessonDefinitions: TestDefinition[] = [
     difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
     coverageLabel: 'القسمة على الكسور، المقلوب، ترتيب العمليات، والصفر',
     estimatedMinutes: 25,
+    blueprint: lessonBlueprints['lesson-3'],
   },
   {
     id: 'u1-test-lesson-4',
@@ -53,6 +58,7 @@ const lessonDefinitions: TestDefinition[] = [
     difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
     coverageLabel: 'تطبيقات ومسائل تكاملية من دروس الوحدة الأربعة',
     estimatedMinutes: 25,
+    blueprint: lessonBlueprints['lesson-4'],
   },
 ];
 
@@ -73,11 +79,15 @@ const unitDefinitions: TestDefinition[] = [
       'lesson-3': 15,
       'lesson-4': 18,
     },
+    difficultyBlueprint: { basic: 18, intermediate: 21, advanced: 12, reasoning: 9 },
   },
 ];
 
 /** Reserved for future assessments; the catalog hides this category while empty. */
 const comprehensiveDefinitions: TestDefinition[] = [];
+
+/** Curriculum order of lessons, so the catalog lists lesson tests in reading order. */
+const curriculumLessonOrder: string[] = curriculum.flatMap((unit) => unit.lessons.map((lesson) => lesson.id));
 
 export const testDefinitions: TestDefinition[] = [
   ...lessonDefinitions,
@@ -101,7 +111,16 @@ export function getTestDefinition(testId: string): TestDefinition | undefined {
 }
 
 export function getTestsByType(type: TestType): TestDefinition[] {
-  return testDefinitions.filter((test) => test.type === type);
+  const tests = testDefinitions.filter((test) => test.type === type);
+  if (type !== 'lesson') return tests;
+
+  // Lesson tests follow the curriculum, so a newly registered lesson test lands
+  // next to its lesson in the Test Area without any component change.
+  const position = (test: TestDefinition): number => {
+    const index = test.lessonId ? curriculumLessonOrder.indexOf(test.lessonId) : -1;
+    return index === -1 ? Number.MAX_SAFE_INTEGER : index;
+  };
+  return [...tests].sort((a, b) => position(a) - position(b));
 }
 
 export function resolveTest(testOrId: string | TestDefinition): ResolvedTest | undefined {
