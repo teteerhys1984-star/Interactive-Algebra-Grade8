@@ -1,9 +1,10 @@
 import React from 'react';
-import { BookOpen, GraduationCap } from 'lucide-react';
+import { BookOpen, ClipboardCheck, GraduationCap } from 'lucide-react';
 
 interface HeaderProps {
   onNavigateHome?: () => void;
   onNavigateUnit?: () => void;
+  onNavigateTests?: () => void;
   unitTitle?: string;
   lessonTitle?: string;
   onToggleDrawer?: () => void;
@@ -12,6 +13,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   onNavigateHome,
   onNavigateUnit,
+  onNavigateTests,
   unitTitle,
   lessonTitle,
   onToggleDrawer,
@@ -49,6 +51,18 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <BookOpen size={18} />
               <span>فهرس الخطوات</span>
+            </button>
+          )}
+
+          {onNavigateTests && (
+            <button
+              type="button"
+              className="nav-btn header-test-nav"
+              onClick={onNavigateTests}
+              aria-label="فتح مساحة الاختبارات"
+            >
+              <ClipboardCheck size={17} aria-hidden="true" />
+              <span>الاختبارات</span>
             </button>
           )}
 

@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export interface RouteState {
-  view: 'home' | 'unit' | 'lesson' | 'teacher';
+  view: 'home' | 'unit' | 'lesson' | 'teacher' | 'tests' | 'test-runner' | 'test-solutions';
   unitId?: string;
   lessonId?: string;
   stepIndex?: number;
+  testId?: string;
 }
 
 export function parseHash(hash: string): RouteState {
@@ -14,6 +15,17 @@ export function parseHash(hash: string): RouteState {
   }
 
   const parts = clean.split('/').filter(Boolean);
+
+  // Student Test Area: catalog, attempts, and independently browsable worked solutions.
+  if (parts[0] === 'tests') {
+    if (parts[1] === 'run' && parts[2]) {
+      return { view: 'test-runner', testId: parts[2] };
+    }
+    if (parts[1] === 'solutions') {
+      return { view: 'test-solutions', testId: parts[2] };
+    }
+    return { view: 'tests' };
+  }
 
   // Pattern: #/teacher — teacher area (password gated)
   if (parts[0] === 'teacher') {

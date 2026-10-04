@@ -9,6 +9,7 @@ import './styles/lesson3.css';
 import './styles/lesson4.css';
 import './styles/assessment.css';
 import './styles/teacher.css';
+import './styles/tests.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
