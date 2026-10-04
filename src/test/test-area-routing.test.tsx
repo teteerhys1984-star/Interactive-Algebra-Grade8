@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import App from '../app/App';
 import { parseHash } from '../app/useHashRoute';
 import { getTestsByType, resolveTest } from '../data/tests/registry';
+import { lesson04Data } from '../data/unit1/lesson04';
 
 describe('student Test Area routes and regression', () => {
   beforeEach(() => {
@@ -73,7 +74,11 @@ describe('student Test Area routes and regression', () => {
     window.location.hash = '#/unit/unit-1/lesson/lesson-4';
     render(<App />);
 
-    expect(screen.getByText(/الخطوة 1 من/)).toBeInTheDocument();
+    // Lesson 4 is the exercise lesson, so its first step is labelled "السؤال" (question),
+    // not "الخطوة" (step) — the counter is derived from the lesson data on purpose.
+    expect(
+      screen.getByText(new RegExp(`السؤال 1 من ${lesson04Data.steps.length}`)),
+    ).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'فتح مساحة الاختبارات' }));
     await waitFor(() => expect(screen.getByRole('heading', { name: 'اختبارات الدروس' })).toBeInTheDocument());
   });
