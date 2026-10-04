@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { ResolvedTest, TestQuestion } from '../../data/tests/types';
-import { Math } from '../math/Math';
+// The KaTeX component is aliased so its name never shadows the global Math object
+// used below for pagination arithmetic.
+import { Math as Formula } from '../math/Math';
 import { MathText } from '../math/MathText';
 import { TestAreaNav } from './TestAreaNav';
 
@@ -84,7 +86,7 @@ export const TestSolutions: React.FC<TestSolutionsProps> = ({
               </h3>
               <div className="test-solution-prompt"><MathText text={question.prompt} /></div>
               {question.math && !question.prompt.includes('$') && (
-                <Math math={question.math} display />
+                <Formula math={question.math} display />
               )}
               <ol className="test-solution-steps">
                 {question.solution.steps.map((step, index) => (

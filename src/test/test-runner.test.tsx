@@ -55,6 +55,28 @@ const numericQuestion: NumericQuestion = {
   answerFormat: 'عدد صحيح',
 };
 
+/**
+ * Reads the "saved answers" counter from the runner header.
+ *
+ * The number is wrapped in `<bdi dir="ltr">` for RTL safety, so it is a separate
+ * element rather than part of the label's text node. Query the readout by its
+ * Arabic label, then read the isolated value and normalise Arabic-Indic digits
+ * so the assertion holds in any locale/ICU build.
+ */
+const readSavedAnswerCount = (): number => {
+  const readout = screen.getByText(
+    (_text, element) =>
+      element?.tagName === 'SPAN' && (element.textContent ?? '').includes('إجابات محفوظة'),
+  );
+  const isolatedValue = readout.querySelector('bdi[dir="ltr"]');
+  expect(isolatedValue).not.toBeNull();
+  const westernDigits = (isolatedValue?.textContent ?? '').replace(
+    /[\u0660-\u0669]/g,
+    (digit) => String(digit.charCodeAt(0) - 0x0660),
+  );
+  return Number(westernDigits.replace(/[\s\u066c,]/g, ''));
+};
+
 const testWith = (...questions: ResolvedTest['questions']): ResolvedTest => ({
   id: 'engine-ui-fixture',
   type: 'lesson',
@@ -156,7 +178,11 @@ describe('TestRunner: deferred result flow', () => {
     fireEvent.click(screen.getByRole('button', { name: /إعادة الاختبار/ }));
 
     expect((container.querySelector('input[value="right"]') as HTMLInputElement).checked).toBe(false);
-    expect(screen.getByText(/إجابات محفوظة: ٠/)).toBeInTheDocument();
-    expect(window.sessionStorage.getItem('interactive-algebra:test-attempt:engine-ui-fixture')).toBeNull();
+    expect(readSavedAnswerCount()).toBe(0);
+
+    // The runner mirrors its current draft, so the key itself is not the contract:
+    // what must not survive a restart is the previous attempt's answer.
+    const savedDraft = window.sessionStorage.getItem('interactive-algebra:test-attempt:engine-ui-fixture');
+    expect(JSON.parse(savedDraft as string)).toEqual({ version: 1, currentIndex: 0, answers: {} });
   });
 });
