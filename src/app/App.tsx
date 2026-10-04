@@ -7,6 +7,11 @@ import { CourseHome } from './CourseHome';
 import { UnitOverview } from './UnitOverview';
 import { LessonExperience } from '../components/lesson/LessonExperience';
 import { TeacherArea } from '../components/teacher/TeacherArea';
+import { TestsArea } from '../components/tests/TestsArea';
+import { TestRunner } from '../components/tests/TestRunner';
+import { TestSolutionsArea } from '../components/tests/TestSolutionsArea';
+import { TestSolutions } from '../components/tests/TestSolutions';
+import { resolveTest } from '../data/tests/registry';
 
 export const App: React.FC = () => {
   const { route, navigate } = useHashRoute();
@@ -44,11 +49,20 @@ export const App: React.FC = () => {
     }
   };
 
+  const handleNavigateTests = () => {
+    navigate('/tests');
+    setIsDrawerOpen(false);
+  };
+  const handleStartTest = (testId: string) => navigate(`/tests/run/${testId}`);
+  const handleOpenTestSolutions = (testId: string) => navigate(`/tests/solutions/${testId}`);
+  const currentTest = route.testId ? resolveTest(route.testId) : undefined;
+
   return (
     <div className="app-container">
       <Header
         onNavigateHome={handleNavigateHome}
         onNavigateUnit={route.view === 'lesson' ? handleNavigateUnit : undefined}
+        onNavigateTests={handleNavigateTests}
         unitTitle={route.view === 'lesson' && activeUnit ? activeUnit.title : undefined}
         lessonTitle={route.view === 'lesson' && activeLesson ? activeLesson.title : undefined}
         onToggleDrawer={route.view === 'lesson' ? () => setIsDrawerOpen(!isDrawerOpen) : undefined}
@@ -82,6 +96,40 @@ export const App: React.FC = () => {
 
         {route.view === 'teacher' && (
           <TeacherArea onNavigateHome={handleNavigateHome} />
+        )}
+
+        {route.view === 'tests' && <TestsArea onStartTest={handleStartTest} />}
+
+        {route.view === 'test-runner' && currentTest && (
+          <TestRunner
+            key={currentTest.id}
+            test={currentTest}
+            onReturnToTests={handleNavigateTests}
+            onOpenSolutions={() => handleOpenTestSolutions(currentTest.id)}
+          />
+        )}
+
+        {route.view === 'test-solutions' && !route.testId && (
+          <TestSolutionsArea onSelectTest={handleOpenTestSolutions} />
+        )}
+
+        {route.view === 'test-solutions' && currentTest && (
+          <TestSolutions
+            key={currentTest.id}
+            test={currentTest}
+            onReturnToSolutions={() => navigate('/tests/solutions')}
+            onReturnToTests={handleNavigateTests}
+          />
+        )}
+
+        {((route.view === 'test-runner' || (route.view === 'test-solutions' && route.testId)) && !currentTest) && (
+          <main className="test-empty-state" role="alert" dir="rtl">
+            <h1>الاختبار غير متاح</h1>
+            <p>تعذّر العثور على الاختبار المطلوب.</p>
+            <button type="button" className="test-button test-button-primary" onClick={handleNavigateTests}>
+              العودة إلى مساحة الاختبارات
+            </button>
+          </main>
         )}
       </div>
 
