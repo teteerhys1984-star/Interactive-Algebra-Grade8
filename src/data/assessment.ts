@@ -1,3 +1,4 @@
+import type { UnitTeacherSolution } from './unit2/teacherSolutions';
 // Shared type definitions for the comprehensive final assessment and the
 // teacher area. These types are additive: Lesson 1 does not use them, so its
 // behaviour is completely unaffected.
@@ -74,4 +75,6 @@ export interface TeacherArea {
   teachingNotes: string[]; // ملاحظات تدريسية
   assessmentGuidance: string[]; // إرشادات التقويم
   answerKeys: TeacherAnswerGroup[]; // مفاتيح الإجابة (الكتاب + الاختبار)
+  /** حلول تفصيلية اختيارية (خطوة بخطوة) تُعرض بعد مفاتيح الإجابة. */
+  solutions?: UnitTeacherSolution[];
 }

@@ -5,6 +5,7 @@ import { lesson2TestQuestions } from './unit1/lesson-2';
 import { lesson3TestQuestions } from './unit1/lesson-3';
 import { lesson4TestQuestions } from './unit1/lesson-4';
 import { unit1TestQuestions } from './unit1/unit-1';
+import { unit2Lesson1TestQuestions } from './unit2/lesson-1';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -60,6 +61,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['lesson-4'],
   },
+  {
+    id: 'u2-test-lesson-1',
+    type: 'lesson',
+    unitId: 'unit-2',
+    lessonId: 'u2-lesson-1',
+    title: 'اختبار الدرس الأول: قوى العدد 10',
+    description: 'اختبر فهمك لقوى العدد 10 بأسس موجبة وسالبة، والانتقال إلى الشكل العشري، والصيغة المعيارية.',
+    questionIds: unit2Lesson1TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'قوى العدد 10، القوة السالبة، الشكل العشري، والصيغة المعيارية',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u2-lesson-1'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -100,6 +114,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...lesson2TestQuestions,
   ...lesson3TestQuestions,
   ...lesson4TestQuestions,
+  ...unit2Lesson1TestQuestions,
   ...unit1TestQuestions,
 ];
 

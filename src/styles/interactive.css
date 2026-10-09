@@ -306,3 +306,102 @@
   color: var(--color-slate-600);
   padding-right: 4px;
 }
+
+/* ── سُلّم قوى العدد 10 (الوحدة الثانية، الدرس الأول) ── */
+.power-ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid var(--color-primary-100);
+  border-radius: 14px;
+  background: var(--color-primary-50);
+}
+
+.power-ladder-rungs {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.power-ladder-rung {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.6rem 0.25rem;
+  border: 1px solid var(--color-primary-200);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.power-ladder-rung:focus-visible,
+.power-ladder-button:focus-visible,
+.power-ladder-reset:focus-visible {
+  outline: 3px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+.power-ladder-rung.is-active {
+  border-color: var(--color-primary-600);
+  background: var(--color-primary-600);
+  color: #fff;
+}
+
+.power-ladder-rung-value {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.power-ladder-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.power-ladder-button {
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary-600);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.power-ladder-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.power-ladder-reset {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--color-primary-300);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-primary-800);
+  font: inherit;
+  cursor: pointer;
+}
+
+.power-ladder-readout {
+  margin: 0;
+  font-weight: 600;
+}
+
+.power-ladder-exponent-note {
+  color: var(--color-slate-600);
+  font-weight: 400;
+}
+
+@media (max-width: 640px) {
+  .power-ladder-rungs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
