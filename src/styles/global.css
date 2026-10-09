@@ -49,14 +49,26 @@ button {
   flex-direction: column;
 }
 
-/* App Header */
+/* App Header — futuristic midnight chrome (shared shell) */
 .app-header {
-  background-color: #ffffff;
-  border-bottom: 1px solid var(--border-subtle);
+  background:
+    linear-gradient(90deg, rgba(34, 211, 238, 0.06), rgba(139, 92, 246, 0.06) 60%, transparent),
+    var(--nx-ink-950);
+  border-bottom: 1px solid var(--nx-line-soft);
   position: sticky;
   top: 0;
   z-index: 40;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 12px 30px -18px rgba(2, 6, 17, 0.8);
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.35), rgba(139, 92, 246, 0.35), transparent);
+  pointer-events: none;
 }
 
 .header-inner {
@@ -79,26 +91,26 @@ button {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--color-primary-600), var(--color-indigo-600, #4f46e5));
+  background: linear-gradient(135deg, var(--nx-cyan-500), var(--nx-violet-500));
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
   font-size: 1.25rem;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 16px -4px rgba(34, 211, 238, 0.45);
 }
 
 .brand-text h1 {
   font-size: 1.15rem;
   font-weight: 800;
-  color: var(--color-slate-900);
+  color: var(--nx-text-hi);
   line-height: 1.2;
 }
 
 .brand-text p {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--nx-text-lo);
 }
 
 .header-instructor-badge {
@@ -106,16 +118,16 @@ button {
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.85rem;
-  background-color: var(--color-primary-50);
-  border: 1px solid var(--color-primary-200);
+  background-color: var(--nx-surface-1);
+  border: 1px solid var(--nx-line);
   border-radius: var(--radius-lg);
   font-size: 0.825rem;
   font-weight: 700;
-  color: var(--color-primary-800);
+  color: var(--nx-text-mid);
 }
 
 .header-instructor-badge .icon {
-  color: var(--color-primary-600);
+  color: var(--nx-cyan-400);
 }
 
 /* Breadcrumbs / Back button */
@@ -131,23 +143,49 @@ button {
   gap: 0.4rem;
   padding: 0.45rem 0.9rem;
   border-radius: var(--radius-md);
-  background-color: var(--color-slate-100);
-  color: var(--color-slate-700);
+  background-color: var(--nx-surface-1);
+  border: 1px solid var(--nx-line-soft);
+  color: var(--nx-text-mid);
   font-weight: 600;
   font-size: 0.875rem;
   transition: all 0.15s ease;
 }
 
 .nav-btn:hover {
-  background-color: var(--color-slate-200);
-  color: var(--color-slate-900);
+  background-color: var(--nx-surface-2);
+  border-color: var(--nx-line-strong);
+  color: var(--nx-text-hi);
 }
 
-/* Footer */
+.nav-btn:focus-visible {
+  outline: 2px solid var(--nx-cyan-300);
+  outline-offset: 2px;
+}
+
+/* Shared header chrome for the lesson drawer toggle (base display). */
+.mobile-drawer-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-md);
+  background-color: var(--nx-surface-1);
+  border: 1px solid var(--nx-line-soft);
+  color: var(--nx-text-mid);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.mobile-drawer-toggle:hover {
+  color: var(--nx-cyan-300);
+  border-color: var(--nx-line-strong);
+}
+
+/* Footer — matches the midnight chrome */
 .app-footer {
-  background-color: #ffffff;
-  border-top: 1px solid var(--border-subtle);
-  padding: 1.5rem;
+  background-color: var(--nx-ink-990);
+  border-top: 1px solid var(--nx-line-soft);
+  padding: 1.75rem 1.5rem;
   margin-top: auto;
   text-align: center;
 }
@@ -163,14 +201,14 @@ button {
 
 .footer-instructor {
   font-weight: 700;
-  color: var(--color-slate-800);
+  color: var(--nx-text-hi);
   font-size: 0.95rem;
   direction: rtl;
 }
 
 .footer-copy {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--nx-text-lo);
 }
 
 /* Responsive adjustments */

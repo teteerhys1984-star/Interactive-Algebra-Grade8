@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app/App';
 import './styles/global.css';
+import './styles/catalog.css';
 import './styles/lesson.css';
 import './styles/interactive.css';
 import './styles/lesson2.css';

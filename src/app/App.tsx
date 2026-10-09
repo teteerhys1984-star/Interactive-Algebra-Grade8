@@ -37,18 +37,6 @@ export const App: React.FC = () => {
     setIsDrawerOpen(false);
   };
 
-  const handleSelectUnit = (unitId: string) => {
-    navigate(`/unit/${unitId}`);
-  };
-
-  const handleSelectLesson = (unitId: string, lessonId: string) => {
-    if (lessonId === 'warmup') {
-      navigate(`/unit/${unitId}/warmup`);
-    } else {
-      navigate(`/unit/${unitId}/lesson/${lessonId}`);
-    }
-  };
-
   const handleNavigateTests = () => {
     navigate('/tests');
     setIsDrawerOpen(false);
@@ -69,20 +57,9 @@ export const App: React.FC = () => {
       />
 
       <div className="main-content">
-        {route.view === 'home' && (
-          <CourseHome
-            onSelectUnit={handleSelectUnit}
-            onSelectLesson={handleSelectLesson}
-          />
-        )}
+        {route.view === 'home' && <CourseHome />}
 
-        {route.view === 'unit' && activeUnit && (
-          <UnitOverview
-            unit={activeUnit}
-            onNavigateHome={handleNavigateHome}
-            onSelectLesson={handleSelectLesson}
-          />
-        )}
+        {route.view === 'unit' && activeUnit && <UnitOverview unit={activeUnit} />}
 
         {route.view === 'lesson' && activeLesson && (
           <LessonExperience
@@ -92,6 +69,22 @@ export const App: React.FC = () => {
             isDrawerOpen={isDrawerOpen}
             onCloseDrawer={() => setIsDrawerOpen(false)}
           />
+        )}
+
+        {((route.view === 'unit' && !activeUnit) || (route.view === 'lesson' && !activeLesson)) && (
+          <main className="catalog-view" dir="rtl">
+            <div className="catalog-inner">
+              <div className="lesson-empty-state" style={{ marginTop: '3rem' }}>
+                <h1 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+                  هذا المحتوى غير متاح
+                </h1>
+                <p>تعذّر العثور على الوحدة أو الدرس المطلوب ضمن المنهاج المسجّل.</p>
+                <a className="catalog-back-link" href="#/" style={{ marginTop: '1.25rem' }}>
+                  العودة إلى الوحدات
+                </a>
+              </div>
+            </div>
+          </main>
         )}
 
         {route.view === 'teacher' && (
