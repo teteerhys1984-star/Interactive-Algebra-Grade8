@@ -16,6 +16,7 @@ import { DivisionStepBuilder } from '../interactive/DivisionStepBuilder';
 import { OrderOfOperationsSorter } from '../interactive/OrderOfOperationsSorter';
 import { CompoundFractionReader } from '../interactive/CompoundFractionReader';
 import { CalculatorKeys } from '../interactive/CalculatorKeys';
+import { PowerOfTenLadder } from '../interactive/PowerOfTenLadder';
 import {
   Sparkles,
   BookOpen,
@@ -275,6 +276,8 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
           note={block.interactiveData?.note}
         />
       )}
+
+      {block.interactiveType === 'power-of-ten-ladder' && <PowerOfTenLadder />}
 
       {/* Sub-items (exercises, worked examples, rules) */}
       {block.subItems && block.subItems.length > 0 && (

@@ -3,6 +3,8 @@ import { lesson02Data } from './unit1/lesson02';
 import { lesson03Data } from './unit1/lesson03';
 import { lesson04Data } from './unit1/lesson04';
 import { warmupData } from './unit1/warmup';
+import { unit2WarmupData } from './unit2/warmup';
+import { unit2Lesson1Data } from './unit2/lesson01';
 
 export interface UnitData {
   id: string;
@@ -23,6 +25,15 @@ export const curriculum: UnitData[] = [
     sourcePages: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     warmup: warmupData,
     lessons: [lesson01Data, lesson02Data, lesson03Data, lesson04Data],
+  },
+  {
+    id: 'unit-2',
+    number: 2,
+    title: 'قوى الأعداد العادية',
+    description: 'الوحدة الثانية من كتاب الجبر للصف الثامن: قوى العدد 10 بأسس موجبة وسالبة، والصيغة المعيارية للأعداد العشرية.',
+    sourcePages: [25, 26, 27, 28],
+    warmup: unit2WarmupData,
+    lessons: [unit2Lesson1Data],
   },
 ];
 

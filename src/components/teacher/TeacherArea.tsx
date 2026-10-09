@@ -107,6 +107,41 @@ const TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaData }> = 
         ))}
       </div>
     </section>
+
+    {data.solutions && data.solutions.length > 0 && (
+      <section className="ta-section ta-solutions">
+        <h3><NotebookPen size={18} /> الحلول التفصيلية خطوة بخطوة ({data.solutions.length} بنداً)</h3>
+        {Array.from(
+          data.solutions.reduce((map, sol) => {
+            map.set(sol.group, [...(map.get(sol.group) ?? []), sol]);
+            return map;
+          }, new Map<string, typeof data.solutions>()),
+        ).map(([group, items]) => (
+          <div key={group} className="ta-solution-group">
+            <h4 className="ta-solution-group-title">{group}</h4>
+            {items.map((sol) => (
+              <details key={sol.id} className="ta-solution">
+                <summary>
+                  <span className="source-page-badge"><MathText text={sol.source} /></span>{' '}
+                  <MathText text={sol.problem} />
+                </summary>
+                <div className="ta-solution-body">
+                  <div className="ta-solution-row"><span>الخطوات:</span>
+                    <ol>{sol.steps.map((st, i) => <li key={i}><MathText text={st} /></li>)}</ol>
+                  </div>
+                  <div className="ta-solution-row"><span>الجواب النهائي:</span> <MathText text={sol.finalAnswer} />
+                    {sol.answerOrigin && <em className="ta-solution-origin"> ({sol.answerOrigin})</em>}
+                  </div>
+                  <div className="ta-solution-row"><span>القاعدة:</span> <MathText text={sol.principle} /></div>
+                  {sol.check && <div className="ta-solution-row"><span>التحقق:</span> <MathText text={sol.check} /></div>}
+                  {sol.sourceNote && <div className="ta-solution-row ta-solution-warn"><span>ملاحظة المصدر:</span> <MathText text={sol.sourceNote} /></div>}
+                </div>
+              </details>
+            ))}
+          </div>
+        ))}
+      </section>
+    )}
   </div>
 );
 

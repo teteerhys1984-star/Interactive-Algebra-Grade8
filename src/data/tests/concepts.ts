@@ -480,11 +480,69 @@ const lesson4Concepts: CurriculumConcept[] = [
   },
 ];
 
+const unit2Lesson1Concepts: CurriculumConcept[] = [
+  {
+    id: 'u2l1-power-meaning',
+    title: 'معنى القوة 10^n للأس الموجب والصفر',
+    skills: ['power-meaning-repeated-product', 'zero-and-first-power'],
+    taughtInSteps: ['step-1', 'step-2'],
+    sourcePages: [26],
+    commonMistakes: ['كتابة 10^3 على أنها 10×3 بدلًا من تكرار الضرب.'],
+  },
+  {
+    id: 'u2l1-negative-powers',
+    title: 'القوة السالبة للعدد 10 مقلوب القوة الموجبة',
+    skills: ['negative-power-reciprocal', 'negative-power-is-not-negative', 'power-ordering'],
+    taughtInSteps: ['step-3', 'step-4'],
+    sourcePages: [26, 27],
+    commonMistakes: ['اعتبار 10^{-3} عددًا سالبًا لأن الأس سالب.'],
+  },
+  {
+    id: 'u2l1-power-to-decimal',
+    title: 'الانتقال من قوة العدد 10 إلى الشكل العشري',
+    skills: ['power-to-decimal', 'decimal-place-direction'],
+    taughtInSteps: ['step-6', 'step-10'],
+    sourcePages: [27, 28],
+    commonMistakes: ['نقل الفاصلة في الاتجاه الخاطئ عند الانتقال إلى الشكل العشري.'],
+  },
+  {
+    id: 'u2l1-decimal-to-power',
+    title: 'الانتقال من العدد العشري إلى قوة العدد 10',
+    skills: ['decimal-to-power', 'product-of-powers-of-ten'],
+    taughtInSteps: ['step-8', 'step-11'],
+    sourcePages: [28],
+  },
+  {
+    id: 'u2l1-standard-form',
+    title: 'الصيغة المعيارية a×10^n',
+    skills: ['standard-form-exponent', 'standard-form-coefficient'],
+    taughtInSteps: ['step-5', 'step-9', 'step-12'],
+    sourcePages: [27, 28],
+    commonMistakes: ['ترك أكثر من خانة غير صفرية قبل الفاصلة في الصيغة المعيارية.'],
+  },
+  {
+    id: 'u2l1-exponent-conversion',
+    title: 'تحويل عدد من صيغة معيارية إلى صيغة بأس آخر',
+    skills: ['exponent-conversion'],
+    taughtInSteps: ['step-7'],
+    sourcePages: [27],
+    commonMistakes: ['نسيان إشارة الأس السالب عند جمع الأسس.'],
+  },
+  {
+    id: 'u2l1-application',
+    title: 'تطبيق على أعداد كبيرة من الواقع',
+    skills: ['standard-form-application'],
+    taughtInSteps: ['step-13'],
+    sourcePages: [28],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
   { lessonId: 'lesson-3', unitId: 'unit-1', lessonTitle: 'القسمة', concepts: lesson3Concepts },
   { lessonId: 'lesson-4', unitId: 'unit-1', lessonTitle: 'تمارين الوحدة الأولى', concepts: lesson4Concepts },
+  { lessonId: 'u2-lesson-1', unitId: 'unit-2', lessonTitle: 'قوى العدد 10', concepts: unit2Lesson1Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

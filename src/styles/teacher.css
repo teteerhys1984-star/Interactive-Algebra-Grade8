@@ -201,3 +201,26 @@
   .ta-key-item { flex-direction: column; align-items: flex-start; }
   .ta-section-navigator .nav-action-btn { padding: 0.65rem 0.9rem; font-size: 0.88rem; }
 }
+
+/* ── حلول المعلّم التفصيلية (الوحدة الثانية وما يشابهها) ── */
+.ta-solutions { margin-top: 1.5rem; }
+.ta-solution-group { margin-top: 1rem; }
+.ta-solution-group-title {
+  font-size: 0.95rem; font-weight: 700; color: var(--color-slate-700);
+  margin: 0 0 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid var(--border-subtle);
+}
+.ta-solution {
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
+  background: #fff; margin-bottom: 0.5rem;
+}
+.ta-solution > summary {
+  cursor: pointer; padding: 0.6rem 0.85rem; list-style-position: inside;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+}
+.ta-solution[open] > summary { background: var(--color-slate-50); }
+.ta-solution-body { padding: 0.6rem 0.85rem 0.85rem; display: grid; gap: 0.45rem; }
+.ta-solution-row > span:first-child { font-weight: 700; color: var(--color-slate-700); margin-inline-end: 0.35rem; }
+.ta-solution-row ol { margin: 0.3rem 0 0; padding-inline-start: 1.4rem; }
+.ta-solution-row ol li { margin-bottom: 0.25rem; }
+.ta-solution-origin { color: var(--color-slate-500); font-size: 0.85rem; }
+.ta-solution-warn { color: #92400e; background: #fffbeb; border-radius: var(--radius-sm, 6px); padding: 0.35rem 0.5rem; }
