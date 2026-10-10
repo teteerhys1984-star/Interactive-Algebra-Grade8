@@ -14,6 +14,10 @@ import type { QuestionDifficulty, TestQuestion } from '../data/tests/types';
 const unitTest = resolveTest('u1-test-unit-1')!;
 const unitBlueprintTotal = Object.values(unitTest.coverageBlueprint ?? {}).reduce((sum, count) => sum + count, 0);
 
+/** Every registered unit test, in curriculum order (unit 1, then unit 2). */
+const unitTests = getTestsByType('unit').map((definition) => resolveTest(definition.id)!);
+const unitTotal = unitTests.reduce((sum, test) => sum + test.questionCount, 0);
+
 const difficultyCounts = (questions: readonly TestQuestion[]): Record<QuestionDifficulty, number> =>
   questions.reduce(
     (counts, question) => ({ ...counts, [question.difficulty]: (counts[question.difficulty] ?? 0) + 1 }),
@@ -21,30 +25,32 @@ const difficultyCounts = (questions: readonly TestQuestion[]): Record<QuestionDi
   );
 
 describe('curated test-bank integrity', () => {
-  it('has one 20-question test per curriculum lesson, plus the separately authored unit test', () => {
+  it('has one 20-question test per curriculum lesson, plus one separately authored test per unit', () => {
     const lessons = curriculumLessonRefs();
     const lessonTests = getTestsByType('lesson');
-    const unitTests = getTestsByType('unit');
 
     expect(lessonTests).toHaveLength(lessons.length);
     expect(lessonTests.every((test) => test.questionIds.length === LESSON_TEST_QUESTION_COUNT)).toBe(true);
-    expect(unitTests).toHaveLength(1);
-    expect(unitTests[0].questionIds).toHaveLength(unitBlueprintTotal);
-    expect(questionBank).toHaveLength(lessons.length * LESSON_TEST_QUESTION_COUNT + unitBlueprintTotal);
+    expect(unitTests.map((test) => test.id)).toEqual(['u1-test-unit-1', 'u2-test-unit-2']);
+    expect(unitTests[0].questionCount).toBe(unitBlueprintTotal);
+    expect(questionBank).toHaveLength(lessons.length * LESSON_TEST_QUESTION_COUNT + unitTotal);
     expect(getTestsByType('comprehensive')).toHaveLength(0);
-    expect(unitTests[0].questionIds.every((id) => id.startsWith('u1-unit-'))).toBe(true);
+    expect(unitTests[0].questions.every((question) => question.id.startsWith('u1-unit-'))).toBe(true);
+    expect(unitTests[1].questions.every((question) => question.id.startsWith('u2-unit-'))).toBe(true);
   });
 
-  it('covers all seven question renderers and keeps the declared unit blueprint truthful', () => {
-    expect(new Set(unitTest.questions.map((question) => question.type)).size).toBe(7);
+  it('covers all seven question renderers and keeps every declared unit blueprint truthful', () => {
+    for (const test of unitTests) {
+      expect(new Set(test.questions.map((question) => question.type)).size, test.id).toBe(7);
 
-    // The declared blueprint is checked against the questions it claims to describe.
-    const actual = unitTest.questions.reduce<Record<string, number>>((counts, question) => {
-      counts[question.primaryLessonId] = (counts[question.primaryLessonId] ?? 0) + 1;
-      return counts;
-    }, {});
-    expect(unitTest.coverageBlueprint).toEqual(actual);
-    expect(unitTest.difficultyBlueprint).toEqual(difficultyCounts(unitTest.questions));
+      // The declared blueprint is checked against the questions it claims to describe.
+      const actual = test.questions.reduce<Record<string, number>>((counts, question) => {
+        counts[question.primaryLessonId] = (counts[question.primaryLessonId] ?? 0) + 1;
+        return counts;
+      }, {});
+      expect(test.coverageBlueprint, test.id).toEqual(actual);
+      expect(test.difficultyBlueprint, test.id).toEqual(difficultyCounts(test.questions));
+    }
   });
 
   it('gives every lesson test a content blueprint that matches its questions', () => {

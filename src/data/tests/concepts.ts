@@ -678,6 +678,65 @@ const unit2Lesson3Concepts: CurriculumConcept[] = [
   },
 ];
 
+const unit2Lesson4Concepts: CurriculumConcept[] = [
+  {
+    id: 'u2l4-root-definition',
+    title: 'تعريف الجذر التربيعي للعدد الموجب',
+    skills: ['root-as-inverse-of-square', 'root-is-nonnegative', 'perfect-square-recognition'],
+    taughtInSteps: ['step-1', 'step-2'],
+    sourcePages: [35],
+    commonMistakes: ['كتابة $\\sqrt{25} = \\pm5$، والجذر التربيعي للعدد الموجب عدد موجب فقط.'],
+  },
+  {
+    id: 'u2l4-negative-zero',
+    title: 'العدد السالب والصفر والعدد غير المربع',
+    skills: ['negative-has-no-square-root', 'square-root-of-zero', 'non-square-root-kept-as-symbol'],
+    taughtInSteps: ['step-3', 'step-10'],
+    sourcePages: [35, 37],
+    commonMistakes: ['اعتبار أن للعدد $-25$ جذرًا تربيعيًا، أو حساب $\\sqrt{5}$ كعدد صحيح.'],
+  },
+  {
+    id: 'u2l4-product-rule',
+    title: 'الجذر التربيعي لجداء عددين موجبين',
+    skills: ['sqrt-of-product', 'sqrt-product-used-in-reverse', 'no-distribution-over-sum'],
+    taughtInSteps: ['step-4'],
+    sourcePages: [36],
+    commonMistakes: ['توزيع الجذر على الجمع: $\\sqrt{9+16} = 3+4$ والصواب $5$.'],
+  },
+  {
+    id: 'u2l4-quotient-rule',
+    title: 'الجذر التربيعي لنسبة عددين موجبين',
+    skills: ['sqrt-of-quotient', 'simplify-fraction-under-root'],
+    taughtInSteps: ['step-5'],
+    sourcePages: [36],
+    commonMistakes: ['أخذ جذر البسط وحده: $\\sqrt{\\frac{9}{25}} = \\frac{9}{5}$.'],
+  },
+  {
+    id: 'u2l4-power-rules',
+    title: 'قوّة الجذر وجذر قوّة أسها زوجي',
+    skills: ['power-of-sqrt-equals-sqrt-of-power', 'sqrt-of-even-power'],
+    taughtInSteps: ['step-6', 'step-7'],
+    sourcePages: [36],
+    commonMistakes: ['اعتبار $\\sqrt{x^{2}} = x$ لكل $x$، مع أن $\\sqrt{(-3)^{2}} = 3$.'],
+  },
+  {
+    id: 'u2l4-simplify',
+    title: 'تبسيط الجذور بإخراج العامل المربع الكامل',
+    skills: ['largest-square-factor', 'simplified-radical-form'],
+    taughtInSteps: ['step-8', 'step-14'],
+    sourcePages: [37],
+    commonMistakes: ['تبسيط $\\sqrt{50}$ بإخراج 2 كأنه عامل مربع.'],
+  },
+  {
+    id: 'u2l4-area-calc',
+    title: 'مساحة المربع وطول ضلعه والآلة الحاسبة',
+    skills: ['side-from-area', 'calculator-approximation', 'round-to-hundredth'],
+    taughtInSteps: ['step-9', 'step-11', 'step-13', 'step-15'],
+    sourcePages: [37],
+    commonMistakes: ['نسيان وحدة الطول بعد حساب الجذر، فالمساحة تُقاس بـ cm² والطول بـ cm.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -686,6 +745,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u2-lesson-1', unitId: 'unit-2', lessonTitle: 'قوى العدد 10', concepts: unit2Lesson1Concepts },
   { lessonId: 'u2-lesson-2', unitId: 'unit-2', lessonTitle: 'قواعد قوى العدد 10', concepts: unit2Lesson2Concepts },
   { lessonId: 'u2-lesson-3', unitId: 'unit-2', lessonTitle: 'قوى صحيحة لعدد نسبي', concepts: unit2Lesson3Concepts },
+  { lessonId: 'u2-lesson-4', unitId: 'unit-2', lessonTitle: 'الجذور التربيعية', concepts: unit2Lesson4Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

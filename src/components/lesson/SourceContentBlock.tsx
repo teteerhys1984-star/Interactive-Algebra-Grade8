@@ -21,6 +21,10 @@ import { ExponentRulesExplorer } from '../interactive/ExponentRulesExplorer';
 import { IntegerPowerStudio } from '../interactive/IntegerPowerStudio';
 import { PowerRulesStudio } from '../interactive/PowerRulesStudio';
 import { OrderOfOperationsLab } from '../interactive/OrderOfOperationsLab';
+import { SquareNumberTable } from '../interactive/SquareNumberTable';
+import { SquareRootExplorer } from '../interactive/SquareRootExplorer';
+import { RootRulesStudio } from '../interactive/RootRulesStudio';
+import { SquareRootSimplifier } from '../interactive/SquareRootSimplifier';
 import {
   Sparkles,
   BookOpen,
@@ -292,6 +296,23 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       )}
 
       {block.interactiveType === 'order-of-operations-lab' && <OrderOfOperationsLab />}
+
+      {block.interactiveType === 'square-table' && <SquareNumberTable />}
+
+      {block.interactiveType === 'square-root-explorer' && (
+        <SquareRootExplorer
+          mode={block.interactiveData?.mode === 'area' ? 'area' : 'root'}
+          initialValue={block.interactiveData?.initialValue}
+        />
+      )}
+
+      {block.interactiveType === 'root-rules-studio' && (
+        <RootRulesStudio rules={block.interactiveData?.rules} />
+      )}
+
+      {block.interactiveType === 'square-root-simplifier' && (
+        <SquareRootSimplifier initialValue={block.interactiveData?.initialValue} />
+      )}
 
       {/* Sub-items (exercises, worked examples, rules) */}
       {block.subItems && block.subItems.length > 0 && (

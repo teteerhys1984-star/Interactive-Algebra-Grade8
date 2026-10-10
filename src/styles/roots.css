@@ -1,0 +1,196 @@
+/* ───────── الجذور التربيعية — الوحدة الثانية، الدرس الرابع (الصفحات 35–37) ───────── */
+
+.root-table-activity,
+.root-explorer,
+.root-rules-studio,
+.root-simplifier {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid var(--color-slate-200, #e2e8f0);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.root-table-scroll {
+  overflow-x: auto;
+}
+
+.root-square-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+.root-square-table th,
+.root-square-table td {
+  border: 1px solid var(--color-slate-300, #cbd5e1);
+  padding: 0.35rem 0.4rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.root-square-table th {
+  background: var(--color-slate-50, #f8fafc);
+  white-space: nowrap;
+  direction: rtl;
+  font-weight: 700;
+}
+
+.root-square-printed {
+  background: #f1f5f9;
+  font-weight: 700;
+}
+
+.root-square-input {
+  width: 4.2rem;
+  padding: 0.3rem;
+  text-align: center;
+  border: 1px solid var(--color-slate-300, #cbd5e1);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.root-square-input.is-correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.root-square-input.is-wrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.root-explorer-input {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.root-explorer-label {
+  font-weight: 700;
+}
+
+.root-number-input {
+  max-width: 14rem;
+  padding: 0.5rem 0.7rem;
+  font: inherit;
+  font-size: 1.1rem;
+  border: 1px solid var(--color-slate-300, #cbd5e1);
+  border-radius: 10px;
+}
+
+.root-explorer-input input[type='range'] {
+  width: 100%;
+}
+
+.root-presets,
+.root-rule-tabs,
+.root-choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.root-choice-name {
+  min-width: 2rem;
+  font-weight: 700;
+}
+
+.root-pill {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--color-slate-300, #cbd5e1);
+  border-radius: 999px;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.root-pill.is-active {
+  background: var(--color-indigo-600, #4f46e5);
+  border-color: var(--color-indigo-600, #4f46e5);
+  color: #fff;
+}
+
+.root-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.root-button {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--color-slate-300, #cbd5e1);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.root-button.primary {
+  background: var(--color-indigo-600, #4f46e5);
+  border-color: var(--color-indigo-600, #4f46e5);
+  color: #fff;
+}
+
+.root-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.root-feedback,
+.root-hint,
+.root-note,
+.root-check,
+.root-rule-values {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.root-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: var(--color-slate-50, #f8fafc);
+}
+
+.root-equation,
+.root-rule-symbolic {
+  direction: ltr;
+  overflow-x: auto;
+}
+
+.root-check.is-ok {
+  color: #15803d;
+  font-weight: 700;
+}
+
+.root-check.is-bad {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.root-note {
+  color: var(--color-slate-600, #475569);
+  font-size: 0.9rem;
+}
+
+.root-rule-sides {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  direction: ltr;
+}
+
+.root-rule-equals {
+  font-size: 1.4rem;
+  font-weight: 700;
+}

@@ -493,7 +493,7 @@ export function snapshotWithFixtureLesson(options: FixtureSnapshotOptions = {}):
   const base = createTestBankSnapshot();
 
   const definitions = withPendingUnitCoverage
-    ? base.definitions.map((definition) => (definition.type === 'unit'
+    ? base.definitions.map((definition) => (definition.type === 'unit' && definition.unitId === FIXTURE_UNIT_ID
       ? {
         ...definition,
         pendingLessonCoverage: [

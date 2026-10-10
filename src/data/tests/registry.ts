@@ -8,6 +8,8 @@ import { unit1TestQuestions } from './unit1/unit-1';
 import { unit2Lesson1TestQuestions } from './unit2/lesson-1';
 import { unit2Lesson2TestQuestions } from './unit2/lesson-2';
 import { unit2Lesson3TestQuestions } from './unit2/lesson-3';
+import { unit2Lesson4TestQuestions } from './unit2/lesson-4';
+import { unit2TestQuestions, UNIT2_DIFFICULTY_BLUEPRINT } from './unit2/unit-2';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -102,6 +104,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u2-lesson-3'],
   },
+  {
+    id: 'u2-test-lesson-4',
+    type: 'lesson',
+    unitId: 'unit-2',
+    lessonId: 'u2-lesson-4',
+    title: 'اختبار الدرس الرابع: الجذور التربيعية',
+    description: 'اختبر فهمك لتعريف الجذر التربيعي، والعدد السالب والصفر، وخاصيتي الجداء والنسبة، وقوة الجذر، وتبسيط الجذور، وحساب طول ضلع المربع.',
+    questionIds: unit2Lesson4TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'تعريف الجذر، العدد السالب والصفر، جذر الجداء والنسبة، قوة الجذر، التبسيط، ومساحة المربع',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u2-lesson-4'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -122,6 +137,24 @@ const unitDefinitions: TestDefinition[] = [
       'lesson-4': 18,
     },
     difficultyBlueprint: { basic: 18, intermediate: 21, advanced: 12, reasoning: 9 },
+  },
+  {
+    id: 'u2-test-unit-2',
+    type: 'unit',
+    unitId: 'unit-2',
+    title: 'اختبار الوحدة الثانية: قوى الأعداد العادية والجذور التربيعية',
+    description: 'اثنان وخمسون سؤالًا جديدًا بتغطية متوازنة لدروس الوحدة الأربعة: قوى العدد 10، وقواعدها، والقوى الصحيحة لعدد نسبي، والجذور التربيعية.',
+    questionIds: unit2TestQuestions.map((question) => question.id),
+    difficultyLabel: '16 أساسي • 18 متوسط • 11 متقدم • 7 تفكير',
+    coverageLabel: 'الدروس 1–4 بالتساوي، مع أسئلة تكاملية تربط بين القوى والجذور',
+    estimatedMinutes: 60,
+    coverageBlueprint: {
+      'u2-lesson-1': 13,
+      'u2-lesson-2': 13,
+      'u2-lesson-3': 13,
+      'u2-lesson-4': 13,
+    },
+    difficultyBlueprint: UNIT2_DIFFICULTY_BLUEPRINT,
   },
 ];
 
@@ -145,6 +178,8 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit2Lesson1TestQuestions,
   ...unit2Lesson2TestQuestions,
   ...unit2Lesson3TestQuestions,
+  ...unit2Lesson4TestQuestions,
+  ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];
 
