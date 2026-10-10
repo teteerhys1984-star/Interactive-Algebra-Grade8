@@ -6,6 +6,7 @@ import { lesson3TestQuestions } from './unit1/lesson-3';
 import { lesson4TestQuestions } from './unit1/lesson-4';
 import { unit1TestQuestions } from './unit1/unit-1';
 import { unit2Lesson1TestQuestions } from './unit2/lesson-1';
+import { unit2Lesson2TestQuestions } from './unit2/lesson-2';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -74,6 +75,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u2-lesson-1'],
   },
+  {
+    id: 'u2-test-lesson-2',
+    type: 'lesson',
+    unitId: 'unit-2',
+    lessonId: 'u2-lesson-2',
+    title: 'اختبار الدرس الثاني: قواعد قوى العدد 10',
+    description: 'اختبر فهمك للقواعد الأربع لقوى العدد 10، وللحساب مع أعداد بصيغة a×10^n، ولحصر العدد بين قوتين متتاليتين.',
+    questionIds: unit2Lesson2TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'الضرب، القسمة، قوة القوة، المقلوب، الحساب بالصيغة المعيارية، والحصر',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u2-lesson-2'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -115,6 +129,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...lesson3TestQuestions,
   ...lesson4TestQuestions,
   ...unit2Lesson1TestQuestions,
+  ...unit2Lesson2TestQuestions,
   ...unit1TestQuestions,
 ];
 
