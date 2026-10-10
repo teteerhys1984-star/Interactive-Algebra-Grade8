@@ -114,7 +114,7 @@ function counts(values: string[]): Record<string, number> {
 describe('Unit 2, Lesson 2 — registration and curriculum position', () => {
   it('registers the lesson exactly once, right after Lesson 1', () => {
     const unit = getUnitById('unit-2')!;
-    expect(unit.lessons.map((entry) => entry.id)).toEqual(['u2-lesson-1', 'u2-lesson-2']);
+    expect(unit.lessons.map((entry) => entry.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3']);
     expect(unit.lessons.filter((entry) => entry.id === LESSON_ID)).toHaveLength(1);
     expect(getLessonById('unit-2', LESSON_ID)).toBe(unit2Lesson2Data);
 

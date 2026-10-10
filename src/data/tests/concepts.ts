@@ -595,6 +595,89 @@ const unit2Lesson2Concepts: CurriculumConcept[] = [
   },
 ];
 
+const unit2Lesson3Concepts: CurriculumConcept[] = [
+  {
+    id: 'u2l3-power-meaning',
+    title: 'معنى القوة a^n وكتابتها على شكل جداء عوامل',
+    skills: ['power-as-repeated-product', 'base-and-exponent-roles', 'product-to-power-notation'],
+    taughtInSteps: ['step-1', 'step-3'],
+    sourcePages: [32],
+    commonMistakes: ['قراءة 5^{3} على أنها 5\\times3 بدلًا من 5\\times5\\times5.'],
+  },
+  {
+    id: 'u2l3-special-powers',
+    title: 'الحالات الخاصة: a^0 و 1^n و 0^n',
+    skills: ['zero-exponent-is-one', 'one-power-and-zero-power'],
+    taughtInSteps: ['step-3'],
+    sourcePages: [32],
+    commonMistakes: ['اعتبار 12^{0} مساويًا للصفر، أو إغفال شرط n \\neq 0 في 0^{n}.'],
+  },
+  {
+    id: 'u2l3-negative-exponent',
+    title: 'القوة ذات الأس السالب مقلوب القوة الموجبة',
+    skills: ['negative-exponent-reciprocal', 'reciprocal-of-power-notation'],
+    taughtInSteps: ['step-2', 'step-4'],
+    sourcePages: [32],
+    commonMistakes: ['اعتبار 3^{-2} عددًا سالبًا يساوي -9.'],
+  },
+  {
+    id: 'u2l3-sign-of-power',
+    title: 'إشارة قوة عدد سالب حسب زوجية الأس',
+    skills: ['even-exponent-positive', 'odd-exponent-negative', 'sign-with-negative-base'],
+    taughtInSteps: ['step-1', 'step-5'],
+    sourcePages: [32],
+    commonMistakes: ['كتابة (-7)^{3} = 343 بإغفال الإشارة.'],
+  },
+  {
+    id: 'u2l3-product-rule',
+    title: 'قاعدة جداء قوتين: جمع الأسين',
+    skills: ['product-rule-add-exponents', 'product-rule-not-multiply', 'product-rule-with-negative-exponents'],
+    taughtInSteps: ['step-2', 'step-6'],
+    sourcePages: [32],
+    commonMistakes: ['ضرب الأسين بدل جمعهما: 3^{2}\\times3^{5} = 3^{10}.'],
+  },
+  {
+    id: 'u2l3-product-power-rule',
+    title: 'قاعدة قوة الجداء: توزيع الأس على العاملين',
+    skills: ['power-of-product-distribute', 'same-exponent-different-bases'],
+    taughtInSteps: ['step-1', 'step-6'],
+    sourcePages: [32],
+    commonMistakes: ['تطبيق قاعدة جمع الأسين على أساسين مختلفين: 5^{3}\\times2^{3} = 10^{6}.'],
+  },
+  {
+    id: 'u2l3-quotient-rule',
+    title: 'قاعدة خارج قسمة قوتين: طرح الأسين',
+    skills: ['quotient-rule-subtract-exponents', 'quotient-rule-order-of-subtraction', 'quotient-to-single-power'],
+    taughtInSteps: ['step-2', 'step-7'],
+    sourcePages: [32, 33],
+    commonMistakes: ['طرح أس البسط من أس المقام: \\frac{5^{9}}{5^{6}} = 5^{-3}.'],
+  },
+  {
+    id: 'u2l3-quotient-power-rule',
+    title: 'قاعدة قوة الخارج: رفع البسط والمقام',
+    skills: ['power-of-quotient-distribute', 'fraction-raised-to-power'],
+    taughtInSteps: ['step-7'],
+    sourcePages: [33],
+    commonMistakes: ['رفع البسط وحده أو المقام وحده عند حساب (\\frac{2}{3})^{4}.'],
+  },
+  {
+    id: 'u2l3-operations-priority',
+    title: 'أولويات العمليات: القوى ثم الضرب والقسمة ثم الجمع والطرح',
+    skills: ['power-before-multiplication', 'parentheses-change-order', 'evaluate-expression-correctly'],
+    taughtInSteps: ['step-8', 'step-9', 'step-10'],
+    sourcePages: [33],
+    commonMistakes: ['حساب 6\\times2^{2} بالضرب أولًا فيكون الناتج 144 بدل 24.'],
+  },
+  {
+    id: 'u2l3-applied-powers',
+    title: 'توظيف القوى في مسائل تطبيقية وحجم المكعب',
+    skills: ['cube-volume-with-powers', 'unit-conversion-dm3-cm3', 'scaling-with-powers'],
+    taughtInSteps: ['step-11', 'step-12'],
+    sourcePages: [34],
+    commonMistakes: ['نسيان التحويل بين dm^{3} و cm^{3} عند حساب الحجم بالسنتيمترات المكعبة.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -602,6 +685,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-4', unitId: 'unit-1', lessonTitle: 'تمارين الوحدة الأولى', concepts: lesson4Concepts },
   { lessonId: 'u2-lesson-1', unitId: 'unit-2', lessonTitle: 'قوى العدد 10', concepts: unit2Lesson1Concepts },
   { lessonId: 'u2-lesson-2', unitId: 'unit-2', lessonTitle: 'قواعد قوى العدد 10', concepts: unit2Lesson2Concepts },
+  { lessonId: 'u2-lesson-3', unitId: 'unit-2', lessonTitle: 'قوى صحيحة لعدد نسبي', concepts: unit2Lesson3Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {
