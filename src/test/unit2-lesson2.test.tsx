@@ -114,7 +114,7 @@ function counts(values: string[]): Record<string, number> {
 describe('Unit 2, Lesson 2 — registration and curriculum position', () => {
   it('registers the lesson exactly once, right after Lesson 1', () => {
     const unit = getUnitById('unit-2')!;
-    expect(unit.lessons.map((entry) => entry.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3']);
+    expect(unit.lessons.map((entry) => entry.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3', 'u2-lesson-4']);
     expect(unit.lessons.filter((entry) => entry.id === LESSON_ID)).toHaveLength(1);
     expect(getLessonById('unit-2', LESSON_ID)).toBe(unit2Lesson2Data);
 
@@ -130,7 +130,7 @@ describe('Unit 2, Lesson 2 — registration and curriculum position', () => {
     expect(curriculum[0].lessons.map((entry) => entry.id)).toEqual([
       'lesson-1', 'lesson-2', 'lesson-3', 'lesson-4',
     ]);
-    expect(getUnitById('unit-2')!.sourcePages).toEqual([25, 26, 27, 28]);
+    expect(getUnitById('unit-2')!.sourcePages).toEqual([25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]);
 
     const lesson1 = getLessonById('unit-2', 'u2-lesson-1')!;
     expect(lesson1.title).toBe('قوى العدد 10');
@@ -155,9 +155,9 @@ describe('Unit 2, Lesson 2 — registration and curriculum position', () => {
     expect(blocks.every((block) => block.sourceRef.page >= 29 && block.sourceRef.page <= 31)).toBe(true);
   });
 
-  it('never enables a Unit 2 unit test', () => {
-    expect(getTestsByType('unit').map((test) => test.unitId)).toEqual(['unit-1']);
-    expect(getTestsByType('unit').some((test) => test.unitId === 'unit-2')).toBe(false);
+  it('leaves the Unit 2 unit test as the only unit-2 unit test, separate from its lesson tests', () => {
+    expect(getTestsByType('unit').map((test) => test.unitId)).toEqual(['unit-1', 'unit-2']);
+    expect(getTestsByType('unit').filter((test) => test.unitId === 'unit-2').map((test) => test.id)).toEqual(['u2-test-unit-2']);
   });
 });
 

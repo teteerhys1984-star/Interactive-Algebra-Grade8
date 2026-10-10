@@ -4,6 +4,9 @@ import { TeacherArea } from '../components/teacher/TeacherArea';
 
 const SECTION_PROGRESS = 'lesson4-teacher-section-progress';
 
+/** The Unit 1 Lesson 4 tab; Unit 2 Lesson 4 shares the number 4 but has its own title. */
+const UNIT1_LESSON4_TAB = /الدرس 4: تمارين الوحدة الأولى/;
+
 const unlockTeacherArea = () => {
   render(<TeacherArea onNavigateHome={() => {}} />);
   fireEvent.change(screen.getByLabelText('كلمة المرور'), { target: { value: 'somer173' } });
@@ -12,7 +15,7 @@ const unlockTeacherArea = () => {
 
 const openLesson4 = () => {
   unlockTeacherArea();
-  fireEvent.click(screen.getByRole('button', { name: /الدرس 4:/ }));
+  fireEvent.click(screen.getByRole('button', { name: UNIT1_LESSON4_TAB }));
 };
 
 const selectLesson4Section = (section: number) => {
@@ -103,7 +106,7 @@ describe('Lesson 4 Teacher Area sections', () => {
     expect(screen.getByTestId(SECTION_PROGRESS)).toHaveTextContent('5 / 8');
 
     fireEvent.click(screen.getByRole('button', { name: /الدرس 2: الضرب/ }));
-    fireEvent.click(screen.getByRole('button', { name: /الدرس 4:/ }));
+    fireEvent.click(screen.getByRole('button', { name: UNIT1_LESSON4_TAB }));
 
     expect(screen.getByTestId(SECTION_PROGRESS)).toHaveTextContent('1 / 8');
     expect(screen.getByRole('heading', { name: 'أهداف الدرس' })).toBeInTheDocument();

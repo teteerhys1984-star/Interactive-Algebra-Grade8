@@ -99,7 +99,7 @@ const TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaData }> = 
                 <div key={ii} className="ta-key-item">
                   <span className="ta-key-ref">{it.ref}</span>
                   <span className="ta-key-answer"><Math math={it.answer} /></span>
-                  {it.note && <span className="ta-key-note">{it.note}</span>}
+                  {it.note && <span className="ta-key-note"><MathText text={it.note} /></span>}
                 </div>
               ))}
             </div>
@@ -198,7 +198,7 @@ const Lesson4TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaDat
           <div key={ii} className="ta-key-item">
             <span className="ta-key-ref">{it.ref}</span>
             <span className="ta-key-answer"><Math math={it.answer} /></span>
-            {it.note && <span className="ta-key-note">{it.note}</span>}
+            {it.note && <span className="ta-key-note"><MathText text={it.note} /></span>}
           </div>
         ))}
       </div>

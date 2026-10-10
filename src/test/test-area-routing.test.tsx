@@ -50,7 +50,10 @@ describe('student Test Area routes and regression', () => {
     expect(screen.getByRole('heading', { name: 'حلول الاختبارات' })).toBeInTheDocument();
     const solutionLinks = screen.getAllByRole('button', { name: /عرض الحلول الكاملة/ });
     expect(solutionLinks).toHaveLength(expectedCatalogSize);
-    fireEvent.click(solutionLinks[solutionLinks.length - 1]);
+    // Lesson tests are listed first, then unit tests in curriculum order (Unit 1 before Unit 2).
+    const unit1SolutionIndex = getTestsByType('lesson').length
+      + getTestsByType('unit').findIndex((test) => test.id === 'u1-test-unit-1');
+    fireEvent.click(solutionLinks[unit1SolutionIndex]);
 
     await waitFor(() => expect(container.querySelectorAll('.test-solution-card')).toHaveLength(5));
     expect(screen.getByRole('heading', { name: /اختبار الوحدة الأولى/ })).toBeInTheDocument();

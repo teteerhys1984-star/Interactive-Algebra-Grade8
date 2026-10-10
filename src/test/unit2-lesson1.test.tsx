@@ -12,13 +12,13 @@ import { getLessonTestId } from '../data/tests/lessonTests';
  */
 
 describe('Unit 2, Lesson 1 — registration and structure', () => {
-  it('is registered in the curriculum with its warm-up and source pages 25–28', () => {
+  it('is registered in the curriculum with its warm-up and the unit source pages 25–37', () => {
     const unit = getUnitById('unit-2');
     expect(unit).toBeDefined();
-    expect(unit!.sourcePages).toEqual([25, 26, 27, 28]);
+    expect(unit!.sourcePages).toEqual([25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]);
     expect(unit!.warmup.id).toBe('warmup');
     expect(unit!.warmup.sourcePages).toEqual([25]);
-    expect(unit!.lessons.map((lesson) => lesson.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3']);
+    expect(unit!.lessons.map((lesson) => lesson.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3', 'u2-lesson-4']);
     expect(getLessonById('unit-2', 'u2-lesson-1')?.title).toBe('قوى العدد 10');
   });
 
@@ -51,11 +51,11 @@ describe('Unit 2, Lesson 1 — registration and structure', () => {
     }
   });
 
-  it('has exactly one lesson test and no Unit 2 unit test', () => {
+  it('has exactly one lesson test, and the Unit 2 unit test is registered once for the whole unit', () => {
     expect(getLessonTestId('u2-lesson-1')).toBe('u2-test-lesson-1');
     expect(resolveTest('u2-test-lesson-1')!.questionCount).toBe(20);
-    expect(getTestsByType('unit').map((test) => test.unitId)).toEqual(['unit-1']);
-    expect(getTestsByType('unit').some((test) => test.unitId === 'unit-2')).toBe(false);
+    expect(getTestsByType('unit').map((test) => test.unitId)).toEqual(['unit-1', 'unit-2']);
+    expect(getTestsByType('unit').filter((test) => test.unitId === 'unit-2').map((test) => test.id)).toEqual(['u2-test-unit-2']);
   });
 });
 

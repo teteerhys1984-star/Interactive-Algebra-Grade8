@@ -7,6 +7,7 @@ import { unit2WarmupData } from './unit2/warmup';
 import { unit2Lesson1Data } from './unit2/lesson01';
 import { unit2Lesson2Data } from './unit2/lesson02';
 import { unit2Lesson3Data } from './unit2/lesson03';
+import { unit2Lesson4Data } from './unit2/lesson04';
 
 export interface UnitData {
   id: string;
@@ -32,10 +33,10 @@ export const curriculum: UnitData[] = [
     id: 'unit-2',
     number: 2,
     title: 'قوى الأعداد العادية',
-    description: 'الوحدة الثانية من كتاب الجبر للصف الثامن: قوى العدد 10 بأسس موجبة وسالبة، والصيغة المعيارية للأعداد العشرية.',
-    sourcePages: [25, 26, 27, 28],
+    description: 'الوحدة الثانية من كتاب الجبر للصف الثامن: قوى العدد 10 بأسس موجبة وسالبة، والصيغة المعيارية للأعداد العشرية، والقوى الصحيحة لعدد نسبي، والجذور التربيعية.',
+    sourcePages: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37],
     warmup: unit2WarmupData,
-    lessons: [unit2Lesson1Data, unit2Lesson2Data, unit2Lesson3Data],
+    lessons: [unit2Lesson1Data, unit2Lesson2Data, unit2Lesson3Data, unit2Lesson4Data],
   },
 ];
 
