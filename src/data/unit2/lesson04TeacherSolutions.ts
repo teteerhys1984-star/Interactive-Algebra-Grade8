@@ -647,7 +647,7 @@ export const unit2Lesson4TeacherSolutions: UnitTeacherSolution[] = [
     group: G9,
     blockId: 'p37-check-2',
     source: 'ص37 • تحقّق من فهمك ②',
-    problem: 'أرض مربعة الشكل مساحتها 225، احسب طول ضلعها.',
+    problem: 'أرض مربعة الشكل مساحتها 225 احسب طول ضلعها.',
     steps: [
       'إذا رمزنا إلى طول الضلع بـ $x$ فإن $x^{2} = 225$.',
       'إذن $x = \\sqrt{225}$، ونبحث عن عدد موجب مربعه 225.',
@@ -851,7 +851,7 @@ export const unit2Lesson4TeacherSolutions: UnitTeacherSolution[] = [
     blockId: 'p37-train-3',
     subIndex: 2,
     source: 'ص37 • تدرّب ③ • ③',
-    problem: 'استعمل الآلة الحاسبة لحساب $S$ مقرّبًا لأقرب جزء من مئة.',
+    problem: 'استخدم آلتك الحاسبة لحساب $S$ مقرّبًا لأقرب جزء من مئة.',
     steps: [
       'نكتب 30 ثم نضغط الزر $\\sqrt{\\ }$.',
       'تظهر القيمة التقريبية $5.477225575$.',

@@ -478,8 +478,8 @@ const steps: LessonStep[] = [
         type: 'example',
         title: 'مثال: بسّط الجذور الآتية',
         sourceRef: src(37, 'مثال'),
-        content: 'بسّط الجذور الآتية: $\\sqrt{8}$، $\\sqrt{50}$، $\\sqrt{27}$.',
-        mathFormula: '\\sqrt{8}, \\qquad \\sqrt{50}, \\qquad \\sqrt{27}',
+        content: 'بسّط الجذور الآتية: $\\sqrt{27}$، $\\sqrt{50}$، $\\sqrt{8}$.',
+        mathFormula: '\\sqrt{27}, \\qquad \\sqrt{50}, \\qquad \\sqrt{8}',
         subItems: [
           {
             label: '√8',
@@ -625,7 +625,7 @@ const steps: LessonStep[] = [
         type: 'check',
         title: '② أرض مربعة الشكل مساحتها 225',
         sourceRef: src(37, 'تحقّق من فهمك', '②'),
-        content: 'أرض مربعة الشكل مساحتها 225، احسب طول ضلعها.',
+        content: 'أرض مربعة الشكل مساحتها 225 احسب طول ضلعها.',
         explanation: 'إذا رمزنا إلى طول الضلع بـ $x$ فإن $x^{2} = 225$، إذن $x = \\sqrt{225} = 15$ لأن $15^{2} = 225$.',
       },
     ],
@@ -684,7 +684,7 @@ const steps: LessonStep[] = [
         type: 'practice',
         title: '① احسب طول ضلع المربع',
         sourceRef: src(37, 'تدرّب', '①'),
-        content: 'احسب طول ضلع المربع في كل حالة من الحالات الآتية:',
+        content: 'احسب طول ضلع مربع مساحته',
         subItems: [
           {
             label: '①',
@@ -785,7 +785,7 @@ const steps: LessonStep[] = [
           },
           {
             label: '3.',
-            text: 'استخدم الآلة الحاسبة لحساب $S$ مقرّبًا لأقرب جزء من مئة.',
+            text: 'استخدم آلتك الحاسبة لحساب $S$ مقرّبًا لأقرب جزء من مئة.',
             math: 'S \\approx 5.48',
             solution: '$\\sqrt{30} \\approx 5.477225575$، ومقرّبًا لأقرب جزء من مئة: $S \\approx 5.48\\ \\text{cm}$.',
           },
