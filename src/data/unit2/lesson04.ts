@@ -483,21 +483,28 @@ const steps: LessonStep[] = [
         subItems: [
           {
             label: '√8',
-            text: 'نكتب 8 جداء عددين أحدهما مربع كامل (4):',
+            text: '',
             math: '\\sqrt{8} = \\sqrt{4\\times2} = \\sqrt{4}\\times\\sqrt{2} = 2\\sqrt{2}',
           },
           {
             label: '√50',
-            text: 'نكتب 50 جداء 25 في 2:',
+            text: '',
             math: '\\sqrt{50} = \\sqrt{25\\times2} = \\sqrt{25}\\times\\sqrt{2} = 5\\sqrt{2}',
           },
           {
             label: '√27',
-            text: 'نكتب 27 جداء 9 في 3:',
+            text: '',
             math: '\\sqrt{27} = \\sqrt{9\\times3} = \\sqrt{9}\\times\\sqrt{3} = 3\\sqrt{3}',
           },
         ],
       },
+      teach(
+        'p37-simplify-platform-steps',
+        37,
+        'شرح المنصة: كيف نكتب كل عدد جداءً؟',
+        'في √8 نكتب 8 جداء عددين أحدهما مربع كامل (4). في √50 نكتب 50 جداء 25 في 2. في √27 نكتب 27 جداء 9 في 3.',
+        '8 = 4\\times2 \\qquad 50 = 25\\times2 \\qquad 27 = 9\\times3',
+      ),
       teach(
         'p37-simplify-teach',
         37,
