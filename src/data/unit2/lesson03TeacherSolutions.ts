@@ -542,6 +542,24 @@ export const unit2Lesson3TeacherSolutions: UnitTeacherSolution[] = [
     blockId: 'p34-check-2',
     subIndex: 0,
     source: 'ص34 • تحقّق من فهمك • ② ①',
+    problem: 'احسب $5^{2}$ بالصيغة الكسرية أو العشرية.',
+    steps: [
+      'القوة تعني تكرار العامل: $5^{2} = 5\\times5$.',
+      'نضرب العاملين: $5\\times5 = 25$.',
+      'والناتج عدد صحيح: $25$؛ فصيغته الكسرية $\\frac{25}{1}$، وصيغته العشرية $25$ نفسها لأن الجزء العشري معدوم.',
+    ],
+    finalAnswer: '$5^{2} = 25$',
+    principle: '$a^{n}$ جداء العامل $a$ بنفسه $n$ مرة؛ والقوة الموجبة قد تعطي عددًا صحيحًا لا كسرًا.',
+    check: 'التحقّق بالقسمة: $25 \\div 5 = 5 = 5^{1}$، وهو ما يوافق طرح الأسين $2 - 1 = 1$.',
+    answerOrigin: 'مُشتقة من المنصة',
+    sourceNote: SCAN_NOTE,
+  },
+  {
+    id: 's34-check2-1',
+    group: G9,
+    blockId: 'p34-check-2',
+    subIndex: 1,
+    source: 'ص34 • تحقّق من فهمك • ② ②',
     problem: 'احسب $5^{-2}$ بالصيغة الكسرية أو العشرية.',
     steps: [
       'الأس سالب، فنقلب الأساس: $5^{-2} = \\frac{1}{5^{2}}$.',
@@ -555,11 +573,11 @@ export const unit2Lesson3TeacherSolutions: UnitTeacherSolution[] = [
     sourceNote: SCAN_NOTE,
   },
   {
-    id: 's34-check2-1',
+    id: 's34-check2-2',
     group: G9,
     blockId: 'p34-check-2',
-    subIndex: 1,
-    source: 'ص34 • تحقّق من فهمك • ② ②',
+    subIndex: 2,
+    source: 'ص34 • تحقّق من فهمك • ② ③',
     problem: 'احسب $(-9)^{2}$.',
     steps: [
       'الأساس سالب والأس زوجي، فالناتج موجب.',
@@ -576,7 +594,7 @@ export const unit2Lesson3TeacherSolutions: UnitTeacherSolution[] = [
     id: 's34-check2-3',
     group: G9,
     blockId: 'p34-check-2',
-    subIndex: 2,
+    subIndex: 3,
     source: 'ص34 • تحقّق من فهمك • ② ④',
     problem: 'احسب $\\left(\\frac{2}{5}\\right)^{2}$.',
     steps: [
@@ -594,7 +612,7 @@ export const unit2Lesson3TeacherSolutions: UnitTeacherSolution[] = [
     id: 's34-check2-4',
     group: G9,
     blockId: 'p34-check-2',
-    subIndex: 3,
+    subIndex: 4,
     source: 'ص34 • تحقّق من فهمك • ② ⑤',
     problem: 'احسب $\\left(-\\frac{1}{4}\\right)^{3}$.',
     steps: [
@@ -612,7 +630,7 @@ export const unit2Lesson3TeacherSolutions: UnitTeacherSolution[] = [
     id: 's34-check2-5',
     group: G9,
     blockId: 'p34-check-2',
-    subIndex: 4,
+    subIndex: 5,
     source: 'ص34 • تحقّق من فهمك • ② ⑥',
     problem: 'احسب $(-2)^{-5}$.',
     steps: [

@@ -57,7 +57,7 @@ describe('حلول المعلّم التفصيلية — الوحدة الثان
 
   it('الجرد يحوي عدداً غير صفري من البنود المطلوبة (الاستخراج من البيانات)', () => {
     expect(required.length).toBeGreaterThan(0);
-    expect(required.length).toBe(55);
+    expect(required.length).toBe(56);
     console.info(
       `[unit2-lesson3-teacher-solutions] required items: ${required.length}, solutions: ${unit2Lesson3TeacherSolutions.length}`,
     );
@@ -108,7 +108,7 @@ describe('حلول المعلّم التفصيلية — الوحدة الثان
     const derived = unit2Lesson3TeacherSolutions.filter((solution) => solution.answerOrigin === 'مُشتقة من المنصة');
     expect(printed.length + derived.length).toBe(unit2Lesson3TeacherSolutions.length);
     expect(printed.length).toBe(14);
-    expect(derived.length).toBe(41);
+    expect(derived.length).toBe(42);
 
     // الحلول المأخوذة من أمثلة الكتاب المطبوعة لا يجوز أن تُنسب إلى المنصة.
     for (const solution of unit2Lesson3TeacherSolutions) {
@@ -159,7 +159,7 @@ describe('حلول المعلّم التفصيلية — الوحدة الثان
       .filter((block: any) => block.id.startsWith('p34-drill-'))
       .flatMap((block: any) => block.subItems ?? []);
 
-    expect(checkSubItems.length).toBe(13);
+    expect(checkSubItems.length).toBe(14);
     expect(drillSubItems.length).toBe(16);
 
     const solvedCheck = unit2Lesson3TeacherSolutions.filter((solution) => solution.blockId.startsWith('p34-check-'));

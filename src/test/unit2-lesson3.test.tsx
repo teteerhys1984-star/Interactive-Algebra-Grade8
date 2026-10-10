@@ -199,20 +199,51 @@ describe('Unit 2, Lesson 3 — registration and curriculum position', () => {
 });
 
 describe('Unit 2, Lesson 3 — source notes and platform-authored material', () => {
-  it('keeps all eleven verifyNote flags, including the unreadable page-34 item', () => {
+  it('keeps the ten verifyNote flags and no longer claims any unreadable item', () => {
     const verifyNotes = [
       ...blocks.map((block) => block.verifyNote),
       ...subItems.map((item) => item.verifyNote),
     ].filter((note): note is string => Boolean(note));
 
-    expect(verifyNotes).toHaveLength(11);
+    expect(verifyNotes).toHaveLength(10);
     expect(verifyNotes.every((note) => note.startsWith('ملاحظة المصدر'))).toBe(true);
+    // The one item that used to be flagged unreadable was resolved by a magnified
+    // image of page 34, so no note may keep claiming an omitted item.
+    expect(verifyNotes.filter((note) => note.includes('غير مقروء'))).toEqual([]);
+  });
 
-    // Item ③ of «تحقّق من فهمك ②» could not be read from the page image and was
-    // deliberately omitted instead of invented; that decision stays documented.
-    const omittedItem = verifyNotes.find((note) => note.includes('غير مقروء'));
-    expect(omittedItem, 'the omitted unreadable item must stay documented').toBeDefined();
-    expect(omittedItem).toContain('لم نُدرجه');
+  it('carries all six items of «تحقّق من فهمك ②» in the book order and numbering', () => {
+    const block = blocks.find((entry) => entry.id === 'p34-check-2')!;
+    const items = block.subItems!;
+    expect(items.map((item) => item.label)).toEqual(['①', '②', '③', '④', '⑤', '⑥']);
+    expect(items.map((item) => item.math)).toEqual([
+      '5^{2}',
+      '5^{-2}',
+      '(-9)^{2}',
+      '\\left(\\frac{2}{5}\\right)^{2}',
+      '\\left(-\\frac{1}{4}\\right)^{3}',
+      '(-2)^{-5}',
+    ]);
+
+    // The student sees the same six labels once the block is rendered.
+    const rendered = render(<SourceContentBlock block={block} />);
+    const renderedText = rendered.container.textContent ?? '';
+    for (const label of ['①', '②', '③', '④', '⑤', '⑥']) {
+      expect(renderedText, label).toContain(label);
+    }
+    rendered.unmount();
+
+    // The answer key of the same question lists the six labels with the matching values.
+    const key = lesson.teacherArea!.answerKeys.find((group) => group.section.includes('② حساب الناتج'))!;
+    expect(key.items.map((item) => item.ref)).toEqual(['①', '②', '③', '④', '⑤', '⑥']);
+    expect(key.items.map((item) => item.answer)).toEqual([
+      '5^{2}=25',
+      '5^{-2}=\\frac{1}{25}=0.04',
+      '(-9)^{2}=81',
+      '\\left(\\frac{2}{5}\\right)^{2}=\\frac{4}{25}=0.16',
+      '\\left(-\\frac{1}{4}\\right)^{3}=-\\frac{1}{64}',
+      '(-2)^{-5}=-\\frac{1}{32}',
+    ]);
   });
 
   it('tags every platform-authored block as «شرح المنصة» and keeps the four interactives', () => {
@@ -307,19 +338,19 @@ describe('Unit 2, Lesson 3 — teacher area', () => {
     ]);
   });
 
-  it('keeps the 55 step-by-step teacher solutions, grouped and complete', () => {
+  it('keeps the 56 step-by-step teacher solutions, grouped and complete', () => {
     expect(lesson.teacherArea!.solutions).toBe(unit2Lesson3TeacherSolutions);
     const solutions = lesson.teacherArea!.solutions!;
-    expect(solutions).toHaveLength(55);
+    expect(solutions).toHaveLength(56);
 
     const ids = solutions.map((solution) => solution.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(new Set(solutions.map((solution) => solution.group)).size).toBe(11);
-    expect(solutions.filter((solution) => Boolean(solution.sourceNote))).toHaveLength(39);
+    expect(solutions.filter((solution) => Boolean(solution.sourceNote))).toHaveLength(40);
 
     // Book answers and platform-derived answers are counted separately.
     const origins = counts(solutions.map((solution) => solution.answerOrigin ?? ''));
-    expect(origins).toEqual({ الكتاب: 14, 'مُشتقة من المنصة': 41 });
+    expect(origins).toEqual({ الكتاب: 14, 'مُشتقة من المنصة': 42 });
 
     for (const solution of solutions) {
       expect(solution.steps.length, solution.id).toBeGreaterThanOrEqual(2);
