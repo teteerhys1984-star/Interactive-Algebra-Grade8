@@ -17,6 +17,7 @@ import { OrderOfOperationsSorter } from '../interactive/OrderOfOperationsSorter'
 import { CompoundFractionReader } from '../interactive/CompoundFractionReader';
 import { CalculatorKeys } from '../interactive/CalculatorKeys';
 import { PowerOfTenLadder } from '../interactive/PowerOfTenLadder';
+import { ExponentRulesExplorer } from '../interactive/ExponentRulesExplorer';
 import {
   Sparkles,
   BookOpen,
@@ -278,6 +279,8 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       )}
 
       {block.interactiveType === 'power-of-ten-ladder' && <PowerOfTenLadder />}
+
+      {block.interactiveType === 'exponent-rules-explorer' && <ExponentRulesExplorer />}
 
       {/* Sub-items (exercises, worked examples, rules) */}
       {block.subItems && block.subItems.length > 0 && (

@@ -537,12 +537,71 @@ const unit2Lesson1Concepts: CurriculumConcept[] = [
   },
 ];
 
+const unit2Lesson2Concepts: CurriculumConcept[] = [
+  {
+    id: 'u2l2-product-rule',
+    title: 'قاعدة الضرب: جمع الأسين',
+    skills: ['product-rule-add-exponents', 'product-rule-unknown-exponent', 'product-rule-not-multiply'],
+    taughtInSteps: ['step-1', 'step-3', 'step-4'],
+    sourcePages: [29],
+    commonMistakes: ['ضرب الأسين بدل جمعهما في قاعدة الضرب: $10^{3}\\times10^{2}=10^{6}$.'],
+  },
+  {
+    id: 'u2l2-quotient-rule',
+    title: 'قاعدة القسمة: طرح الأسين',
+    skills: ['quotient-rule-subtract-exponents', 'quotient-rule-negative-result'],
+    taughtInSteps: ['step-2', 'step-3', 'step-4'],
+    sourcePages: [29],
+    commonMistakes: ['طرح أس البسط من أس المقام في القسمة: $\\frac{10^{5}}{10^{2}}=10^{-3}$.'],
+  },
+  {
+    id: 'u2l2-power-rule',
+    title: 'قاعدة قوة القوة: ضرب الأسين',
+    skills: ['power-of-power-multiply-exponents', 'power-of-power-negative-exponent'],
+    taughtInSteps: ['step-2', 'step-3', 'step-4'],
+    sourcePages: [29],
+    commonMistakes: ['جمع الأسين في قوة القوة: $(10^{3})^{2}=10^{5}$.'],
+  },
+  {
+    id: 'u2l2-reciprocal-rule',
+    title: 'قاعدة المقلوب: تغيير إشارة الأس',
+    skills: ['reciprocal-sign-change', 'reciprocal-of-negative-power'],
+    taughtInSteps: ['step-3', 'step-4'],
+    sourcePages: [29],
+    commonMistakes: ['إبقاء إشارة الأس في المقلوب: $\\frac{1}{10^{-3}}=10^{-3}$.'],
+  },
+  {
+    id: 'u2l2-scientific-calc',
+    title: 'الحساب مع أعداد بصيغة a×10^n',
+    skills: ['scientific-multiply-coefficients', 'scientific-add-unify-power', 'scientific-standardize-result'],
+    taughtInSteps: ['step-5', 'step-6'],
+    sourcePages: [29, 30],
+    commonMistakes: ['جمع أعداد بصيغة $a\\times10^{n}$ بجمع الأسس بدل توحيد القوة أولًا.'],
+  },
+  {
+    id: 'u2l2-bounding',
+    title: 'حصر العدد بين قوتين متتاليتين',
+    skills: ['bounding-consecutive-powers', 'bounding-from-standard-form'],
+    taughtInSteps: ['step-7'],
+    sourcePages: [30],
+    commonMistakes: ['اختيار الأس الخطأ في الحصر بعدّ الأرقام بدل قراءة الصيغة المعيارية.'],
+  },
+  {
+    id: 'u2l2-integrated',
+    title: 'تطبيق متكامل: اختيار القاعدة المناسبة',
+    skills: ['choose-rule-by-operation', 'same-power-different-expressions', 'rule-generalization'],
+    taughtInSteps: ['step-8', 'step-9', 'step-10', 'step-11'],
+    sourcePages: [29, 30, 31],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
   { lessonId: 'lesson-3', unitId: 'unit-1', lessonTitle: 'القسمة', concepts: lesson3Concepts },
   { lessonId: 'lesson-4', unitId: 'unit-1', lessonTitle: 'تمارين الوحدة الأولى', concepts: lesson4Concepts },
   { lessonId: 'u2-lesson-1', unitId: 'unit-2', lessonTitle: 'قوى العدد 10', concepts: unit2Lesson1Concepts },
+  { lessonId: 'u2-lesson-2', unitId: 'unit-2', lessonTitle: 'قواعد قوى العدد 10', concepts: unit2Lesson2Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

@@ -5,6 +5,7 @@ import { lesson04Data } from './unit1/lesson04';
 import { warmupData } from './unit1/warmup';
 import { unit2WarmupData } from './unit2/warmup';
 import { unit2Lesson1Data } from './unit2/lesson01';
+import { unit2Lesson2Data } from './unit2/lesson02';
 
 export interface UnitData {
   id: string;
@@ -33,7 +34,7 @@ export const curriculum: UnitData[] = [
     description: 'الوحدة الثانية من كتاب الجبر للصف الثامن: قوى العدد 10 بأسس موجبة وسالبة، والصيغة المعيارية للأعداد العشرية.',
     sourcePages: [25, 26, 27, 28],
     warmup: unit2WarmupData,
-    lessons: [unit2Lesson1Data],
+    lessons: [unit2Lesson1Data, unit2Lesson2Data],
   },
 ];
 

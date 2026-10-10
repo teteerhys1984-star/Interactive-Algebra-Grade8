@@ -102,7 +102,7 @@ describe('Lesson 4 Teacher Area sections', () => {
     selectLesson4Section(5);
     expect(screen.getByTestId(SECTION_PROGRESS)).toHaveTextContent('5 / 8');
 
-    fireEvent.click(screen.getByRole('button', { name: /الدرس 2:/ }));
+    fireEvent.click(screen.getByRole('button', { name: /الدرس 2: الضرب/ }));
     fireEvent.click(screen.getByRole('button', { name: /الدرس 4:/ }));
 
     expect(screen.getByTestId(SECTION_PROGRESS)).toHaveTextContent('1 / 8');
