@@ -405,3 +405,376 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   الوحدة الثانية — الدرس الثالث: قوى صحيحة لعدد نسبي (الصفحات 32–34)
+   ثلاثة مكوّنات جديدة: استوديو القوى، مختبر قواعد القوى،
+   ومختبر أولويات العمليات. الأنماط هنا فقط، والنصوص من البيانات.
+   ───────────────────────────────────────────────────────────── */
+
+.power-studio,
+.power-rules-studio,
+.priority-lab {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-slate-200);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--color-slate-50), #ffffff);
+}
+
+.power-studio-intro,
+.power-rules-intro,
+.priority-lab-intro {
+  margin: 0 0 1rem;
+  color: var(--color-slate-700);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+.power-studio-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.power-studio-row-label {
+  font-weight: 700;
+  color: var(--color-slate-700);
+  min-width: 3.5rem;
+}
+
+.power-studio-bases,
+.power-rules-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.power-studio-base,
+.power-rules-choice {
+  min-width: 3.25rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--color-slate-300);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+}
+
+.power-studio-base.is-active,
+.power-rules-choice.is-active {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+  box-shadow: inset 0 0 0 1px var(--color-primary-300);
+}
+
+.power-studio-base:focus-visible,
+.power-rules-choice:focus-visible,
+.power-studio-step:focus-visible,
+.power-rules-stepper button:focus-visible,
+.priority-lab-tab:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.power-studio-exponent,
+.power-rules-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.power-studio-step,
+.power-rules-stepper button {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-primary-300);
+  background: #fff;
+  color: var(--color-primary-800);
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.power-studio-step:disabled,
+.power-rules-stepper button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.power-studio-exponent-value,
+.power-rules-stepper span {
+  min-width: 2rem;
+  text-align: center;
+  font-weight: 800;
+  color: var(--color-primary-800);
+}
+
+.power-studio-range-note {
+  color: var(--color-slate-500);
+  font-size: 0.9rem;
+}
+
+.power-studio-panel {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-slate-200);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.power-studio-panel-label,
+.power-rules-result-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.power-studio-formula,
+.power-rules-result-math,
+.priority-lab-result-math {
+  overflow-x: auto;
+}
+
+.power-studio-facts,
+.power-rules-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+}
+
+.power-studio-fact,
+.power-rules-fact {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-teal-100);
+  border-radius: 12px;
+  background: var(--color-teal-50);
+}
+
+.power-studio-fact-wide,
+.power-rules-fact-wide {
+  grid-column: 1 / -1;
+  border-color: var(--color-slate-200);
+  background: var(--color-slate-50);
+}
+
+.power-studio-fact dt,
+.power-rules-fact dt {
+  font-size: 0.85rem;
+  color: var(--color-slate-600);
+  margin-bottom: 0.25rem;
+}
+
+.power-studio-fact dd,
+.power-rules-fact dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-slate-800);
+}
+
+.power-rules-check {
+  font-weight: 500;
+}
+
+.power-studio-hint {
+  margin-top: 0.85rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  background: var(--color-primary-50);
+  border: 1px solid var(--color-primary-200);
+}
+
+.power-rules-tabs,
+.priority-lab-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.power-rules-tab,
+.priority-lab-tab {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--color-slate-300);
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+}
+
+.power-rules-tab.active,
+.priority-lab-tab.active {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+  color: var(--color-primary-800);
+  font-weight: 700;
+}
+
+.power-rules-symbolic {
+  padding: 0.85rem 1rem;
+  border: 1px dashed var(--color-primary-300);
+  border-radius: 12px;
+  background: var(--color-primary-50);
+  margin-bottom: 0.6rem;
+}
+
+.power-rules-reading {
+  margin: 0 0 1rem;
+  color: var(--color-slate-700);
+}
+
+.power-rules-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.power-rules-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.power-rules-control-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.power-rules-result {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--color-slate-200);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.power-rules-verdict {
+  margin: 1rem 0 0;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.power-rules-verdict.is-ok {
+  background: var(--color-emerald-50);
+  color: var(--color-emerald-700);
+  border: 1px solid var(--color-emerald-200);
+}
+
+.power-rules-verdict.is-bad {
+  background: var(--color-rose-50);
+  color: var(--color-rose-600);
+  border: 1px solid var(--color-rose-200);
+}
+
+.priority-lab-slider {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--color-slate-700);
+}
+
+.priority-lab-slider input[type='range'] {
+  flex: 1 1 220px;
+  max-width: 340px;
+}
+
+.priority-lab-x-value {
+  min-width: 2.5rem;
+  text-align: center;
+  font-weight: 800;
+  color: var(--color-primary-800);
+}
+
+.priority-lab-steps {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.priority-lab-step {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-slate-200);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.priority-lab-step-index {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-100);
+  color: var(--color-primary-800);
+  font-weight: 800;
+}
+
+.priority-lab-step-title {
+  flex: 1 1 200px;
+  color: var(--color-slate-700);
+}
+
+.priority-lab-step-math {
+  font-weight: 700;
+}
+
+.priority-lab-result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--color-teal-100);
+  border-radius: 12px;
+  background: var(--color-teal-50);
+}
+
+.priority-lab-result-label {
+  font-weight: 800;
+  color: var(--color-teal-700);
+}
+
+.priority-lab-result-value {
+  margin-inline-start: auto;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--color-teal-100);
+  font-weight: 800;
+  color: var(--color-teal-700);
+}
+
+.priority-lab-note {
+  margin: 1rem 0 0;
+  padding: 0.7rem 0.95rem;
+  border-radius: 12px;
+  background: var(--color-amber-50);
+  border: 1px solid var(--color-amber-100);
+  color: var(--color-amber-800);
+}
+
+@media (max-width: 640px) {
+  .power-studio-facts,
+  .power-rules-facts {
+    grid-template-columns: 1fr;
+  }
+}

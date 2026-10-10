@@ -116,7 +116,8 @@ describe('Lesson 4 Teacher Area sections', () => {
     expect(screen.getByRole('heading', { name: 'مفاتيح الإجابة (الكتاب + الاختبار)' })).toBeInTheDocument();
     expect(screen.queryByTestId(SECTION_PROGRESS)).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /الدرس 3:/ }));
+    // Two lessons carry the number 3 (Unit 1 «القسمة» and Unit 2 «قوى صحيحة لعدد نسبي»), so the tab is addressed by title.
+    fireEvent.click(screen.getByRole('button', { name: /الدرس 3: القسمة/ }));
 
     expect(screen.getByRole('heading', { name: 'أهداف الدرس' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'مفاتيح الإجابة (الكتاب + الاختبار)' })).toBeInTheDocument();

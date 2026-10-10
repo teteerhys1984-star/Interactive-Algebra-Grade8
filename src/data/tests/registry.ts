@@ -7,6 +7,7 @@ import { lesson4TestQuestions } from './unit1/lesson-4';
 import { unit1TestQuestions } from './unit1/unit-1';
 import { unit2Lesson1TestQuestions } from './unit2/lesson-1';
 import { unit2Lesson2TestQuestions } from './unit2/lesson-2';
+import { unit2Lesson3TestQuestions } from './unit2/lesson-3';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -88,6 +89,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u2-lesson-2'],
   },
+  {
+    id: 'u2-test-lesson-3',
+    type: 'lesson',
+    unitId: 'unit-2',
+    lessonId: 'u2-lesson-3',
+    title: 'اختبار الدرس الثالث: قوى صحيحة لعدد نسبي',
+    description: 'اختبر فهمك لمعنى القوة a^n وحالاتها الخاصة، والقوة السالبة، وقواعد حساب القوى الأربع، وأولويات العمليات، وتطبيقها على حجم المكعب.',
+    questionIds: unit2Lesson3TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'القوة السالبة، إشارة القوة، قواعد الضرب والقسمة وقوة الجداء وقوة الخارج، أولويات العمليات، وتطبيقات الحجم',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u2-lesson-3'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -130,6 +144,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...lesson4TestQuestions,
   ...unit2Lesson1TestQuestions,
   ...unit2Lesson2TestQuestions,
+  ...unit2Lesson3TestQuestions,
   ...unit1TestQuestions,
 ];
 
