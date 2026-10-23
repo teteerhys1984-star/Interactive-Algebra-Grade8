@@ -774,6 +774,14 @@
     "teacherSolutions": 59,
     "separateTestQuestions": 20
   },
-  "unresolvedSourcePositions": [],
-  "status": "all supplied expressions verified; one illegible word before example (p36) documented in verifyNote and not invented"
+  "unresolvedSourcePositions": [
+    {
+      "page": 36,
+      "blockId": "p36-ex-power-sqrt2",
+      "position": "قبل جملة «ونلاحظ أن 8 = √2⁶ = √64 = 8» في مثال (√2)⁶ — خاصية 3",
+      "issue": "كلمة واحدة غير مقروءة في صورة الصفحة (رمز فارغ). لم تُخمن؛ سُجلت في verifyNote وsourceNote ولم تُعرض للطالب.",
+      "resolution": "حُفظت المعادلات الرقمية الكاملة (√2)⁶ جداء 6 عوامل =8 و8=√2⁶=√64=8؛ الكلمة السابقة تُركت فارغة مع طلب صورة أوضح إن لزم التدقيق اللغوي."
+    }
+  ],
+  "status": "all supplied expressions verified; one word before example (p36, (√2)⁶) is documented as unresolved in unresolvedSourcePositions/verifyNote/sourceNote and not invented — remaining math is correct"
 }
