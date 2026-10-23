@@ -224,3 +224,17 @@
 .ta-solution-row ol li { margin-bottom: 0.25rem; }
 .ta-solution-origin { color: var(--color-slate-500); font-size: 0.85rem; }
 .ta-solution-warn { color: #92400e; background: #fffbeb; border-radius: var(--radius-sm, 6px); padding: 0.35rem 0.5rem; }
+
+/* -------------------- توثيق المصدر (للمعلّم فقط) -------------------- */
+.ta-source-notes-intro {
+  margin: 0 0 0.75rem;
+  color: var(--color-slate-600);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.ta-source-notes .ta-list li {
+  line-height: 1.8;
+}
+.ta-source-notes-where {
+  color: var(--color-slate-800);
+}

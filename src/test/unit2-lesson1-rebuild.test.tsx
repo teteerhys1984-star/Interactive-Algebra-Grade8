@@ -146,6 +146,36 @@ describe('عرض الدرس داخل التطبيق', () => {
     standard.remove();
   });
 
+  it('ملاحظة تعريف 2 المصدرية لا تظهر للطالب، بل في مساحة المعلّم فقط', () => {
+    // الخطوة الرابعة (تعريف 2) في واجهة الطالب: نصّ الكتاب والشكل + شرح المنصة، بلا توثيق داخلي.
+    const step4 = openStep(3);
+    expect(step4.querySelector('.verify-note')).toBeNull();
+    expect(step4.textContent).not.toContain('ملاحظة مصدر');
+    expect(step4.textContent).not.toContain('الشكل منقول كما في الكتاب');
+    // ما يراه الطالب بدلًا منها: شرح منصة موقّع ومحتواه الرياضي المرسوم بـKaTeX.
+    expect(step4.textContent).toContain('شرح الأستاذ');
+    expect(step4.textContent).toContain('0.001');
+    expect(step4.textContent).toContain('صفرين');
+    expect(step4.querySelector('.katex')).not.toBeNull();
+    step4.remove();
+
+    // وبند تحقّق ③ (فيه توثيق مصدري أيضًا) لا يُظهر تنبيهًا للطالب.
+    const step10 = openStep(9);
+    expect(step10.querySelector('.verify-note')).toBeNull();
+    expect(step10.textContent).not.toContain('ملاحظة مصدر');
+    step10.remove();
+
+    // وفي المقابل يظهر التوثيق كاملًا في مساحة المعلّم.
+    window.location.hash = '#/teacher';
+    const teacher = render(<App />).container;
+    fireEvent.change(screen.getByLabelText('كلمة المرور'), { target: { value: TEACHER_PASSWORD } });
+    fireEvent.click(screen.getByRole('button', { name: 'دخول' }));
+    fireEvent.click(screen.getByRole('button', { name: /الدرس 1: قوى العدد 10/ }));
+    expect(teacher.textContent).toContain('توثيق المصدر (للمعلّم)');
+    expect(teacher.textContent).toContain('الخانة n');
+    expect(teacher.textContent).toContain('محسومة');
+  });
+
   it('يعرض تبويب المعلّم للدرس الأول دون TeX خام', () => {
     window.location.hash = '#/teacher';
     const { container } = render(<App />);

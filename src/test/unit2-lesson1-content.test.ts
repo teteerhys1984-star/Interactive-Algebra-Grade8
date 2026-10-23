@@ -218,8 +218,30 @@ describe('أمثلة الصفحتين 26 و27 — مطابقة النص المخ
     const labels = def.mathFormula!.match(/n\\text\{ صفرًا\}|n\\text\{ خانة\}/g) ?? [];
     expect(labels).toHaveLength(2);
     expect(labels.every((label) => label.includes('صفرًا'))).toBe(true);
-    // الملاحظة تشرح التعارض الحسابي مع التعريف (الرقم 1 في الخانة n) دون تعديل المصدر.
+    // نصّ الكتاب لم يُعدَّل، والملاحظة المصدرية محفوظة كتوثيق (تُعرض للمعلّم فقط).
+    expect(def.content).toBe('في حالة $n\\geq1$، يرمز $10^{-n}$ إلى مقلوب $10^{n}$.');
     expect(def.verifyNote).toContain('الخانة n');
+  });
+
+  it('شرح المنصة في خطوة تعريف 2 نفسها يوضّح 10^{-n}=1/10^n و10^{-3}=0.001 وعدد الأصفار n−1', () => {
+    const step = unit2Lesson1Data.steps.find((entry) =>
+      entry.blocks.some((entryBlock) => entryBlock.id === 'p26-def2'),
+    )!;
+    // الارتباط بالخطوة الصحيحة: التعريف وشرحه في الخطوة نفسها (step-4).
+    expect(step.id).toBe('step-4');
+
+    const teach = step.blocks.find((entryBlock) => entryBlock.id === 'p26-def2-zeros-teach')!;
+    expect(teach.authored).toBe(true); // شرح منصة، لا نصّ كتاب
+    expect(teach.content).toContain('10^{-n}=\\frac{1}{10^{n}}'); // (١) تعريف القوة السالبة
+    expect(teach.content).toContain('10^{-3}=\\frac{1}{10^{3}}=\\frac{1}{1\\,000}=0.001'); // (٢) المثال
+    expect(teach.content).toContain('n-1'); // (٣) عدد الأصفار قبل الرقم 1
+    expect(teach.content).toContain('n\\geq1');
+    expect(teach.mathFormula).toContain('\\frac{1}{10^{n}}');
+    expect(teach.mathFormula).toContain('n-1\\text{ صفرًا}');
+    expect(teach.mathFormula).toContain('(n\\geq1)');
+    // القيم محققة عدديًا.
+    expect(closeTo(10 ** -3, 0.001)).toBe(true);
+    expect(String(10 ** -3)).toBe('0.001');
   });
 
   it('تحويل 2 715×10^9 و0.075×10^{-22} صحيح عدديًا', () => {
