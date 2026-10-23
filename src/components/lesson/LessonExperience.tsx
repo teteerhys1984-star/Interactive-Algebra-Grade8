@@ -120,7 +120,7 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
   const completeLabel = hasAssessment ? 'الانتقال إلى الاختبار الشامل' : 'إتمام الدرس';
 
   return (
-    <div className="lesson-layout">
+    <div className="lesson-layout" data-lesson-id={lesson.id}>
       {/* Sidebar for desktop */}
       <LessonSidebar
         lesson={lesson}

@@ -779,6 +779,231 @@
   }
 }
 
+/* Lesson 3 rebuild only: exact results stay inside their scrollable surfaces. */
+[data-lesson-id="u2-lesson-3"] .lesson-viewport,
+[data-lesson-id="u2-lesson-3"] .step-content-view,
+[data-lesson-id="u2-lesson-3"] .source-content-block {
+  min-width: 0;
+}
+
+.power-studio *,
+.power-rules-studio *,
+.priority-lab *,
+.cube-volume-lab * {
+  min-width: 0;
+}
+
+.power-lab-reset {
+  margin-top: 1rem;
+  min-height: 44px;
+  white-space: normal;
+}
+
+.power-pattern {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  direction: ltr;
+}
+
+.power-pattern-stop {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 0.75rem 0.25rem;
+  background: var(--color-primary-50);
+  border: 1px solid var(--color-primary-200);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
+.power-pattern-stop[aria-pressed="true"] {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: -2px;
+}
+
+.power-pattern-stop > span:last-child {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.priority-lab-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.priority-lab-inputs label {
+  flex: 1 1 120px;
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+
+.priority-lab-inputs select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--color-slate-300);
+  border-radius: var(--radius-md);
+  background: #fff;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+}
+
+.priority-lab-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.priority-lab-result-math {
+  flex: 1 1 180px;
+  max-width: 100%;
+}
+
+.priority-lab-step-math,
+.power-rules-check {
+  max-width: 100%;
+  overflow-x: auto;
+  padding-block: 0.4rem;
+}
+
+.cube-volume-lab {
+  margin-top: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-teal-200);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--color-teal-50), #fff);
+}
+
+.cube-volume-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 1.25rem;
+}
+
+.cube-volume-controls label {
+  display: grid;
+  flex: 1 1 200px;
+  gap: 0.75rem;
+  font-weight: 700;
+}
+
+.cube-volume-controls input {
+  width: 100%;
+  min-height: 36px;
+  accent-color: var(--color-teal-600);
+}
+
+.cube-volume-scales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border: 0;
+}
+
+.cube-volume-scales legend {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.cube-volume-scales label {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.4rem 0.6rem;
+  background: #fff;
+  border: 1px solid var(--color-teal-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.cube-volume-visual {
+  max-width: 440px;
+  margin: 0.5rem auto 1.5rem;
+}
+
+.cube-volume-visual svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cube-volume-shape polygon { stroke: var(--color-primary-600); stroke-width: 1.5px; }
+.cube-face-left { fill: #dbeafe; }
+.cube-face-right { fill: #93c5fd; }
+.cube-face-top { fill: #eff6ff; }
+.cube-volume-shape.scaled polygon { stroke: var(--color-teal-600); }
+.scaled .cube-face-left { fill: #ccfbf1; }
+.scaled .cube-face-right { fill: #5eead4; }
+.scaled .cube-face-top { fill: #f0fdfa; }
+
+.cube-volume-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  font-weight: 700;
+}
+
+.cube-volume-equations h4 { margin-top: 1rem; }
+.cube-volume-result { font-weight: 700; margin-top: 1rem; }
+
+.power-studio button:focus-visible,
+.power-rules-studio button:focus-visible,
+.priority-lab :is(button, select, input):focus-visible,
+.cube-volume-lab :is(button, input):focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .power-studio, .power-rules-studio, .priority-lab, .cube-volume-lab { padding: 0.75rem; }
+  .power-rules-controls, .priority-lab-comparison { grid-template-columns: minmax(0, 1fr); }
+  .power-pattern { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .power-studio-panel, .power-rules-symbolic, .power-rules-result { padding: 0.6rem; }
+  .power-studio-base, .power-rules-choice { min-height: 44px; }
+  [data-lesson-id="u2-lesson-3"] .source-ref-tag { white-space: normal; }
+  [data-lesson-id="u2-lesson-3"] .block-header { flex-wrap: wrap; }
+  [data-lesson-id="u2-lesson-3"] .math-block-isolated { max-width: 100%; padding-inline: 0.5rem; }
+}
+
+/* The shared breadcrumb overflows at 360px. Fix ONLY this lesson's shell,
+   rather than hiding page overflow or changing the header for other lessons. */
+@media (max-width: 900px) {
+  .app-container:has([data-lesson-id="u2-lesson-3"]) .header-inner {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .app-container:has([data-lesson-id="u2-lesson-3"]) .brand-section {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .app-container:has([data-lesson-id="u2-lesson-3"]) .header-nav-actions {
+    flex: 1 1 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .app-container:has([data-lesson-id="u2-lesson-3"]) .header-nav-actions > .nav-btn:not(.header-test-nav) {
+    flex: 1 1 100%;
+    order: 2;
+    flex-wrap: wrap;
+    font-size: 0.75rem;
+  }
+  .app-container:has([data-lesson-id="u2-lesson-3"]) :is(.mobile-drawer-toggle, .header-test-nav) {
+    min-height: 44px;
+  }
+}
+@media (max-width: 640px) {
+  /* The instructor credit remains in the footer; keep the lesson controls usable. */
+  .app-container:has([data-lesson-id="u2-lesson-3"]) .header-instructor-badge { display: none; }
+}
+
 /* ─────────────────────────────────────────────────────────────
    الوحدة الثانية — الدرس الأول: قوى العدد 10 (الصفحات 26–28)
    ثلاثة مكوّنات جديدة: إطارات النشاط، مختبر القوة السالبة،

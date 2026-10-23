@@ -1,0 +1,570 @@
+{
+  "lessonId": "u2-lesson-3",
+  "lesson": "قوى صحيحة لعدد نسبي",
+  "sourcePages": [
+    32,
+    33,
+    34
+  ],
+  "sourceFiles": [
+    {
+      "file": "image-1.png",
+      "page": 32,
+      "sha256": "e0587ee8b1b886622ddd44ab55f3550d1e4056492f7545626700e864241221ed"
+    },
+    {
+      "file": "image-2.png",
+      "page": 33,
+      "sha256": "d0b9dbf62269c1fe3935d03586b5b0af653025da1c67baeb476a3ca04aec44e1"
+    },
+    {
+      "file": "image-3.png",
+      "page": 34,
+      "sha256": "f77baa9ba86f4be09fc8def0bedc36f05cbb9fd65d9c4f08341cf44ce054da48"
+    }
+  ],
+  "startBoundary": {
+    "lessonBeginsOn": 32,
+    "evidence": "عنوان الدرس ③ «قوى صحيحة لعدد نسبي» أعلى ص32 يسبق النشاط والتعريفات.",
+    "activityIsPartOfLesson": "نشاط «إدخال واستعمال العدد aⁿ» تحت عنوان الدرس نفسه.",
+    "separateWarmup": "انطلاقة نشطة ص25 تبقى في warmup.ts؛ لا توجد انطلاقة نشطة في الصور الثلاث."
+  },
+  "bookBlockSequence": [
+    "p32-activity-intro",
+    "p32-activity-products-same-base",
+    "p32-activity-quotients",
+    "p32-activity-products-different-base",
+    "p32-activity-question-2",
+    "p32-def1-power",
+    "p32-def1-zero",
+    "p32-def1-special",
+    "p32-example-negative-base",
+    "p32-def2-reciprocal",
+    "p32-example-negative-power",
+    "p32-rule-product",
+    "p32-rule-product-power",
+    "p33-rule-quotient",
+    "p33-rule-quotient-power",
+    "p33-knowledge-priority",
+    "p33-example-instruction",
+    "p33-example-A",
+    "p33-example-B",
+    "p33-example-C",
+    "p34-check-1",
+    "p34-check-2",
+    "p34-check-3",
+    "p34-drill-1",
+    "p34-drill-2",
+    "p34-drill-3",
+    "p34-drill-4"
+  ],
+  "exerciseGroups": [
+    {
+      "page": 32,
+      "blockId": "p32-activity-products-same-base",
+      "section": "نشاط",
+      "item": "1 • ①–③",
+      "items": [
+        {
+          "label": "①",
+          "math": "5^{3}\\times5^{2}",
+          "answer": "5^5=3\\,125",
+          "value": "3125"
+        },
+        {
+          "label": "②",
+          "math": "7^{2}\\times7^{1}",
+          "answer": "7^3=343",
+          "value": "343"
+        },
+        {
+          "label": "③",
+          "math": "8^{5}\\times8^{2}",
+          "answer": "8^7=2\\,097\\,152",
+          "value": "2097152"
+        }
+      ]
+    },
+    {
+      "page": 32,
+      "blockId": "p32-activity-quotients",
+      "section": "نشاط",
+      "item": "1 • ④–⑥",
+      "items": [
+        {
+          "label": "④",
+          "math": "\\frac{5^{3}}{5^{2}}",
+          "answer": "5^1=5",
+          "value": "5"
+        },
+        {
+          "label": "⑤",
+          "math": "\\frac{7^{2}}{7^{3}}",
+          "answer": "7^{-1}=\\frac17",
+          "value": "1/7"
+        },
+        {
+          "label": "⑥",
+          "math": "\\frac{8^{4}}{8^{1}}",
+          "answer": "8^3=512",
+          "value": "512"
+        }
+      ]
+    },
+    {
+      "page": 32,
+      "blockId": "p32-activity-products-different-base",
+      "section": "نشاط",
+      "item": "1 • ⑦–⑨",
+      "items": [
+        {
+          "label": "⑦",
+          "math": "3^{3}\\times5^{3}",
+          "answer": "15^3=3\\,375",
+          "value": "3375"
+        },
+        {
+          "label": "⑧",
+          "math": "7^{2}\\times5^{2}",
+          "answer": "35^2=1\\,225",
+          "value": "1225"
+        },
+        {
+          "label": "⑨",
+          "math": "4^{3}\\times6^{3}",
+          "answer": "24^3=13\\,824",
+          "value": "13824"
+        }
+      ]
+    },
+    {
+      "page": 34,
+      "blockId": "p34-check-1",
+      "section": "تحقّق من فهمك",
+      "item": "①",
+      "items": [
+        {
+          "label": "①",
+          "math": "3\\times3\\times3\\times3\\times3\\times3\\times3",
+          "answer": "3^7",
+          "value": "2187"
+        },
+        {
+          "label": "②",
+          "math": "1.3\\times1.3\\times1.3\\times1.3\\times1.3",
+          "answer": "1.3^5",
+          "value": "371293/100000"
+        }
+      ]
+    },
+    {
+      "page": 34,
+      "blockId": "p34-check-2",
+      "section": "تحقّق من فهمك",
+      "item": "②",
+      "items": [
+        {
+          "label": "①",
+          "math": "5^2",
+          "answer": "25",
+          "value": "25"
+        },
+        {
+          "label": "②",
+          "math": "5^{-2}",
+          "answer": "\\frac1{25}=0.04",
+          "value": "1/25"
+        },
+        {
+          "label": "③",
+          "math": "(-9)^2",
+          "answer": "81",
+          "value": "81"
+        },
+        {
+          "label": "④",
+          "math": "\\left(\\frac25\\right)^2",
+          "answer": "\\frac4{25}=0.16",
+          "value": "4/25"
+        },
+        {
+          "label": "⑤",
+          "math": "\\left(-\\frac14\\right)^3",
+          "answer": "-\\frac1{64}",
+          "value": "-1/64"
+        },
+        {
+          "label": "⑥",
+          "math": "(-2)^{-5}",
+          "answer": "-\\frac1{32}",
+          "value": "-1/32"
+        }
+      ]
+    },
+    {
+      "page": 34,
+      "blockId": "p34-check-3",
+      "section": "تحقّق من فهمك",
+      "item": "③",
+      "items": [
+        {
+          "label": "①",
+          "math": "5^3\\times5^2",
+          "answer": "5^5",
+          "value": "3125"
+        },
+        {
+          "label": "②",
+          "math": "(-4)^3\\times(-4)^5",
+          "answer": "(-4)^8",
+          "value": "65536"
+        },
+        {
+          "label": "③",
+          "math": "8^2\\times8^3\\times8^5",
+          "answer": "8^{10}",
+          "value": "1073741824"
+        },
+        {
+          "label": "④",
+          "math": "3^4\\times3^{-2}",
+          "answer": "3^2",
+          "value": "9"
+        },
+        {
+          "label": "⑤",
+          "math": "\\frac{7^3}{7^2}",
+          "answer": "7^1",
+          "value": "7"
+        },
+        {
+          "label": "⑥",
+          "math": "\\left(\\frac23\\right)^3\\times\\left(\\frac23\\right)^2\\times\\left(\\frac23\\right)^7",
+          "answer": "\\left(\\frac23\\right)^{12}",
+          "value": "4096/531441"
+        }
+      ]
+    },
+    {
+      "page": 34,
+      "blockId": "p34-drill-1",
+      "section": "تدرّب",
+      "item": "①",
+      "items": [
+        {
+          "label": "①",
+          "math": "(-2)\\times(-2)\\times(-2)",
+          "answer": "(-2)^3",
+          "value": "-8"
+        },
+        {
+          "label": "②",
+          "math": "25",
+          "answer": "5^2",
+          "value": "25"
+        },
+        {
+          "label": "③",
+          "math": "-32",
+          "answer": "(-2)^5",
+          "value": "-32"
+        }
+      ]
+    },
+    {
+      "page": 34,
+      "blockId": "p34-drill-2",
+      "section": "تدرّب",
+      "item": "②",
+      "items": [
+        {
+          "label": "①",
+          "math": "1^9",
+          "answer": "1",
+          "value": "1"
+        },
+        {
+          "label": "②",
+          "math": "3^{-3}",
+          "answer": "\\frac1{27}",
+          "value": "1/27"
+        },
+        {
+          "label": "③",
+          "math": "(-0.4)^2",
+          "answer": "\\frac4{25}=0.16",
+          "value": "4/25"
+        },
+        {
+          "label": "④",
+          "math": "\\left(\\frac{-3}{-4}\\right)^3",
+          "answer": "\\frac{27}{64}",
+          "value": "27/64"
+        },
+        {
+          "label": "⑤",
+          "math": "\\left(-\\frac23\\right)^2",
+          "answer": "\\frac49",
+          "value": "4/9"
+        },
+        {
+          "label": "⑥",
+          "math": "(-0.4)^{-3}",
+          "answer": "-\\frac{125}{8}=-15.625",
+          "value": "-125/8"
+        }
+      ]
+    },
+    {
+      "page": 34,
+      "blockId": "p34-drill-3",
+      "section": "تدرّب",
+      "item": "③",
+      "items": [
+        {
+          "label": "①",
+          "math": "2^{-3}\\times2^{-4}",
+          "answer": "2^{-7}",
+          "value": "1/128"
+        },
+        {
+          "label": "②",
+          "math": "6^4\\times6^{-7}",
+          "answer": "6^{-3}",
+          "value": "1/216"
+        },
+        {
+          "label": "③",
+          "math": "(-7)^{-4}\\times(-7)^2\\times(-7)^{-3}",
+          "answer": "(-7)^{-5}",
+          "value": "-1/16807"
+        },
+        {
+          "label": "④",
+          "math": "\\frac{2^5}{2^3}",
+          "answer": "2^2",
+          "value": "4"
+        },
+        {
+          "label": "⑤",
+          "math": "\\frac{-10}{(-10)^4}",
+          "answer": "(-10)^{-3}",
+          "value": "-1/1000"
+        },
+        {
+          "label": "⑥",
+          "math": "\\left(-\\frac57\\right)^2\\times\\left(-\\frac57\\right)^3\\times\\left(-\\frac57\\right)",
+          "answer": "\\left(-\\frac57\\right)^6",
+          "value": "15625/117649"
+        }
+      ]
+    },
+    {
+      "page": 34,
+      "blockId": "p34-drill-4",
+      "section": "تدرّب",
+      "item": "④",
+      "items": [
+        {
+          "label": "حل المنصة",
+          "math": null,
+          "answer": "V=3\\,375\\;\\text{cm}^3",
+          "value": "3375"
+        }
+      ]
+    }
+  ],
+  "printedExamples": [
+    {
+      "blockId": "p32-example-negative-base",
+      "subIndex": null,
+      "math": "(-7)^3=(-7)\\times(-7)\\times(-7)=-343",
+      "answer": "-343",
+      "value": "-343"
+    },
+    {
+      "blockId": "p32-example-negative-power",
+      "subIndex": null,
+      "math": "3^{-2}=\\frac{1}{3^2}=\\frac{1}{9}",
+      "answer": "\\frac19",
+      "value": "1/9"
+    },
+    {
+      "blockId": "p32-rule-product",
+      "subIndex": 0,
+      "math": "a^3\\times a^5=a^{3+5}=a^8",
+      "answer": "a^8",
+      "value": null
+    },
+    {
+      "blockId": "p32-rule-product-power",
+      "subIndex": 0,
+      "math": "(2\\times y)^3=2^3\\times y^3=8y^3",
+      "answer": "8y^3",
+      "value": null
+    },
+    {
+      "blockId": "p33-rule-quotient",
+      "subIndex": 0,
+      "math": "\\frac{a^2}{a^3}=a^{2-3}=a^{-1}=\\frac1a",
+      "answer": "a^{-1}=\\frac1a",
+      "value": null
+    },
+    {
+      "blockId": "p33-rule-quotient-power",
+      "subIndex": 0,
+      "math": "\\left(\\frac32\\right)^3=\\frac{3^3}{2^3}=\\frac{27}{8}",
+      "answer": "\\frac{27}{8}",
+      "value": "27/8"
+    },
+    {
+      "blockId": "p33-example-A",
+      "subIndex": null,
+      "math": "A=(5\\times4)^3=20^3=8\\,000",
+      "answer": "A=8\\,000",
+      "value": "8000"
+    },
+    {
+      "blockId": "p33-example-B",
+      "subIndex": null,
+      "math": "B=5\\times4^3=5\\times64=320",
+      "answer": "B=320",
+      "value": "320"
+    },
+    {
+      "blockId": "p33-example-C",
+      "subIndex": null,
+      "math": "\\begin{aligned}C&=5(-4)^3+6(-4)^2-10\\\\&=5\\times(-64)+6\\times16-10\\\\&=-320+96-10\\\\&=-234\\end{aligned}",
+      "answer": "C=-234",
+      "value": "-234"
+    }
+  ],
+  "definitionAudit": [
+    {
+      "blockId": "p32-def1-power",
+      "printed": "n\\ge2; a^n=a\\times\\cdots\\times a (n factors)",
+      "condition": "n عدد طبيعي؛ التعريف بالتكرار لا يشمل الأس السالب"
+    },
+    {
+      "blockId": "p32-def1-zero",
+      "printed": "a^1=a; a\\ne0\\Rightarrow a^0=1",
+      "condition": "شرط a≠0 يخص القوة الصفرية"
+    },
+    {
+      "blockId": "p32-def1-special",
+      "printed": "1^1=1; n\\ne0, 0^n=0",
+      "condition": "حُفظ 1^1 كما في الصورة؛ التعميم 1^n من المنصة. 0^n=0 للأس الصحيح الموجب فقط."
+    },
+    {
+      "blockId": "p32-def2-reciprocal",
+      "printed": "a\\ne0; a^{-n}=1/a^n; a^{-1}=1/a",
+      "condition": "الأساس غير صفر؛ n موجب في تفسير القوة السالبة"
+    }
+  ],
+  "corrections": [
+    {
+      "blockId": "p32-activity-quotients",
+      "subIndex": 2,
+      "location": "ص32 • نشاط 1 • ⑥",
+      "note": "النقل القديم عكس البسط والمقام. الصورة تعرض $\\frac{8^4}{8^1}$، والناتج $8^3=512$ وليس $8^{-3}$."
+    },
+    {
+      "blockId": "p32-def1-zero",
+      "subIndex": null,
+      "location": "ص32 • تعريف القوة • السطر الثاني",
+      "note": "أُعيدت العبارة المطبوعة $a^1=a$ التي أسقطها النقل القديم، مع شرط $a\\ne0$ على $a^0=1$."
+    },
+    {
+      "blockId": "p34-check-1",
+      "subIndex": 0,
+      "location": "ص34 • تحقّق من فهمك ① • ①",
+      "note": "الصورة تعرض سبعة عوامل من 3 (ست علامات ضرب)، لا ستة؛ الجواب $3^7$ لا $3^6$."
+    },
+    {
+      "blockId": "p34-check-3",
+      "subIndex": 0,
+      "location": "ص34 • تحقّق من فهمك ③ • ①",
+      "note": "الصحيح $5^3\\times5^2$، وليس $5^4\\times5^2$؛ الجواب $5^5$."
+    },
+    {
+      "blockId": "p34-check-3",
+      "subIndex": 1,
+      "location": "ص34 • تحقّق من فهمك ③ • ②",
+      "note": "الأس الثاني 5، لا 2؛ الصحيح $(-4)^3\\times(-4)^5=(-4)^8$."
+    },
+    {
+      "blockId": "p34-check-3",
+      "subIndex": 4,
+      "location": "ص34 • تحقّق من فهمك ③ • ⑤",
+      "note": "أس البسط 3، لا 6؛ الصحيح $\\frac{7^3}{7^2}=7^1$."
+    },
+    {
+      "blockId": "p34-check-3",
+      "subIndex": 5,
+      "location": "ص34 • تحقّق من فهمك ③ • ⑥",
+      "note": "الأسس بالترتيب 3، 2، 7، وليست 2، 2، 2؛ الناتج $(\\frac23)^{12}$."
+    },
+    {
+      "blockId": "p34-drill-1",
+      "subIndex": 0,
+      "location": "ص34 • تدرّب ① • ①",
+      "note": "ثلاثة عوامل من $-2$ في المصدر لا أربعة؛ الجواب $(-2)^3$."
+    },
+    {
+      "blockId": "p34-drill-2",
+      "subIndex": 0,
+      "location": "ص34 • تدرّب ② • ①",
+      "note": "الصورة تعرض $1^9$، لا $9^{-1}$؛ الناتج 1."
+    },
+    {
+      "blockId": "p34-drill-2",
+      "subIndex": 3,
+      "location": "ص34 • تدرّب ② • ④",
+      "note": "الكسر المطبوع $\\frac{-3}{-4}$ ذو إشارتين سالبتين، لا $-\\frac34$؛ مكعبه موجب $\\frac{27}{64}$."
+    },
+    {
+      "blockId": "p34-drill-3",
+      "subIndex": 1,
+      "location": "ص34 • تدرّب ③ • ②",
+      "note": "الأس الثاني $-7$ لا 7؛ الناتج $6^{-3}$ لا $6^{11}$."
+    },
+    {
+      "blockId": "p34-drill-3",
+      "subIndex": 2,
+      "location": "ص34 • تدرّب ③ • ③",
+      "note": "الأسس $-4$، 2، $-3$؛ أُعيدت الإشارتان السالبتان اللتان أسقطهما النقل القديم. الناتج $(-7)^{-5}$."
+    },
+    {
+      "blockId": "p34-drill-3",
+      "subIndex": 3,
+      "location": "ص34 • تدرّب ③ • ④",
+      "note": "أس المقام 3 لا 2؛ الناتج $2^{5-3}=2^2$."
+    },
+    {
+      "blockId": "p34-drill-3",
+      "subIndex": 5,
+      "location": "ص34 • تدرّب ③ • ⑥",
+      "note": "الأس الأول 2 لا 4؛ العامل الأخير بلا أس ظاهر (أسه الضمني 1)، فيكون المجموع $2+3+1=6$."
+    }
+  ],
+  "sourceInterpretationNotes": [
+    {
+      "page": 32,
+      "position": "تعلّم، التعريف الأول، السطر الثالث",
+      "printed": "1^1=1; 0^n=0 (n\\ne0)",
+      "resolution": "النص مقروء وليس غامضًا. شرط n≠0 ضمن التعريف الطبيعي لا يصلح كتعميم لكل أس صحيح. الطالب يرى النقل ويتبعه التوضيح n>0؛ التوثيق التحريري للمعلم فقط."
+    }
+  ],
+  "independentRecalculation": {
+    "method": "قوبلت جميع الصيغ بالصور المكبّرة، وأعيدت النتائج بكسور دقيقة وبطرق بديلة؛ الاختبارات تقارن الصيغ والمفاتيح والحلول وتعيد حساب المساويات دون استعمال دوال حساب المنصة.",
+    "activityItems": 9,
+    "checkItems": 14,
+    "drillItems": 16,
+    "cube": "(3/2 dm = 15 cm); 15^3=3375 cm^3; (27/8)×1000=3375",
+    "exampleC": "5×(-64)+6×16-10=-320+96-10=-234",
+    "teacherSolutions": 54,
+    "separateTestQuestions": 20
+  },
+  "unresolvedSourcePositions": [],
+  "status": "all supplied expressions verified; one legible domain statement requires the documented pedagogical qualification"
+}

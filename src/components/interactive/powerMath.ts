@@ -24,16 +24,26 @@ export const gcd = (left: number, right: number): number => {
   return a === 0 ? 1 : a;
 };
 
-/** قوة عدد صحيح بأس غير سالب. */
+/** قوة عدد صحيح بأس غير سالب؛ لا تقريب صامت ولا أس كسري في هذا الدرس. */
 export const intPow = (base: number, exponent: number): number => {
+  if (!Number.isSafeInteger(base) || !Number.isSafeInteger(exponent) || exponent < 0 || (base === 0 && exponent === 0)) {
+    throw new RangeError('Integer power requires a safe integer base and a non-negative integer exponent.');
+  }
   let result = 1;
-  for (let i = 0; i < exponent; i += 1) result *= base;
+  for (let i = 0; i < exponent; i += 1) {
+    result *= base;
+    if (!Number.isSafeInteger(result)) throw new RangeError('Power exceeds exact integer range.');
+  }
   return result;
 };
 
 /** كسر في أبسط صورة وبإشارة على البسط. */
 export const normalise = (num: number, den: number): ExactFraction => {
-  if (den === 0) return { num, den: 1 };
+  if (den === 0) throw new RangeError('Division by zero is undefined.');
+  if (!Number.isSafeInteger(num) || !Number.isSafeInteger(den)) {
+    throw new RangeError('Exact fractions require safe integer terms.');
+  }
+  if (num === 0) return { num: 0, den: 1 };
   const sign = den < 0 ? -1 : 1;
   const divisor = gcd(num, den) || 1;
   return { num: (sign * num) / divisor, den: Math.abs(den) / divisor };
@@ -41,6 +51,9 @@ export const normalise = (num: number, den: number): ExactFraction => {
 
 /** (بسط/مقام) مرفوعًا إلى أس صحيح موجب أو سالب. */
 export const fractionPower = (base: ExactFraction, exponent: number): ExactFraction => {
+  if (!Number.isSafeInteger(exponent) || base.den === 0 || (base.num === 0 && exponent <= 0)) {
+    throw new RangeError('This power is undefined in the lesson domain.');
+  }
   const steps = Math.abs(exponent);
   const numPow = intPow(base.num, steps);
   const denPow = intPow(base.den, steps);
@@ -66,6 +79,7 @@ export const signedFractionTex = (value: ExactFraction): string =>
 
 /** هل العدد العشري منتهٍ (المقام قوته من 2 و5 فقط)؟ */
 export const terminatingDecimalDigits = (den: number): number | null => {
+  if (!Number.isSafeInteger(den) || den <= 0) throw new RangeError('Expected a positive integer denominator.');
   let rest = den;
   let twos = 0;
   let fives = 0;
