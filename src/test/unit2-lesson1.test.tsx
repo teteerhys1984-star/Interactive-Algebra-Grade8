@@ -18,7 +18,7 @@ describe('Unit 2, Lesson 1 — registration and structure', () => {
     expect(unit!.sourcePages).toEqual([25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]);
     expect(unit!.warmup.id).toBe('warmup');
     expect(unit!.warmup.sourcePages).toEqual([25]);
-    expect(unit!.lessons.map((lesson) => lesson.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3', 'u2-lesson-4']);
+    expect(unit!.lessons.map((lesson) => lesson.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3', 'u2-lesson-4', 'u2-lesson-5']);
     expect(getLessonById('unit-2', 'u2-lesson-1')?.title).toBe('قوى العدد 10');
   });
 

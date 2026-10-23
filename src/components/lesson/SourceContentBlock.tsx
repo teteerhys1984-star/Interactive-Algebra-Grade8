@@ -144,7 +144,8 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
     }
   };
 
-  const formatSourceRef = (ref: { page: number; section: string; item?: string }) => {
+  const formatSourceRef = (ref: { page: number; section: string; item?: string; display?: string }) => {
+    if (ref.display) return ref.display;
     if (ref.item) {
       return `صفحة ${ref.page} • ${ref.section} • ${ref.item}`;
     }
@@ -350,7 +351,7 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
                   </div>
                 )}
                 {/* ملاحظة توثيق المصدر للبند (item.verifyNote) للمعلّم فقط. */}
-                {item.solution && (
+                {(item.solution || item.solutionText || item.working?.length) && (
                   <div style={{ marginTop: '0.75rem' }}>
                     <button
                       className="reveal-btn"
@@ -374,7 +375,19 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
                           <CheckCircle size={16} />
                           <span>خطوات الحل والنتيجة:</span>
                         </div>
-                        <Math math={item.solution} display />
+                        {item.solutionText && (
+                          <div style={{ marginBottom: '0.5rem' }}>
+                            <MathText text={item.solutionText} />
+                          </div>
+                        )}
+                        {item.solution && <Math math={item.solution} display />}
+                        {item.working && item.working.length > 0 && (
+                          <ol className="solution-working">
+                            {item.working.map((line, workingIndex) => (
+                              <li key={workingIndex}><MathText text={line} /></li>
+                            ))}
+                          </ol>
+                        )}
                         {item.explanation && (
                           <div style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>
                             <MathText text={item.explanation} />

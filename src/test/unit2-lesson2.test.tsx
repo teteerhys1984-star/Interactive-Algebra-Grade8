@@ -137,7 +137,7 @@ beforeEach(() => {
 describe('Unit 2 Lesson 2 — curriculum and source sequence', () => {
   it('registers once after Lesson 1 and preserves the separate Unit 2 warm-up', () => {
     const unit = getUnitById('unit-2')!;
-    expect(unit.lessons.map((entry) => entry.id)).toEqual(['u2-lesson-1', LESSON_ID, 'u2-lesson-3', 'u2-lesson-4']);
+    expect(unit.lessons.map((entry) => entry.id)).toEqual(['u2-lesson-1', LESSON_ID, 'u2-lesson-3', 'u2-lesson-4', 'u2-lesson-5']);
     expect(unit.lessons.filter((entry) => entry.id === LESSON_ID)).toHaveLength(1);
     expect(getLessonById('unit-2', LESSON_ID)).toBe(unit2Lesson2Data);
     expect(lesson.title).toBe('قواعد قوى العدد 10');

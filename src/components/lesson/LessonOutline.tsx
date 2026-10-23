@@ -84,7 +84,7 @@ export const LessonOutline: React.FC<LessonOutlineProps> = ({
                             <MathText text={step.title} />
                           </div>
                           <div className="outline-step-meta">
-                            <span>صفحة {step.sourcePages.join('، ')}</span>
+                            <span>{step.sourceLabel ?? `صفحة ${step.sourcePages.join('، ')}`}</span>
                           </div>
                         </div>
                       </button>

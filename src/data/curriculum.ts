@@ -8,6 +8,7 @@ import { unit2Lesson1Data } from './unit2/lesson01';
 import { unit2Lesson2Data } from './unit2/lesson02';
 import { unit2Lesson3Data } from './unit2/lesson03';
 import { unit2Lesson4Data } from './unit2/lesson04';
+import { unit2Lesson5Data } from './unit2/lesson05';
 
 export interface UnitData {
   id: string;
@@ -36,7 +37,7 @@ export const curriculum: UnitData[] = [
     description: 'الوحدة الثانية من كتاب الجبر للصف الثامن: قوى العدد 10 بأسس موجبة وسالبة، والصيغة المعيارية للأعداد العشرية، والقوى الصحيحة لعدد نسبي، والجذور التربيعية.',
     sourcePages: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37],
     warmup: unit2WarmupData,
-    lessons: [unit2Lesson1Data, unit2Lesson2Data, unit2Lesson3Data, unit2Lesson4Data],
+    lessons: [unit2Lesson1Data, unit2Lesson2Data, unit2Lesson3Data, unit2Lesson4Data, unit2Lesson5Data],
   },
 ];
 

@@ -207,6 +207,25 @@
   border-color: var(--color-emerald-200);
 }
 
+/* «ملاحظة ذكية» و«خطأ شائع»: قسمان اختياريان يظهران بعد الحل */
+.exercise-insight {
+  border-color: #ddd6fe;
+}
+
+.exercise-insight .exercise-section-title {
+  background-color: #f5f3ff;
+  color: #5b21b6;
+}
+
+.exercise-mistake {
+  border-color: var(--color-rose-200);
+}
+
+.exercise-mistake .exercise-section-title {
+  background-color: var(--color-rose-50);
+  color: #9f1239;
+}
+
 .exercise-result .exercise-section-title {
   background-color: var(--color-emerald-50);
   color: #065f46;

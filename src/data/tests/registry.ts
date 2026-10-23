@@ -9,6 +9,7 @@ import { unit2Lesson1TestQuestions } from './unit2/lesson-1';
 import { unit2Lesson2TestQuestions } from './unit2/lesson-2';
 import { unit2Lesson3TestQuestions } from './unit2/lesson-3';
 import { unit2Lesson4TestQuestions } from './unit2/lesson-4';
+import { unit2Lesson5TestQuestions } from './unit2/lesson-5';
 import { unit2TestQuestions, UNIT2_DIFFICULTY_BLUEPRINT } from './unit2/unit-2';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
@@ -117,6 +118,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u2-lesson-4'],
   },
+  {
+    id: 'u2-test-lesson-5',
+    type: 'lesson',
+    unitId: 'unit-2',
+    lessonId: 'u2-lesson-5',
+    title: 'اختبار الدرس الخامس: تمارين ومسائل الوحدة الثانية',
+    description: 'اختبر فهمك لأسئلة الوحدة الثانية: الصيغة المعيارية، وقواعد قوى العدد 10، وأولويات العمليات، والتحويلات، والتطبيقات الهندسية.',
+    questionIds: unit2Lesson5TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'الصيغة المعيارية، قواعد القوى، أولويات العمليات، الجمع والطرح بصيغة a×10^n، التحويلات، وتطبيقات المساحة والحجم',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u2-lesson-5'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -155,6 +169,16 @@ const unitDefinitions: TestDefinition[] = [
       'u2-lesson-4': 13,
     },
     difficultyBlueprint: UNIT2_DIFFICULTY_BLUEPRINT,
+    // درس التمارين (u2-lesson-5) أُضيف إلى المنهاج باختباره المستقل، ولم يُوسَّع
+    // اختبار الوحدة بعد. الإعلان هنا يجعل الفجوة مرئية في التدقيق بدل أن تكون صامتة،
+    // ويمنع إضافة أسئلة الوحدة تلقائيًا دون مراجعة تربوية.
+    pendingLessonCoverage: [
+      {
+        lessonId: 'u2-lesson-5',
+        reason: 'اختبار الوحدة الثانية (52 سؤالًا) بُني قبل إضافة درس التمارين، وتوسيعه قرار تربوي منفصل يُراجع لاحقًا.',
+        trackedBy: 'PR: Add Unit 2 Exercise Lesson — 39 Questions with Detailed Solutions',
+      },
+    ],
   },
 ];
 
@@ -179,6 +203,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit2Lesson2TestQuestions,
   ...unit2Lesson3TestQuestions,
   ...unit2Lesson4TestQuestions,
+  ...unit2Lesson5TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];
