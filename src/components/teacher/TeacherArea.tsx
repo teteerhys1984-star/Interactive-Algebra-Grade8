@@ -41,7 +41,7 @@ const collectSourceNotes = (lesson: LessonData): { where: string; note: string }
     step.blocks.forEach((block) => {
       const ref = block.sourceRef;
       const where = ref
-        ? `صفحة ${ref.page} • ${ref.section}${ref.item ? ` • ${ref.item}` : ''}`
+        ? (ref.display ?? `صفحة ${ref.page} • ${ref.section}${ref.item ? ` • ${ref.item}` : ''}`)
         : step.title;
       if (block.verifyNote) entries.push({ where: `${where} — ${block.title}`, note: block.verifyNote });
       block.subItems?.forEach((item) => {
@@ -79,7 +79,9 @@ const TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaData }> = 
     <div className="ta-lesson-head">
       <span className="step-num-badge">الدرس {lesson.number}</span>
       <h2>{lesson.title}</h2>
-      <span className="source-page-badge">الصفحات {lesson.sourcePages.join('، ')}</span>
+      <span className="source-page-badge">
+        {lesson.sourcePages.length > 0 ? `الصفحات ${lesson.sourcePages.join('، ')}` : (lesson.sourceLabel ?? '')}
+      </span>
     </div>
 
     <section className="ta-section">
@@ -145,7 +147,9 @@ const TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaData }> = 
               {group.items.map((it, ii) => (
                 <div key={ii} className="ta-key-item">
                   <span className="ta-key-ref">{it.ref}</span>
-                  <span className="ta-key-answer"><Math math={it.answer} /></span>
+                  <span className="ta-key-answer">
+                    {it.answer ? <Math math={it.answer} /> : <MathText text={it.answerText ?? ''} />}
+                  </span>
                   {it.note && <span className="ta-key-note"><MathText text={it.note} /></span>}
                 </div>
               ))}
@@ -259,7 +263,9 @@ const Lesson4TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaDat
           <div className="ta-lesson-head">
             <span className="step-num-badge">الدرس {lesson.number}</span>
             <h2>{lesson.title}</h2>
-            <span className="source-page-badge">الصفحات {lesson.sourcePages.join('، ')}</span>
+            <span className="source-page-badge">
+        {lesson.sourcePages.length > 0 ? `الصفحات ${lesson.sourcePages.join('، ')}` : (lesson.sourceLabel ?? '')}
+      </span>
           </div>
 
           <section className="ta-section">

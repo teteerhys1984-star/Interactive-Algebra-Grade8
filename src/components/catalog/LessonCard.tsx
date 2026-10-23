@@ -41,7 +41,11 @@ export const LessonCard: React.FC<LessonCardProps> = ({ unitId, lesson, unitNumb
             <span>الدرس {lesson.number}</span>
           </span>
         )}
-        <span className="lesson-pages">الصفحات {lesson.sourcePages.join('، ')}</span>
+        {lesson.sourcePages.length > 0 ? (
+          <span className="lesson-pages">الصفحات {lesson.sourcePages.join('، ')}</span>
+        ) : (
+          lesson.sourceLabel && <span className="lesson-pages">{lesson.sourceLabel}</span>
+        )}
       </div>
 
       <h3 className="lesson-card-title">{lesson.title}</h3>

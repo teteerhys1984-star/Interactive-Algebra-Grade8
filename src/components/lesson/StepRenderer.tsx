@@ -50,7 +50,7 @@ export const StepRenderer: React.FC<StepRendererProps> = ({
             {group ? 'السؤال' : 'الخطوة'} {stepIndex + 1} من {totalSteps}
           </span>
           <span className="source-page-badge">
-            كتاب الطالب: صفحة {step.sourcePages.join('، ')}
+            {step.sourceLabel ?? `كتاب الطالب: صفحة ${step.sourcePages.join('، ')}`}
           </span>
         </div>
         <h2 className="step-title">

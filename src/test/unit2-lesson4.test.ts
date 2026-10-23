@@ -132,7 +132,7 @@ const sortedIfArray = (value: unknown): unknown => (Array.isArray(value) ? [...v
 describe('الدرس الرابع — التسجيل والبنية', () => {
   it('مسجّل في المنهج بعنوانه ومصادر صفحاته 35–37 وبعد الدرس الثالث مباشرة', () => {
     const unit = getUnitById('unit-2')!;
-    expect(unit.lessons.map((lesson) => lesson.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3', LESSON_ID]);
+    expect(unit.lessons.map((lesson) => lesson.id)).toEqual(['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3', LESSON_ID, 'u2-lesson-5']);
     expect(unit.lessons.filter((lesson) => lesson.id === LESSON_ID)).toHaveLength(1);
 
     expect(getLessonById('unit-2', LESSON_ID)).toBe(unit2Lesson4Data);

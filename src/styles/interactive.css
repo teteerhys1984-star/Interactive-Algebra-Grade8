@@ -230,6 +230,26 @@
   gap: 0.4rem;
 }
 
+/* خطوات الحل داخل لوحة الكشف: مرقّمة، بخط أصغر، ومتساوية التباعد. */
+.solution-working {
+  margin: 0.5rem 0 0;
+  padding-inline-start: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  color: var(--color-slate-700);
+}
+
+.solution-working li {
+  line-height: 1.9;
+}
+
+.solution-working li::marker {
+  color: var(--color-emerald-700);
+  font-weight: 700;
+}
+
 /* Juice Mixing Visualizer */
 .juice-visualizer {
   background: linear-gradient(135deg, #fefce8, #fff7ed);

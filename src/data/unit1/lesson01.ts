@@ -4,6 +4,12 @@ export interface SourceRef {
   page: number;
   section: string;
   item?: string;
+  /**
+   * Optional display label used when the printed source is not page-numbered in
+   * the collected images (Exercise lesson: 39 numbered questions). When present,
+   * the UI shows it instead of "صفحة N" and `page` stays 0 as an explicit marker.
+   */
+  display?: string;
 }
 
 export interface LessonStep {
@@ -16,6 +22,11 @@ export interface LessonStep {
   groupId?: string;
   /** Display title of the group (presentation only). */
   groupTitle?: string;
+  /**
+   * Optional source label shown instead of "صفحة N" when the source is not
+   * page-numbered (used by the Unit 2 exercise lesson).
+   */
+  sourceLabel?: string;
 }
 
 export type BlockType =
@@ -47,7 +58,19 @@ export interface ContentBlock {
     text: string;
     math?: string;
     solution?: string;
+    /**
+     * Optional MathText answer shown above `solution` in the reveal panel, for
+     * answers that are prose/verdicts rather than a LaTeX expression
+     * (e.g. «غير موافق» in the true/false exercise).
+     */
+    solutionText?: string;
     explanation?: string;
+    /**
+     * Optional step-by-step working shown *inside* the reveal panel, below the
+     * final answer. Used by exercise lessons so the reasoning never leaks before
+     * the student chooses to reveal it.
+     */
+    working?: string[];
     verifyNote?: string;
   }[];
   interactiveType?: string;
@@ -58,6 +81,13 @@ export interface ContentBlock {
    * UI tags it as «شرح الأستاذ» so source fidelity stays transparent.
    */
   authored?: boolean;
+  /**
+   * Presentation flag for exercise lessons: keep this block hidden until the
+   * student reveals the solution. Used by a «result» block so the final answer
+   * is never on screen before the student has attempted the item. Lessons 1–4
+   * do not set it, so their rendering is unchanged.
+   */
+  deferUntilSolution?: boolean;
   /** Optional note shown when a source item could not be read with certainty. */
   verifyNote?: string;
 }
@@ -70,6 +100,8 @@ export interface LessonData {
   title: string;
   description: string;
   sourcePages: number[];
+  /** Optional label shown instead of page numbers when the source has none. */
+  sourceLabel?: string;
   steps: LessonStep[];
   /** Optional comprehensive final assessment (introduced with Lesson 2). */
   finalAssessment?: FinalAssessment;

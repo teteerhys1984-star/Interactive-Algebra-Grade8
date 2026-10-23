@@ -53,7 +53,12 @@ export interface FinalAssessment {
 
 export interface TeacherAnswerItem {
   ref: string; // مرجع التمرين (مثال: "تدرّب ① ②")
-  answer: string; // الحل / الناتج (MathText)
+  answer: string; // الحل / الناتج بصيغة LaTeX (قد يكون فارغًا إذا كان الجواب نصيًا)
+  /**
+   * جواب نصّي (موافق/غير موافق، أو صياغة لفظية). يُعرض بـ MathText حين لا تصلح
+   * صيغة LaTeX المجرّدة، ويُستعمل في تمارين الوحدة الثانية.
+   */
+  answerText?: string;
   note?: string;
 }
 

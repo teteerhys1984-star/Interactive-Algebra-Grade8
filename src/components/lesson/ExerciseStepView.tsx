@@ -3,7 +3,7 @@ import { ContentBlock, LessonStep } from '../../data/unit1/lesson01';
 import { SourceContentBlock } from './SourceContentBlock';
 import { MathText } from '../math/MathText';
 import { Math } from '../math/Math';
-import { BookOpen, Brain, Lightbulb, PenTool, Search, CheckCircle2, ChevronDown } from 'lucide-react';
+import { BookOpen, Brain, Lightbulb, PenTool, Search, CheckCircle2, ChevronDown, Sparkles, AlertTriangle } from 'lucide-react';
 
 interface ExerciseStepViewProps {
   step: LessonStep;
@@ -48,10 +48,12 @@ export const ExerciseStepView: React.FC<ExerciseStepViewProps> = ({ step, stepIn
   const thinkBlock = find('think');
   const hintBlock = find('hint');
   const solutionBlock = find('solution');
+  const insightBlock = find('insight');
+  const mistakeBlock = find('mistake');
   const resultBlock = find('result');
 
   const knownIds = new Set(
-    [sourceBlock, thinkBlock, hintBlock, solutionBlock, resultBlock]
+    [sourceBlock, thinkBlock, hintBlock, solutionBlock, insightBlock, mistakeBlock, resultBlock]
       .filter(Boolean)
       .map((block) => (block as ContentBlock).id),
   );
@@ -69,7 +71,7 @@ export const ExerciseStepView: React.FC<ExerciseStepViewProps> = ({ step, stepIn
             <BookOpen size={18} aria-hidden="true" />
             <span>من الكتاب</span>
             <span className="exercise-section-tag source-tag">
-              نص المصدر • صفحة {sourceBlock.sourceRef.page}
+              {sourceBlock.sourceRef.display ?? `نص المصدر • صفحة ${sourceBlock.sourceRef.page}`}
             </span>
           </h3>
           <div className="exercise-section-body">
@@ -169,8 +171,49 @@ export const ExerciseStepView: React.FC<ExerciseStepViewProps> = ({ step, stepIn
         </section>
       )}
 
-      {/* 6) النتيجة — always visible, verified value untouched */}
-      {resultBlock && (
+      {/* 5ب) ملاحظة ذكية أو طريقة بديلة — تظهر بعد الحل فقط، اختيارية */}
+      {insightBlock && solutionOpen && (
+        <section className="exercise-section exercise-insight" aria-labelledby={`${step.id}-insight`}>
+          <h3 className="exercise-section-title" id={`${step.id}-insight`}>
+            <Sparkles size={18} aria-hidden="true" />
+            <span>ملاحظة ذكية أو طريقة بديلة</span>
+            <span className="exercise-section-tag authored-tag">شرح الأستاذ</span>
+          </h3>
+          <div className="exercise-section-body">
+            <BlockText content={insightBlock.content} />
+          </div>
+        </section>
+      )}
+
+      {/* 5ج) خطأ شائع — تنبيه تعليمي اختياري */}
+      {mistakeBlock && solutionOpen && (
+        <section className="exercise-section exercise-mistake" aria-labelledby={`${step.id}-mistake`}>
+          <h3 className="exercise-section-title" id={`${step.id}-mistake`}>
+            <AlertTriangle size={18} aria-hidden="true" />
+            <span>خطأ شائع</span>
+            <span className="exercise-section-tag authored-tag">شرح الأستاذ</span>
+          </h3>
+          <div className="exercise-section-body">
+            <BlockText content={mistakeBlock.content} />
+          </div>
+        </section>
+      )}
+
+      {/* 6) النتيجة — always visible in Lessons 1–4; in exercise sets it waits for the solution */}
+      {resultBlock && resultBlock.deferUntilSolution && !solutionOpen && (
+        <section className="exercise-section exercise-result exercise-result-deferred">
+          <h3 className="exercise-section-title">
+            <CheckCircle2 size={18} aria-hidden="true" />
+            <span>النتيجة</span>
+            <span className="exercise-section-tag authored-tag">تحقق المنصة</span>
+          </h3>
+          <p className="exercise-paragraph exercise-muted">
+            النتيجة والتحقق يظهران بعد أن تفتح «الحل خطوة بخطوة»، لتجرّب أولًا بلا إجابة جاهزة.
+          </p>
+        </section>
+      )}
+
+      {resultBlock && !(resultBlock.deferUntilSolution && !solutionOpen) && (
         <section className="exercise-section exercise-result" aria-labelledby={`${step.id}-result`}>
           <h3 className="exercise-section-title" id={`${step.id}-result`}>
             <CheckCircle2 size={18} aria-hidden="true" />

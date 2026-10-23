@@ -737,6 +737,66 @@ const unit2Lesson4Concepts: CurriculumConcept[] = [
   },
 ];
 
+
+const unit2Lesson5Concepts: CurriculumConcept[] = [
+  {
+    id: 'u2l5-standard-form',
+    title: 'الصيغة المعيارية وشرط 1 ≤ a < 10',
+    skills: ['standard-form-exponent', 'standard-form-recognition', 'rewrite-with-requested-exponent'],
+    taughtInSteps: ['q-1', 'q-3', 'q-15', 'q-16', 'q-26', 'q-27', 'q-37'],
+    sourcePages: [],
+    commonMistakes: ['اعتبار $42.6\times10^{3}$ صيغة معيارية، مع أن المعامل يجب أن يكون بين 1 و10.'],
+  },
+  {
+    id: 'u2l5-power-rules',
+    title: 'قواعد قوى العدد 10 (الضرب والقسمة وقوة القوة)',
+    skills: ['product-of-powers', 'quotient-of-powers', 'power-of-a-power', 'power-of-a-variable'],
+    taughtInSteps: ['q-10', 'q-11', 'q-12', 'q-13', 'q-25', 'q-31'],
+    sourcePages: [],
+    commonMistakes: ['جمع الأسس في القسمة، أو جمعها في قوة القوة بدل ضربها.'],
+  },
+  {
+    id: 'u2l5-order-of-operations',
+    title: 'أولويات العمليات وإشارة القوة',
+    skills: ['priorities-with-powers', 'sign-of-power', 'parentheses-effect'],
+    taughtInSteps: ['q-8', 'q-14', 'q-19', 'q-20', 'q-21', 'q-22'],
+    sourcePages: [],
+    commonMistakes: ['اعتبار $-2^{4}=16$، والصحيح $-16$ لأن الإشارة خارج القوة.'],
+  },
+  {
+    id: 'u2l5-addition-subtraction',
+    title: 'جمع وطرح أعداد بصيغة a × 10^p',
+    skills: ['unify-exponent', 'add-coefficients', 'subtract-coefficients'],
+    taughtInSteps: ['q-17', 'q-18', 'q-28', 'q-29', 'q-39'],
+    sourcePages: [],
+    commonMistakes: ['جمع الأسس عند الجمع: $3\times10^{5}+4\times10^{5}\to7\times10^{10}$.'],
+  },
+  {
+    id: 'u2l5-decimal-conversion',
+    title: 'التحويل بين الكتابة العشرية وقوى العدد 10',
+    skills: ['decimal-to-power', 'compare-negative-exponents', 'equivalent-forms'],
+    taughtInSteps: ['q-6', 'q-9', 'q-34', 'q-35', 'q-38'],
+    sourcePages: [],
+    commonMistakes: ['الظن أن $10^{-5}>10^{-2}$ لأن 5 أكبر من 2.'],
+  },
+  {
+    id: 'u2l5-applications',
+    title: 'تطبيقات المساحة والحجم والوحدات',
+    skills: ['side-from-area', 'edge-from-volume', 'unit-conversion', 'calculator-approximation'],
+    taughtInSteps: ['q-5', 'q-7', 'q-23', 'q-24', 'q-30', 'q-32', 'q-33', 'q-36'],
+    sourcePages: [],
+    commonMistakes: ['نسيان تحويل الوحدة بعد حساب الجذر، فيبقى الجواب بالمتر والمطلوب بالسنتيمتر.'],
+  },
+  {
+    id: 'u2l5-mixed-review',
+    title: 'مراجعة مختلطة لأعداد بصيغ متعددة',
+    skills: ['mixed-notation-review', 'match-number-to-standard-form'],
+    taughtInSteps: ['q-2', 'q-4'],
+    sourcePages: [],
+    commonMistakes: ['مقارنة المعاملات دون الانتباه إلى اختلاف الأسس.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -746,6 +806,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u2-lesson-2', unitId: 'unit-2', lessonTitle: 'قواعد قوى العدد 10', concepts: unit2Lesson2Concepts },
   { lessonId: 'u2-lesson-3', unitId: 'unit-2', lessonTitle: 'قوى صحيحة لعدد نسبي', concepts: unit2Lesson3Concepts },
   { lessonId: 'u2-lesson-4', unitId: 'unit-2', lessonTitle: 'الجذور التربيعية', concepts: unit2Lesson4Concepts },
+  { lessonId: 'u2-lesson-5', unitId: 'unit-2', lessonTitle: 'تمارين ومسائل الوحدة الثانية', concepts: unit2Lesson5Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {
