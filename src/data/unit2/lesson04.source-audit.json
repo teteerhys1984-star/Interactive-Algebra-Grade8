@@ -1,0 +1,779 @@
+{
+  "lessonId": "u2-lesson-4",
+  "lesson": "الجذور التربيعية",
+  "sourcePages": [
+    35,
+    36,
+    37
+  ],
+  "sourceFiles": [
+    {
+      "file": "image-1.png",
+      "page": 35,
+      "sha256": "d30b7d727a8759eb98b54e6835def6147f66661bb9cd164148b89857aef158f5"
+    },
+    {
+      "file": "image-2.png",
+      "page": 36,
+      "sha256": "63de7d134f2e30082c116dd40a29f67883880fa948117126b6f779f01b43bfcc"
+    },
+    {
+      "file": "image-3.png",
+      "page": 37,
+      "sha256": "438783275b9ce6e0b223f7ef97f76953f6b1f18b667a8b266c94ec8b3bce0519"
+    }
+  ],
+  "startBoundary": {
+    "lessonBeginsOn": 35,
+    "evidence": "عنوان الدرس ④ «الجذور التربيعية» أعلى ص35 يسبق نشاط «إيجاد الجذر التربيعي لعدد موجب» مباشرة.",
+    "activityIsPartOfLesson": "نشاط «إيجاد الجذر التربيعي لعدد موجب» تحت عنوان الدرس نفسه ويملأ الجداول الثلاثة (0–8، 9–17، 18–20).",
+    "separateWarmup": "انطلاقة نشطة ص25 تبقى في warmup.ts؛ لا توجد انطلاقة نشطة في الصور الثلاث."
+  },
+  "bookBlockSequence": [
+    "p35-activity-intro",
+    "p35-activity-table",
+    "p35-def-root",
+    "p35-ex-144",
+    "p35-ex-361",
+    "p35-def-negative",
+    "p35-def-zero",
+    "p35-def-three",
+    "p35-results",
+    "p36-rule-product-title",
+    "p36-ex-9x4",
+    "p36-rule-product",
+    "p36-rule-product-many",
+    "p36-ex-36x16",
+    "p36-ex-9x16",
+    "p36-ex-2x8",
+    "p36-rule-quotient-title",
+    "p36-ex-16-4",
+    "p36-rule-quotient",
+    "p36-ex-decimal",
+    "p36-ex-6-22",
+    "p36-rule-power-title",
+    "p36-ex-power-sqrt2",
+    "p36-rule-power",
+    "p36-ex-power-sqrt3",
+    "p36-rule-even-title",
+    "p36-rule-even",
+    "p36-ex-even-power",
+    "p37-simplify-example",
+    "p37-calc-symbol",
+    "p37-area-8",
+    "p37-area-calc",
+    "p37-check-1",
+    "p37-check-2",
+    "p37-check-3",
+    "p37-train-1",
+    "p37-train-2",
+    "p37-train-3"
+  ],
+  "exerciseGroups": [
+    {
+      "page": 35,
+      "blockId": "p35-activity-table",
+      "section": "نشاط",
+      "item": "الجداول 0–20",
+      "items": [
+        {
+          "label": "a=0",
+          "math": "0^{2}=0",
+          "answer": "0",
+          "value": "0"
+        },
+        {
+          "label": "a=1",
+          "math": "1^{2}=1",
+          "answer": "1",
+          "value": "1"
+        },
+        {
+          "label": "a=2",
+          "math": "2^{2}=4",
+          "answer": "4",
+          "value": "4"
+        },
+        {
+          "label": "a=3",
+          "math": "3^{2}=9",
+          "answer": "9",
+          "value": "9"
+        },
+        {
+          "label": "a=4",
+          "math": "4^{2}=16",
+          "answer": "16",
+          "value": "16"
+        },
+        {
+          "label": "a=5",
+          "math": "5^{2}=25",
+          "answer": "25",
+          "value": "25"
+        },
+        {
+          "label": "a=6",
+          "math": "6^{2}=36",
+          "answer": "36",
+          "value": "36"
+        },
+        {
+          "label": "a=7",
+          "math": "7^{2}=49",
+          "answer": "49",
+          "value": "49"
+        },
+        {
+          "label": "a=8",
+          "math": "8^{2}=64",
+          "answer": "64",
+          "value": "64"
+        },
+        {
+          "label": "a=9",
+          "math": "9^{2}=81",
+          "answer": "81",
+          "value": "81"
+        },
+        {
+          "label": "a=10",
+          "math": "10^{2}=100",
+          "answer": "100",
+          "value": "100"
+        },
+        {
+          "label": "a=11",
+          "math": "11^{2}=121",
+          "answer": "121",
+          "value": "121"
+        },
+        {
+          "label": "a=12",
+          "math": "12^{2}=144",
+          "answer": "144",
+          "value": "144"
+        },
+        {
+          "label": "a=13",
+          "math": "13^{2}=169",
+          "answer": "169",
+          "value": "169"
+        },
+        {
+          "label": "a=14",
+          "math": "14^{2}=196",
+          "answer": "196",
+          "value": "196"
+        },
+        {
+          "label": "a=15",
+          "math": "15^{2}=225",
+          "answer": "225",
+          "value": "225"
+        },
+        {
+          "label": "a=16",
+          "math": "16^{2}=256",
+          "answer": "256",
+          "value": "256"
+        },
+        {
+          "label": "a=17",
+          "math": "17^{2}=289",
+          "answer": "289",
+          "value": "289"
+        },
+        {
+          "label": "a=18",
+          "math": "18^{2}=324",
+          "answer": "324",
+          "value": "324"
+        },
+        {
+          "label": "a=19",
+          "math": "19^{2}=361",
+          "answer": "361",
+          "value": "361"
+        },
+        {
+          "label": "a=20",
+          "math": "20^{2}=400",
+          "answer": "400",
+          "value": "400"
+        }
+      ]
+    },
+    {
+      "page": 35,
+      "blockId": "p35-ex-144",
+      "section": "تعلم • مثال",
+      "item": "√144",
+      "items": [
+        {
+          "label": "√144",
+          "math": "\\sqrt{144}=12",
+          "answer": "12",
+          "value": "12"
+        }
+      ]
+    },
+    {
+      "page": 35,
+      "blockId": "p35-ex-361",
+      "section": "تعلم • مثال",
+      "item": "√361",
+      "items": [
+        {
+          "label": "√361",
+          "math": "\\sqrt{361}=19",
+          "answer": "19",
+          "value": "19"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-9x4",
+      "section": "خواص الجذور • 1",
+      "item": "مثال 9×4",
+      "items": [
+        {
+          "label": "√9×4",
+          "math": "\\sqrt{9\\times4}=6",
+          "answer": "6",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-36x16",
+      "section": "خواص الجذور • 1",
+      "item": "مثال 36×16",
+      "items": [
+        {
+          "label": "√(36×16)",
+          "math": "\\sqrt{36\\times16}=24",
+          "answer": "24",
+          "value": "24"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-9x16",
+      "section": "خواص الجذور • 1",
+      "item": "مثال 9×16",
+      "items": [
+        {
+          "label": "√(9×16)",
+          "math": "\\sqrt{9\\times16}=12",
+          "answer": "12",
+          "value": "12"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-2x8",
+      "section": "خواص الجذور • 1",
+      "item": "معكوس 2×8",
+      "items": [
+        {
+          "label": "√2×√8",
+          "math": "\\sqrt{2}\\times\\sqrt{8}=4",
+          "answer": "4",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-16-4",
+      "section": "خواص الجذور • 2",
+      "item": "مثال 16/4",
+      "items": [
+        {
+          "label": "√(16/4)",
+          "math": "\\sqrt{16/4}=2",
+          "answer": "2",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-decimal",
+      "section": "خواص الجذور • 2",
+      "item": "عشري",
+      "items": [
+        {
+          "label": "√0.0256",
+          "math": "\\sqrt{0.0256}=0.16",
+          "answer": "0.16",
+          "value": "0.16"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-6-22",
+      "section": "خواص الجذور • 2",
+      "item": "√6/√22",
+      "items": [
+        {
+          "label": "√6/√22",
+          "math": "\\sqrt{6/22}=\\sqrt{3/11}",
+          "answer": "\\sqrt{3/11}",
+          "value": "3/11"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-power-sqrt2",
+      "section": "خواص الجذور • 3",
+      "item": "(√2)⁶",
+      "items": [
+        {
+          "label": "(√2)⁶",
+          "math": "(\\sqrt{2})^{6}=8",
+          "answer": "8",
+          "value": "8"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-power-sqrt3",
+      "section": "خواص الجذور • 3",
+      "item": "(√3)⁴",
+      "items": [
+        {
+          "label": "(√3)⁴",
+          "math": "(\\sqrt{3})^{4}=9",
+          "answer": "9",
+          "value": "9"
+        }
+      ]
+    },
+    {
+      "page": 36,
+      "blockId": "p36-ex-even-power",
+      "section": "خواص الجذور • 4",
+      "item": "زوجي (√3)⁴",
+      "items": [
+        {
+          "label": "(√3)⁴",
+          "math": "\\sqrt{3^{4}}=9",
+          "answer": "9",
+          "value": "9"
+        }
+      ]
+    },
+    {
+      "page": 37,
+      "blockId": "p37-simplify-example",
+      "section": "مثال",
+      "item": "تبسيط",
+      "items": [
+        {
+          "label": "√8",
+          "math": "\\sqrt{8}=2\\sqrt{2}",
+          "answer": "2\\sqrt{2}",
+          "value": "2√2"
+        },
+        {
+          "label": "√50",
+          "math": "\\sqrt{50}=5\\sqrt{2}",
+          "answer": "5\\sqrt{2}",
+          "value": "5√2"
+        },
+        {
+          "label": "√27",
+          "math": "\\sqrt{27}=3\\sqrt{3}",
+          "answer": "3\\sqrt{3}",
+          "value": "3√3"
+        }
+      ]
+    },
+    {
+      "page": 37,
+      "blockId": "p37-area-calc",
+      "section": "مثال • مساحة 8",
+      "item": "الآلة الحاسبة",
+      "items": [
+        {
+          "label": "x²=8",
+          "math": "x=\\sqrt{8}\\approx2.8",
+          "answer": "≈2.8",
+          "value": "2.828427125"
+        }
+      ]
+    },
+    {
+      "page": 37,
+      "blockId": "p37-check-1",
+      "section": "تحقّق من فهمك",
+      "item": "①",
+      "items": [
+        {
+          "label": "196",
+          "math": "\\sqrt{196}=14",
+          "answer": "14",
+          "value": "14"
+        },
+        {
+          "label": "64",
+          "math": "\\sqrt{64}=8",
+          "answer": "8",
+          "value": "8"
+        },
+        {
+          "label": "1",
+          "math": "\\sqrt{1}=1",
+          "answer": "1",
+          "value": "1"
+        },
+        {
+          "label": "0",
+          "math": "\\sqrt{0}=0",
+          "answer": "0",
+          "value": "0"
+        },
+        {
+          "label": "5",
+          "math": "\\sqrt{5}",
+          "answer": "\\sqrt{5}",
+          "value": "√5"
+        }
+      ]
+    },
+    {
+      "page": 37,
+      "blockId": "p37-check-2",
+      "section": "تحقّق من فهمك",
+      "item": "②",
+      "items": [
+        {
+          "label": "225",
+          "math": "\\sqrt{225}=15",
+          "answer": "15",
+          "value": "15"
+        }
+      ]
+    },
+    {
+      "page": 37,
+      "blockId": "p37-check-3",
+      "section": "تحقّق من فهمك",
+      "item": "③",
+      "items": [
+        {
+          "label": "①",
+          "math": "\\frac{\\sqrt{72}}{\\sqrt{32}}",
+          "answer": "\\frac32",
+          "value": "1.5"
+        },
+        {
+          "label": "②",
+          "math": "(\\sqrt{5})^{6}",
+          "answer": "125",
+          "value": "125"
+        },
+        {
+          "label": "③",
+          "math": "\\sqrt{3^{6}\\times5^{4}}",
+          "answer": "675",
+          "value": "675"
+        }
+      ]
+    },
+    {
+      "page": 37,
+      "blockId": "p37-train-1",
+      "section": "تدرّب",
+      "item": "①",
+      "items": [
+        {
+          "label": "1 cm²",
+          "math": "\\sqrt{1}=1",
+          "answer": "1 cm",
+          "value": "1"
+        },
+        {
+          "label": "4 cm²",
+          "math": "\\sqrt{4}=2",
+          "answer": "2 cm",
+          "value": "2"
+        },
+        {
+          "label": "36 cm²",
+          "math": "\\sqrt{36}=6",
+          "answer": "6 cm",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "page": 37,
+      "blockId": "p37-train-2",
+      "section": "تدرّب",
+      "item": "②",
+      "items": [
+        {
+          "label": "√75",
+          "math": "\\sqrt{75}=5\\sqrt{3}",
+          "answer": "5\\sqrt{3}",
+          "value": "5√3"
+        },
+        {
+          "label": "√32",
+          "math": "\\sqrt{32}=4\\sqrt{2}",
+          "answer": "4\\sqrt{2}",
+          "value": "4√2"
+        },
+        {
+          "label": "√108",
+          "math": "\\sqrt{108}=6\\sqrt{3}",
+          "answer": "6\\sqrt{3}",
+          "value": "6√3"
+        }
+      ]
+    },
+    {
+      "page": 37,
+      "blockId": "p37-train-3",
+      "section": "تدرّب",
+      "item": "③",
+      "items": [
+        {
+          "label": "1. S صحيح؟",
+          "math": "S=\\sqrt{30}",
+          "answer": "لا",
+          "value": "√30"
+        },
+        {
+          "label": "2. حصر",
+          "math": "5<S<6",
+          "answer": "5<S<6",
+          "value": "5<S<6"
+        },
+        {
+          "label": "3. تقريب",
+          "math": "\\sqrt{30}\\approx5.48",
+          "answer": "5.48",
+          "value": "5.48"
+        }
+      ]
+    }
+  ],
+  "printedExamples": [
+    {
+      "blockId": "p35-ex-144",
+      "subIndex": null,
+      "math": "\\sqrt{144}=12",
+      "answer": "12",
+      "value": "12"
+    },
+    {
+      "blockId": "p35-ex-361",
+      "subIndex": null,
+      "math": "\\sqrt{361}=19",
+      "answer": "19",
+      "value": "19"
+    },
+    {
+      "blockId": "p36-ex-9x4",
+      "subIndex": null,
+      "math": "\\sqrt{9\\times4}=6",
+      "answer": "6",
+      "value": "6"
+    },
+    {
+      "blockId": "p36-ex-36x16",
+      "subIndex": null,
+      "math": "\\sqrt{36\\times16}=24",
+      "answer": "24",
+      "value": "24"
+    },
+    {
+      "blockId": "p36-ex-9x16",
+      "subIndex": null,
+      "math": "\\sqrt{9\\times16}=12",
+      "answer": "12",
+      "value": "12"
+    },
+    {
+      "blockId": "p36-ex-2x8",
+      "subIndex": null,
+      "math": "\\sqrt{2}\\times\\sqrt{8}=4",
+      "answer": "4",
+      "value": "4"
+    },
+    {
+      "blockId": "p36-ex-16-4",
+      "subIndex": null,
+      "math": "\\sqrt{16/4}=2",
+      "answer": "2",
+      "value": "2"
+    },
+    {
+      "blockId": "p36-ex-decimal",
+      "subIndex": null,
+      "math": "\\sqrt{0.0256}=0.16",
+      "answer": "0.16",
+      "value": "0.16"
+    },
+    {
+      "blockId": "p36-ex-6-22",
+      "subIndex": null,
+      "math": "\\sqrt{6}/\\sqrt{22}=\\sqrt{3/11}",
+      "answer": "\\sqrt{3/11}",
+      "value": "3/11"
+    },
+    {
+      "blockId": "p36-ex-power-sqrt2",
+      "subIndex": null,
+      "math": "(\\sqrt{2})^{6}=8",
+      "answer": "8",
+      "value": "8"
+    },
+    {
+      "blockId": "p36-ex-power-sqrt3",
+      "subIndex": null,
+      "math": "(\\sqrt{3})^{4}=9",
+      "answer": "9",
+      "value": "9"
+    },
+    {
+      "blockId": "p36-ex-even-power",
+      "subIndex": null,
+      "math": "\\sqrt{3^{4}}=9",
+      "answer": "9",
+      "value": "9"
+    },
+    {
+      "blockId": "p37-simplify-example",
+      "subIndex": 0,
+      "math": "\\sqrt{8}=2\\sqrt{2}",
+      "answer": "2\\sqrt{2}",
+      "value": "2√2"
+    },
+    {
+      "blockId": "p37-simplify-example",
+      "subIndex": 1,
+      "math": "\\sqrt{50}=5\\sqrt{2}",
+      "answer": "5\\sqrt{2}",
+      "value": "5√2"
+    },
+    {
+      "blockId": "p37-simplify-example",
+      "subIndex": 2,
+      "math": "\\sqrt{27}=3\\sqrt{3}",
+      "answer": "3\\sqrt{3}",
+      "value": "3√3"
+    },
+    {
+      "blockId": "p37-area-calc",
+      "subIndex": null,
+      "math": "x=\\sqrt{8}\\approx2.828427125",
+      "answer": "≈2.8",
+      "value": "2.828427125"
+    },
+    {
+      "blockId": "p37-check-1",
+      "subIndex": 0,
+      "math": "\\sqrt{196}=14",
+      "answer": "14",
+      "value": "14"
+    },
+    {
+      "blockId": "p37-check-1",
+      "subIndex": 1,
+      "math": "\\sqrt{64}=8",
+      "answer": "8",
+      "value": "8"
+    },
+    {
+      "blockId": "p37-check-3",
+      "subIndex": 0,
+      "math": "\\frac{\\sqrt{72}}{\\sqrt{32}}=3/2",
+      "answer": "3/2",
+      "value": "1.5"
+    },
+    {
+      "blockId": "p37-check-3",
+      "subIndex": 1,
+      "math": "(\\sqrt{5})^{6}=125",
+      "answer": "125",
+      "value": "125"
+    },
+    {
+      "blockId": "p37-check-3",
+      "subIndex": 2,
+      "math": "\\sqrt{3^{6}\\times5^{4}}=675",
+      "answer": "675",
+      "value": "675"
+    }
+  ],
+  "definitionAudit": [
+    {
+      "blockId": "p35-def-root",
+      "printed": "\\sqrt{a}=b \\Leftrightarrow b^{2}=a, b\\ge0",
+      "condition": "b\\ge0 يضمن الجذر الموجب؛ صفر مشمول"
+    },
+    {
+      "blockId": "p35-results",
+      "printed": "(1) ليس للعدد السالب جذر تربيعي (2) √0=0",
+      "condition": "نتيجة مباشرة من التعريف"
+    },
+    {
+      "blockId": "p36-rule-product",
+      "printed": "\\sqrt{a\\times b}=\\sqrt{a}\\times\\sqrt{b} (a\\ge0,b\\ge0)",
+      "condition": "a,b موجبان أو صفر"
+    },
+    {
+      "blockId": "p36-rule-quotient",
+      "printed": "\\sqrt{a/b}=\\sqrt{a}/\\sqrt{b} (a\\ge0,b>0)",
+      "condition": "المقام >0"
+    },
+    {
+      "blockId": "p36-rule-power",
+      "printed": "(\\sqrt{b})^{n}=\\sqrt{b^{n}} (b\\ge0, n طبيعي)",
+      "condition": "b\\ge0"
+    },
+    {
+      "blockId": "p36-rule-even",
+      "printed": "\\sqrt{b^{n}}=b^{n/2} (b>0, n زوجي طبيعي)",
+      "condition": "n زوجي طبيعي"
+    }
+  ],
+  "corrections": [],
+  "sourceInterpretationNotes": [
+    {
+      "page": 36,
+      "position": "خاصية 3 • مثال (√2)⁶",
+      "printed": "… ونلاحظ أن 8=√2⁶=√64=8",
+      "resolution": "الصورة تحوي كلمة غير مقروءة قبل «ونلاحظ» (رمز فارغ في الصورة). لم تُنقل الكلمة؛ المعادلات الرقمية كاملة وتحقّقت: √64=8 و(√2)⁶=8. سُجّل الموضع في verifyNote للكتلة p36-ex-power-sqrt2."
+    },
+    {
+      "page": 37,
+      "position": "مثال تبسيط • الرمز √",
+      "printed": "8=4×2 (والكتاب يضع نقطة وسطية للفاصلة في المثال العشري)",
+      "resolution": "الكتابة الرقمية واضحة: √8=√(4×2) و√50=√(25×2) و√27=√(9×3). المثال العشري 0.0256 يطبع الفاصلة نقطة وسطية (0·0256→0·16) وتُعرض بالنقطة العادية مع نفس القيمة."
+    }
+  ],
+  "independentRecalculation": {
+    "method": "قوبلت جميع الصيغ بالصور المكبّرة، وأُعيدت النتائج بكسور دقيقة وتربيع مستقل؛ الاختبارات تقارن الصيغ والمفاتيح والحلول دون استعمال دوال المنصة.",
+    "activityTables": "0²=0 إلى 20²=400 (21 قيمة)؛ 196=14²، 361=19²",
+    "checkItems": 5,
+    "drillItems": 6,
+    "area": "x²=8 → x=√8≈2.828427125≈2.8؛ 30 ليس مربعاً كاملاً → 5<√30<6 → √30≈5.47≈5.48",
+    "teacherSolutions": 59,
+    "separateTestQuestions": 20
+  },
+  "unresolvedSourcePositions": [],
+  "status": "all supplied expressions verified; one illegible word before example (p36) documented in verifyNote and not invented"
+}
