@@ -21,6 +21,7 @@ import { PowerOfTenFrames } from '../interactive/PowerOfTenFrames';
 import { NegativePowerZoom } from '../interactive/NegativePowerZoom';
 import { StandardFormLab } from '../interactive/StandardFormLab';
 import { ExponentRulesExplorer } from '../interactive/ExponentRulesExplorer';
+import { ScientificNotationLab } from '../interactive/ScientificNotationLab';
 import { IntegerPowerStudio } from '../interactive/IntegerPowerStudio';
 import { PowerRulesStudio } from '../interactive/PowerRulesStudio';
 import { OrderOfOperationsLab } from '../interactive/OrderOfOperationsLab';
@@ -291,6 +292,8 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       {block.interactiveType === 'standard-form-lab' && <StandardFormLab />}
 
       {block.interactiveType === 'exponent-rules-explorer' && <ExponentRulesExplorer />}
+
+      {block.interactiveType === 'scientific-notation-lab' && <ScientificNotationLab />}
 
       {block.interactiveType === 'integer-power-studio' && <IntegerPowerStudio />}
 

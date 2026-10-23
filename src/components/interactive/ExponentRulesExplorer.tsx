@@ -175,7 +175,12 @@ const ExponentRulesExplorer: React.FC = () => {
 
       <div className="exponent-result-panel">
         <span className="exponent-result-label"><MathText text="الناتج بالصيغة $10^p$:" /></span>
-        <div className="exponent-result-math" dir="ltr">
+        <div
+          className="exponent-result-math"
+          dir="ltr"
+          data-result-exponent={resultExponent}
+          aria-label={`الناتج 10 أس ${resultExponent}`}
+        >
           <Formula math={expressionTex} display />
         </div>
       </div>
@@ -193,6 +198,23 @@ const ExponentRulesExplorer: React.FC = () => {
             <Formula math={verificationTex} display />
           </div>
         )}
+        {showVerification && (resultExponent > 12 || resultExponent < -12) && (
+          <p className="exponent-decimal-limit" role="status">
+            الأس كبير لعرض جميع الأصفار هنا؛ تبقى المساواة الدقيقة بالصيغة الأسية أعلاه.
+          </p>
+        )}
+        <button
+          type="button"
+          className="exponent-reset"
+          onClick={() => {
+            setRuleId('multiply');
+            setM(3);
+            setN(2);
+            setShowVerification(false);
+          }}
+        >
+          إعادة التجربة إلى القيم الابتدائية
+        </button>
       </div>
 
       <p className="exponent-hint">
