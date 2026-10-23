@@ -138,11 +138,12 @@ describe('صفحة 28 — تحقّق من فهمك وتدرّب', () => {
     }
   });
 
-  it('④ من تحقّق ③: «566 3.3» تُقرأ 5 663.3 ويبقى الموضع موسومًا', () => {
+  it('④ من تحقّق ③: «566 3.3» محسومة بالصورة المكبّرة والعدد 5 663.3', () => {
     const item = (block('p28-check-3').subItems ?? [])[3];
     expect(item.math).toBe('566\\;3.3');
     expect(item.solution).toContain('5.6633\\times10^{3}');
-    expect(item.verifyNote).toBeTruthy();
+    expect(item.verifyNote).toContain('محسومة');
+    expect(item.explanation).toContain('5 663.3');
     expect(closeTo(5.6633 * 10 ** 3, 5663.3)).toBe(true);
   });
 
@@ -203,11 +204,22 @@ describe('أمثلة الصفحتين 26 و27 — مطابقة النص المخ
     expect(closeTo(-2.5698 * 10 ** 3, -2569.8)).toBe(true);
   });
 
-  it('اكتساب معارف: 10^4 = 10 000 و10^{-4} = 0.000 1', () => {
-    expect(block('p27-convert-positive').mathFormula).toContain('10\\,000');
+  it('اكتساب معارف: الكتاب يطبع 10^4 = 1 0000 و10^{-4} = 0.000 1', () => {
+    // كما في الكتاب: الواحد ثم فراغ ثم أربعة أصفار (نصّ المثال: «نضع 4 أصفار إلى يمين العدد 1»).
+    expect(block('p27-convert-positive').mathFormula).toBe('10^{4}=1\\,0000');
+    expect(block('p27-convert-positive').explanation).toContain('10\\,000');
     expect(block('p27-convert-negative').mathFormula).toBe('10^{-4}=0.000\\,1');
     expect(10 ** 4).toBe(10000);
     expect(closeTo(10 ** -4, 0.0001)).toBe(true);
+  });
+
+  it('تعريف 2 منقول كما في الكتاب: تعليق «n صفرًا» تحت الجزء العشري أيضًا', () => {
+    const def = block('p26-def2');
+    const labels = def.mathFormula!.match(/n\\text\{ صفرًا\}|n\\text\{ خانة\}/g) ?? [];
+    expect(labels).toHaveLength(2);
+    expect(labels.every((label) => label.includes('صفرًا'))).toBe(true);
+    // الملاحظة تشرح التعارض الحسابي مع التعريف (الرقم 1 في الخانة n) دون تعديل المصدر.
+    expect(def.verifyNote).toContain('الخانة n');
   });
 
   it('تحويل 2 715×10^9 و0.075×10^{-22} صحيح عدديًا', () => {
