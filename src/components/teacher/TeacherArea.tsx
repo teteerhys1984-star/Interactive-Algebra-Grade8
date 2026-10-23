@@ -11,6 +11,7 @@ import {
   AlertTriangle,
   LifeBuoy,
   NotebookPen,
+  FileSearch,
   ClipboardList,
   KeyRound,
   ArrowRight,
@@ -28,6 +29,50 @@ interface TeacherAreaProps {
 
 const lessonsWithTeacherArea = (): LessonData[] =>
   curriculum.flatMap((u) => u.lessons).filter((l) => !!l.teacherArea);
+
+/**
+ * ملاحظات توثيق المصدر (verifyNote) على كتل الدرس وبنوده: توثيق داخلي للمعلّم
+ * يوضّح ما لم يُحسم من الصورة الأصلية أو ما يخالف الشكل المطبوع القاعدة.
+ * لا يُعرض في واجهة الطالب، بل يُجمع هنا مع مرجعه (الصفحة/القسم/البند).
+ */
+const collectSourceNotes = (lesson: LessonData): { where: string; note: string }[] => {
+  const entries: { where: string; note: string }[] = [];
+  lesson.steps.forEach((step) => {
+    step.blocks.forEach((block) => {
+      const ref = block.sourceRef;
+      const where = ref
+        ? `صفحة ${ref.page} • ${ref.section}${ref.item ? ` • ${ref.item}` : ''}`
+        : step.title;
+      if (block.verifyNote) entries.push({ where: `${where} — ${block.title}`, note: block.verifyNote });
+      block.subItems?.forEach((item) => {
+        if (item.verifyNote) entries.push({ where: `${where}${item.label ? ` • ${item.label}` : ''}`, note: item.verifyNote });
+      });
+    });
+  });
+  return entries;
+};
+
+const SourceNotesSection: React.FC<{ lesson: LessonData }> = ({ lesson }) => {
+  const notes = collectSourceNotes(lesson);
+  if (notes.length === 0) return null;
+  return (
+    <section className="ta-section ta-source-notes">
+      <h3><FileSearch size={18} /> توثيق المصدر (للمعلّم)</h3>
+      <p className="ta-source-notes-intro">
+        ملاحظات داخلية على المواضع التي تحتاج تحققًا أو توضيحًا في المصدر المطبوع. لا تُعرض في واجهة الطالب؛
+        ويبقى نصّ الكتاب والشكل المنقول في الدرس كما هو.
+      </p>
+      <ul className="ta-list">
+        {notes.map((entry, i) => (
+          <li key={i}>
+            <strong className="ta-source-notes-where">{entry.where}:</strong>{' '}
+            <MathText text={entry.note} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+};
 
 const TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaData }> = ({ lesson, data }) => (
   <div className="ta-content">
@@ -84,6 +129,8 @@ const TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaData }> = 
         ))}
       </ul>
     </section>
+
+    <SourceNotesSection lesson={lesson} />
 
     <section className="ta-section">
       <h3><KeyRound size={18} /> مفاتيح الإجابة (الكتاب + الاختبار)</h3>

@@ -17,6 +17,9 @@ import { OrderOfOperationsSorter } from '../interactive/OrderOfOperationsSorter'
 import { CompoundFractionReader } from '../interactive/CompoundFractionReader';
 import { CalculatorKeys } from '../interactive/CalculatorKeys';
 import { PowerOfTenLadder } from '../interactive/PowerOfTenLadder';
+import { PowerOfTenFrames } from '../interactive/PowerOfTenFrames';
+import { NegativePowerZoom } from '../interactive/NegativePowerZoom';
+import { StandardFormLab } from '../interactive/StandardFormLab';
 import { ExponentRulesExplorer } from '../interactive/ExponentRulesExplorer';
 import { IntegerPowerStudio } from '../interactive/IntegerPowerStudio';
 import { PowerRulesStudio } from '../interactive/PowerRulesStudio';
@@ -38,7 +41,6 @@ import {
   GraduationCap,
   Brain,
   Scale,
-  AlertCircle,
 } from 'lucide-react';
 
 interface SourceContentBlockProps {
@@ -171,13 +173,8 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       </div>
       )}
 
-      {block.verifyNote && (
-        <div className="verify-note">
-          <AlertCircle size={16} />
-          <span>{block.verifyNote}</span>
-        </div>
-      )}
-
+      {/* ملاحظة توثيق المصدر (block.verifyNote) لا تُعرض للطالب: هي توثيق داخلي
+          يظهر في مساحة المعلّم ضمن قسم «توثيق المصدر». */}
       {block.content && (
         <div className="block-body-text" style={{ fontSize: '1.025rem', marginBottom: '1rem' }}>
           <MathText text={block.content} />
@@ -287,6 +284,12 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
 
       {block.interactiveType === 'power-of-ten-ladder' && <PowerOfTenLadder />}
 
+      {block.interactiveType === 'power-of-ten-frames' && <PowerOfTenFrames />}
+
+      {block.interactiveType === 'negative-power-zoom' && <NegativePowerZoom />}
+
+      {block.interactiveType === 'standard-form-lab' && <StandardFormLab />}
+
       {block.interactiveType === 'exponent-rules-explorer' && <ExponentRulesExplorer />}
 
       {block.interactiveType === 'integer-power-studio' && <IntegerPowerStudio />}
@@ -340,12 +343,7 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
                     <MathText text={item.explanation} />
                   </div>
                 )}
-                {item.verifyNote && (
-                  <div className="verify-note">
-                    <AlertCircle size={16} />
-                    <span>{item.verifyNote}</span>
-                  </div>
-                )}
+                {/* ملاحظة توثيق المصدر للبند (item.verifyNote) للمعلّم فقط. */}
                 {item.solution && (
                   <div style={{ marginTop: '0.75rem' }}>
                     <button

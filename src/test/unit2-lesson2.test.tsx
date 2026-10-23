@@ -134,7 +134,11 @@ describe('Unit 2, Lesson 2 — registration and curriculum position', () => {
 
     const lesson1 = getLessonById('unit-2', 'u2-lesson-1')!;
     expect(lesson1.title).toBe('قوى العدد 10');
-    expect(lesson1.steps).toHaveLength(13);
+    // الدرس الأول أُعيد بناؤه في مهمته الخاصة، فيُفحص هنا أنه بقي مسجّلًا
+    // بخطوات مصدرها صفحات 26–28 ولا يحتوي صفحات هذا الدرس (29–31).
+    expect(lesson1.sourcePages).toEqual([26, 27, 28]);
+    expect(lesson1.steps.length).toBeGreaterThan(0);
+    expect(lesson1.steps.every((step) => step.sourcePages.every((page) => page >= 26 && page <= 28))).toBe(true);
     expect(resolveTest('u2-test-lesson-1')!.questionCount).toBe(20);
     expect(resolveTest('u2-test-lesson-1')!.questions.every((q) => q.id.startsWith('u2-l1-'))).toBe(true);
   });

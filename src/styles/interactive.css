@@ -778,3 +778,446 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   الوحدة الثانية — الدرس الأول: قوى العدد 10 (الصفحات 26–28)
+   ثلاثة مكوّنات جديدة: إطارات النشاط، مختبر القوة السالبة،
+   ومختبر الصيغة المعيارية. الأنماط هنا فقط، والنصوص من البيانات.
+   ───────────────────────────────────────────────────────────── */
+
+.power-frames,
+.neg-zoom,
+.sf-lab {
+  margin: 1.25rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--color-primary-100);
+  border-radius: 14px;
+  background: var(--color-primary-50);
+}
+
+.power-frames-intro,
+.neg-zoom-intro,
+.sf-lab-intro {
+  margin: 0 0 1rem;
+  color: var(--color-slate-700);
+  line-height: 1.9;
+}
+
+.power-frames-arrows {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: var(--color-primary-800);
+  margin-bottom: 0.6rem;
+}
+
+.power-frames-arrow {
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--color-primary-200);
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 700;
+}
+
+.power-frames-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.power-frames-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 0.35rem;
+  border: 1px solid var(--color-primary-200);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.power-frames-cell.is-correct {
+  border-color: var(--color-emerald-500, #10b981);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.18);
+}
+
+.power-frames-cell.is-wrong {
+  border-color: var(--color-rose-500, #f43f5e);
+  box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.16);
+}
+
+.power-frames-value {
+  font-weight: 800;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.power-frames-label {
+  font-size: 0.75rem;
+  color: var(--color-slate-600);
+}
+
+.power-frames-input {
+  width: 100%;
+  max-width: 76px;
+  padding: 0.3rem 0.35rem;
+  border: 1px solid var(--color-slate-300);
+  border-radius: 8px;
+  text-align: center;
+  font: inherit;
+  font-weight: 700;
+  background: var(--color-slate-50);
+}
+
+.power-frames-input:focus-visible {
+  outline: 3px solid var(--color-primary-400);
+  outline-offset: 1px;
+}
+
+.power-frames-preview {
+  font-size: 0.85rem;
+}
+
+.power-frames-fraction {
+  font-size: 0.8rem;
+  color: var(--color-slate-600);
+}
+
+.power-frames-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: var(--color-slate-100);
+  color: var(--color-slate-700);
+  text-align: center;
+}
+
+.power-frames-badge.is-ok {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.power-frames-badge.is-bad {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.power-frames-controls,
+.neg-zoom-picker,
+.sf-lab-controls,
+.sf-lab-presets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.power-frames-button,
+.neg-zoom-pick,
+.sf-lab-move,
+.sf-lab-preset {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--color-primary-300);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-primary-800);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.power-frames-button {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #fff;
+}
+
+.power-frames-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.power-frames-reset,
+.sf-lab-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px dashed var(--color-slate-300);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-slate-700);
+  font: inherit;
+  cursor: pointer;
+}
+
+.power-frames-button:focus-visible,
+.power-frames-reset:focus-visible,
+.neg-zoom-pick:focus-visible,
+.sf-lab-move:focus-visible,
+.sf-lab-reset:focus-visible,
+.sf-lab-preset:focus-visible {
+  outline: 3px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+.power-frames-count,
+.sf-lab-shift {
+  font-size: 0.85rem;
+  color: var(--color-slate-600);
+}
+
+.power-frames-feedback {
+  margin-top: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #7c2d12;
+}
+
+.power-frames-feedback.is-ok {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+.power-frames-feedback p {
+  margin: 0;
+  line-height: 1.9;
+}
+
+/* ── مختبر القوة السالبة ── */
+
+.neg-zoom-pick.is-active {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #fff;
+}
+
+.neg-zoom-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1rem 0;
+  font-size: 1.05rem;
+}
+
+.neg-zoom-term {
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--color-primary-200);
+}
+
+.neg-zoom-decimal {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-primary-800);
+}
+
+.neg-zoom-eq {
+  color: var(--color-slate-500);
+  font-weight: 700;
+}
+
+.neg-zoom-places {
+  margin: 0.75rem 0;
+}
+
+.neg-zoom-places-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--color-slate-600);
+}
+
+.neg-zoom-place-row {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  direction: ltr;
+  justify-content: center;
+}
+
+.neg-zoom-place {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 46px;
+  padding: 0.35rem 0.2rem;
+  border: 1px solid var(--color-slate-300);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.neg-zoom-place.is-one {
+  border-color: var(--color-primary-600);
+  background: var(--color-primary-100);
+}
+
+.neg-zoom-place-digit {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.neg-zoom-place-index {
+  font-size: 0.7rem;
+  color: var(--color-slate-500);
+}
+
+.neg-zoom-facts {
+  margin: 0.75rem 0;
+  padding-inline-start: 1.2rem;
+  line-height: 2;
+  color: var(--color-slate-800);
+}
+
+.neg-zoom-note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-slate-600);
+  line-height: 1.9;
+}
+
+/* ── مختبر الصيغة المعيارية ── */
+
+.sf-lab-input-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sf-lab-label {
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.sf-lab-input {
+  flex: 1 1 180px;
+  max-width: 240px;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-slate-300);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.sf-lab-input:focus-visible {
+  outline: 3px solid var(--color-primary-400);
+  outline-offset: 1px;
+}
+
+.sf-lab-hint {
+  font-size: 0.8rem;
+  color: var(--color-slate-500);
+}
+
+.sf-lab-presets-label {
+  font-size: 0.85rem;
+  color: var(--color-slate-600);
+}
+
+.sf-lab-preset {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sf-lab-move {
+  background: #fff;
+}
+
+.sf-lab-readout {
+  margin: 1rem 0 0.75rem;
+  padding: 0.9rem;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--color-primary-200);
+  text-align: center;
+}
+
+.sf-lab-equation {
+  font-size: 1.15rem;
+}
+
+.sf-lab-status {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #9a3412;
+}
+
+.sf-lab-status.is-standard {
+  color: #065f46;
+  font-weight: 700;
+}
+
+.sf-lab-track {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  border-radius: 10px;
+  background: var(--color-slate-50);
+  font-variant-numeric: tabular-nums;
+}
+
+.sf-lab-track-value {
+  font-weight: 700;
+}
+
+.sf-lab-track-arrow,
+.sf-lab-track-eq {
+  color: var(--color-slate-500);
+}
+
+.sf-lab-note {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--color-slate-600);
+  line-height: 1.9;
+}
+
+.sf-lab-error {
+  margin: 0.9rem 0 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #7c2d12;
+}
+
+@media (max-width: 860px) {
+  .power-frames-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .power-frames-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .neg-zoom-chain {
+    font-size: 0.95rem;
+  }
+
+  .sf-lab-input {
+    max-width: none;
+  }
+}
