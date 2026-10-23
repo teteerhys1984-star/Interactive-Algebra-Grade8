@@ -99,6 +99,37 @@ describe('تمارين الوحدة الثانية — العرض داخل ال�
     expect(visibleText(container)).toContain('4.73');
   });
 
+  it('يفتح بندًا وملاحظة الحل، ثم يعيد الحالة عند الانتقال لسؤال آخر', { timeout: 30_000 }, () => {
+    window.location.hash = '#/unit/unit-2/lesson/u2-lesson-5/9';
+    const { container } = render(<App />);
+
+    // نبحث بالنص لا بالدور، لأن حساب الاسم المتاح في jsdom على صفحة طويلة يفشل.
+    const buttonWith = (text: string): HTMLElement =>
+      Array.from(container.querySelectorAll('button')).find((node) =>
+        node.textContent?.includes(text),
+      ) as HTMLElement;
+
+    fireEvent.click(buttonWith('أظهر التلميح'));
+    fireEvent.click(buttonWith('أظهر الحل'));
+    const revealButtons = Array.from(container.querySelectorAll('button')).filter((node) =>
+      node.textContent?.includes('إظهار الحل والخطوات'),
+    );
+    fireEvent.click(revealButtons[1]);
+    expect(container.querySelectorAll('.exercise-reveal')).toHaveLength(2);
+    expect(container.querySelectorAll('.solution-panel')).toHaveLength(1);
+
+    // الانتقال إلى السؤال التالي: كل الكشوف مغلقة من جديد.
+    fireEvent.click(buttonWith('الخطوة التالية'));
+    expect(visibleText(container)).toContain('السؤال 10 من 39');
+    expect(container.querySelectorAll('.exercise-reveal')).toHaveLength(0);
+    expect(container.querySelectorAll('.solution-panel')).toHaveLength(0);
+
+    // العودة إلى السؤال 9: لا يحتفظ العرض بحالة الكشف.
+    fireEvent.click(buttonWith('الخطوة السابقة'));
+    expect(visibleText(container)).toContain('السؤال 9 من 39');
+    expect(container.querySelectorAll('.exercise-reveal')).toHaveLength(0);
+  });
+
   it('يظهر تبويب المعلّم للدرس الخامس دون TeX خام', { timeout: 60_000 }, () => {
     window.location.hash = '#/teacher';
     const { container } = render(<App />);

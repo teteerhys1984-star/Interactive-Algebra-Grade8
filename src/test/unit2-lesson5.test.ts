@@ -277,6 +277,12 @@ describe('تمارين الوحدة الثانية — جرد المصدر ال�
     questionOne: { images: number; items: number };
     files: { question: string }[];
     sourceNotes: { question: number }[];
+    verificationRounds: {
+      questionsComparedDirectly: number[];
+      notAvailable: { questions: string };
+      directComparisons: { question: number; sha256: string | null }[];
+      fixedInThisAudit: { question: number; item: string }[];
+    }[];
   };
 
   it('سجل التدقيق الداخلي مطابق للدرس (39 سؤالًا، 165 بندًا، صورتان للسؤال 1)', () => {
@@ -291,6 +297,19 @@ describe('تمارين الوحدة الثانية — جرد المصدر ال�
   it('كل نقطة مصدر موثّقة تقابل سؤالًا موجودًا', () => {
     const numbers = new Set(unit2Lesson5Questions.map((question) => question.n));
     for (const note of audit.sourceNotes) expect(numbers.has(note.question), String(note.question)).toBe(true);
+  });
+
+  it('جولة المراجعة النهائية توثّق ما طوبق مباشرةً وما لم تتوفر صوره', () => {
+    const [round] = audit.verificationRounds;
+    expect(round.questionsComparedDirectly).toEqual([15, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]);
+    expect(round.directComparisons).toHaveLength(16);
+    expect(round.directComparisons.every((entry) => entry.sha256 && entry.sha256.length === 64)).toBe(true);
+    // الصور غير المتاحة مذكورة صراحةً بدل الادّعاء بمطابقة شاملة.
+    expect(round.notAvailable.questions).toContain('1–14');
+    expect(round.fixedInThisAudit.map((entry) => entry.question)).toContain(7);
+    expect(round.fixedInThisAudit.map((entry) => entry.question)).toEqual(
+      expect.arrayContaining([7, 11, 16, 18]),
+    );
   });
 
   it('لا يُعرض جرد المصدر للطالب داخل واجهة الدرس', () => {

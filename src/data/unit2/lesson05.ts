@@ -193,7 +193,7 @@ export const quickChecks: Record<number, QuickCheck[]> = {
   16: [
     {
       prompt: 'ما الصيغة المعيارية لـ $3\\times10^{6}\\times6\\times10^{-4}$؟',
-      choices: ['18\\times10^{2}', '1.8\\times10^{3}', '1.8\\times10^{2}'],
+      choices: ['18\\times10^{3}', '1.8\\times10^{3}', '1.8\\times10^{2}'],
       correctIndex: 1,
       explain: '$3\\times6=18$ و$10^{6}\\times10^{-4}=10^{2}$، فالناتج $18\\times10^{2}=1.8\\times10^{3}$.',
     },

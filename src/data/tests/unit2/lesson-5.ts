@@ -398,11 +398,12 @@ export const unit2Lesson5TestQuestions: TestQuestion[] = [
       { id: 'left-3', label: '$345\\times10^{4}$' },
       { id: 'left-4', label: '$0.034\\,5$' },
     ],
+    // ترتيب العرض مقصود ألّا يطابق ترتيب الأعداد، وإلا صار السؤال «صِل بالترتيب».
     rightItems: [
-      { id: 'right-1', label: '$3.45\\times10^{4}$' },
-      { id: 'right-2', label: '$3.45\\times10^{-3}$' },
       { id: 'right-3', label: '$3.45\\times10^{6}$' },
+      { id: 'right-1', label: '$3.45\\times10^{4}$' },
       { id: 'right-4', label: '$3.45\\times10^{-2}$' },
+      { id: 'right-2', label: '$3.45\\times10^{-3}$' },
     ],
     correctPairs: {
       'left-1': 'right-1',

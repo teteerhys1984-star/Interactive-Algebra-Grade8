@@ -86,6 +86,17 @@ describe('curated test-bank integrity', () => {
       (warning) => !declaredDeferrals.some((prefix) => warning.startsWith(prefix)),
     );
     expect(unexplainedWarnings).toEqual([]);
+
+    // التأجيل المعلن يجب أن يظل ظاهرًا كتحذير — لا يُسكِت التقارير ولا يخفي الفجوة.
+    for (const definition of testDefinitions) {
+      for (const pending of definition.pendingLessonCoverage ?? []) {
+        const visible = report.warnings.some(
+          (warning) => warning.startsWith(`${definition.id}: ${pending.lessonId} is not covered yet`)
+            || warning.startsWith(`${definition.id}: ${pending.lessonId} is covered now`),
+        );
+        expect(visible, `${definition.id}/${pending.lessonId} deferral must stay reported`).toBe(true);
+      }
+    }
     expect(report.suspiciousQuestions).toEqual([]);
     // Review notes are informational; every one must name a question that exists.
     const ids = new Set(questionBank.map((question) => question.id));
