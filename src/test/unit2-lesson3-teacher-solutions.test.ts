@@ -1,183 +1,163 @@
-import { describe, it, expect } from 'vitest';
-import { unit2Lesson3Data } from '../data/unit2/lesson03';
-import { unit2Lesson3TeacherSolutions } from '../data/unit2/lesson03TeacherSolutions';
+import { describe, expect, it } from 'vitest';
+import katex from 'katex';
+import { unit2Lesson3Data as lesson } from '../data/unit2/lesson03';
+import { unit2Lesson3TeacherSolutions as solutions } from '../data/unit2/lesson03TeacherSolutions';
+import audit from '../data/unit2/lesson03.source-audit.json';
+import { evaluateTex, fromFractionText, mathShape } from './fixtures/lesson3-exact-math';
 
-/**
- * تغطية حلول المعلّم للوحدة الثانية — الدرس الثالث (قوى صحيحة لعدد نسبي، الصفحات 32–34).
- * المعيار: كل تعريف وقاعدة ومثال و«تحقّق من فهمك» و«تدرّب» — وكل بند فرعي فيها —
- * يجب أن يملك حلًا خطوة بخطوة. لا يُحسب العدد الكامل مسبقًا؛ يُستخرج من البيانات.
- *
- * يبقى الاستثناءان الموثّقان أدناه: جملتان تمهيديتان لا تحملان مطلوبًا (تمهيد نشاط
- * الصفحة 32، وتعليمة «تحقّق من فهمك» في الصفحة 34) فلا تُطلبان في الحلول.
- */
+const blocks = lesson.steps.flatMap((step) => step.blocks);
+const source = blocks.filter((block) => !block.authored);
+const framing = new Set(['p32-activity-intro', 'p33-example-instruction']);
+const key = (blockId: string, subIndex?: number) => `${blockId}#${subIndex ?? 'block'}`;
+const required = source.filter((block) => !framing.has(block.id)).flatMap((block) =>
+  block.subItems?.length
+    ? block.subItems.map((_, index) => key(block.id, index))
+    : [key(block.id)],
+);
+const linked = (blockId: string, subIndex?: number) => solutions.find((solution) =>
+  solution.blockId === blockId && solution.subIndex === subIndex,
+)!;
+const equalityParts = (math: string) => math.replace(/\$/g, '')
+  .replace(/\\(?:begin|end)\{aligned\}/g, '').replace(/&/g, '')
+  .split(/\\\\|=/).map((part) => part.trim()).filter((part) => part && !/^[A-Z]$/.test(part));
 
-const COVERED_TYPES = new Set(['practice', 'learn', 'knowledge', 'example', 'check', 'word-problem']);
-
-/** جملتان تمهيديتان (لا سؤال فيهما): تمهيد النشاط، وتعليمة «تحقّق من فهمك». */
-const FRAMING_BLOCK_IDS = new Set(['p32-activity-intro', 'p34-check-instruction']);
-
-interface Inventory {
-  key: string;
-  blockId: string;
-  subIndex?: number;
-  page: number;
-}
-
-function requiredInventory(blocks: any[]): Inventory[] {
-  const out: Inventory[] = [];
-  for (const block of blocks) {
-    if (FRAMING_BLOCK_IDS.has(block.id)) continue;
-    if (!COVERED_TYPES.has(block.type)) continue;
-    // سياق مسألة كلامية بلا بنود فرعية (جملة تمهيدية) لا يُعدّ بندًا؛ بنوده الفرعية مغطاة.
-    if (block.type === 'word-problem' && !(Array.isArray(block.subItems) && block.subItems.length > 0)) continue;
-    if (Array.isArray(block.subItems) && block.subItems.length > 0) {
-      block.subItems.forEach((_: unknown, index: number) =>
-        out.push({ key: `${block.id}#${index}`, blockId: block.id, subIndex: index, page: block.sourceRef?.page ?? 0 }),
-      );
-    } else {
-      out.push({ key: block.id, blockId: block.id, page: block.sourceRef?.page ?? 0 });
-    }
-  }
-  return out;
-}
-
-const allBlocks = unit2Lesson3Data.steps.flatMap((step: any) => step.blocks ?? []);
-const allSubItems = allBlocks.flatMap((block: any) => block.subItems ?? []);
-
-const solutionKey = (solution: (typeof unit2Lesson3TeacherSolutions)[number]): string =>
-  solution.subIndex !== undefined ? `${solution.blockId}#${solution.subIndex}` : solution.blockId;
-
-describe('حلول المعلّم التفصيلية — الوحدة الثانية، الدرس الثالث', () => {
-  const required = requiredInventory(allBlocks);
-  const solutionsByKey = new Map<string, typeof unit2Lesson3TeacherSolutions>();
-  for (const solution of unit2Lesson3TeacherSolutions) {
-    const key = solutionKey(solution);
-    solutionsByKey.set(key, [...(solutionsByKey.get(key) ?? []), solution]);
-  }
-
-  it('الجرد يحوي عدداً غير صفري من البنود المطلوبة (الاستخراج من البيانات)', () => {
-    expect(required.length).toBeGreaterThan(0);
-    expect(required.length).toBe(56);
-    console.info(
-      `[unit2-lesson3-teacher-solutions] required items: ${required.length}, solutions: ${unit2Lesson3TeacherSolutions.length}`,
-    );
-  });
-
-  it('لكل بند مطلوب حل واحد على الأقل، ولا حل زائد عن البنود', () => {
-    const missing = required.filter((entry) => !solutionsByKey.has(entry.key)).map((entry) => entry.key);
-    expect(missing).toEqual([]);
-
-    const requiredKeys = new Set(required.map((entry) => entry.key));
-    const extra = [...solutionsByKey.keys()].filter((key) => !requiredKeys.has(key));
-    expect(extra).toEqual([]);
-  });
-
-  it('لا يوجد حل يشير إلى كتلة أو بند فرعي غير موجود', () => {
-    const blockIndex = new Map(allBlocks.map((block: any) => [block.id, block]));
-    const dangling = unit2Lesson3TeacherSolutions.filter((solution) => {
-      const block: any = blockIndex.get(solution.blockId);
-      if (!block) return true;
-      if (solution.subIndex === undefined) return false;
-      return !Array.isArray(block.subItems) || solution.subIndex >= block.subItems.length;
-    });
-    expect(dangling.map((solution) => solution.id)).toEqual([]);
-  });
-
-  it('معرّفات الحلول فريدة، وكل صفحة من صفحات الدرس مغطاة', () => {
-    const ids = unit2Lesson3TeacherSolutions.map((solution) => solution.id);
-    expect(new Set(ids).size).toBe(ids.length);
-
-    const pages = new Set(unit2Lesson3TeacherSolutions.map((solution) => solution.source.match(/ص(\d+)/)?.[1]));
-    expect([...pages].sort()).toEqual(['32', '33', '34']);
-  });
-
-  it('كل حل مكتمل: مسألة، خطوتان على الأقل، جواب نهائي، قاعدة، تحقّق، وصفحة', () => {
-    for (const solution of unit2Lesson3TeacherSolutions) {
-      expect(solution.problem.trim().length, solution.id).toBeGreaterThan(0);
-      expect(solution.steps.length, solution.id).toBeGreaterThanOrEqual(2);
-      solution.steps.forEach((step) => expect(step.trim().length, solution.id).toBeGreaterThan(0));
-      expect(solution.finalAnswer.trim().length, solution.id).toBeGreaterThan(0);
-      expect(solution.principle.trim().length, solution.id).toBeGreaterThan(0);
-      expect(solution.check?.trim().length ?? 0, solution.id).toBeGreaterThan(0);
-      expect(solution.source, solution.id).toMatch(/ص(32|33|34)/);
-    }
-  });
-
-  it('يفصل بين ما طُبع في الكتاب وما اشتقّته المنصة', () => {
-    const printed = unit2Lesson3TeacherSolutions.filter((solution) => solution.answerOrigin === 'الكتاب');
-    const derived = unit2Lesson3TeacherSolutions.filter((solution) => solution.answerOrigin === 'مُشتقة من المنصة');
-    expect(printed.length + derived.length).toBe(unit2Lesson3TeacherSolutions.length);
-    expect(printed.length).toBe(14);
-    expect(derived.length).toBe(42);
-
-    // الحلول المأخوذة من أمثلة الكتاب المطبوعة لا يجوز أن تُنسب إلى المنصة.
-    for (const solution of unit2Lesson3TeacherSolutions) {
-      if (/^s3\d-ex-/.test(solution.id) || /^s32-(def|rule)-/.test(solution.id) || /^s33-(rule|priority)/.test(solution.id)) {
-        expect(solution.answerOrigin, solution.id).toBe('الكتاب');
+describe('Lesson 3 — teacher solutions: authentic coverage, not just a count', () => {
+  it('covers every one of the 54 source targets exactly once, with no authored or dangling links', () => {
+    expect(required).toHaveLength(54);
+    expect(solutions).toHaveLength(54);
+    const actual = solutions.map((solution) => key(solution.blockId, solution.subIndex));
+    expect([...actual].sort()).toEqual([...required].sort());
+    expect(new Set(actual).size).toBe(54);
+    expect(new Set(solutions.map((solution) => solution.id)).size).toBe(54);
+    expect(lesson.teacherArea!.solutions).toBe(solutions);
+    for (const solution of solutions) {
+      const block = source.find((entry) => entry.id === solution.blockId)!;
+      expect(solution.source, solution.id).toContain(`ص${block.sourceRef.page}`);
+      if (solution.subIndex !== undefined) {
+        const item = block.subItems![solution.subIndex];
+        if (/^[①-⑨]$/.test(item.label ?? '')) expect(solution.source).toContain(item.label);
       }
     }
   });
 
-  it('لا توجد عناصر نائبة أو عبارات «قريباً» في الحلول', () => {
-    const bad = /TODO|TBD|قريباً|coming soon|placeholder|ـ\s*$/i;
-    const hits = unit2Lesson3TeacherSolutions.filter((solution) =>
-      [solution.problem, solution.principle, solution.finalAnswer, ...solution.steps, solution.check ?? '', solution.sourceNote ?? '']
-        .some((text) => bad.test(text)),
-    );
-    expect(hits.map((hit) => hit.id)).toEqual([]);
-  });
-
-  it('أي علامة $ مفتوحة بلا إغلاق في النصوص تُكتشف', () => {
-    const unbalanced = unit2Lesson3TeacherSolutions.filter((solution) =>
-      [solution.problem, solution.principle, solution.finalAnswer, solution.check ?? '', ...solution.steps, solution.sourceNote ?? '']
-        .some((text) => (text.match(/\$/g) ?? []).length % 2 === 1),
-    );
-    expect(unbalanced.map((entry) => entry.id)).toEqual([]);
-  });
-
-  it('لا تصل صيغة TeX مزدوجة الشرطة المائلة إلى العرض (کل الشرطات مفردة)', () => {
-    // صيغة الكتاب تُكتب بشرطة مائلة واحدة داخل النص؛ تضاعفها يعرض \times كنص.
-    const doubled = unit2Lesson3TeacherSolutions.filter((solution) =>
-      [solution.problem, solution.principle, solution.finalAnswer, solution.check ?? '', ...solution.steps, solution.sourceNote ?? '']
-        .some((text) => text.includes('\\\\')),
-    );
-    expect(doubled.map((entry) => entry.id)).toEqual([]);
-  });
-
-  it('أجوبة مفاتيح الإجابة لا تحوي $ (تُعرض عبر Math الخام)', () => {
-    const keys = (unit2Lesson3Data.teacherArea?.answerKeys ?? []).flatMap((group) => group.items);
-    expect(keys.length).toBe(56);
-    expect(keys.filter((item) => (item.answer ?? '').includes('$') || (item.note ?? '').includes('$')).map((item) => item.ref))
-      .toEqual([]);
-  });
-
-  it('بنود «تحقّق من فهمك» و«تدرّب» كاملة العدد كما في الجرد المكتشف', () => {
-    const checkSubItems = allBlocks
-      .filter((block: any) => block.id.startsWith('p34-check-'))
-      .flatMap((block: any) => block.subItems ?? []);
-    const drillSubItems = allBlocks
-      .filter((block: any) => block.id.startsWith('p34-drill-'))
-      .flatMap((block: any) => block.subItems ?? []);
-
-    expect(checkSubItems.length).toBe(14);
-    expect(drillSubItems.length).toBe(16);
-
-    const solvedCheck = unit2Lesson3TeacherSolutions.filter((solution) => solution.blockId.startsWith('p34-check-'));
-    const solvedDrill = unit2Lesson3TeacherSolutions.filter((solution) => solution.blockId.startsWith('p34-drill-'));
-    expect(solvedCheck.length).toBe(checkSubItems.length);
-    expect(solvedDrill.length).toBe(drillSubItems.length);
-  });
-
-  it('كل بند فرعي معروض للطالب له حل، وكل حل يقابل بندًا معروضًا', () => {
-    const visibleSubItemKeys = new Set(
-      allBlocks.flatMap((block: any) => (block.subItems ?? []).map((_: unknown, index: number) => `${block.id}#${index}`)),
-    );
-    const solvedSubItemKeys = new Set(
-      unit2Lesson3TeacherSolutions.filter((solution) => solution.subIndex !== undefined).map(solutionKey),
-    );
-    for (const key of solvedSubItemKeys) {
-      expect(visibleSubItemKeys.has(key), key).toBe(true);
+  it('has meaningful steps, a principle and an independent check for every target', () => {
+    for (const solution of solutions) {
+      expect(solution.problem.trim().length, solution.id).toBeGreaterThan(10);
+      expect(solution.steps.length, solution.id).toBeGreaterThanOrEqual(2);
+      expect(solution.steps.every((step) => step.trim().length > 0), solution.id).toBe(true);
+      expect(solution.principle.trim().length, solution.id).toBeGreaterThan(10);
+      expect(solution.check!.trim().length, solution.id).toBeGreaterThan(10);
+      expect(solution.finalAnswer, solution.id).toMatch(/^\$[^$]+\$$/);
+      expect(JSON.stringify(solution), solution.id).not.toMatch(/TODO|TBD|placeholder|قريباً|يحتاج مطابقة/i);
     }
-    expect(allSubItems.length).toBeGreaterThan(0);
+  });
+
+  it('keeps 13 printed-result origins and 41 independently derived answers in 13 book-ordered groups', () => {
+    expect(solutions.filter((solution) => solution.answerOrigin === 'الكتاب')).toHaveLength(13);
+    expect(solutions.filter((solution) => solution.answerOrigin === 'مُشتقة من المنصة')).toHaveLength(41);
+    expect(new Set(solutions.map((solution) => solution.group)).size).toBe(13);
+    for (const group of audit.exerciseGroups) {
+      for (let index = 0; index < group.items.length; index++) {
+        expect(linked(group.blockId, index).answerOrigin).toBe('مُشتقة من المنصة');
+      }
+    }
+    // Generalization to 1^n and qualification n>0 are authored, not a printed result.
+    expect(linked('p32-def1-special').answerOrigin).toBe('مُشتقة من المنصة');
+    expect(linked('p32-def1-special').sourceNote).toContain('1^1');
+    expect(solutions.filter((solution) => solution.sourceNote)).toHaveLength(1);
+  });
+
+  it('matches and independently recomputes every exercise answer and every student reveal chain', () => {
+    for (const group of audit.exerciseGroups) {
+      const block = blocks.find((entry) => entry.id === group.blockId)!;
+      group.items.forEach((item, index) => {
+        const solution = linked(group.blockId, index);
+        expect(mathShape(solution.finalAnswer.slice(1, -1)), solution.id).toBe(mathShape(item.answer));
+        const expected = fromFractionText(item.value);
+        for (const part of equalityParts(solution.finalAnswer)) {
+          expect(evaluateTex(part), `${solution.id}: ${part}`).toEqual(expected);
+        }
+        if (group.blockId === 'p34-drill-4') {
+          const lines = block.subItems![index].solution!.replace(/\\(?:begin|end)\{aligned\}/g, '').split('\\\\');
+          lines.forEach((line, lineIndex) => {
+            const expectedLine = lineIndex === 0 ? fromFractionText('15') : expected;
+            for (const part of equalityParts(line)) expect(evaluateTex(part, { s: 15 })).toEqual(expectedLine);
+          });
+        } else {
+          for (const part of equalityParts(block.subItems![index].solution!)) {
+            expect(evaluateTex(part), `${block.id}/${index}: ${part}`).toEqual(expected);
+          }
+        }
+      });
+    }
+  });
+
+  it('recomputes all nine printed examples, including all four symbolic rule examples and every C line', () => {
+    const variables = { a: 2, y: -1 };
+    for (const example of audit.printedExamples) {
+      const block = source.find((entry) => entry.id === example.blockId)!;
+      const subIndex = example.subIndex ?? undefined;
+      const math = subIndex === undefined ? block.mathFormula! : block.subItems![subIndex].math!;
+      const solution = linked(example.blockId, subIndex);
+      const expected = example.value
+        ? fromFractionText(example.value)
+        : evaluateTex(example.answer.split('=')[0], variables);
+      for (const part of equalityParts(math)) {
+        expect(evaluateTex(part, variables), `${block.id}: ${part}`).toEqual(expected);
+      }
+      for (const part of equalityParts(solution.finalAnswer)) {
+        expect(evaluateTex(part, variables), `${solution.id}: ${part}`).toEqual(expected);
+      }
+    }
+    expect(5 * (-4) ** 3 + 6 * (-4) ** 2 - 10).toBe(-234);
+    expect((3 / 2 * 10) ** 3).toBe(3375);
+    expect((3 / 2) ** 3 * 1000).toBe(3375);
+  });
+
+  it('independently checks every purely numeric worked equality in steps and cross-checks', () => {
+    let checked = 0;
+    for (const solution of solutions) {
+      for (const prose of [...solution.steps, solution.check!]) {
+        for (const match of prose.matchAll(/\$([^$]+)\$/g)) {
+          const math = match[1];
+          // Unit conversions and assignments/conditions are not dimensionless equalities.
+          if (!math.includes('=') || /\\text|\\ne|[<>]/.test(math)) continue;
+          const plain = math.replace(/\\[a-zA-Z]+/g, '');
+          if (/[a-zA-Z]/.test(plain)) continue;
+          const parts = equalityParts(math);
+          if (parts.length < 2) continue;
+          if (math === '0^{-1}=\\frac10') {
+            parts.forEach((part) => expect(() => evaluateTex(part)).toThrow(RangeError));
+            checked++;
+            continue;
+          }
+          const values = parts.map((part) => evaluateTex(part));
+          for (const value of values.slice(1)) expect(value, `${solution.id}: ${math}`).toEqual(values[0]);
+          checked++;
+        }
+      }
+    }
+    expect(checked).toBeGreaterThan(80);
+  });
+
+  it('derives all 54 answer-key entries from the same linked final answers, without raw delimiters', () => {
+    const groups = lesson.teacherArea!.answerKeys;
+    expect(groups).toHaveLength(13);
+    const keys = groups.flatMap((group) => group.items);
+    expect(keys).toHaveLength(54);
+    expect(keys.map((item) => item.ref)).toEqual(solutions.map((solution) => solution.source));
+    expect(keys.map((item) => item.answer)).toEqual(solutions.map((solution) => solution.finalAnswer.slice(1, -1)));
+    expect(keys.every((item) => !item.answer.includes('$'))).toBe(true);
+  });
+
+  it('renders every teacher math fragment through strict KaTeX (aligned breaks remain legitimate)', () => {
+    for (const solution of solutions) {
+      for (const prose of [solution.problem, ...solution.steps, solution.finalAnswer, solution.principle, solution.check!, solution.sourceNote ?? '']) {
+        expect((prose.match(/\$/g) ?? []).length % 2, solution.id).toBe(0);
+        for (const match of prose.matchAll(/\$([^$]+)\$/g)) {
+          expect(() => katex.renderToString(match[1], { throwOnError: true }), `${solution.id}: ${match[1]}`).not.toThrow();
+        }
+      }
+    }
   });
 });

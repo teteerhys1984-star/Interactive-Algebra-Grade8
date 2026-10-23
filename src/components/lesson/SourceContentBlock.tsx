@@ -25,6 +25,7 @@ import { ScientificNotationLab } from '../interactive/ScientificNotationLab';
 import { IntegerPowerStudio } from '../interactive/IntegerPowerStudio';
 import { PowerRulesStudio } from '../interactive/PowerRulesStudio';
 import { OrderOfOperationsLab } from '../interactive/OrderOfOperationsLab';
+import { CubeVolumeLab } from '../interactive/CubeVolumeLab';
 import { SquareNumberTable } from '../interactive/SquareNumberTable';
 import { SquareRootExplorer } from '../interactive/SquareRootExplorer';
 import { RootRulesStudio } from '../interactive/RootRulesStudio';
@@ -302,6 +303,8 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       )}
 
       {block.interactiveType === 'order-of-operations-lab' && <OrderOfOperationsLab />}
+
+      {block.interactiveType === 'cube-volume-lab' && <CubeVolumeLab />}
 
       {block.interactiveType === 'square-table' && <SquareNumberTable />}
 

@@ -37,7 +37,7 @@ const ALL_RULES: RuleConfig[] = [
     id: 'product-power',
     label: 'قوة الجداء',
     symbolic: 'a^{n} \\times b^{n} = (a \\times b)^{n}',
-    reading: 'نجمع الأساسين داخل قوة واحدة ويبقى الأس نفسه.',
+    reading: 'نضرب الأساسين داخل قوة واحدة ويبقى الأس نفسه.',
     usesTwoBases: true,
   },
   {
@@ -57,7 +57,7 @@ const ALL_RULES: RuleConfig[] = [
 ];
 
 const BASE_CHOICES = [2, 3, 5, -2, -3];
-const SECOND_BASE_CHOICES = [3, 4, 5, 7];
+const SECOND_BASE_CHOICES = [3, 4, 5, 7, -2];
 const MIN_EXPONENT = -3;
 const MAX_EXPONENT = 4;
 
@@ -71,33 +71,16 @@ const exponentSumTex = (n: number, m: number): string =>
 
 const clampExponent = (value: number): number => Math.max(MIN_EXPONENT, Math.min(MAX_EXPONENT, value));
 
-interface PowerRulesStudioProps {
-  /** القواعد التي يعرضها المختبر؛ الافتراض: القواعد الأربع. */
-  rules?: PowerRuleId[];
-}
-
-export const PowerRulesStudio: React.FC<PowerRulesStudioProps> = ({ rules }) => {
-  const activeRules = useMemo<RuleConfig[]>(() => {
-    if (!rules || rules.length === 0) return ALL_RULES;
-    const selected = ALL_RULES.filter((rule) => rules.includes(rule.id));
-    return selected.length > 0 ? selected : ALL_RULES;
-  }, [rules]);
-
-  const [ruleId, setRuleId] = useState<PowerRuleId>(activeRules[0].id);
-  const [base, setBase] = useState<number>(2);
-  const [secondBase, setSecondBase] = useState<number>(3);
-  const [n, setN] = useState<number>(3);
-  const [m, setM] = useState<number>(2);
-
-  const rule = activeRules.find((entry) => entry.id === ruleId) ?? activeRules[0];
-
-  const { leftTex, rightTex, result, checkTex } = useMemo(() => {
+/** The same exact calculation drives the UI and the exhaustive supported-grid tests. */
+export function calculatePowerRule(ruleId: PowerRuleId, base: number, secondBase: number, n: number, m: number) {
+  if (base === 0 || secondBase === 0) throw new RangeError('Rule studio bases must be nonzero');
+  const calculation = (() => {
     const aTex = integerTex(base);
     const bTex = integerTex(secondBase);
     const aFraction: ExactFraction = { num: base, den: 1 };
     const bFraction: ExactFraction = { num: secondBase, den: 1 };
 
-    switch (rule.id) {
+    switch (ruleId) {
       case 'product': {
         const left = fractionPower(aFraction, n);
         const right = fractionPower(aFraction, m);
@@ -145,13 +128,13 @@ export const PowerRulesStudio: React.FC<PowerRulesStudioProps> = ({ rules }) => 
         };
       }
     }
-  }, [rule, base, secondBase, n, m]);
+  })();
 
   /** يتحقّق المكوّن من اتّفاق الطرفين قبل أن يعرضهما للطالب. */
-  const verified = useMemo(() => {
+  const verified = (() => {
     const aFraction: ExactFraction = { num: base, den: 1 };
     const bFraction: ExactFraction = { num: secondBase, den: 1 };
-    switch (rule.id) {
+    switch (ruleId) {
       case 'product':
         return fractionEquals(
           normalise(fractionPower(aFraction, n).num * fractionPower(aFraction, m).num,
@@ -176,14 +159,42 @@ export const PowerRulesStudio: React.FC<PowerRulesStudioProps> = ({ rules }) => 
           divideFractions(fractionPower(aFraction, n), fractionPower(bFraction, n)),
         );
     }
-  }, [rule, base, secondBase, n, m]);
+  })();
+
+  return { ...calculation, verified };
+}
+
+interface PowerRulesStudioProps {
+  /** القواعد التي يعرضها المختبر؛ الافتراض: القواعد الأربع. */
+  rules?: PowerRuleId[];
+}
+
+export const PowerRulesStudio: React.FC<PowerRulesStudioProps> = ({ rules }) => {
+  const activeRules = useMemo<RuleConfig[]>(() => {
+    if (!rules || rules.length === 0) return ALL_RULES;
+    const selected = ALL_RULES.filter((rule) => rules.includes(rule.id));
+    return selected.length > 0 ? selected : ALL_RULES;
+  }, [rules]);
+
+  const [ruleId, setRuleId] = useState<PowerRuleId>(activeRules[0].id);
+  const [base, setBase] = useState<number>(2);
+  const [secondBase, setSecondBase] = useState<number>(3);
+  const [n, setN] = useState<number>(3);
+  const [m, setM] = useState<number>(2);
+
+  const rule = activeRules.find((entry) => entry.id === ruleId) ?? activeRules[0];
+
+  const { leftTex, rightTex, result, checkTex, verified } = useMemo(
+    () => calculatePowerRule(rule.id, base, secondBase, n, m),
+    [rule.id, base, secondBase, n, m],
+  );
 
   const decimalText = decimalOf(result);
 
   return (
     <section className="power-rules-studio" dir="rtl" aria-label="مختبر قواعد القوى">
       <p className="power-rules-intro">
-        <MathText text="اختر القاعدة، ثم غيّر الأساس والأس. يطبّق المختبر القاعدة رمزًا بالحروف، ثم بالأعداد، ويتحقّق من التساوي." />
+        <MathText text="اختر القاعدة، ثم غيّر الأساس والأس. يطبّق المختبر القاعدة رمزًا بالحروف، ثم بالأعداد، ويتحقّق من التساوي. جميع الأساسات هنا غير صفرية حتى تصح التجربة مع الأس صفر والأسس السالبة؛ ومقام الكسر غير صفر دائمًا." />
       </p>
 
       <div className="power-rules-tabs" role="tablist" aria-label="قواعد القوى">
@@ -240,7 +251,7 @@ export const PowerRulesStudio: React.FC<PowerRulesStudioProps> = ({ rules }) => 
                   aria-label={`الأساس b يساوي ${choice}`}
                   onClick={() => setSecondBase(choice)}
                 >
-                  <Formula math={`${choice}`} />
+                  <Formula math={integerTex(choice)} />
                 </button>
               ))}
             </div>
@@ -306,7 +317,7 @@ export const PowerRulesStudio: React.FC<PowerRulesStudioProps> = ({ rules }) => 
       <dl className="power-rules-facts">
         <div className="power-rules-fact">
           <dt>الناتج (كسر في أبسط صورة)</dt>
-          <dd dir="ltr">
+          <dd dir="ltr" data-testid="rule-exact-result" data-num={result.num} data-den={result.den}>
             <Formula math={fractionTex(result)} />
           </dd>
         </div>
@@ -329,6 +340,15 @@ export const PowerRulesStudio: React.FC<PowerRulesStudioProps> = ({ rules }) => 
           ? 'القاعدة محقّقة: الطرفان متساويان في هذا المثال.'
           : 'تنبيه: الطرفان غير متساويين — تحقّق من القاعدة المختارة.'}
       </p>
+      <button type="button" className="reveal-btn power-lab-reset" onClick={() => {
+        setRuleId(activeRules[0].id);
+        setBase(2);
+        setSecondBase(3);
+        setN(3);
+        setM(2);
+      }}>
+        إعادة تجربة القواعد إلى البداية
+      </button>
     </section>
   );
 };

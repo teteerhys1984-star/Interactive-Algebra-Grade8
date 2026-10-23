@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { SourceContentBlock } from '../components/lesson/SourceContentBlock';
-import { IntegerPowerStudio } from '../components/interactive/IntegerPowerStudio';
-import { PowerRulesStudio } from '../components/interactive/PowerRulesStudio';
-import { OrderOfOperationsLab } from '../components/interactive/OrderOfOperationsLab';
 import { curriculum, getLessonById, getUnitById } from '../data/curriculum';
 import { unit2Lesson3Data } from '../data/unit2/lesson03';
-import { unit2Lesson3TeacherSolutions } from '../data/unit2/lesson03TeacherSolutions';
 import { unit2Lesson3TestQuestions } from '../data/tests/unit2/lesson-3';
 import { auditTestBank } from '../data/tests/audit';
 import { blueprintForLesson } from '../data/tests/blueprints';
@@ -26,21 +20,8 @@ import type {
   TrueFalseQuestion,
 } from '../data/tests/types';
 
-/**
- * Regression checks for Unit 2, Lesson 3 (قوى صحيحة لعدد نسبي, pages 32–34).
- *
- * They lock in three things that must not drift:
- *  1. registration — the lesson and its test appear exactly once, in curriculum
- *     order, and nothing belonging to Unit 1 or to Lessons 1–2 of Unit 2 changed;
- *  2. source honesty — the `verifyNote` flags, the «شرح المنصة» tagging of every
- *     platform-authored block, and the raw-TeX hygiene of the data;
- *  3. the 20-question test — its distribution matches its blueprint, and every
- *     stored key is the mathematically correct answer (recomputed here from the
- *     power arithmetic itself, not copied from the question).
- *
- * The three new interactives are exercised at the end: each one must render RTL
- * prose around LTR-isolated KaTeX, and must show no raw TeX or `$` to students.
- */
+import audit from '../data/unit2/lesson03.source-audit.json';
+import { evaluateTex, fromFractionText, mathShape } from './fixtures/lesson3-exact-math';
 
 const LESSON_ID = 'u2-lesson-3';
 const TEST_ID = 'u2-test-lesson-3';
@@ -114,24 +95,6 @@ const sameValue = (actual: number, expected: number): boolean =>
   actual === expected
   || Math.abs(actual - expected) <= 1e-9 * Math.max(1, Math.abs(expected));
 
-const allStrings = (root: unknown): string[] => {
-  const out: string[] = [];
-  const walk = (node: unknown): void => {
-    if (typeof node === 'string') out.push(node);
-    else if (Array.isArray(node)) node.forEach(walk);
-    else if (node && typeof node === 'object') Object.values(node).forEach(walk);
-  };
-  walk(root);
-  return out;
-};
-
-/** النص المرئي فعلًا: نستثني نصف MathML الذي يحمل صيغة TeX المصدرية. */
-const visibleTextOf = (container: HTMLElement): string => {
-  const clone = container.cloneNode(true) as HTMLElement;
-  clone.querySelectorAll('.katex-mathml').forEach((node) => node.remove());
-  return clone.textContent ?? '';
-};
-
 function counts(values: string[]): Record<string, number> {
   const total: Record<string, number> = {};
   for (const value of values) total[value] = (total[value] ?? 0) + 1;
@@ -178,9 +141,9 @@ describe('Unit 2, Lesson 3 — registration and curriculum position', () => {
   });
 
   it('gives every step and block a real source page in 32–34 with unique ids', () => {
-    expect(lesson.steps).toHaveLength(13);
+    expect(lesson.steps).toHaveLength(17);
     expect(lesson.steps.map((step) => step.id)).toEqual(
-      Array.from({ length: 13 }, (_, index) => `step-${index + 1}`),
+      Array.from({ length: 17 }, (_, index) => `step-${index + 1}`),
     );
 
     for (const step of lesson.steps) {
@@ -201,178 +164,120 @@ describe('Unit 2, Lesson 3 — registration and curriculum position', () => {
   });
 });
 
-describe('Unit 2, Lesson 3 — source notes and platform-authored material', () => {
-  it('keeps the ten verifyNote flags and no longer claims any unreadable item', () => {
-    const verifyNotes = [
-      ...blocks.map((block) => block.verifyNote),
-      ...subItems.map((item) => item.verifyNote),
-    ].filter((note): note is string => Boolean(note));
-
-    expect(verifyNotes).toHaveLength(10);
-    expect(verifyNotes.every((note) => note.startsWith('ملاحظة المصدر'))).toBe(true);
-    // The one item that used to be flagged unreadable was resolved by a magnified
-    // image of page 34, so no note may keep claiming an omitted item.
-    expect(verifyNotes.filter((note) => note.includes('غير مقروء'))).toEqual([]);
+describe('Unit 2, Lesson 3 — source inventory and independent image audit', () => {
+  it('starts at the actual p32 lesson title, not at the separate p25 warmup', () => {
+    expect(audit.startBoundary.lessonBeginsOn).toBe(32);
+    expect(audit.startBoundary.separateWarmup).toContain('ص25');
+    expect(audit.sourceFiles.map((file) => file.page)).toEqual([32, 33, 34]);
+    expect(audit.unresolvedSourcePositions).toEqual([]);
   });
 
-  it('carries all six items of «تحقّق من فهمك ②» in the book order and numbering', () => {
-    const block = blocks.find((entry) => entry.id === 'p34-check-2')!;
-    const items = block.subItems!;
-    expect(items.map((item) => item.label)).toEqual(['①', '②', '③', '④', '⑤', '⑥']);
-    expect(items.map((item) => item.math)).toEqual([
-      '5^{2}',
-      '5^{-2}',
-      '(-9)^{2}',
-      '\\left(\\frac{2}{5}\\right)^{2}',
-      '\\left(-\\frac{1}{4}\\right)^{3}',
-      '(-2)^{-5}',
+  it('preserves all 27 source blocks in exact textbook sequence', () => {
+    expect(blocks.filter((block) => !block.authored).map((block) => block.id)).toEqual(audit.bookBlockSequence);
+    expect(blocks.filter((block) => !block.authored)).toHaveLength(27);
+  });
+
+  it('matches every sign, exponent, factor, fraction and label in all 39 exercise items', () => {
+    expect(audit.exerciseGroups.reduce((sum, group) => sum + group.items.length, 0)).toBe(39);
+    for (const group of audit.exerciseGroups) {
+      const block = blocks.find((entry) => entry.id === group.blockId)!;
+      expect(block.sourceRef.page, block.id).toBe(group.page);
+      expect(block.sourceRef.section, block.id).toBe(group.section);
+      expect(block.sourceRef.item, block.id).toBe(group.item);
+      expect(block.subItems, block.id).toHaveLength(group.items.length);
+      group.items.forEach((expected, index) => {
+        const item = block.subItems![index];
+        expect(item.label, `${block.id}/${index}`).toBe(expected.label);
+        if (expected.math) {
+          expect(mathShape(item.math!), `${block.id}/${index}`).toBe(mathShape(expected.math));
+          expect(evaluateTex(item.math!), `${block.id}/${index}`).toEqual(fromFractionText(expected.value));
+        }
+      });
+    }
+    const cube = blocks.find((block) => block.id === 'p34-drill-4')!;
+    expect(cube.content).toContain('\\frac32');
+    expect(cube.content).toContain('السنتيمترات المكعبة');
+  });
+
+  it('preserves the literal definitions while qualifying their domains in platform teaching', () => {
+    const text = (id: string) => blocks.find((block) => block.id === id)!.content;
+    expect(text('p32-def1-power')).toContain('$n\\ge2$');
+    expect(text('p32-def1-zero')).toContain('$a^1=a$');
+    expect(text('p32-def1-zero')).toContain('$a\\ne0$');
+    expect(text('p32-def1-special')).toContain('$1^1=1$');
+    expect(text('p32-def1-special')).toContain('$n\\ne0$');
+    expect(text('p32-def1-special')).not.toContain('1^n');
+    expect(text('p32-special-domain')).toContain('موجبًا فقط');
+    expect(text('p32-special-domain')).toContain('$0^0$ غير معرّف');
+    expect(text('p32-def2-reciprocal')).toContain('$a\\ne0$');
+    expect(text('p33-quotient-power-why')).toContain('$b\\ne0$');
+    expect(text('p33-quotient-power-why')).toContain('$a\\ne0$');
+  });
+
+  it('separates authored teaching, examples, experiments and graduated practice from the textbook', () => {
+    for (const block of blocks.filter((block) => block.authored)) {
+      expect(block.sourceRef.section, block.id).toBe('شرح المنصة');
+    }
+    for (const type of ['teach', 'insight', 'mistake', 'interactive-exercise']) {
+      expect(blocks.filter((block) => block.type === type).every((block) => block.authored)).toBe(true);
+    }
+    const labs = blocks.filter((block) => block.interactiveType && block.interactiveType !== 'practice-check');
+    expect(labs.map((block) => block.interactiveType)).toEqual([
+      'integer-power-studio', 'power-rules-studio', 'power-rules-studio', 'order-of-operations-lab', 'cube-volume-lab',
     ]);
-
-    // The student sees the same six labels once the block is rendered.
-    const rendered = render(<SourceContentBlock block={block} />);
-    const renderedText = rendered.container.textContent ?? '';
-    for (const label of ['①', '②', '③', '④', '⑤', '⑥']) {
-      expect(renderedText, label).toContain(label);
-    }
-    rendered.unmount();
-
-    // The answer key of the same question lists the six labels with the matching values.
-    const key = lesson.teacherArea!.answerKeys.find((group) => group.section.includes('② حساب الناتج'))!;
-    expect(key.items.map((item) => item.ref)).toEqual(['①', '②', '③', '④', '⑤', '⑥']);
-    expect(key.items.map((item) => item.answer)).toEqual([
-      '5^{2}=25',
-      '5^{-2}=\\frac{1}{25}=0.04',
-      '(-9)^{2}=81',
-      '\\left(\\frac{2}{5}\\right)^{2}=\\frac{4}{25}=0.16',
-      '\\left(-\\frac{1}{4}\\right)^{3}=-\\frac{1}{64}',
-      '(-2)^{-5}=-\\frac{1}{32}',
-    ]);
+    expect(blocks.find((block) => block.id === 'p32-rule-studio-12')!.interactiveData?.rules).toEqual(['product', 'product-power']);
+    expect(blocks.find((block) => block.id === 'p33-rule-studio-34')!.interactiveData?.rules).toEqual(['quotient', 'quotient-power']);
+    expect(labs.every((block) => block.authored && block.content.length > 100)).toBe(true);
+    expect(lesson.steps[15].blocks.every((block) => block.authored)).toBe(true);
+    expect(lesson.steps[16].blocks).toHaveLength(6);
   });
 
-  it('tags every platform-authored block as «شرح المنصة» and keeps the four interactives', () => {
-    const authored = blocks.filter((block) => block.authored === true);
-    expect(authored).toHaveLength(40);
-    expect(authored.every((block) => block.sourceRef.section === 'شرح المنصة')).toBe(true);
-
-    for (const type of ['teach', 'insight', 'mistake'] as const) {
-      const ofType = blocks.filter((block) => block.type === type);
-      expect(ofType.length, type).toBeGreaterThan(0);
-      expect(ofType.every((block) => block.authored === true), `${type} must be authored`).toBe(true);
-    }
-
-    const interactives = blocks.filter((block) => Boolean(block.interactiveType));
-    expect(interactives.map((block) => `${block.id}:${block.interactiveType}`)).toEqual([
-      'p32-studio-power:integer-power-studio',
-      'p32-rule-studio-12:power-rules-studio',
-      'p33-rule-studio-34:power-rules-studio',
-      'p33-priority-lab:order-of-operations-lab',
-    ]);
-    expect(interactives.every((block) => block.authored === true)).toBe(true);
-
-    // Each rules studio shows only the rules the lesson has explained so far.
-    const studio12 = blocks.find((block) => block.id === 'p32-rule-studio-12')!;
-    const studio34 = blocks.find((block) => block.id === 'p33-rule-studio-34')!;
-    expect(studio12.interactiveData?.rules).toEqual(['product', 'product-power']);
-    expect(studio34.interactiveData?.rules).toEqual(['quotient', 'quotient-power']);
+  it('keeps Arabic explanatory labels in prose and avoids unrendered TeX in plain lesson-test metadata', () => {
+    const natural = blocks.find((block) => block.id === 'p32-def1-power')!;
+    expect(natural.content).toContain('$n$ مرة');
+    expect(natural.mathFormula).toContain('_{n}');
+    const cube = blocks.find((block) => block.interactiveType === 'cube-volume-lab')!;
+    expect(cube.authored).toBe(true);
+    const test = resolveTest(TEST_ID)!;
+    expect(test.title + test.description).not.toMatch(/\$|[a-z]\^/);
   });
 
-  it('shows no raw TeX and no `$` where the <Math> renderer receives the string', () => {
-    // Backslashes are written once in the source and arrive once at the renderer:
-    // a doubled backslash would print «\\times» as text inside KaTeX.
-    for (const value of allStrings(lesson)) {
-      expect(value.includes('\\\\'), `double backslash in: ${value.slice(0, 60)}`).toBe(false);
+  it('documents 14 transcription corrections and the separate legible zero-domain issue for teachers only', () => {
+    expect(audit.corrections).toHaveLength(14);
+    const notes = [...blocks, ...subItems].flatMap((entry) => entry.verifyNote ? [entry.verifyNote] : []);
+    expect(notes).toHaveLength(15);
+    expect(notes.every((note) => note.startsWith('ملاحظة المصدر'))).toBe(true);
+    expect(notes.some((note) => /غير مقروء|يحتاج مطابقة|لم يُحسم/.test(note))).toBe(false);
+    for (const correction of audit.corrections) {
+      expect(notes.some((note) => note.includes(correction.note)), correction.location).toBe(true);
     }
-
-    // Raw-Math fields must never carry $ delimiters (they are not MathText).
-    for (const block of blocks) {
-      expect(block.mathFormula ?? '', block.id).not.toContain('$');
-    }
-    for (const item of subItems) {
-      expect(item.math ?? '', 'subItem math').not.toContain('$');
-      expect(item.solution ?? '', 'subItem solution').not.toContain('$');
-    }
-    for (const group of lesson.teacherArea!.answerKeys) {
-      for (const item of group.items) {
-        expect(item.answer, item.ref).not.toContain('$');
-        expect(item.note ?? '', item.ref).not.toContain('$');
-      }
-    }
-  });
-
-  it('keeps the thousand separators of the book as thin spaces, not as KaTeX line breaks', () => {
-    // $8\\,000$ must reach KaTeX with a single backslash before the comma.
-    const solution = unit2Lesson3TeacherSolutions.find((entry) => entry.id === 's33-ex-A')!;
-    expect(solution.finalAnswer).toBe('$A = 8\\,000$');
-    const check = unit2Lesson3TeacherSolutions.find((entry) => entry.id === 's34-drill4-0')!;
-    expect(check.finalAnswer).toContain('3\\,375');
-    expect(check.steps.some((step) => step.includes('1\\,000'))).toBe(true);
+    expect(audit.sourceInterpretationNotes).toHaveLength(1);
   });
 });
 
-describe('Unit 2, Lesson 3 — teacher area', () => {
-  it('keeps the 13 answer-key groups, in book order, covering pages 32–34', () => {
-    const answerKeys = lesson.teacherArea!.answerKeys;
-    expect(answerKeys).toHaveLength(13);
-    expect(answerKeys.reduce((total, group) => total + group.items.length, 0)).toBe(56);
-
-    const rules = answerKeys.find((group) => group.section.includes('قواعد حساب القوى'));
-    expect(rules, 'the four-rules answer key must exist').toBeDefined();
-    expect(rules!.items.map((item) => item.ref)).toEqual(['قاعدة 1', 'قاعدة 2', 'قاعدة 3', 'قاعدة 4']);
-    expect(rules!.items.map((item) => item.answer)).toEqual([
-      'a^{n}\\times a^{m}=a^{n+m}',
-      '(a\\times b)^{n}=a^{n}\\times b^{n}',
-      '\\frac{a^{n}}{a^{m}}=a^{n-m}',
-      '\\left(\\frac{a}{b}\\right)^{n}=\\frac{a^{n}}{b^{n}}',
-    ]);
-
-    // The activity items keep the order in which they are printed on page 32.
-    const activity = answerKeys[0];
-    expect(activity.items.map((item) => item.ref)).toEqual(['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨']);
-    expect(activity.items.map((item) => item.answer)).toEqual([
-      '5^{5}=3\\,125',
-      '7^{3}=343',
-      '8^{7}=2\\,097\\,152',
-      '5^{1}=5',
-      '7^{-1}=\\frac{1}{7}',
-      '8^{-3}=\\frac{1}{512}',
-      '15^{3}=3\\,375',
-      '35^{2}=1\\,225',
-      '24^{3}=13\\,824',
-    ]);
-  });
-
-  it('keeps the 56 step-by-step teacher solutions, grouped and complete', () => {
-    expect(lesson.teacherArea!.solutions).toBe(unit2Lesson3TeacherSolutions);
-    const solutions = lesson.teacherArea!.solutions!;
-    expect(solutions).toHaveLength(56);
-
-    const ids = solutions.map((solution) => solution.id);
-    expect(new Set(ids).size).toBe(ids.length);
-    expect(new Set(solutions.map((solution) => solution.group)).size).toBe(11);
-    expect(solutions.filter((solution) => Boolean(solution.sourceNote))).toHaveLength(40);
-
-    // Book answers and platform-derived answers are counted separately.
-    const origins = counts(solutions.map((solution) => solution.answerOrigin ?? ''));
-    expect(origins).toEqual({ الكتاب: 14, 'مُشتقة من المنصة': 42 });
-
-    for (const solution of solutions) {
-      expect(solution.steps.length, solution.id).toBeGreaterThanOrEqual(2);
-      expect(solution.steps.every((step) => step.trim().length > 0), solution.id).toBe(true);
-      expect(solution.finalAnswer.trim(), solution.id).not.toBe('');
-      expect(solution.principle.trim(), solution.id).not.toBe('');
-      expect(solution.problem.trim(), solution.id).not.toBe('');
-      expect(solution.check?.trim() ?? '', solution.id).not.toBe('');
-      expect(solution.source, solution.id).toMatch(/ص(32|33|34)/);
-    }
-
-    // Every page of the lesson is answered, and no group is empty.
-    for (const page of ['32', '33', '34']) {
-      expect(solutions.filter((solution) => solution.source.includes(`ص${page}`)).length, page)
-        .toBeGreaterThan(0);
-    }
-    for (const group of new Set(solutions.map((solution) => solution.group))) {
-      expect(solutions.some((solution) => solution.group === group), group).toBe(true);
-    }
+describe('Lesson 3 — authored practice keys', () => {
+  it('recomputes all 14 progressive check answers, including the counterexample and the zero-domain choice', () => {
+    const checks = blocks.filter((block) => block.interactiveType === 'practice-check')
+      .flatMap((block) => block.interactiveData!.questions as { choices: string[]; correctIndex: number }[]);
+    const values = ['128', '2', '16', '-16', '1/9', '8', '4', '16', '1', '16/9', '4', 'identity', '13', 'domain'];
+    expect(checks).toHaveLength(values.length);
+    checks.forEach((question, index) => {
+      const expected = values[index];
+      if (expected === 'domain') {
+        expect(question.choices[question.correctIndex]).toBe('n>0');
+      } else if (expected === 'identity') {
+        const trueChoices = question.choices.map((choice) => choice.split('=').map((side) => evaluateTex(side)))
+          .map(([left, right]) => left.n === right.n && left.d === right.d);
+        expect(trueChoices).toEqual([false, true, false]);
+        expect(question.correctIndex).toBe(1);
+      } else {
+        question.choices.forEach((choice, choiceIndex) => {
+          const actual = evaluateTex(choice.split('=')[0]);
+          const target = fromFractionText(expected);
+          expect(actual.n === target.n && actual.d === target.d, `${index}/${choiceIndex}`).toBe(choiceIndex === question.correctIndex);
+        });
+      }
+    });
   });
 });
 
@@ -494,10 +399,12 @@ describe('Unit 2, Lesson 3 — every stored key is the correct answer', () => {
     expect(4 ** 6).not.toBe(1296);
     expect(24).not.toBe(1296);
 
-    // 03 — the zero exponent: 12^0 = 1, so «= 0» is false.
+    // 03 — nonzero n alone is insufficient for a zero base over the integers.
     expect(trueFalse('u2-l3-03').correctAnswer).toBe(false);
-    expect(12 ** 0).toBe(1);
-    expect(12 ** 0).not.toBe(0);
+    expect(trueFalse('u2-l3-03').prompt).toContain('لكل عدد صحيح');
+    expect(0 ** 3).toBe(0);
+    expect(() => evaluateTex('0^{-1}')).toThrow(RangeError);
+    expect(() => evaluateTex('0^0')).toThrow(RangeError);
 
     // 04 — the special cases together: 5^0 + 0^3 + 1^9 = 1 + 0 + 1 = 2.
     expect(single('u2-l3-04').correctOptionId).toBe('a');
@@ -518,7 +425,9 @@ describe('Unit 2, Lesson 3 — every stored key is the correct answer', () => {
     expect(Object.values(pairs.correctPairs).sort()).toEqual(pairs.rightItems.map((item) => item.id).sort());
     expect(sameValue(4 ** -1, 1 / 4)).toBe(true);
     expect(sameValue(2 ** -3, 1 / 8)).toBe(true);
-    expect(sameValue(10 ** -2, 1 / 100)).toBe(true);
+    expect(pairs.leftItems[2].label).toContain('frac12');
+    expect(sameValue((1 / 2) ** -3, 8)).toBe(true);
+    expect(pairs.rightItems.find((item) => item.id === 'r1')!.label).toBe('$8$');
     expect(sameValue((-5) ** -2, 1 / 25)).toBe(true);
     expect(sameValue(1 / 4, 1 / 25)).toBe(false);
 
@@ -569,12 +478,11 @@ describe('Unit 2, Lesson 3 — every stored key is the correct answer', () => {
     expect(6 ** 5).toBe(7776);
     expect((-6) ** 3).toBe(-216);
 
-    // 13 — quotient rule with the bigger exponent on top: 5^9 ÷ 5^6 = 5^3 = 125.
+    // 13 — subtracting a negative denominator exponent: −2 − (−5) = 3.
     expect(numericQuestion('u2-l3-13').acceptedAnswers).toEqual(['3']);
-    expect(9 - 6).toBe(3);
-    expect(5 ** 9 / 5 ** 6).toBe(5 ** 3);
-    expect(5 ** 9 / 5 ** 6).toBe(1953125 / 15625);
-    expect(5 ** 3).toBe(125);
+    expect(numericQuestion('u2-l3-13').prompt).toContain('5^{-5}');
+    expect(-2 - (-5)).toBe(3);
+    expect(5 ** -2 / 5 ** -5).toBeCloseTo(125, 12);
 
     // 14 — ordering the quotient steps of 2^7 ÷ 2^3 and verifying 2^4 = 16.
     const quotientOrder = ordering('u2-l3-14');
@@ -600,14 +508,11 @@ describe('Unit 2, Lesson 3 — every stored key is the correct answer', () => {
     let gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
     expect(gcd(125, 8)).toBe(1); // already in lowest terms
 
-    // 17 — priority: 3 + 2^3×4 = 35 and 2^5 + 3 = 35 both hold; the two parenthesised
-    //      expressions do not.
+    // 17 — negative substitution AND priority; every provided option is recomputed.
     expect([...multiSelect('u2-l3-17').correctOptionIds].sort()).toEqual(['a', 'c']);
-    expect(2 ** 3 * 4).toBe(32);
-    expect(3 + 2 ** 3 * 4).toBe(35);
-    expect(2 ** 5 + 3).toBe(35);
-    expect((3 + 2 ** 3) * 4).toBe(44);
-    expect((3 + 2) ** 2 * 4).toBe(100);
+    expect(multiSelect('u2-l3-17').prompt).toContain('$x=-2$');
+    const values = multiSelect('u2-l3-17').options.map((option) => evaluateTex(option.label, { x: -2 }));
+    expect(values).toEqual([35, 56, 35, 4].map((value) => fromFractionText(String(value))));
 
     // 18 — the same slip with a product: 6 × 2^2 = 24, not (6 × 2)^2 = 144.
     expect(errorAnalysis('u2-l3-18').correctOptionId).toBe('a');
@@ -660,209 +565,5 @@ describe('Unit 2, Lesson 3 — every stored key is the correct answer', () => {
     expect(partial.correctCount).toBe(19);
     expect(partial.incorrectCount).toBe(1);
     expect(scoreTest(questions, {}).correctCount).toBe(0);
-  });
-});
-
-describe('Unit 2, Lesson 3 — the three new interactives', () => {
-  it('استوديو القوى: يعرض الصيغة الموسّعة والناتج الدقيق ويتابع الإشارة', () => {
-    const { container } = render(<IntegerPowerStudio />);
-    expect(container.querySelector('.power-studio')?.getAttribute('dir')).toBe('rtl');
-
-    // Default state: 3^3 = 27 with the expanded product and the exact fraction.
-    expect(document.querySelector('.power-studio-exponent-value')?.textContent).toBe('3');
-    const facts = Array.from(document.querySelectorAll('.power-studio-fact dd'));
-    expect(facts[0]?.textContent).toContain('27');
-    expect(document.querySelectorAll('.power-studio-formula .katex').length).toBeGreaterThan(0);
-    expect(container.querySelector('.power-studio-hint')).toBeNull(); // positive base
-
-    // Raising the exponent to 4 turns 3^3 into 3^4 = 81, and back down to 2^… no: to 3^2 = 9.
-    fireEvent.click(screen.getByRole('button', { name: 'زيادة الأس' }));
-    expect(document.querySelector('.power-studio-exponent-value')?.textContent).toBe('4');
-    expect(Array.from(document.querySelectorAll('.power-studio-fact dd'))[0]?.textContent).toContain('81');
-    fireEvent.click(screen.getByRole('button', { name: 'إنقاص الأس' }));
-    fireEvent.click(screen.getByRole('button', { name: 'إنقاص الأس' }));
-    expect(document.querySelector('.power-studio-exponent-value')?.textContent).toBe('2');
-    expect(Array.from(document.querySelectorAll('.power-studio-fact dd'))[0]?.textContent).toContain('9');
-
-    // A negative base: the sign hint appears, and the even/odd parity is spelled out.
-    fireEvent.click(screen.getByRole('button', { name: 'الأساس (−3)' }));
-    expect(screen.getByRole('button', { name: 'الأساس (−3)' }).getAttribute('aria-pressed')).toBe('true');
-    expect(document.querySelector('.power-studio-hint')).not.toBeNull();
-    // The exponent is still 2 at this point, so the signed power stays positive…
-    expect(document.querySelector('.power-studio-fact-wide')?.textContent).toContain('موجب');
-    // …and the next step up makes it odd, so the result turns negative.
-    fireEvent.click(screen.getByRole('button', { name: 'زيادة الأس' }));
-    expect(document.querySelector('.power-studio-fact-wide')?.textContent).toContain('سالب');
-    fireEvent.click(screen.getByRole('button', { name: 'إنقاص الأس' }));
-    expect(document.querySelector('.power-studio-fact-wide')?.textContent).toContain('موجب');
-
-    // A fraction base with a negative exponent: (3/2)^(−1) = 2/3.
-    fireEvent.click(screen.getByRole('button', { name: 'الأساس 3/2' }));
-    fireEvent.click(screen.getByRole('button', { name: 'إنقاص الأس' })); // 2 → 1
-    fireEvent.click(screen.getByRole('button', { name: 'إنقاص الأس' })); // 1 → 0
-    fireEvent.click(screen.getByRole('button', { name: 'إنقاص الأس' })); // 0 → −1
-    expect(document.querySelector('.power-studio-exponent-value')?.textContent).toBe('-1');
-    // The exact fraction is typeset vertically, not printed as \frac{2}{3}.
-    const fractionFact = document.querySelectorAll('.power-studio-fact dd')[0] as HTMLElement;
-    expect(fractionFact.querySelector('.katex')).not.toBeNull();
-    expect(visibleTextOf(fractionFact)).not.toContain('frac');
-    expect(visibleTextOf(fractionFact)).toContain('2');
-    expect(visibleTextOf(fractionFact)).toContain('3');
-
-    // The exponent never leaves the declared range −3 … 4.
-    for (let step = 0; step < 8; step += 1) {
-      const decrease = screen.getByRole('button', { name: 'إنقاص الأس' }) as HTMLButtonElement;
-      if (decrease.disabled) break;
-      fireEvent.click(decrease);
-    }
-    expect(document.querySelector('.power-studio-exponent-value')?.textContent).toBe('-3');
-    expect((screen.getByRole('button', { name: 'إنقاص الأس' }) as HTMLButtonElement).disabled).toBe(true);
-  });
-
-  it('مختبر قواعد القوى: يعرض القواعد المطلوبة فقط ويتحقّق من القاعدة عدديًا', () => {
-    const { container } = render(<PowerRulesStudio rules={['product', 'product-power']} />);
-    expect(container.querySelector('.power-rules-studio')?.getAttribute('dir')).toBe('rtl');
-
-    // Only the two rules the lesson has explained so far are offered.
-    const tabs = screen.getAllByRole('tab').map((tab) => tab.textContent);
-    expect(tabs).toEqual(['جداء قوتين', 'قوة الجداء']);
-    expect(screen.queryByRole('tab', { name: 'خارج قسمة قوتين' })).toBeNull();
-    expect(screen.queryByRole('tab', { name: 'قوة الخارج' })).toBeNull();
-
-    // Default numbers: 2^3 × 2^2 = 2^5 = 32, and the component confirms the equality.
-    expect(document.querySelector('.power-rules-result-math')?.getAttribute('dir')).toBe('ltr');
-    expect(Array.from(document.querySelectorAll('.power-rules-fact dd'))[0]?.textContent).toContain('32');
-    expect(document.querySelector('.power-rules-verdict')?.textContent).toBe(
-      'القاعدة محقّقة: الطرفان متساويان في هذا المثال.',
-    );
-    expect(document.querySelectorAll('.power-rules-symbolic .katex').length).toBeGreaterThan(0);
-
-    // The one-base rule exposes the m stepper; the two-base rule swaps it for b.
-    expect(screen.getByRole('button', { name: 'زيادة الأس m' })).toBeTruthy();
-    expect(screen.queryByRole('group', { name: 'اختيار الأساس b' })).toBeNull();
-
-    fireEvent.click(screen.getByRole('tab', { name: 'قوة الجداء' }));
-    expect(screen.getByRole('group', { name: 'اختيار الأساس b' })).toBeTruthy();
-    expect(screen.queryByRole('button', { name: 'زيادة الأس m' })).toBeNull();
-    // 2^3 × 3^3 = 8 × 27 = 216 = 6^3.
-    expect(Array.from(document.querySelectorAll('.power-rules-fact dd'))[0]?.textContent).toContain('216');
-    expect(216).toBe(2 ** 3 * 3 ** 3);
-    expect(216).toBe(6 ** 3);
-
-    // Choosing a negative base keeps the verdict honest (the check follows the numbers).
-    fireEvent.click(screen.getByRole('button', { name: 'الأساس a يساوي -2' }));
-    fireEvent.click(screen.getByRole('button', { name: 'زيادة الأس n' })); // 3 → 4 (even)
-    expect(document.querySelector('.power-rules-verdict')?.textContent).toBe(
-      'القاعدة محقّقة: الطرفان متساويان في هذا المثال.',
-    );
-    // (−2)^4 × 3^4 = 16 × 81 = 1,296 = 6^4, while the even exponent kills the sign.
-    expect(Array.from(document.querySelectorAll('.power-rules-fact dd'))[0]?.textContent).toContain('1296');
-    expect((-2) ** 4 * 3 ** 4).toBe(1296);
-  });
-
-  it('مختبر أولويات العمليات: يفرّق بين A و B و C عند x = −4', () => {
-    const { container } = render(<OrderOfOperationsLab />);
-    expect(container.querySelector('.priority-lab')?.getAttribute('dir')).toBe('rtl');
-
-    // Case A — the bracket is computed first: (5 × 4)^3 = 8,000.
-    expect(screen.getByTestId('priority-lab-result').textContent).toBe('8000');
-    expect(5 * 4).toBe(20);
-    expect(20 ** 3).toBe(8000);
-    expect(document.querySelector('.priority-lab-result-math')?.getAttribute('dir')).toBe('ltr');
-    expect(screen.queryByRole('slider')).toBeNull();
-
-    // Case B — no bracket: the power belongs to 4 alone, so 5 × 4^3 = 320.
-    fireEvent.click(screen.getByRole('tab', { name: 'الحالة B: بلا قوس' }));
-    expect(screen.getByTestId('priority-lab-result').textContent).toBe('320');
-    expect(4 ** 3).toBe(64);
-    expect(5 * 64).toBe(320);
-    expect(8000).not.toBe(320);
-
-    // Case C — substitution: 5(−4)^3 + 6(−4)^2 − 10 = −320 + 96 − 10 = −234.
-    fireEvent.click(screen.getByRole('tab', { name: 'الحالة C: تعويض' }));
-    const slider = screen.getByRole('slider') as HTMLInputElement;
-    expect(slider.value).toBe('-4');
-    expect(screen.getByTestId('priority-lab-result').textContent).toBe('-234');
-    expect(5 * (-4) ** 3 + 6 * (-4) ** 2 - 10).toBe(-234);
-    expect(5 * (-64)).toBe(-320);
-    expect(6 * 16).toBe(96);
-
-    // Moving the slider recomputes every term with the sign kept by the parentheses.
-    fireEvent.change(slider, { target: { value: '3' } });
-    expect(document.querySelector('.priority-lab-x-value')?.textContent).toBe('3');
-    expect(screen.getByTestId('priority-lab-result').textContent).toBe('179');
-    expect(5 * 27 + 6 * 9 - 10).toBe(179);
-
-    fireEvent.change(slider, { target: { value: '0' } });
-    expect(screen.getByTestId('priority-lab-result').textContent).toBe('-10');
-    expect(0 + 0 - 10).toBe(-10);
-  });
-
-  it('يربط LessonRenderer الأنواع الثلاثة الجديدة بكتل الدرس نفسها', () => {
-    const blockOf = (id: string) => {
-      const block = blocks.find((entry) => entry.id === id);
-      if (!block) throw new Error(`missing block ${id}`);
-      return block;
-    };
-
-    const studio = render(<SourceContentBlock block={blockOf('p32-studio-power')} />);
-    expect(studio.container.querySelector('.power-studio')).not.toBeNull();
-    studio.unmount();
-
-    // The first rules studio shows rules (1) and (2) only…
-    const rules12 = render(<SourceContentBlock block={blockOf('p32-rule-studio-12')} />);
-    expect(rules12.container.querySelector('.power-rules-studio')).not.toBeNull();
-    expect(Array.from(rules12.container.querySelectorAll('.power-rules-tab')).map((tab) => tab.textContent))
-      .toEqual(['جداء قوتين', 'قوة الجداء']);
-    rules12.unmount();
-
-    // …and the second shows rules (3) and (4), so no rule is shown before it is taught.
-    const rules34 = render(<SourceContentBlock block={blockOf('p33-rule-studio-34')} />);
-    expect(Array.from(rules34.container.querySelectorAll('.power-rules-tab')).map((tab) => tab.textContent))
-      .toEqual(['خارج قسمة قوتين', 'قوة الخارج']);
-    rules34.unmount();
-
-    const lab = render(<SourceContentBlock block={blockOf('p33-priority-lab')} />);
-    expect(lab.container.querySelector('.priority-lab')).not.toBeNull();
-    expect(lab.container.querySelector('[data-testid="priority-lab-result"]')?.textContent).toBe('8000');
-    lab.unmount();
-  });
-
-  it('يعرض المكوّنات الثلاثة نصًا عربيًا RTL ورياضيات LTR معزولة بلا TeX خام', () => {
-    const surfaces = [
-      <IntegerPowerStudio key="studio" />,
-      <PowerRulesStudio key="rules" />,
-      <OrderOfOperationsLab key="priority" />,
-    ];
-
-    for (const surface of surfaces) {
-      const { container, unmount } = render(surface);
-      const root = container.firstElementChild!;
-      expect(root.getAttribute('dir')).toBe('rtl');
-
-      // Every math surface that carries a bare formula is isolated to LTR.
-      const mathSurfaces = container.querySelectorAll(
-        '.power-studio-formula, .power-rules-symbolic, .power-rules-result-math, .priority-lab-result-math',
-      );
-      expect(mathSurfaces.length).toBeGreaterThan(0);
-      for (const surface of Array.from(mathSurfaces)) {
-        expect(surface.getAttribute('dir')).toBe('ltr');
-      }
-
-      // KaTeX rendered the formulas — no raw TeX and no `$` reaches the student.
-      // (KaTeX keeps the source TeX inside its MathML <annotation>, which is not
-      // visible text, so the check strips the MathML half before reading.)
-      expect(container.querySelectorAll('.katex').length).toBeGreaterThan(0);
-      expect(container.querySelectorAll('.katex-error').length).toBe(0);
-      const visibleText = visibleTextOf(container);
-      expect(visibleText).not.toContain('$');
-      expect(visibleText).not.toContain('\\');
-      // No TeX command name may survive into the visible text (raw-TeX leak guard).
-      for (const token of ['frac', 'times', 'cdot', 'left', 'right', 'sqrt']) {
-        expect(visibleText, token).not.toContain(token);
-      }
-
-      unmount();
-    }
   });
 });
