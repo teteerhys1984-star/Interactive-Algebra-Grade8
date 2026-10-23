@@ -17,6 +17,9 @@ import { OrderOfOperationsSorter } from '../interactive/OrderOfOperationsSorter'
 import { CompoundFractionReader } from '../interactive/CompoundFractionReader';
 import { CalculatorKeys } from '../interactive/CalculatorKeys';
 import { PowerOfTenLadder } from '../interactive/PowerOfTenLadder';
+import { PowerOfTenFrames } from '../interactive/PowerOfTenFrames';
+import { NegativePowerZoom } from '../interactive/NegativePowerZoom';
+import { StandardFormLab } from '../interactive/StandardFormLab';
 import { ExponentRulesExplorer } from '../interactive/ExponentRulesExplorer';
 import { IntegerPowerStudio } from '../interactive/IntegerPowerStudio';
 import { PowerRulesStudio } from '../interactive/PowerRulesStudio';
@@ -286,6 +289,12 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       )}
 
       {block.interactiveType === 'power-of-ten-ladder' && <PowerOfTenLadder />}
+
+      {block.interactiveType === 'power-of-ten-frames' && <PowerOfTenFrames />}
+
+      {block.interactiveType === 'negative-power-zoom' && <NegativePowerZoom />}
+
+      {block.interactiveType === 'standard-form-lab' && <StandardFormLab />}
 
       {block.interactiveType === 'exponent-rules-explorer' && <ExponentRulesExplorer />}
 
