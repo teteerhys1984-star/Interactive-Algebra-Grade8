@@ -33,6 +33,8 @@ interface BCPreset {
   terms: BCTerm[];
   resultTex: string;
   ruleText: string;
+  /** تسمية الكشف: «إجابة الكتاب» للبيانات المطبوعة، و«الإجابة الصحيحة (المعتمدة)» حيث طباعة الكتاب خطأ موثق. */
+  revealLabel: string;
 }
 
 const PRESETS: BCPreset[] = [
@@ -50,6 +52,7 @@ const PRESETS: BCPreset[] = [
     resultTex: 'a + b + c',
     ruleText:
       'القوس $(b + c)$ مسبوق بإشارة $+$، فيُحذف دون تغيير محتوياته: $a + (b + c) = a + b + c$.',
+    revealLabel: 'إجابة الكتاب',
   },
   {
     id: 'plus-neg',
@@ -65,6 +68,7 @@ const PRESETS: BCPreset[] = [
     resultTex: 'a - b + c',
     ruleText:
       'الحذف لا يغيّر المحتويات: $(-b)$ يبقى $-b$ و$c$ يبقى $+c$: $a + (-b + c) = a - b + c$.',
+    revealLabel: 'إجابة الكتاب',
   },
   {
     id: 'implicit-plus',
@@ -80,6 +84,7 @@ const PRESETS: BCPreset[] = [
     resultTex: 'a + b - c',
     ruleText:
       'إشارة $(a + b)$ هي $+$ **ضمنًا** (لأنه في بداية النسق)، فيُحذف دون تغيير: $(a + b) - c = a + b - c$. (تنبيه: الكتاب طباعة البند الثالث $a + b + c$ وهو خطأ مطبعي موثق.)',
+    revealLabel: 'الإجابة الصحيحة (المعتمدة)',
   },
   {
     id: 'minus-sum',
@@ -95,6 +100,7 @@ const PRESETS: BCPreset[] = [
     resultTex: 'c - a - b',
     ruleText:
       'الطرح من $(a + b)$ = الجمع مع نظيره $-a - b$: $c - (a + b) = c - a - b$.',
+    revealLabel: 'إجابة الكتاب',
   },
   {
     id: 'minus-diff',
@@ -110,6 +116,7 @@ const PRESETS: BCPreset[] = [
     resultTex: 'c - a + b',
     ruleText:
       'الطرح من $(a - b)$ = الجمع مع نظيره $-a + b$: $c - (a - b) = c - a + b$ (انتبه: $b$ صارت موجبة!).',
+    revealLabel: 'إجابة الكتاب',
   },
   {
     id: 'minus-neg',
@@ -125,6 +132,7 @@ const PRESETS: BCPreset[] = [
     resultTex: 'c + a - b',
     ruleText:
       'نظير $(-a + b)$ هو $+a - b$: $c - (-a + b) = c + a - b$ (كل حد يقلب إشارته، حتى السالب!).',
+    revealLabel: 'إجابة الكتاب',
   },
 ];
 
@@ -294,8 +302,13 @@ export function BracketCaseLab() {
         >
           <RotateCcw size={15} /> إعادة
         </button>
-        <button type="button" className="u3-btn" onClick={() => setState((p) => ({ ...p, revealed: !p.revealed }))} aria-label="إظهار إجابة الكتاب">
-          <Eye size={15} /> {state.revealed ? 'إخفاء إجابة الكتاب' : 'إظهار إجابة الكتاب'}
+        <button
+          type="button"
+          className="u3-btn"
+          onClick={() => setState((p) => ({ ...p, revealed: !p.revealed }))}
+          aria-label={state.revealed ? 'إخفاء الإجابة' : 'إظهار الإجابة'}
+        >
+          <Eye size={15} /> {state.revealed ? 'إخفاء الإجابة' : 'إظهار الإجابة'}
         </button>
       </div>
 
@@ -330,7 +343,7 @@ export function BracketCaseLab() {
           </div>
           {state.revealed && (
             <div className="u3l2-reveal-inline">
-              <strong>إجابة الكتاب: </strong>
+              <strong>{preset.revealLabel}: </strong>
               <TexMath math={`${preset.labelTex} = ${preset.resultTex}`} />
             </div>
           )}
