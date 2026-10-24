@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Math as Formula } from '../components/math/Math';
 import { MathText } from '../components/math/MathText';
-import { parseInlineMath, looksLikeBareTex } from '../components/math/parseInlineMath';
+import { containsArabicProse, parseInlineMath, looksLikeBareTex } from '../components/math/parseInlineMath';
 import { SourceContentBlock } from '../components/lesson/SourceContentBlock';
 import { StepRenderer } from '../components/lesson/StepRenderer';
 import { TeacherArea } from '../components/teacher/TeacherArea';
@@ -12,6 +12,7 @@ import { TestSolutions } from '../components/tests/TestSolutions';
 import { unit3Lesson2Data } from '../data/unit3/lesson02';
 import { unit3Lesson2TeacherSolutions } from '../data/unit3/lesson02TeacherSolutions';
 import { resolveTest } from '../data/tests/registry';
+import { curriculum } from '../data/curriculum';
 
 /**
  * اختبارات انحدار لمشكلتي العرض بعد PR #22، ولكل ما يلزم لعرض رياضي سليم:
@@ -191,6 +192,92 @@ describe('نصّان مختلفان يمرّان من العارض المشتر�
     expect(looksLikeBareTex('الجداء التقاطعي متساوٍ')).toBe(false);
     expect(looksLikeBareTex('\\frac{1}{4}')).toBe(true);
     expect(looksLikeBareTex('\\text{موجبة}')).toBe(true);
+  });
+});
+
+describe('الفصل بين العربية العادية والعربية داخل \\text{…}', () => {
+  it('يبقي النص العربي العادي نصًا HTML عاديًا بلا أي KaTeX', () => {
+    const prose = render(<MathText text="الإشارة سالبة" />);
+    expect(prose.container.querySelector('.katex')).toBeNull();
+    expect(prose.container.querySelector('.math-inline-isolated')).toBeNull();
+    expect(prose.container.querySelector('.math-text')?.textContent).toBe('الإشارة سالبة');
+
+    // فقرة أطول: لا تُحوَّل إلى «معادلة» ولو احتوت أرقامًا ورموزًا حسابية.
+    const paragraph = 'المكافأة 350 تُضاف (ربح) والكتاب 225 يُطرح (صرف): 1250 + 350 − 225 = 1375.';
+    const longProse = render(<MathText text={paragraph} />);
+    expect(longProse.container.querySelector('.katex')).toBeNull();
+    expect(visibleText(longProse.container)).toBe(paragraph);
+
+    // حقل `answer` النصي يمرّ من <Math> لكنه يبقى نصًا لا صيغة.
+    const answerField = render(<Formula math="غير معرّف (لا جذر تربيعي)" />);
+    expect(answerField.container.querySelector('.katex')).toBeNull();
+    expect(visibleText(answerField.container)).toBe('غير معرّف (لا جذر تربيعي)');
+  });
+
+  it('يرسم \\text{…} العربي كصيغة رياضية سليمة مع إظهار النص بلا تسريب أوامر', () => {
+    // String.raw كي لا يفسّر TypeScript `\text` و`\;` عند البناء.
+    const tex = String.raw`\text{عدد السوالب} = 3 \;(\text{فردي}) \Rightarrow \text{الإشارة سالبة}`;
+    const { container } = render(<Formula math={tex} />);
+
+    expect(container.querySelector('.katex')).toBeInTheDocument();
+    expect(container.querySelector('.katex-error')).toBeNull();
+    expect(container.querySelector('.math-inline-isolated')).toHaveAttribute('dir', 'ltr');
+    expect(container.querySelector('.math-inline-isolated')).toHaveStyle({ unicodeBidi: 'isolate' });
+
+    const visible = visibleText(container); // يستثني `.katex-mathml` (نسخة القارئ الصوتي)
+    expect(visible).toContain('عدد السوالب');
+    expect(visible).toContain('فردي');
+    expect(visible).toContain('الإشارة سالبة');
+    expect(visible).not.toMatch(/\\text|\\;/);
+    expect(visible).not.toContain('$');
+  });
+
+  it('يميّز الحقلين على مستوى التصنيف: العربية وحدها نص، و\text{…} صيغة', () => {
+    // عربية خارج \text{…} ⟹ نص، ولا تُرسل إلى KaTeX.
+    expect(containsArabicProse('الإشارة سالبة')).toBe(true);
+    expect(looksLikeBareTex('الإشارة سالبة')).toBe(false);
+
+    // العربية محصورة داخل \text{…} ⟹ صيغة رياضية مشروعة.
+    expect(containsArabicProse(String.raw`\text{الإشارة سالبة}`)).toBe(false);
+    expect(looksLikeBareTex(String.raw`\text{الإشارة سالبة}`)).toBe(true);
+
+    // النص المختلط: عربية عادية + رياضيات محدَّدة ⟹ يمرّ من MathContent ويُعرض النص كما هو.
+    const mixed = render(<MathText text="الإشارة سالبة لأن $3$ أعداد سالبة." />);
+    expect(mixed.container.querySelectorAll('.katex')).toHaveLength(1);
+    expect(visibleText(mixed.container)).toContain('الإشارة سالبة لأن');
+  });
+
+  it('يعرض كل حقل \\text{…} عربي حقيقي في المنهج بلا تسريب (بيانات الوحدة الأولى)', () => {
+    // حقول رياضية فعلية في بيانات المنصة تحمل عربية داخل \text{…} (بطاقات الحلول
+    // ومفاتيح الإجابة): نتحقّق من **مخرجات** العرض لا من النص المخزَّن.
+    const MATH_FIELDS = new Set(['math', 'mathFormula', 'solution', 'answer', 'finalAnswer', 'answerDisplay']);
+    const arabicInText = /\\text\{[^}]*[\u0600-\u06FF][^}]*\}/;
+
+    const found: { where: string; value: string }[] = [];
+    const walkMathFields = (value: unknown, where: string, key: string, seen = new Set<unknown>()): void => {
+      if (typeof value === 'string') {
+        if (MATH_FIELDS.has(key) && arabicInText.test(value)) found.push({ where, value });
+        return;
+      }
+      if (!value || typeof value !== 'object' || seen.has(value)) return;
+      seen.add(value);
+      for (const [childKey, child] of Object.entries(value as Record<string, unknown>)) {
+        walkMathFields(child, `${where}.${childKey}`, childKey, seen);
+      }
+    };
+    walkMathFields(curriculum, 'curriculum', '');
+
+    expect(found.length, 'لم يُعثر على أي حقل رياضي حقيقي يحوي عربية داخل \\text{…}').toBeGreaterThan(0);
+
+    for (const field of found) {
+      const { container, unmount } = render(<Formula math={field.value} />);
+      expect(container.querySelector('.katex'), field.where).toBeInTheDocument();
+      expect(container.querySelector('.katex-error'), field.where).toBeNull();
+      const visible = visibleText(container);
+      expect(visible, field.where).not.toMatch(/\\text|\\;/);
+      expect(visible, field.where).not.toContain('$');
+      unmount();
+    }
   });
 });
 
