@@ -140,7 +140,7 @@ const TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaData }> = 
         {data.answerKeys.map((group, gi) => (
           <div key={gi} className="ta-key-group">
             <div className="ta-key-head">
-              <span className="ta-key-title">{group.section}</span>
+              <span className="ta-key-title"><MathText text={group.section} /></span>
               <span className="source-page-badge">{group.source}</span>
             </div>
             <div className="ta-key-items">
@@ -169,7 +169,7 @@ const TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaData }> = 
           }, new Map<string, typeof data.solutions>()),
         ).map(([group, items]) => (
           <div key={group} className="ta-solution-group">
-            <h4 className="ta-solution-group-title">{group}</h4>
+            <h4 className="ta-solution-group-title"><MathText text={group} /></h4>
             {items.map((sol) => (
               <details key={sol.id} className="ta-solution">
                 <summary>
@@ -241,7 +241,7 @@ const Lesson4TeacherContent: React.FC<{ lesson: LessonData; data: TeacherAreaDat
   ) => (
     <div className="ta-key-group">
       <div className="ta-key-head">
-        <span className="ta-key-title">{group.section}</span>
+        <span className="ta-key-title"><MathText text={group.section} /></span>
         <span className="source-page-badge">{group.source}</span>
       </div>
       <div className="ta-key-items">

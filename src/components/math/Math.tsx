@@ -1,5 +1,8 @@
 import React, { useMemo } from 'react';
-import katex from 'katex';
+import { MathIsolated } from './MathIsolated';
+import { MathContent } from './MathContent';
+import { renderTexToHtml } from './renderTex';
+import { containsDelimitedMath } from './parseInlineMath';
 
 export interface MathProps {
   math: string;
@@ -7,39 +10,24 @@ export interface MathProps {
   className?: string;
 }
 
+/**
+ * عارض تعبير رياضي واحد.
+ *
+ * الحالة الشائعة: `math` تعبير TeX خام (بلا `$`)، فيُمرّر إلى KaTeX كما هو.
+ *
+ * الحالة الثانية التي ظهرت في مفاتيح إجابة المعلّم: `math` نص مختلط يحوي
+ * `$…$` أو `\(…\)` مع كلام عربي. تمريره إلى KaTeX مباشرةً كان يعرض `$` و
+ * `\frac` خامًا، لذلك يُحال هنا إلى العارض المشترك `MathContent`.
+ */
 export const Math: React.FC<MathProps> = ({ math, display = false, className = '' }) => {
-  const html = useMemo(() => {
-    try {
-      return katex.renderToString(math, {
-        displayMode: display,
-        throwOnError: false,
-        strict: false,
-        output: 'htmlAndMathml',
-      });
-    } catch {
-      return `<span class="katex-error">${math}</span>`;
-    }
-  }, [math, display]);
+  const mixed = useMemo(() => containsDelimitedMath(math), [math]);
+  const html = useMemo(() => (mixed ? '' : renderTexToHtml(math, display)), [math, display, mixed]);
 
-  if (display) {
-    return (
-      <div
-        className={`math-block-isolated ${className}`}
-        dir="ltr"
-        style={{ direction: 'ltr', unicodeBidi: 'isolate', textAlign: 'center' }}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    );
+  if (mixed) {
+    return <MathContent text={math} display={display} className={className} />;
   }
 
-  return (
-    <span
-      className={`math-inline-isolated ${className}`}
-      dir="ltr"
-      style={{ direction: 'ltr', unicodeBidi: 'isolate', display: 'inline-block' }}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
-  );
+  return <MathIsolated html={html} display={display} className={className} />;
 };
 
 export default Math;

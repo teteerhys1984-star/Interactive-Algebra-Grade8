@@ -1,31 +1,20 @@
-import React, { useMemo } from 'react';
-import { parseInlineMath } from './parseInlineMath';
-import { Math } from './Math';
+import React from 'react';
+import { MathContent } from './MathContent';
 
 export interface MathTextProps {
   text: string;
   className?: string;
+  /** Only affects a value that is bare TeX end-to-end. */
+  display?: boolean;
 }
 
-export const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
-  const tokens = useMemo(() => parseInlineMath(text), [text]);
-
-  return (
-    <span className={`math-text ${className}`}>
-      {tokens.map((token, index) => {
-        if (token.type === 'math') {
-          return (
-            <Math
-              key={index}
-              math={token.content}
-              display={token.display}
-            />
-          );
-        }
-        return <span key={index}>{token.content}</span>;
-      })}
-    </span>
-  );
-};
+/**
+ * نص قد يخلط العربية برياضيات مضمّنة (`$…$` أو `\(…\)`)، أو يكون تعبير TeX
+ * خامًا بالكامل (حقول الجواب النهائي في مساحة المعلّم مثلًا). التمييز يتمّ
+ * داخل `MathContent` نفسه، فلا يحتاج كل موضع استدعاء إلى معرفة نوع الحقل.
+ */
+export const MathText: React.FC<MathTextProps> = ({ text, className = '', display = false }) => (
+  <MathContent text={text} className={className} display={display} />
+);
 
 export default MathText;
