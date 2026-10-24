@@ -133,8 +133,15 @@ function walk(value: unknown, where: string, seen = new Set<unknown>()): void {
   }
 }
 
+/**
+ * مهلة صريحة: هذا الاختبار يبني ~15 ألف مستند KaTeX (7,732 حمولة فريدة × عارضَين)
+ * داخل اختبار واحد، فيتجاوز المهلة الافتراضية (5s) على أجهزة CI الأبطأ.
+ * المهلة تخصّ زمن التنفيذ فقط؛ لا تغيير في أي تأكيد أو حدّ تغطية.
+ */
+const AUDIT_TIMEOUT_MS = 120_000;
+
 describe('Math display audit — the whole curriculum and the whole question bank', () => {
-  it('never shows LaTeX commands, delimiters, or escapes to the student', () => {
+  it('never shows LaTeX commands, delimiters, or escapes to the student', { timeout: AUDIT_TIMEOUT_MS }, () => {
     for (const unit of curriculum) {
       lessonsSeen.add(unit.warmup.id);
       walk(unit.warmup, `unit-${unit.number}.warmup`);
@@ -152,7 +159,7 @@ describe('Math display audit — the whole curriculum and the whole question ban
     expect(failures, report).toHaveLength(0);
   });
 
-  it('audits every lesson and warm-up in the curriculum (not just the reported one)', () => {
+  it('audits every lesson and warm-up in the curriculum (not just the reported one)', { timeout: AUDIT_TIMEOUT_MS }, () => {
     const expectedIds = curriculum.flatMap((unit) => [unit.warmup.id, ...unit.lessons.map((l) => l.id)]);
     expect([...lessonsSeen].sort()).toEqual([...new Set(expectedIds)].sort());
     // الحجم ليس تافهًا: آلاف الحقول الرياضية تمرّ من العارضين.
