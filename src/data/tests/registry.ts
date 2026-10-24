@@ -12,6 +12,7 @@ import { unit2Lesson4TestQuestions } from './unit2/lesson-4';
 import { unit2Lesson5TestQuestions } from './unit2/lesson-5';
 import { unit2TestQuestions, UNIT2_DIFFICULTY_BLUEPRINT } from './unit2/unit-2';
 import { unit3Lesson1TestQuestions } from './unit3/lesson-1';
+import { unit3Lesson2TestQuestions } from './unit3/lesson-2';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -145,6 +146,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u3-lesson-1'],
   },
+  {
+    id: 'u3-test-lesson-2',
+    type: 'lesson',
+    unitId: 'unit-3',
+    lessonId: 'u3-lesson-2',
+    title: 'اختبار الدرس الثاني: حذف الأقواس',
+    description: 'اختبر فهمك لحذف الأقواس المسبوقة بإشارة زائد (بما فيها الزائد الضمني) وبإشارة ناقص (جمع النظير)، والكتابة دون أقواس وحساب القيمة على أعداد صحيحة وعشرية وكسرية، واختبار المساوات بالتعويض عند x = 1، وتبسيط العبارات متعددة الأقواس.',
+    questionIds: unit3Lesson2TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'حذف الأقواس المسبوقة بـ + و −، التقييم العددي (صحيح/عشري/كسري)، اختبار المساواة بالتعويض، تبسيط العبارات متعددة الأقواس',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u3-lesson-2'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -219,6 +233,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit2Lesson4TestQuestions,
   ...unit2Lesson5TestQuestions,
   ...unit3Lesson1TestQuestions,
+  ...unit3Lesson2TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];
