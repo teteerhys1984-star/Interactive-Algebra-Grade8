@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { MathIsolated } from './MathIsolated';
 import { MathContent } from './MathContent';
 import { renderTexToHtml } from './renderTex';
-import { containsDelimitedMath } from './parseInlineMath';
+import { containsArabicProse, containsDelimitedMath } from './parseInlineMath';
 
 export interface MathProps {
   math: string;
@@ -15,15 +15,17 @@ export interface MathProps {
  *
  * الحالة الشائعة: `math` تعبير TeX خام (بلا `$`)، فيُمرّر إلى KaTeX كما هو.
  *
- * الحالة الثانية التي ظهرت في مفاتيح إجابة المعلّم: `math` نص مختلط يحوي
- * `$…$` أو `\(…\)` مع كلام عربي. تمريره إلى KaTeX مباشرةً كان يعرض `$` و
- * `\frac` خامًا، لذلك يُحال هنا إلى العارض المشترك `MathContent`.
+ * حالتان تعودان إلى العارض المشترك `MathContent` بدل KaTeX:
+ *  1. نص مختلط يحوي `$…$` أو `\(…\)` مع كلام عربي — تمريره إلى KaTeX كان
+ *     يعرض `$` و`\frac` خامًا.
+ *  2. كلام عربي بلا محددات (مثل `answer: 'نعم'` في مفاتيح الإجابة) — تمريره إلى
+ *     KaTeX يحوّل نصًا عاديًا إلى «معادلة» بخط رياضي ومقاييس ناقصة.
  */
 export const Math: React.FC<MathProps> = ({ math, display = false, className = '' }) => {
-  const mixed = useMemo(() => containsDelimitedMath(math), [math]);
-  const html = useMemo(() => (mixed ? '' : renderTexToHtml(math, display)), [math, display, mixed]);
+  const prose = useMemo(() => containsDelimitedMath(math) || containsArabicProse(math), [math]);
+  const html = useMemo(() => (prose ? '' : renderTexToHtml(math, display)), [math, display, prose]);
 
-  if (mixed) {
+  if (prose) {
     return <MathContent text={math} display={display} className={className} />;
   }
 

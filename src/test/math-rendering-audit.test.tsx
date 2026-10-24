@@ -4,6 +4,7 @@ import { curriculum } from '../data/curriculum';
 import { questionBank } from '../data/tests/registry';
 import { MathText } from '../components/math/MathText';
 import { Math as Formula } from '../components/math/Math';
+import { containsArabicProse, containsDelimitedMath } from '../components/math/parseInlineMath';
 
 /**
  * تدقيق شامل لمخرجات العرض الرياضي في كل محتوى المنصة.
@@ -91,6 +92,19 @@ function inspect(where: string, value: string): void {
     { renderer: 'MathText', html: renderToStaticMarkup(<MathText text={value} />) },
     { renderer: 'Math', html: renderToStaticMarkup(<Formula math={value} />) },
   ];
+
+  // النص العربي الخالص يجب أن يبقى نصًا: لا يُحوَّل إلى «معادلة» في أي من العارضين.
+  const pureProse = containsArabicProse(value) && !containsDelimitedMath(value);
+  if (pureProse) {
+    const mathSlots = (value.match(/\\[a-zA-Z]+/g) ?? []).length;
+    if (mathSlots === 0) {
+      for (const { renderer, html } of renders) {
+        if (html.includes('class="katex"')) {
+          failures.push({ where, renderer, leak: 'Arabic prose rendered as math', visible: VISIBLE_TEXT(html).slice(0, 160) });
+        }
+      }
+    }
+  }
 
   for (const { renderer, html } of renders) {
     if (html.includes('katex-error')) {

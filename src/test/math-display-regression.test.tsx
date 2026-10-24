@@ -174,6 +174,17 @@ describe('نصّان مختلفان يمرّان من العارض المشتر�
     expect(visibleText(container)).not.toMatch(/\\/);
   });
 
+  it('لا يحوّل جوابًا نصيًا عربيًا (answer: نعم) إلى معادلة عبر <Math>', () => {
+    const { container } = render(<Formula math="نعم" />);
+    expect(container.querySelector('.katex')).toBeNull();
+    expect(visibleText(container)).toBe('نعم');
+
+    // بينما يبقى \text{…} العربي صيغة رياضية مشروعة (جواب «موجبة/سالبة» مثلًا).
+    const mathText = render(<Formula math="\text{عدد السوالب} = 3 \;(\text{فردي})" />);
+    expect(mathText.container.querySelector('.katex')).toBeInTheDocument();
+    expect(visibleText(mathText.container)).not.toMatch(/\\/);
+  });
+
   it('لا يمرّر نصًا عربيًا إلى KaTeX', () => {
     const { container } = render(<MathText text="الجداء التقاطعي متساوٍ دائمًا في كسرين متساويين." />);
     expect(container.querySelector('.katex')).toBeNull();

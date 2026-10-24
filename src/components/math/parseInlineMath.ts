@@ -82,6 +82,20 @@ export function containsDelimitedMath(input: string): boolean {
 }
 
 const ARABIC_LETTER = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+
+/**
+ * True when Arabic letters appear **outside** `\text{…}`.
+ *
+ * حقول مثل `answer` و`answerDisplay` تمرّ عبر `<Math>`، وبعضها جواب نصّي عربي
+ * («نعم»، «لا»، «غير معرّف»). تمرير نص كهذا إلى KaTeX كان يعرضه بخط رياضي
+ * وبمقاييس ناقصة؛ هذه الدالة تجعله يُعرض كنص عادي، بينما يبقى `\text{موجبة}`
+ * صيغةً رياضية مشروعة.
+ */
+export function containsArabicProse(input: string): boolean {
+  if (!input) return false;
+  return ARABIC_LETTER.test(input.replace(/\\text\{[^{}]*\}/g, ''));
+}
+
 /** TeX commands that can never appear in Arabic prose. */
 const TEX_COMMAND = /\\[a-zA-Z]+/;
 /** Control symbols such as `\;`, `\,`, `\!`, `\ `, `\(`, `\[`. */
@@ -89,7 +103,6 @@ const TEX_CONTROL_SYMBOL = /\\[;,!()[\]%&$#_{} ]/;
 
 /**
  * يفرّق بين نص عربي عادي وبين تعبير TeX خام (بلا محددات `$`).
- *
  * بعض حقول البيانات (مثل `finalAnswer` و`math` و`solution`) تحمل TeX خامًا،
  * وبعضها يحمل نصًا عربيًا. تمرير الأول إلى عارض النص الخالص كان يعرض
  * `\frac{1}{4}` و`\qquad` حرفيًا للطالب، وتمرير الثاني إلى KaTeX يعرض أقواسًا
@@ -99,9 +112,7 @@ export function looksLikeBareTex(input: string): boolean {
   const text = input.trim();
   if (!text) return false;
   if (text.includes('$')) return false;
-  // Arabic outside `\text{...}` means the value is prose, not a formula.
-  const withoutTextRuns = text.replace(/\\text\{[^{}]*\}/g, '');
-  if (ARABIC_LETTER.test(withoutTextRuns)) return false;
+  if (containsArabicProse(text)) return false;
   if (TEX_COMMAND.test(text)) return true;
   if (TEX_CONTROL_SYMBOL.test(text)) return true;
   // Bare exponents/subscripts, e.g. `x^{2}` or `a_{n}`.
