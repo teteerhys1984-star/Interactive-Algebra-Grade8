@@ -3,6 +3,7 @@ import type { TeacherArea } from '../assessment';
 import { unit2Lesson5Questions, type ExerciseQuestion } from './lesson05Questions';
 import { unit2Lesson5TeacherSolutions } from './lesson05TeacherSolutions';
 import { stationOf, unit2Lesson5Stations } from './lesson05Stations';
+import { looksLikeBareTex } from '../../components/math/parseInlineMath';
 
 /**
  * الوحدة الثانية — الدرس الخامس: تمارين ومسائل الوحدة الثانية (39 سؤالًا).
@@ -33,7 +34,11 @@ const sourceRef = (n: number, item?: string) => ({
 const inlineAnswer = (question: ExerciseQuestion, index: number): string => {
   const item = question.items[index];
   if (item.answer) return `$${item.answer}$`;
-  return item.answerText ?? '';
+  const answerText = item.answerText ?? '';
+  // `answerText` غالبه نصّ عربي، لكنه يحمل أحيانًا TeX خامًا (مثل أزمنة بالصيغة
+  // العشرية `0.003\ \text{s}`). بدون تحديد المحددات كان الحل المبني تلقائيًا
+  // يعرض الأوامر خامًا داخل جملة عربية؛ نضع المحددات حين يكون الحقل TeX خالصًا.
+  return looksLikeBareTex(answerText) ? `$${answerText}$` : answerText;
 };
 
 /** حل السؤال كاملًا: يُبنى تلقائيًا من بنوده إن لم يُكتب حل مخصص. */

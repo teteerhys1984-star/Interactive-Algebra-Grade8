@@ -141,7 +141,7 @@ export const lesson04Data: LessonData = {
     {id:`think-${item.n}`,type:'teach',authored:true,title:'🧠 كيف نفكر؟',sourceRef:{page:item.page,section:'شرح المنصة'},content:item.thinking,},
     {id:`hint-${item.n}`,type:'tip',authored:true,title:'💡 تلميح',sourceRef:{page:item.page,section:'تلميح المنصة'},content:item.hint},
     {id:`solution-${item.n}`,type:'example',authored:true,title:'✏️ الحل المفصل',sourceRef:{page:item.page,section:'حل المنصة'},content:item.solution,mathFormula:resultDisplayMath(item.result)},
-    {id:`result-${item.n}`,type:'insight',authored:true,title:'🎯 النتيجة النهائية والتحقق',sourceRef:{page:item.page,section:'تحقق المنصة'},content:`النتيجة النهائية: ${item.result}\\n\\nتحقق من الإشارة وتبسيط الكسر وفق الخطوات السابقة.`},
+    {id:`result-${item.n}`,type:'insight',authored:true,title:'🎯 النتيجة النهائية والتحقق',sourceRef:{page:item.page,section:'تحقق المنصة'},content:`النتيجة النهائية: ${item.result}\n\nتحقق من الإشارة وتبسيط الكسر وفق الخطوات السابقة.`},
   ]})),
   finalAssessment: lesson04FinalAssessment,
   teacherArea: lesson04TeacherArea,

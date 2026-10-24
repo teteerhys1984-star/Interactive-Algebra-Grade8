@@ -5,15 +5,21 @@ export interface MathToken {
 }
 
 /**
- * Parses mixed text containing inline ($...$) and block ($$...$$) LaTeX expressions
- * into a structured list of text and math tokens.
+ * يطابق أولًا الرياضيات الكتلية `$$…$$` أو `\[…\]` ثم الرياضيات المضمّنة `$…$` أو `\(…\)`.
+ * الأقواس الإنجليزية `\(…\)` و`\[…\]` صيغة TeX قياسية ترد في بعض نصوص الكتاب،
+ * فكانت سابقًا تُعرض خامًا للطالب لأن المحلّل لم يعرفها.
+ */
+const DELIMITED_MATH = /(\$\$[\s\S]*?\$\$|\$[^$\n]+?\$|\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\))/g;
+
+/**
+ * Parses mixed text containing inline ($...$, \(...\)) and block ($$...$$, \[...\])
+ * LaTeX expressions into a structured list of text and math tokens.
  */
 export function parseInlineMath(input: string): MathToken[] {
   if (!input) return [];
 
   const tokens: MathToken[] = [];
-  // Matches block math $$...$$ first, then inline math $...$
-  const regex = /(\$\$[\s\S]*?\$\$|\$[^$\n]+?\$)/g;
+  const regex = new RegExp(DELIMITED_MATH.source, 'g');
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
@@ -32,6 +38,18 @@ export function parseInlineMath(input: string): MathToken[] {
         type: 'math',
         content: raw.slice(2, -2).trim(),
         display: true,
+      });
+    } else if (raw.startsWith('\\[') && raw.endsWith('\\]')) {
+      tokens.push({
+        type: 'math',
+        content: raw.slice(2, -2).trim(),
+        display: true,
+      });
+    } else if (raw.startsWith('\\(') && raw.endsWith('\\)')) {
+      tokens.push({
+        type: 'math',
+        content: raw.slice(2, -2).trim(),
+        display: false,
       });
     } else if (raw.startsWith('$') && raw.endsWith('$')) {
       tokens.push({
@@ -53,4 +71,51 @@ export function parseInlineMath(input: string): MathToken[] {
   }
 
   return tokens;
+}
+
+/** True when the string carries at least one delimited math segment. */
+export function containsDelimitedMath(input: string): boolean {
+  if (!input || (!input.includes('$') && !input.includes('\\(') && !input.includes('\\['))) {
+    return false;
+  }
+  return parseInlineMath(input).some((token) => token.type === 'math');
+}
+
+const ARABIC_LETTER = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+
+/**
+ * True when Arabic letters appear **outside** `\text{…}`.
+ *
+ * حقول مثل `answer` و`answerDisplay` تمرّ عبر `<Math>`، وبعضها جواب نصّي عربي
+ * («نعم»، «لا»، «غير معرّف»). تمرير نص كهذا إلى KaTeX كان يعرضه بخط رياضي
+ * وبمقاييس ناقصة؛ هذه الدالة تجعله يُعرض كنص عادي، بينما يبقى `\text{موجبة}`
+ * صيغةً رياضية مشروعة.
+ */
+export function containsArabicProse(input: string): boolean {
+  if (!input) return false;
+  return ARABIC_LETTER.test(input.replace(/\\text\{[^{}]*\}/g, ''));
+}
+
+/** TeX commands that can never appear in Arabic prose. */
+const TEX_COMMAND = /\\[a-zA-Z]+/;
+/** Control symbols such as `\;`, `\,`, `\!`, `\ `, `\(`, `\[`. */
+const TEX_CONTROL_SYMBOL = /\\[;,!()[\]%&$#_{} ]/;
+
+/**
+ * يفرّق بين نص عربي عادي وبين تعبير TeX خام (بلا محددات `$`).
+ * بعض حقول البيانات (مثل `finalAnswer` و`math` و`solution`) تحمل TeX خامًا،
+ * وبعضها يحمل نصًا عربيًا. تمرير الأول إلى عارض النص الخالص كان يعرض
+ * `\frac{1}{4}` و`\qquad` حرفيًا للطالب، وتمرير الثاني إلى KaTeX يعرض أقواسًا
+ * غريبة. هذه الدالة هي الفيصل الوحيد، وهي مشتركة بين كل مسارات العرض.
+ */
+export function looksLikeBareTex(input: string): boolean {
+  const text = input.trim();
+  if (!text) return false;
+  if (text.includes('$')) return false;
+  if (containsArabicProse(text)) return false;
+  if (TEX_COMMAND.test(text)) return true;
+  if (TEX_CONTROL_SYMBOL.test(text)) return true;
+  // Bare exponents/subscripts, e.g. `x^{2}` or `a_{n}`.
+  if (/\^\{|_\{/.test(text)) return true;
+  return false;
 }
