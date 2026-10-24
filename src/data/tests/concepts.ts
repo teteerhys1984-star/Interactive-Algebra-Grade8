@@ -797,6 +797,90 @@ const unit2Lesson5Concepts: CurriculumConcept[] = [
   },
 ];
 
+export const unit3Lesson1Concepts: CurriculumConcept[] = [
+  {
+    id: 'u3l1-opposite-of-sum',
+    title: 'نظير المجموع وحذف قوس مسبوق بناقص لمجموع',
+    skills: [
+      'opposite-of-sum-rule',
+      'remove-minus-parentheses-sum',
+      'table-conjecture-sum',
+    ],
+    taughtInSteps: ['step-3', 'step-4', 'step-5', 'step-6', 'step-8', 'step-10'],
+    sourcePages: [47, 48, 49],
+    commonMistakes: ['تغيير إشارة الحدّ الأول فقط وكتابة $-(a + b) = -a + b$.'],
+  },
+  {
+    id: 'u3l1-opposite-of-difference',
+    title: 'نظير الفرق وحذف قوس مسبوق بناقص لفرق',
+    skills: [
+      'opposite-of-difference-rule',
+      'remove-minus-parentheses-difference',
+      'both-negative-inside-brackets',
+    ],
+    taughtInSteps: ['step-3', 'step-4', 'step-5', 'step-6', 'step-8'],
+    sourcePages: [47, 48, 49],
+    commonMistakes: ['إبقاء الحدّ الثاني سالبًا في $-(a - b)$ بدل قلبه إلى $+b$.'],
+  },
+  {
+    id: 'u3l1-directed-number-line',
+    title: 'تمثيل النظير ومجموع النظيرين على المستقيم الموجه',
+    skills: [
+      'number-line-opposite-placement',
+      'sign-of-minus-a-for-negative-a',
+      'sum-sign-by-distance-from-origin',
+    ],
+    taughtInSteps: ['step-4'],
+    sourcePages: [47],
+    commonMistakes: ['الظن أن الرمز $-a$ يقع دائمًا على يسار المبدأ $O$ حتى عندما يكون $a$ سالبًا.'],
+  },
+  {
+    id: 'u3l1-multiterm-and-quadratic',
+    title: 'نظير مجموع جبري متعدد الحدود أو يحوي قوى',
+    skills: [
+      'opposite-of-trinomial',
+      'opposite-of-quadratic-expression',
+      'combine-after-removing-brackets',
+    ],
+    taughtInSteps: ['step-6', 'step-10', 'step-13'],
+    sourcePages: [48, 49],
+    commonMistakes: ['تغيير إشارة حدّين فقط ونسيان الحدّ الثالث في ثلاثي الحدود.'],
+  },
+  {
+    id: 'u3l1-opposite-evaluation-and-proof',
+    title: 'التعويض العددي وموازنة العبارات المتعاكسة والنتيجة المؤكّدة',
+    skills: [
+      'evaluate-opposite-expressions',
+      'numerical-check-vs-symbolic-certainty',
+    ],
+    taughtInSteps: ['step-7', 'step-9'],
+    sourcePages: [48, 49],
+    commonMistakes: ['إغفال قوسي العدد السالب عند التعويض في عبارة من الشكل $a - b - c$.'],
+  },
+  {
+    id: 'u3l1-numerical-shortcut-and-cycle',
+    title: 'توظيف النظير لاختصار الحساب العددي وتتبّع المخططات الدائرية',
+    skills: [
+      'deduce-opposite-series-without-computing',
+      'algebraic-cycle-tracking',
+    ],
+    taughtInSteps: ['step-11', 'step-12'],
+    sourcePages: [49],
+    commonMistakes: ['نسيان قلب إشارة الثابت عند خطوة «نكتب النظير» في سلسلة الانتقالات.'],
+  },
+  {
+    id: 'u3l1-sign-error-diagnosis',
+    title: 'تشخيص الأخطاء الشائعة في حذف الأقواس والإشارات',
+    skills: [
+      'diagnose-second-term-sign-error',
+      'distinguish-minus-parentheses-from-plus-or-product',
+    ],
+    taughtInSteps: ['step-5', 'step-8', 'step-10', 'step-13'],
+    sourcePages: [48, 49],
+    commonMistakes: ['الخلط بين حذف قوس مسبوق بناقص $-(x + 3)$ ونشر جداء أو حذف قوس مسبوق بزائد.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -807,6 +891,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u2-lesson-3', unitId: 'unit-2', lessonTitle: 'قوى صحيحة لعدد نسبي', concepts: unit2Lesson3Concepts },
   { lessonId: 'u2-lesson-4', unitId: 'unit-2', lessonTitle: 'الجذور التربيعية', concepts: unit2Lesson4Concepts },
   { lessonId: 'u2-lesson-5', unitId: 'unit-2', lessonTitle: 'تمارين ومسائل الوحدة الثانية', concepts: unit2Lesson5Concepts },
+  { lessonId: 'u3-lesson-1', unitId: 'unit-3', lessonTitle: 'نظير المجموع ونظير الفرق', concepts: unit3Lesson1Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

@@ -11,6 +11,7 @@ import { unit2Lesson3TestQuestions } from './unit2/lesson-3';
 import { unit2Lesson4TestQuestions } from './unit2/lesson-4';
 import { unit2Lesson5TestQuestions } from './unit2/lesson-5';
 import { unit2TestQuestions, UNIT2_DIFFICULTY_BLUEPRINT } from './unit2/unit-2';
+import { unit3Lesson1TestQuestions } from './unit3/lesson-1';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -131,6 +132,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u2-lesson-5'],
   },
+  {
+    id: 'u3-test-lesson-1',
+    type: 'lesson',
+    unitId: 'unit-3',
+    lessonId: 'u3-lesson-1',
+    title: 'اختبار الدرس الأول: نظير المجموع ونظير الفرق',
+    description: 'اختبر فهمك لنظير المجموع ونظير الفرق، والتمثيل على المستقيم الموجه، وحذف الأقواس المسبوقة بناقص، وتوظيف النظير في التبسيط والحساب.',
+    questionIds: unit3Lesson1TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'نظير المجموع، نظير الفرق، المستقيم الموجه، حذف الأقواس، الموازنة العددية والرمزية، والمخططات التحويلية',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u3-lesson-1'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -204,6 +218,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit2Lesson3TestQuestions,
   ...unit2Lesson4TestQuestions,
   ...unit2Lesson5TestQuestions,
+  ...unit3Lesson1TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];
