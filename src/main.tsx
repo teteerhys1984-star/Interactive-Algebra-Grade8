@@ -13,6 +13,7 @@ import './styles/teacher.css';
 import './styles/tests.css';
 import './styles/roots.css';
 import './styles/unit3-lesson1.css';
+import './styles/unit3-lesson2.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

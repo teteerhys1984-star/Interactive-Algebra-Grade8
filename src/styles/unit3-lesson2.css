@@ -1,0 +1,322 @@
+/* ==========================================================================
+   Unit 3 — Lesson 2 (حذف الأقواس) Interactive Labs
+   Responsive down to 320px/360px, strict RTL prose + LTR isolated math.
+   يعمد هذا الملف على الأساس المشترك (u3-lab-card / u3-btn / u3-preset-pills /
+   u3-term-cards / u3-sign-btn …) في unit3-lesson1.css ويضيف فقط فئات u3l2-*.
+   ========================================================================== */
+
+.u3l2-lab {
+  direction: rtl;
+}
+
+/* زر ثانوي (مخطط) يستعمله مختبر الدرس 2 */
+.u3-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background-color: #ffffff;
+  color: var(--color-slate-700);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.u3-btn-ghost:hover {
+  border-color: var(--color-primary-400);
+  background-color: var(--color-primary-50);
+}
+
+.u3l2-lab-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.u3l2-lab-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--color-slate-900);
+}
+
+.u3l2-badge-ok {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--color-emerald-900);
+  background-color: var(--color-emerald-50);
+  border: 1px solid var(--color-emerald-200);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+}
+
+.u3l2-lab-intro {
+  margin: 0 0 0.9rem;
+  font-size: 0.92rem;
+  color: var(--color-slate-700);
+  line-height: 1.7;
+}
+
+.u3l2-section {
+  padding: 0.9rem 0;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.u3l2-section:first-of-type {
+  border-top: none;
+  padding-top: 0.25rem;
+}
+
+.u3l2-q {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-slate-900);
+  line-height: 1.7;
+}
+
+/* شبكة خيارات الموقف 1 */
+.u3l2-option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 0.2rem;
+}
+
+.u3l2-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.65rem 0.8rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: right;
+  transition: all 0.15s ease;
+}
+
+.u3l2-option:hover {
+  border-color: var(--color-primary-400);
+}
+
+.u3l2-option.is-picked {
+  border-color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  box-shadow: 0 0 0 1px var(--color-primary-600);
+}
+
+.u3l2-option-label {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--color-primary-700);
+}
+
+.u3l2-option-expr {
+  font-family: 'Cambria Math', 'Latin Modern Math', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-slate-800);
+  letter-spacing: 0.02em;
+}
+
+/* أزرار الإجراءات */
+.u3l2-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
+/* صفوف الإدخال */
+.u3l2-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+@media (max-width: 560px) {
+  .u3l2-input-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.u3l2-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.u3l2-field-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.u3l2-input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  font-family: 'Cambria Math', 'Latin Modern Math', Georgia, serif;
+  font-size: 1rem;
+  color: var(--color-slate-900);
+  background-color: #ffffff;
+  text-align: left;
+}
+
+.u3l2-input:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* كشف الإجابات */
+.u3l2-reveal {
+  margin-top: 0.9rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-slate-50);
+  border: 1px solid var(--border-subtle);
+}
+
+.u3l2-reveal-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--color-primary-700);
+}
+
+.u3l2-reveal-list {
+  margin: 0;
+  padding-right: 1.15rem;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--color-slate-800);
+}
+
+.u3l2-reveal-list li {
+  margin-bottom: 0.4rem;
+}
+
+.u3l2-reveal-inline {
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+}
+
+.u3l2-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* مختبر الإشارة المسبقة: تلميحات وصفوف الإشارات */
+.u3l2-hint {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary-700);
+  background-color: var(--color-primary-50);
+  border-radius: 999px;
+  padding: 0.15rem 0.7rem;
+}
+
+.u3l2-sign-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 0.5rem 0 0.9rem;
+}
+
+.u3l2-big-sign {
+  width: 110px;
+  height: 58px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+  border-radius: var(--radius-md);
+}
+
+.u3l2-big-sign small {
+  font-size: 0.72rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+/* صفوف أشرطة التحقق العددي */
+.u3l2-numeric-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  margin-top: 0.9rem;
+}
+
+.u3l2-numeric-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.u3l2-numeric-row input[type='range'] {
+  width: 140px;
+  accent-color: var(--color-primary-600);
+}
+
+.u3l2-x-slider input[type='range'] {
+  width: 180px;
+  accent-color: var(--color-primary-600);
+}
+
+/* عرض المساواة في مختبر الاختبار */
+.u3l2-eq-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin: 0.9rem 0;
+}
+
+@media (max-width: 560px) {
+  .u3l2-eq-display {
+    grid-template-columns: 1fr;
+  }
+}
+
+.u3l2-eq-side {
+  background-color: #ffffff;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.9rem;
+  text-align: center;
+}
+
+.u3l2-eq-tag {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--color-primary-700);
+  margin-bottom: 0.35rem;
+}
+
+.u3l2-source-ref {
+  margin: 0.9rem 0 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-slate-500);
+}

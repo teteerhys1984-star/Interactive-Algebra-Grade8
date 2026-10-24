@@ -881,6 +881,57 @@ export const unit3Lesson1Concepts: CurriculumConcept[] = [
   },
 ];
 
+export const unit3Lesson2Concepts: CurriculumConcept[] = [
+  {
+    id: 'u3l2-situation-to-expression',
+    title: 'تحويل الموقف العددي إلى عبارة جمع وطرح وحساب الرصيد',
+    skills: ['situation-to-signed-expression', 'grouped-transactions-equivalence'],
+    taughtInSteps: ['step-1'],
+    sourcePages: [50],
+    commonMistakes: ['عكس إشارة الدخل/الصرف في الموقف المالي (طرح المكافأة أو إضافة الثمن).'],
+  },
+  {
+    id: 'u3l2-plus-parentheses-rule',
+    title: 'حذف القوس المسبوق بالإشارة + (بما فيها الزائد الضمني)',
+    skills: ['remove-plus-parentheses', 'implicit-plus-at-start'],
+    taughtInSteps: ['step-2', 'step-3'],
+    sourcePages: [50],
+    commonMistakes: ['قلب إشارات حدود قوس مسبوق بزائد: كتابة $a + (b - c) = a - b - c$.'],
+  },
+  {
+    id: 'u3l2-minus-parentheses-rule',
+    title: 'حذف القوس المسبوق بالإشارة −: جمع نظير محتواه',
+    skills: ['remove-minus-parentheses', 'subtract-as-adding-opposite'],
+    taughtInSteps: ['step-2', 'step-3', 'step-4'],
+    sourcePages: [50, 51],
+    commonMistakes: ['إبقاء إشارات حدود قوس مسبوق بناقص: كتابة $7 - (3 - 5) = 7 - 3 - 5$.'],
+  },
+  {
+    id: 'u3l2-evaluate-without-brackets',
+    title: 'الكتابة دون أقواس وحساب القيمة (أعداد صحيحة وعشرية وكسرية)',
+    skills: ['evaluate-decimal-chains', 'evaluate-fraction-chains', 'evaluate-with-leading-minus'],
+    taughtInSteps: ['step-5', 'step-6'],
+    sourcePages: [51],
+    commonMistakes: ['نسيان حدّ عند نقل محتويات القوس أو خلط المقامات في السلسلة الكسرية.'],
+  },
+  {
+    id: 'u3l2-verify-identity-numerically',
+    title: 'اختبار المساواة بالتعويض عند x = 1: تجربة عددية مقابل برهان رمزي',
+    skills: ['substitution-check-at-x1', 'numeric-test-vs-symbolic-proof'],
+    taughtInSteps: ['step-5', 'step-8'],
+    sourcePages: [51],
+    commonMistakes: ['اعتبار تطابق الطرفين عند قيمة واحدة برهانًا للمطابقة لكل قيم x.'],
+  },
+  {
+    id: 'u3l2-bracket-simplification',
+    title: 'تبسيط العبارات متعددة الأقواس: الحذف وجمع الحدود المتشابهة',
+    skills: ['simplify-two-parenthesis-expressions', 'simplify-with-substitution', 'track-simplification-stages'],
+    taughtInSteps: ['step-4', 'step-7', 'step-8'],
+    sourcePages: [50, 51],
+    commonMistakes: ['في عبارة بها قوسان مختلفا الإشارة، قلب حدود قوس واحد وترك الثاني (أو العكس).'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -892,6 +943,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u2-lesson-4', unitId: 'unit-2', lessonTitle: 'الجذور التربيعية', concepts: unit2Lesson4Concepts },
   { lessonId: 'u2-lesson-5', unitId: 'unit-2', lessonTitle: 'تمارين ومسائل الوحدة الثانية', concepts: unit2Lesson5Concepts },
   { lessonId: 'u3-lesson-1', unitId: 'unit-3', lessonTitle: 'نظير المجموع ونظير الفرق', concepts: unit3Lesson1Concepts },
+  { lessonId: 'u3-lesson-2', unitId: 'unit-3', lessonTitle: 'حذف الأقواس', concepts: unit3Lesson2Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

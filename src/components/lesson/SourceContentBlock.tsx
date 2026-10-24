@@ -34,6 +34,9 @@ import { OppositeTableLab } from '../interactive/OppositeTableLab';
 import { OppositeNumberLineExplorer } from '../interactive/OppositeNumberLineExplorer';
 import { BracketSignFlipperLab } from '../interactive/BracketSignFlipperLab';
 import { OppositeCycleDiagramLab } from '../interactive/OppositeCycleDiagramLab';
+import { BalanceSituationLab } from '../interactive/BalanceSituationLab';
+import { BracketCaseLab } from '../interactive/BracketCaseLab';
+import { SubstitutionCheckerLab } from '../interactive/SubstitutionCheckerLab';
 import {
   Sparkles,
   BookOpen,
@@ -335,6 +338,12 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       {block.interactiveType === 'bracket-sign-flipper' && <BracketSignFlipperLab />}
 
       {block.interactiveType === 'opposite-cycle-diagram' && <OppositeCycleDiagramLab />}
+
+      {block.interactiveType === 'balance-situation' && <BalanceSituationLab />}
+
+      {block.interactiveType === 'bracket-case-lab' && <BracketCaseLab />}
+
+      {block.interactiveType === 'substitution-checker' && <SubstitutionCheckerLab />}
 
       {block.interactiveType === 'warmup-rectangle-svg' && (
         <div
