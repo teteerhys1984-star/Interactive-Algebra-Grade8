@@ -1,0 +1,642 @@
+/* ==========================================================================
+   Unit 3 — Lesson 1 (نظير المجموع ونظير الفرق) Interactive Labs & Diagrams
+   Responsive down to 320px/360px, strict RTL prose + LTR isolated math.
+   ========================================================================== */
+
+.u3-lab-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin: 1.1rem 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.u3-lab-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.u3-lab-eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-primary-700);
+  background-color: var(--color-primary-50);
+  border: 1px solid var(--color-primary-200);
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem;
+  margin-bottom: 0.35rem;
+}
+
+.u3-lab-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-slate-900);
+  margin: 0;
+}
+
+/* Buttons */
+.u3-lab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.u3-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background-color: #ffffff;
+  color: var(--color-slate-800);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.u3-btn:hover:not(:disabled) {
+  border-color: var(--color-primary-400);
+  background-color: var(--color-primary-50);
+}
+
+.u3-btn:disabled {
+  opacity: 0.52;
+  cursor: not-allowed;
+}
+
+.u3-btn-primary {
+  background-color: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #ffffff;
+}
+
+.u3-btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-700);
+  border-color: var(--color-primary-700);
+  color: #ffffff;
+}
+
+.u3-pair-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-primary-300);
+  background-color: #ffffff;
+  color: var(--color-primary-800);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.u3-pair-toggle.is-active {
+  background-color: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #ffffff;
+}
+
+/* Feedback banner */
+.u3-lab-feedback {
+  margin-top: 0.9rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.u3-lab-feedback.is-ok {
+  background-color: var(--color-emerald-50);
+  border: 1px solid var(--color-emerald-200);
+  color: var(--color-emerald-900);
+}
+
+.u3-lab-feedback.is-warn {
+  background-color: var(--color-amber-50);
+  border: 1px solid var(--color-amber-500);
+  color: var(--color-amber-800);
+}
+
+/* 1. OppositeTableLab */
+.u3-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+}
+
+.u3-opp-table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.u3-opp-table th,
+.u3-opp-table td {
+  border: 1px solid var(--border-subtle);
+  padding: 0.5rem 0.4rem;
+}
+
+.u3-opp-table thead th {
+  background-color: var(--color-slate-100);
+  color: var(--color-slate-900);
+  font-weight: 800;
+}
+
+.u3-opp-table th.is-sum-pair,
+.u3-opp-table td.is-sum-pair {
+  background-color: rgba(16, 185, 129, 0.13);
+}
+
+.u3-opp-table th.is-diff-pair,
+.u3-opp-table td.is-diff-pair {
+  background-color: rgba(139, 92, 246, 0.13);
+}
+
+.u3-given-cell {
+  background-color: var(--color-slate-50);
+  font-weight: 800;
+}
+
+.u3-cell-input {
+  width: 58px;
+  max-width: 100%;
+  padding: 0.32rem 0.25rem;
+  text-align: center;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-slate-900);
+  background-color: #ffffff;
+}
+
+.u3-cell-input.is-correct,
+.u3-cell-input.is-revealed {
+  border-color: var(--color-emerald-600);
+  background-color: var(--color-emerald-50);
+  color: var(--color-emerald-900);
+}
+
+.u3-cell-input.is-wrong {
+  border-color: var(--color-rose-600);
+  background-color: var(--color-rose-50);
+  color: var(--color-rose-900);
+}
+
+.u3-custom-row {
+  background-color: #f8fafc;
+  border-top: 2px dashed var(--color-slate-300);
+}
+
+.u3-custom-num {
+  width: 54px;
+  padding: 0.25rem;
+  text-align: center;
+  border: 1.5px solid var(--color-primary-300);
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-900);
+}
+
+.u3-computed-live {
+  font-weight: 700;
+  color: var(--color-primary-800);
+}
+
+.u3-custom-hint {
+  margin: 0.55rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.u3-pair-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.u3-pair-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.u3-pair-chip.is-sum-pair {
+  background-color: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: var(--color-emerald-900);
+}
+
+.u3-pair-chip.is-diff-pair {
+  background-color: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #4c1d95;
+}
+
+.u3-pair-chip .u3-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+/* 2. OppositeNumberLineExplorer */
+.u3-mode-switch {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  background-color: var(--color-slate-100);
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+}
+
+.u3-mode-btn {
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+  cursor: pointer;
+}
+
+.u3-mode-btn.is-active {
+  background-color: #ffffff;
+  color: var(--color-primary-800);
+  box-shadow: var(--shadow-sm);
+}
+
+.u3-case-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.u3-case-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: right;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-subtle);
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 0.87rem;
+  font-weight: 700;
+  color: var(--color-slate-800);
+  cursor: pointer;
+}
+
+.u3-case-tab.is-active {
+  border-color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-900);
+}
+
+.u3-case-badge {
+  font-weight: 800;
+  color: var(--color-primary-700);
+  flex-shrink: 0;
+}
+
+.u3-stage-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+}
+
+.u3-stage-chip {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-slate-600);
+  cursor: pointer;
+}
+
+.u3-stage-chip.is-on {
+  border-color: var(--color-sky-500);
+  background-color: var(--color-sky-50);
+  color: #0369a1;
+}
+
+.u3-svg-wrap,
+.u3-cycle-svg-wrap {
+  width: 100%;
+  overflow-x: auto;
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.5rem;
+}
+
+.u3-sliders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+  margin-top: 0.85rem;
+}
+
+.u3-slider-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-slate-800);
+}
+
+.u3-slider-field input[type='range'],
+.u3-inline-x-picker input[type='range'] {
+  accent-color: var(--color-primary-600);
+  cursor: pointer;
+}
+
+.u3-nl-readout {
+  margin-top: 0.85rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-slate-50);
+  border: 1px solid var(--border-subtle);
+}
+
+.u3-nl-formula {
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+  text-align: center;
+}
+
+.u3-nl-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.45rem 0 0;
+  font-size: 0.88rem;
+  color: var(--color-slate-700);
+  line-height: 1.6;
+}
+
+/* 3. BracketSignFlipperLab */
+.u3-preset-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.u3-preset-pill {
+  padding: 0.42rem 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-strong);
+  background-color: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.u3-preset-pill.is-active {
+  border-color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+}
+
+.u3-flipper-stage {
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.95rem;
+}
+
+.u3-flipper-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-bottom: 1px dashed var(--border-subtle);
+  padding-bottom: 0.5rem;
+}
+
+.u3-flipper-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.u3-flipper-prompt {
+  margin: 0.7rem 0;
+  font-size: 0.92rem;
+  color: var(--color-slate-800);
+}
+
+.u3-term-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.u3-term-card {
+  flex: 1 1 135px;
+  max-width: 210px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 0.7rem;
+  background-color: var(--color-slate-50);
+  text-align: center;
+}
+
+.u3-term-card.is-correct {
+  border-color: var(--color-emerald-500);
+  background-color: var(--color-emerald-50);
+}
+
+.u3-term-card.is-wrong {
+  border-color: var(--color-rose-500);
+  background-color: var(--color-rose-50);
+}
+
+.u3-term-orig {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.8rem;
+  color: var(--color-slate-600);
+  margin-bottom: 0.55rem;
+}
+
+.u3-sign-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.u3-sign-btn {
+  width: 40px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-strong);
+  background-color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-slate-800);
+  cursor: pointer;
+}
+
+.u3-sign-btn.is-picked {
+  border-color: var(--color-primary-600);
+  background-color: var(--color-primary-600);
+  color: #ffffff;
+}
+
+.u3-term-preview {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.u3-flipper-preview-row {
+  margin-top: 0.85rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed var(--border-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.u3-inline-x-picker {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.u3-numeric-proof {
+  margin-top: 0.5rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.88rem;
+}
+
+/* 4. OppositeCycleDiagramLab */
+.u3-cycle-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.u3-cycle-slot {
+  background-color: #ffffff;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+}
+
+.u3-cycle-slot.is-ok {
+  border-color: var(--color-emerald-500);
+  background-color: var(--color-emerald-50);
+}
+
+.u3-cycle-slot.is-bad {
+  border-color: var(--color-rose-500);
+  background-color: var(--color-rose-50);
+}
+
+.u3-cycle-slot-title {
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--color-slate-800);
+  margin-bottom: 0.5rem;
+}
+
+.u3-cycle-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.u3-cycle-opt {
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-strong);
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.u3-cycle-opt.is-picked {
+  border-color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-900);
+}
+
+.u3-cycle-explain {
+  margin: 0.5rem 0 0;
+  font-size: 0.83rem;
+  color: var(--color-slate-700);
+}
+
+.u3-cycle-runner {
+  margin-top: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-slate-50);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.u3-cycle-trace {
+  overflow-x: auto;
+  text-align: center;
+}
+
+/* Warm-up pink rectangle visual (Page 46 items 5-6) */
+.u3-warmup-rect-fig {
+  display: flex;
+  justify-content: center;
+  margin: 0.75rem 0;
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+}

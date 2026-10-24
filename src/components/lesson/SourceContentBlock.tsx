@@ -30,6 +30,10 @@ import { SquareNumberTable } from '../interactive/SquareNumberTable';
 import { SquareRootExplorer } from '../interactive/SquareRootExplorer';
 import { RootRulesStudio } from '../interactive/RootRulesStudio';
 import { SquareRootSimplifier } from '../interactive/SquareRootSimplifier';
+import { OppositeTableLab } from '../interactive/OppositeTableLab';
+import { OppositeNumberLineExplorer } from '../interactive/OppositeNumberLineExplorer';
+import { BracketSignFlipperLab } from '../interactive/BracketSignFlipperLab';
+import { OppositeCycleDiagramLab } from '../interactive/OppositeCycleDiagramLab';
 import {
   Sparkles,
   BookOpen,
@@ -322,6 +326,34 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
 
       {block.interactiveType === 'square-root-simplifier' && (
         <SquareRootSimplifier initialValue={block.interactiveData?.initialValue} />
+      )}
+
+      {block.interactiveType === 'opposite-table-lab' && <OppositeTableLab />}
+
+      {block.interactiveType === 'opposite-number-line' && <OppositeNumberLineExplorer />}
+
+      {block.interactiveType === 'bracket-sign-flipper' && <BracketSignFlipperLab />}
+
+      {block.interactiveType === 'opposite-cycle-diagram' && <OppositeCycleDiagramLab />}
+
+      {block.interactiveType === 'warmup-rectangle-svg' && (
+        <div
+          className="u3-warmup-rect-fig"
+          dir="ltr"
+          role="img"
+          aria-label="مستطيل طوله 9 cm وعرضه x cm للأسئلة 5 و 6 من انطلاقة نشطة"
+        >
+          <svg viewBox="0 0 320 130" width="290" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <title>مستطيل بعداه 9 cm و x cm</title>
+            <rect x="85" y="20" width="180" height="72" fill="#f5b3b8" stroke="#334155" strokeWidth="2.2" />
+            <text x="50" y="61" textAnchor="middle" fontSize="16" fontStyle="italic" fill="#dc2626">
+              x cm
+            </text>
+            <text x="175" y="114" textAnchor="middle" fontSize="16" fill="#dc2626">
+              9 cm
+            </text>
+          </svg>
+        </div>
       )}
 
       {/* Sub-items (exercises, worked examples, rules) */}
