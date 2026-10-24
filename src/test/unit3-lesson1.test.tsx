@@ -135,19 +135,30 @@ describe('Unit 3, Lesson 1 — source fidelity, audit notes, and teacher solutio
     }
   });
 
-  it('preserves printed Example 2 text verbatim with explicit source notes instead of silently altering c = -5', () => {
+  it('presents the true mathematical solution (A = 2, B = -2) for Example 2 (a=4, b=7, c=-5) and warns about the printed conflict without displaying the erroneous solution as fact', () => {
     const allBlocks = unit3Lesson1Data.steps.flatMap((s) => s.blocks);
     const ex2 = allBlocks.find((b) => b.id === 'p48-example-2')!;
     expect(ex2.authored).toBeFalsy();
+    expect(ex2.title).toContain('a = 4');
+    expect(ex2.title).toContain('b = 7');
     expect(ex2.title).toContain('c = -5');
-    expect(ex2.mathFormula).toContain('4 - 7 - (+5)');
-    expect(ex2.mathFormula).toContain('-8');
+    expect(ex2.mathFormula).toBeUndefined();
     expect(ex2.verifyNote).toContain('c = -5');
+
+    const correctBlock = allBlocks.find((b) => b.id === 'p48-example-2-correct-solution')!;
+    expect(correctBlock.authored).toBe(true);
+    expect(correctBlock.mathFormula).toContain('A &= 4 - 7 - (-5) = -3 + 5 = 2');
+    expect(correctBlock.mathFormula).toContain('B &= -4 + 7 + (-5) = 3 - 5 = -2');
 
     const auditBlock = allBlocks.find((b) => b.id === 'p48-example-2-audit-note')!;
     expect(auditBlock.authored).toBe(true);
-    expect(auditBlock.content).toContain('A = 4 - 7 - (-5) = -3 + 5 = 2');
-    expect(auditBlock.content).toContain('B = -4 + 7 + (-5) = 3 - 5 = -2');
+    expect(auditBlock.title).toContain('تعارض الحل المطبوع');
+    expect(auditBlock.content).toContain('تتعارضان مع المعطى');
+
+    const ex2TeacherSol = unit3Lesson1TeacherSolutions.find((s) => s.id === 's48-ex2')!;
+    expect(ex2TeacherSol.answerOrigin).toBe('مُشتقة من المنصة');
+    expect(ex2TeacherSol.finalAnswer).toContain('A = 2');
+    expect(ex2TeacherSol.finalAnswer).toContain('B = -2');
 
     const drill3 = allBlocks.find((b) => b.id === 'p49-drill-3')!;
     expect(drill3.title).toContain('بوضع العبارة المناسب');
