@@ -932,6 +932,57 @@ export const unit3Lesson2Concepts: CurriculumConcept[] = [
   },
 ];
 
+export const unit3Lesson3Concepts: CurriculumConcept[] = [
+  {
+    id: 'u3l3-area-expression-modeling',
+    title: 'التعبير عن مساحة سطح مركّب بدلالة متغيّرين والحكم على الصيغ المكافئة',
+    skills: ['area-two-variable-decomposition', 'decide-equivalent-area-expression', 'area-evaluation'],
+    taughtInSteps: ['step-1'],
+    sourcePages: [52],
+    commonMistakes: ['قبول كل عبارة تساوي المساحة عدديًا على أنها قراءة من الشكل، أو قبول $2(x + y) + 8x$ بدل $10x - 8y$.'],
+  },
+  {
+    id: 'u3l3-like-terms-reduction',
+    title: 'اختزال العبارات بجمع الحدود المتشابهة',
+    skills: ['identify-like-terms', 'combine-coefficients', 'order-by-descending-degree'],
+    taughtInSteps: ['step-2', 'step-5'],
+    sourcePages: [52, 53],
+    commonMistakes: ['جمع حدود غير متشابهة مثل $2x^2 + 3x = 5x^2$، أو نسيان أن معامل $x$ هو $1$.'],
+  },
+  {
+    id: 'u3l3-monomial-product',
+    title: 'ضرب الحدود: المعاملات والرموز وقاعدة الإشارات',
+    skills: ['multiply-monomials', 'sign-of-product', 'multiply-powers-same-base'],
+    taughtInSteps: ['step-3', 'step-5'],
+    sourcePages: [52, 53],
+    commonMistakes: ['نسيان جمع الأسّين عند ضرب الرمز في نفسه: كتابة $5x \times 5x = 25x$ بدل $25x^2$.'],
+  },
+  {
+    id: 'u3l3-expand-and-remove-brackets',
+    title: 'النشر وحذف الأقواس في العبارات ذات المعاملات',
+    skills: ['distribute-coefficient', 'expand-two-bracket-expression', 'remove-minus-bracket'],
+    taughtInSteps: ['step-2', 'step-3', 'step-6', 'step-7'],
+    sourcePages: [52, 53],
+    commonMistakes: ['توزيع العدد على الحد الأول فقط: $3(5x - 1) = 15x - 1$، أو ترك إشارة الحد الأخير دون قلب داخل قوس مسبوق بناقص.'],
+  },
+  {
+    id: 'u3l3-evaluate-reduced',
+    title: 'حساب قيمة عبارة مختزلة عند قيم عددية',
+    skills: ['substitute-positive-integers', 'substitute-negative-and-fraction', 'zero-of-expression'],
+    taughtInSteps: ['step-4', 'step-8'],
+    sourcePages: [53],
+    commonMistakes: ['إغفال الأقواس عند تربيع عدد سالب، أو الخلط بين $(-x)^2$ و$-x^2$.'],
+  },
+  {
+    id: 'u3l3-simplify-then-operate',
+    title: 'تركيب العبارات: A + B و A − B وترتيب خطوات الاختزال',
+    skills: ['add-subtract-expressions', 'track-simplification-order', 'diagnose-reduction-errors'],
+    taughtInSteps: ['step-7', 'step-9'],
+    sourcePages: [53],
+    commonMistakes: ['حساب $A - B$ كأنها $A + B$ بنسيان قلب إشارات حدود $B$ كلها.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -944,6 +995,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u2-lesson-5', unitId: 'unit-2', lessonTitle: 'تمارين ومسائل الوحدة الثانية', concepts: unit2Lesson5Concepts },
   { lessonId: 'u3-lesson-1', unitId: 'unit-3', lessonTitle: 'نظير المجموع ونظير الفرق', concepts: unit3Lesson1Concepts },
   { lessonId: 'u3-lesson-2', unitId: 'unit-3', lessonTitle: 'حذف الأقواس', concepts: unit3Lesson2Concepts },
+  { lessonId: 'u3-lesson-3', unitId: 'unit-3', lessonTitle: 'اختزال عبارة رمزية', concepts: unit3Lesson3Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {
