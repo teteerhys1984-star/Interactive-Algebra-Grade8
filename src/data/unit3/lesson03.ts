@@ -138,8 +138,8 @@ const mainLessonSteps: LessonStep[] = [
         content: 'أربع إجابات من تلاميذ مختلفين؛ واحدة على الأقل منها لا تصف السطح:',
         subItems: [
           { label: '①', text: 'قطعة علوية ثم شريط سفلي:', math: tex`8(x - y) + 2x` },
-          { label: '②', text: 'عبارة مختزلة قصيرة:', math: tex`10x - 8y` },
-          { label: '③', text: 'شريط مزدوج العرض ثم ثمانية أضعاف العرض:', math: tex`2(x + y) + 8x` },
+          { label: '②', text: 'الصيغة المختزلة القصيرة:', math: tex`10x - 8y` },
+          { label: '③', text: 'صيغة مقترحة ثالثة:', math: tex`2(x + y) + 8x` },
           { label: '④', text: 'عمود أيسر ثم شريط سفلي أيمن:', math: tex`10(x - y) + 2y` },
         ],
       },
@@ -341,7 +341,7 @@ const mainLessonSteps: LessonStep[] = [
         subItems: [
           {
             label: 'البند الأول',
-            text: tex`نجري ضرب العددين $3$ و $-5$، ثم ضرب الرمزين $a$ و $b$.`,
+            text: tex`نجري ضرب العددين $3$ و $-5$، ثم ضرب الرمزين $a$ و $b$. (التفصيل العددي التالي من شرح المنصة:)`,
             math: tex`3 \times (-5) = -15 \qquad a \times b = ab`,
           },
           {
