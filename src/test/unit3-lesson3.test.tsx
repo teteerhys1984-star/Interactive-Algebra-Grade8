@@ -290,6 +290,71 @@ describe('Unit 3, Lesson 3 — step rendering, interactive widgets, and Teacher 
     unmount();
   });
 
+  it('draws the solid B edge through the bottom strip and keeps every brace from folding back on itself', () => {
+    const step = unit3Lesson3Data.steps[0];
+    const { container, unmount } = render(
+      <StepRenderer step={step} stepIndex={0} totalSteps={unit3Lesson3Data.steps.length} />,
+    );
+    const svg = container.querySelector('figure.u3l3-area-figure svg')!;
+    const { dividerX, dividerY, bottom } = AREA_FIGURE_GEOMETRY;
+
+    // 1) الخط العمودي عند B يمتد داخل الشريط السفلي حتى الضلع الأسفل (كما في صورة الكتاب).
+    const lines = Array.from(svg.querySelectorAll('line'));
+    const bEdge = lines.find(
+      (line) =>
+        Number(line.getAttribute('x1')) === dividerX
+        && Number(line.getAttribute('x2')) === dividerX
+        && Number(line.getAttribute('y1')) === dividerY
+        && Number(line.getAttribute('y2')) === bottom
+        && line.getAttribute('stroke-dasharray') === null,
+    );
+    expect(bEdge, 'the solid B edge through the bottom strip is missing').toBeTruthy();
+    // ما زال حذف المستطيل الأبيض بخطين متقطعين فقط، فلا يتحول خط B إلى متقطع.
+    expect(lines.filter((line) => line.getAttribute('stroke-dasharray') !== null)).toHaveLength(2);
+
+    // 2) الأقواس: لا يعود أي منحنى على نفسه (أي أن إحداثياته في محوره الرئيسي غير متناقصة).
+    const parsePath = (d: string): { x: number; y: number }[] => {
+      const numbers = (d.match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number);
+      const points: { x: number; y: number }[] = [];
+      for (let i = 0; i + 1 < numbers.length; i += 2) points.push({ x: numbers[i], y: numbers[i + 1] });
+      return points;
+    };
+    const bracePaths = Array.from(svg.querySelectorAll('path'))
+      .filter((path) => path.getAttribute('stroke') === '#c1440e')
+      .map((path) => ({ d: path.getAttribute('d') ?? '', points: parsePath(path.getAttribute('d') ?? '') }));
+    expect(bracePaths).toHaveLength(4);
+
+    const verticalBraces = bracePaths.filter((brace) => {
+      const xs = brace.points.map((point) => point.x);
+      return Math.max(...xs) - Math.min(...xs) <= 20;
+    });
+    expect(verticalBraces).toHaveLength(2);
+
+    for (const brace of bracePaths) {
+      const xs = brace.points.map((point) => point.x);
+      const ys = brace.points.map((point) => point.y);
+      const isVertical = Math.max(...xs) - Math.min(...xs) <= 20;
+      const axis = isVertical ? ys : xs;
+      for (let index = 1; index < axis.length; index += 1) {
+        expect(axis[index], `brace folds back at point ${index}: ${brace.d}`).toBeGreaterThanOrEqual(axis[index - 1]);
+      }
+    }
+
+    // 3) قوس 2 (بين D و A) قصير لكنه يغطي معظم المسافة ويظهر معقوفًا لا كخط صغير.
+    const smallBrace = verticalBraces.find((brace) => Math.min(...brace.points.map((point) => point.y)) > dividerY);
+    expect(smallBrace, 'the D-A (2) brace is missing').toBeTruthy();
+    const smallYs = smallBrace!.points.map((point) => point.y);
+    const span = Math.max(...smallYs) - Math.min(...smallYs);
+    expect(Math.min(...smallYs)).toBeGreaterThanOrEqual(dividerY);
+    expect(Math.max(...smallYs)).toBeLessThanOrEqual(bottom);
+    expect(span).toBeGreaterThanOrEqual((bottom - dividerY) * 0.6);
+    const smallXs = smallBrace!.points.map((point) => point.x);
+    expect(Math.max(...smallXs) - Math.min(...smallXs)).toBeGreaterThanOrEqual(6);
+
+    expect(container.querySelectorAll('.katex-error')).toHaveLength(0);
+    unmount();
+  });
+
   it('keeps the p52 figure proportions faithful to the printed scan (8:2 heights, ≈0.37 cut-out)', () => {
     const { left, right, top, bottom, dividerX, dividerY } = AREA_FIGURE_GEOMETRY;
     const width = right - left;

@@ -44,16 +44,22 @@ interface Unit3Lesson3AreaFigureProps {
 /**
  * أقواس معقوفة (كالكتاب) مرسومة بمنحنيات تكعيبية، بلا اعتماد على أي CSS خارجي.
  */
+const braceHook = (from: number, to: number): number =>
+  Math.max(1.2, Math.min(4, Math.abs(to - from) / 6));
+
 const verticalBrace = (x: number, y0: number, y1: number, depth = 9): string => {
   const mid = (y0 + y1) / 2;
   const upper = (y0 + mid) / 2;
   const lower = (mid + y1) / 2;
+  // مقدار انحراف صغير لا يتجاوز نصف المسافة إلى منتصف القوس، وإلا عاد المنحنى
+  // على نفسه فظهر القوس القصير (مثل قوس 2 فوق D-A) كخط مهلهل بدل قوس معقوف.
+  const hook = braceHook(y0, mid);
   return [
     `M ${x} ${y0}`,
-    `C ${x - depth} ${y0} ${x - depth} ${y0 + 4} ${x - depth} ${upper}`,
-    `C ${x - depth} ${mid - 4} ${x - depth} ${mid} ${x - depth * 2} ${mid}`,
-    `C ${x - depth} ${mid} ${x - depth} ${mid + 4} ${x - depth} ${lower}`,
-    `C ${x - depth} ${y1 - 4} ${x - depth} ${y1} ${x} ${y1}`,
+    `C ${x - depth} ${y0} ${x - depth} ${y0 + hook} ${x - depth} ${upper}`,
+    `C ${x - depth} ${mid - hook} ${x - depth} ${mid} ${x - depth * 2} ${mid}`,
+    `C ${x - depth} ${mid} ${x - depth} ${mid + hook} ${x - depth} ${lower}`,
+    `C ${x - depth} ${y1 - hook} ${x - depth} ${y1} ${x} ${y1}`,
   ].join(' ');
 };
 
@@ -61,12 +67,13 @@ const horizontalBrace = (y: number, x0: number, x1: number, depth = 9): string =
   const mid = (x0 + x1) / 2;
   const first = (x0 + mid) / 2;
   const second = (mid + x1) / 2;
+  const hook = braceHook(x0, mid);
   return [
     `M ${x0} ${y}`,
-    `C ${x0} ${y - depth} ${x0 + 4} ${y - depth} ${first} ${y - depth}`,
-    `C ${mid - 4} ${y - depth} ${mid} ${y - depth} ${mid} ${y - depth * 2}`,
-    `C ${mid} ${y - depth} ${mid + 4} ${y - depth} ${second} ${y - depth}`,
-    `C ${x1 - 4} ${y - depth} ${x1} ${y - depth} ${x1} ${y}`,
+    `C ${x0} ${y - depth} ${x0 + hook} ${y - depth} ${first} ${y - depth}`,
+    `C ${mid - hook} ${y - depth} ${mid} ${y - depth} ${mid} ${y - depth * 2}`,
+    `C ${mid} ${y - depth} ${mid + hook} ${y - depth} ${second} ${y - depth}`,
+    `C ${x1 - hook} ${y - depth} ${x1} ${y - depth} ${x1} ${y}`,
   ].join(' ');
 };
 
@@ -74,12 +81,13 @@ const horizontalBraceBelow = (y: number, x0: number, x1: number, depth = 9): str
   const mid = (x0 + x1) / 2;
   const first = (x0 + mid) / 2;
   const second = (mid + x1) / 2;
+  const hook = braceHook(x0, mid);
   return [
     `M ${x0} ${y}`,
-    `C ${x0} ${y + depth} ${x0 + 4} ${y + depth} ${first} ${y + depth}`,
-    `C ${mid - 4} ${y + depth} ${mid} ${y + depth} ${mid} ${y + depth * 2}`,
-    `C ${mid} ${y + depth} ${mid + 4} ${y + depth} ${second} ${y + depth}`,
-    `C ${x1 - 4} ${y + depth} ${x1} ${y + depth} ${x1} ${y}`,
+    `C ${x0} ${y + depth} ${x0 + hook} ${y + depth} ${first} ${y + depth}`,
+    `C ${mid - hook} ${y + depth} ${mid} ${y + depth} ${mid} ${y + depth * 2}`,
+    `C ${mid} ${y + depth} ${mid + hook} ${y + depth} ${second} ${y + depth}`,
+    `C ${x1 - hook} ${y + depth} ${x1} ${y + depth} ${x1} ${y}`,
   ].join(' ');
 };
 
@@ -141,6 +149,16 @@ export const Unit3Lesson3AreaFigure: React.FC<Unit3Lesson3AreaFigureProps> = ({ 
           strokeWidth={1.8}
         />
 
+        {/* الخط العمودي عند B داخل الشريط السفلي — يطابق صورة الكتاب */}
+        <line
+          x1={dividerX}
+          y1={dividerY}
+          x2={dividerX}
+          y2={bottom}
+          stroke={OUTLINE}
+          strokeWidth={1.8}
+        />
+
         {/* حدود المستطيل غير الملوّن H-I-F (متقطعة كما في الكتاب) */}
         <line x1={dividerX} y1={top} x2={right} y2={top} stroke={DASHED} strokeWidth={1.6} strokeDasharray="7 5" />
         <line x1={right} y1={top} x2={right} y2={dividerY} stroke={DASHED} strokeWidth={1.6} strokeDasharray="7 5" />
@@ -156,7 +174,7 @@ export const Unit3Lesson3AreaFigure: React.FC<Unit3Lesson3AreaFigureProps> = ({ 
         <text x={left - 46} y={(top + dividerY) / 2 + 6} fontSize={20} fontStyle="italic" fill={BRACE_LABEL} textAnchor="middle">
           8
         </text>
-        <path d={verticalBrace(left - 18, dividerY + 12, bottom - 6, 7)} fill="none" stroke={BRACE} strokeWidth={1.5} />
+        <path d={verticalBrace(left - 18, dividerY + 6, bottom - 2, 8)} fill="none" stroke={BRACE} strokeWidth={1.5} />
         <text x={left - 46} y={(dividerY + bottom) / 2 + 6} fontSize={20} fontStyle="italic" fill={BRACE_LABEL} textAnchor="middle">
           2
         </text>
