@@ -68,10 +68,10 @@ describe('Unit 3, Lesson 2 — identity, source fidelity, and curriculum safety'
     expect(unit).toBeDefined();
     expect(unit!.number).toBe(3);
     expect(unit!.title).toBe('الحساب بالرموز');
-    // توسيع تكاملي (الدرس الثالث — ص52–53): امتدت صفحات الوحدة إلى 53، وأُضيف
-    // u3-lesson-3 إلى قائمة دروسها. محتوى الدرس الثاني وترتيبه لم يتغيرا.
-    expect(unit!.sourcePages).toEqual([46, 47, 48, 49, 50, 51, 52, 53]);
-    expect(unit!.lessons.map((l) => l.id)).toEqual(['u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3']);
+    // توسيع تكاملي: بعد الدرس الثالث (ص52–53) أُضيف الدرس الرابع (ص54–57)،
+    // فامتدت صفحات الوحدة إلى 57 وصارت قائمة الدروس أربعة. محتوى الدرس الثاني وترتيبه لم يتغيرا.
+    expect(unit!.sourcePages).toEqual([46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]);
+    expect(unit!.lessons.map((l) => l.id)).toEqual(['u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4']);
 
     const lesson = getLessonById(UNIT_ID, LESSON_ID);
     expect(lesson).toBe(unit3Lesson2Data);
