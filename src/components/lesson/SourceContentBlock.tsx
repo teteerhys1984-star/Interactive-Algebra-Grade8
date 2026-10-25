@@ -37,6 +37,7 @@ import { OppositeCycleDiagramLab } from '../interactive/OppositeCycleDiagramLab'
 import { BalanceSituationLab } from '../interactive/BalanceSituationLab';
 import { BracketCaseLab } from '../interactive/BracketCaseLab';
 import { SubstitutionCheckerLab } from '../interactive/SubstitutionCheckerLab';
+import { Unit3Lesson3AreaFigure } from './Unit3Lesson3AreaFigure';
 import {
   Sparkles,
   BookOpen,
@@ -344,6 +345,8 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       {block.interactiveType === 'bracket-case-lab' && <BracketCaseLab />}
 
       {block.interactiveType === 'substitution-checker' && <SubstitutionCheckerLab />}
+
+      {block.interactiveType === 'u3l3-area-figure' && <Unit3Lesson3AreaFigure />}
 
       {block.interactiveType === 'warmup-rectangle-svg' && (
         <div
