@@ -14,6 +14,7 @@ import { unit2TestQuestions, UNIT2_DIFFICULTY_BLUEPRINT } from './unit2/unit-2';
 import { unit3Lesson1TestQuestions } from './unit3/lesson-1';
 import { unit3Lesson2TestQuestions } from './unit3/lesson-2';
 import { unit3Lesson3TestQuestions } from './unit3/lesson-3';
+import { unit3Lesson4TestQuestions } from './unit3/lesson-4';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -173,6 +174,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u3-lesson-3'],
   },
+  {
+    id: 'u3-test-lesson-4',
+    type: 'lesson',
+    unitId: 'unit-3',
+    lessonId: 'u3-lesson-4',
+    title: 'اختبار الدرس الرابع: نشر (a+b)(c+d)',
+    description: 'اختبر فهمك لنشر جداء قوسين: التفسير الهندسي بأربعة مستطيلات، والمطابقة وإثباتها بالتعويض، وأولوية الضرب مع a − b(c+d)، والإشارات في (a−b)(c±d)، ومربّع المجموع والفرق، وجداء ثلاثة عوامل، ومساحة سطح مركّب.',
+    questionIds: unit3Lesson4TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'النشر الهندسي، المطابقة، الأولويات وحذف الأقواس، الإشارات، المربّعات، جداء العوامل، ومساحة السطح المركّب',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u3-lesson-4'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -249,6 +263,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit3Lesson1TestQuestions,
   ...unit3Lesson2TestQuestions,
   ...unit3Lesson3TestQuestions,
+  ...unit3Lesson4TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];

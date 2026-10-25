@@ -983,6 +983,57 @@ export const unit3Lesson3Concepts: CurriculumConcept[] = [
   },
 ];
 
+export const unit3Lesson4Concepts: CurriculumConcept[] = [
+  {
+    id: 'u3l4-geometric-distribution',
+    title: 'التفسير الهندسي لنشر جداء قوسين بمساحة أربعة مستطيلات',
+    skills: ['area-of-four-rectangles', 'before-vs-after-expansion', 'evaluate-four-term-sum'],
+    taughtInSteps: ['step-1', 'step-3'],
+    sourcePages: [54],
+    commonMistakes: ['كتابة $ac + bd$ فقط بدل أربعة حدود، أو جمع الأبعاد بدل ضربها.'],
+  },
+  {
+    id: 'u3l4-identity-and-proof',
+    title: 'قاعدة النشر (a+b)(c+d) = ac + ad + bc + bd وإثباتها كمطابقة',
+    skills: ['substitute-k-equals-c-plus-d', 'distribute-single-factor', 'identity-vs-equation'],
+    taughtInSteps: ['step-2', 'step-3'],
+    sourcePages: [54],
+    commonMistakes: ['حفظ القاعدة دون إثباتها بالتعويض، أو ظنّ أنها لا تصح إلا لقيم خاصة.'],
+  },
+  {
+    id: 'u3l4-priority-and-subtraction',
+    title: 'أولويات العمليات في a − b(c+d) وحذف القوس المسبوق بناقص',
+    skills: ['multiplication-before-subtraction', 'flip-every-sign-in-brackets', 'diagnose-sign-error'],
+    taughtInSteps: ['step-4'],
+    sourcePages: [55],
+    commonMistakes: ['تنفيذ $2 - 3$ قبل نشر $3(x+5)$، أو قلب إشارة $3x$ وحدها دون $15$.'],
+  },
+  {
+    id: 'u3l4-signed-expansion',
+    title: 'نشر (a−b)(c+d) و(a−b)(c−d) مع قاعدة الإشارات والاختزال',
+    skills: ['subtraction-as-adding-opposite', 'sign-aware-term-products', 'combine-like-terms-after-expansion', 'equivalent-expanded-forms'],
+    taughtInSteps: ['step-5', 'step-6', 'step-7', 'step-8'],
+    sourcePages: [55, 56, 57],
+    commonMistakes: ['إهمال الحدود الوسطى كما في $(x-6)(x+4) = x^2 - 24$، أو ترك معامل $2$ في $2x^2$ بمثال ص56.'],
+  },
+  {
+    id: 'u3l4-squares-and-triple-product',
+    title: 'مربّع المجموع والفرق وجداء ثلاثة عوامل',
+    skills: ['square-as-product-with-itself', 'distribute-over-three-terms', 'order-multi-stage-expansion'],
+    taughtInSteps: ['step-9', 'step-10'],
+    sourcePages: [57],
+    commonMistakes: ['كتابة $(x+1)^2 = x^2 + 1$، أو ضرب $3x$ في حدّ واحد فقط.'],
+  },
+  {
+    id: 'u3l4-area-expressions',
+    title: 'التعبير عن مساحة سطح مركّب بدلالة x والتحقق من تكافؤ الصيغ',
+    skills: ['rectangle-to-area-expression', 'difference-or-sum-decomposition', 'verify-two-area-forms'],
+    taughtInSteps: ['step-10'],
+    sourcePages: [57],
+    commonMistakes: ['جمع مساحة المستطيل غير الملون بدل طرحها، أو نسيان شرط $x > 3$.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -996,6 +1047,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u3-lesson-1', unitId: 'unit-3', lessonTitle: 'نظير المجموع ونظير الفرق', concepts: unit3Lesson1Concepts },
   { lessonId: 'u3-lesson-2', unitId: 'unit-3', lessonTitle: 'حذف الأقواس', concepts: unit3Lesson2Concepts },
   { lessonId: 'u3-lesson-3', unitId: 'unit-3', lessonTitle: 'اختزال عبارة رمزية', concepts: unit3Lesson3Concepts },
+  { lessonId: 'u3-lesson-4', unitId: 'unit-3', lessonTitle: 'نشر (a+b)(c+d)', concepts: unit3Lesson4Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

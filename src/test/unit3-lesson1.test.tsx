@@ -57,7 +57,8 @@ describe('Unit 3, Lesson 1 — identity, warm-up integration, and curriculum saf
     // توسيع تكاملي: أضفت الدرس الثاني (حذف الأقواس — ص50–51) ثم الدرس الثالث
     // (اختزال عبارة رمزية — ص52–53) إلى الوحدة، فامتدت صفحات المصدر من [46–49]
     // إلى [46–53]. محتوى هذا الدرس نفسه (ص46–49) لم يتغير.
-    expect(unit!.sourcePages).toEqual([46, 47, 48, 49, 50, 51, 52, 53]);
+    // إضافة الدرس الرابع (ص54–57) وسّعت صفحات الوحدة؛ صفحات الدرس الأوّل نفسها لم تتغيّر.
+    expect(unit!.sourcePages).toEqual([46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]);
 
     const lesson = getLessonById(UNIT_ID, LESSON_ID);
     expect(lesson).toBe(unit3Lesson1Data);
