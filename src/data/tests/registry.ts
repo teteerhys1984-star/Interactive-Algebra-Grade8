@@ -13,6 +13,7 @@ import { unit2Lesson5TestQuestions } from './unit2/lesson-5';
 import { unit2TestQuestions, UNIT2_DIFFICULTY_BLUEPRINT } from './unit2/unit-2';
 import { unit3Lesson1TestQuestions } from './unit3/lesson-1';
 import { unit3Lesson2TestQuestions } from './unit3/lesson-2';
+import { unit3Lesson3TestQuestions } from './unit3/lesson-3';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -159,6 +160,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u3-lesson-2'],
   },
+  {
+    id: 'u3-test-lesson-3',
+    type: 'lesson',
+    unitId: 'unit-3',
+    lessonId: 'u3-lesson-3',
+    title: 'اختبار الدرس الثالث: اختزال عبارة رمزية',
+    description: 'اختبر فهمك لاختزال العبارات: التعبير عن مساحة سطح مركّب بدلالة متغيّرين، وجمع الحدود المتشابهة، وضرب الحدود، والنشر وحذف الأقواس، وحساب القيم العددية، وتركيب العبارات (A + B و A − B).',
+    questionIds: unit3Lesson3TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'قراءة المساحة بالرموز، جمع الحدود المتشابهة، ضرب الحدود، النشر وحذف الأقواس، حساب القيم، وتركيب العبارات وتشخيص الأخطاء',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u3-lesson-3'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -234,6 +248,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit2Lesson5TestQuestions,
   ...unit3Lesson1TestQuestions,
   ...unit3Lesson2TestQuestions,
+  ...unit3Lesson3TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];
