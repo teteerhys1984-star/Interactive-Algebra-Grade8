@@ -316,18 +316,32 @@ describe('Unit 3, Lesson 3 — independent 20-question lesson test (`u3-test-les
     expect(optionButtons.length).toBe(4);
     fireEvent.click(optionButtons[0]);
 
-    expect(container.querySelectorAll('.is-correct, .is-wrong, .test-review-card')).toHaveLength(0);
+    // قبل التسليم: شاشة الأسئلة قائمة، ولا أثر لشاشة النتائج أو الدرجة أو الحلول.
+    expect(container.querySelector('.test-question-card')).toBeTruthy();
+    expect(container.querySelector('.test-results')).toBeNull();
+    expect(container.querySelector('.test-score-line')).toBeNull();
+    expect(container.querySelector('.test-result-counts')).toBeNull();
+    expect(container.querySelectorAll('.test-solution-steps, .test-solution-card, .test-solutions')).toHaveLength(0);
     expect(container.querySelector('.test-progress-copy')?.textContent).toContain('إجابات محفوظة: 1');
 
     fireEvent.click(screen.getByRole('button', { name: /تسليم الاختبار/ }));
 
+    // بعد التسليم: تظهر النتائج والدرجة، وتبقى الحلول التفصيلية خارج شاشة الاختبار.
     expect(screen.getByText('أحسنت على إكمال الاختبار')).toBeInTheDocument();
     expect(screen.getByLabelText('1 من 20')).toBeInTheDocument();
+    expect(container.querySelector('.test-results')).toBeTruthy();
+    expect(container.querySelector('.test-score-line')).toBeTruthy();
+    expect(container.querySelector('.test-percentage')).toBeTruthy();
+    expect(container.querySelectorAll('.test-solution-steps, .test-solution-card')).toHaveLength(0);
     expect(container.querySelectorAll('.katex-error')).toHaveLength(0);
 
     fireEvent.click(screen.getByRole('button', { name: /إعادة الاختبار/ }));
     expect(container.querySelector('.test-progress-copy')?.textContent).toContain('إجابات محفوظة: 0');
     expect(container.querySelectorAll('.test-option.is-selected')).toHaveLength(0);
+    // الإعادة تصفّر الدرجة أيضًا، وتعيد شاشة الأسئلة وحدها.
+    expect(container.querySelector('.test-question-card')).toBeTruthy();
+    expect(container.querySelector('.test-results')).toBeNull();
+    expect(container.querySelector('.test-score-line')).toBeNull();
   });
 
   it('renders all 20 worked solutions in TestSolutions across 4 pages with zero KaTeX errors', () => {
