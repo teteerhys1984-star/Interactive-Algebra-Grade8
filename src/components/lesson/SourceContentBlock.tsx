@@ -39,6 +39,8 @@ import { BracketCaseLab } from '../interactive/BracketCaseLab';
 import { SubstitutionCheckerLab } from '../interactive/SubstitutionCheckerLab';
 import { Unit3Lesson3AreaFigure } from './Unit3Lesson3AreaFigure';
 import { Unit3Lesson4LShapeFigure, Unit3Lesson4RectangleFigure } from './Unit3Lesson4Figures';
+import { Unit3Lesson5DistributionFigure, Unit3Lesson5PrismFigure } from './Unit3Lesson5Figures';
+import { Unit3Lesson5SubstitutionLab } from '../interactive/Unit3Lesson5SubstitutionLab';
 import {
   Sparkles,
   BookOpen,
@@ -354,6 +356,12 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       {block.interactiveType === 'u3l4-rectangle-areas' && <Unit3Lesson4RectangleFigure variant="areas" />}
 
       {block.interactiveType === 'u3l4-lshape-figure' && <Unit3Lesson4LShapeFigure />}
+
+      {block.interactiveType === 'u3l5-prism-figure' && <Unit3Lesson5PrismFigure />}
+
+      {block.interactiveType === 'u3l5-distribution-figure' && <Unit3Lesson5DistributionFigure />}
+
+      {block.interactiveType === 'u3l5-substitution-lab' && <Unit3Lesson5SubstitutionLab />}
 
       {block.interactiveType === 'warmup-rectangle-svg' && (
         <div

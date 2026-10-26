@@ -1034,6 +1034,42 @@ export const unit3Lesson4Concepts: CurriculumConcept[] = [
   },
 ];
 
+export const unit3Lesson5Concepts: CurriculumConcept[] = [
+  {
+    id: 'u3l5-substitution-counterexample',
+    title: 'اختبار المساواة بالتعويض والمثال المعاكس',
+    skills: ['evaluate-both-sides', 'distinguish-printed-right-sides', 'counterexample-vs-finite-tests'],
+    taughtInSteps: ['step-1', 'step-2', 'step-3'], sourcePages: [58],
+    commonMistakes: ['الخلط بين عبارة السؤال وطرف الطالب الأصلي أو اعتبار اختبار ناجح واحد برهانًا عامًا.'],
+  },
+  {
+    id: 'u3l5-correct-expansion', title: 'تصحيح نشر (3x+1)(x+2)',
+    skills: ['expand-original-product', 'identify-missing-x'], taughtInSteps: ['step-2'], sourcePages: [58],
+    commonMistakes: ['إغفال جداء $1\\times x$ عند النشر.'],
+  },
+  {
+    id: 'u3l5-efficient-evaluation', title: 'اختيار صيغة مناسبة لحساب قيمة عبارة رمزية',
+    skills: ['simplify-a-before-substitution', 'zero-factor-at-20'], taughtInSteps: ['step-4'], sourcePages: [59],
+    commonMistakes: ['نسيان أن $(-30)^2=900$ أو إهمال عامل يساوي صفرًا.'],
+  },
+  {
+    id: 'u3l5-evaluate-z-b', title: 'نشر Z وB واختزالهما وحساب قيمهما',
+    skills: ['simplify-z', 'z-fraction-substitution', 'evaluate-b-negative-and-decimal'],
+    taughtInSteps: ['step-5', 'step-6'], sourcePages: [59],
+    commonMistakes: ['توزيع الإشارة السالبة على حد واحد فقط أو الخطأ في تربيع عدد سالب.'],
+  },
+  {
+    id: 'u3l5-prism-surface', title: 'مساحة أوجه متوازي المستطيلات',
+    skills: ['prism-face-areas', 'prism-total-area', 'prism-area-at-five'], taughtInSteps: ['step-7'], sourcePages: [60],
+    commonMistakes: ['نسيان الأوجه المقابلة أو وحدة السنتيمتر المربع.'],
+  },
+  {
+    id: 'u3l5-proof-methods', title: 'مقارنة إنجازات حسان ووضاح ولينا',
+    skills: ['numerical-check-vs-symbolic-proof', 'distribution-arrows'], taughtInSteps: ['step-8'], sourcePages: [60],
+    commonMistakes: ['اعتبار اختبار حسان عند قيمة واحدة برهانًا عامًا.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -1048,6 +1084,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u3-lesson-2', unitId: 'unit-3', lessonTitle: 'حذف الأقواس', concepts: unit3Lesson2Concepts },
   { lessonId: 'u3-lesson-3', unitId: 'unit-3', lessonTitle: 'اختزال عبارة رمزية', concepts: unit3Lesson3Concepts },
   { lessonId: 'u3-lesson-4', unitId: 'unit-3', lessonTitle: 'نشر (a+b)(c+d)', concepts: unit3Lesson4Concepts },
+  { lessonId: 'u3-lesson-5', unitId: 'unit-3', lessonTitle: 'اختبار مساواة رمزية', concepts: unit3Lesson5Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

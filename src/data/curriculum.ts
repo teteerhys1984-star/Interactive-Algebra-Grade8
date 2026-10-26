@@ -14,6 +14,7 @@ import { unit3Lesson1Data } from './unit3/lesson01';
 import { unit3Lesson2Data } from './unit3/lesson02';
 import { unit3Lesson3Data } from './unit3/lesson03';
 import { unit3Lesson4Data } from './unit3/lesson04';
+import { unit3Lesson5Data } from './unit3/lesson05';
 
 export interface UnitData {
   id: string;
@@ -48,10 +49,10 @@ export const curriculum: UnitData[] = [
     id: 'unit-3',
     number: 3,
     title: 'الحساب بالرموز',
-    description: 'الوحدة الثالثة من كتاب الجبر للصف الثامن: نظير المجموع ونظير الفرق، وحذف الأقواس، وتبسيط العبارات الحرفية واختزالها ونشرها.',
-    sourcePages: [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
+    description: 'الوحدة الثالثة من كتاب الجبر للصف الثامن: نظير المجموع والفرق، وحذف الأقواس، واختزال العبارات ونشرها، واختبار المساواة الرمزية.',
+    sourcePages: [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
     warmup: unit3WarmupData,
-    lessons: [unit3Lesson1Data, unit3Lesson2Data, unit3Lesson3Data, unit3Lesson4Data],
+    lessons: [unit3Lesson1Data, unit3Lesson2Data, unit3Lesson3Data, unit3Lesson4Data, unit3Lesson5Data],
   },
 ];
 
