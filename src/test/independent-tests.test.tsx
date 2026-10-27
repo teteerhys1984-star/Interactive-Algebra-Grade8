@@ -67,6 +67,15 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
     expect(prompts).toContain('(0.01)^{-1}');
     expect(prompts).toContain('\\dfrac{18}{5}');
     expect(prompts).toContain('67 \\times 10^{4}');
+    // Preserve the original order of the printed true/false equation.
+    expect(prompts).toContain('$2 - xy = 3$');
+    expect(prompts).not.toContain('$3 = xy - 2$');
+    expect(firstTestSolutions['q2-3'].finalAnswer).toContain('صح');
+    expect(firstTestSolutions['q2-3'].finalAnswer).toContain('$2 - xy = 3$');
+    expect(firstTestSolutions['q2-3'].finalAnswer).not.toContain('$xy - 2$');
+    const serializedTest = JSON.stringify(firstIndependentTest) + JSON.stringify(firstTestSolutions);
+    expect(serializedTest).toContain('طبوقان');
+    expect(serializedTest).not.toContain('طبقان');
     // كسور التمرين الأول
     expect(maths).toContain('1 - \\dfrac{\\dfrac{13}{4} - 5}{2 + \\dfrac{7}{2}}');
     expect(maths).toContain('\\left(-6 + \\dfrac{8}{3}\\right)\\left(6 - \\dfrac{3}{4}\\right)');
