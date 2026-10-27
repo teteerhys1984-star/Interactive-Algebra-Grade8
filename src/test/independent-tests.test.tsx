@@ -122,6 +122,16 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
     expect(screen.getByRole('button', { name: /العودة إلى قائمة الاختبارات/ })).toBeInTheDocument();
   });
 
+  it('displays item and sub-item numbers with Latin digits', () => {
+    const { container } = renderIndependentTestPaper();
+    const numbers = Array.from(container.querySelectorAll('.itest-item-number'))
+      .map((node) => node.textContent ?? '');
+
+    expect(numbers.length).toBeGreaterThan(0);
+    expect(numbers.join(' ')).toMatch(/[0-9]/);
+    expect(numbers.join(' ')).not.toMatch(/[٠-٩۰-۹]/);
+  });
+
   it('renders the questions paper with the re-created geometry figure', () => {
     const { container } = renderIndependentTestPaper();
 
