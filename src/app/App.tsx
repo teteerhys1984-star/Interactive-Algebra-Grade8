@@ -11,6 +11,7 @@ import { TestsArea } from '../components/tests/TestsArea';
 import { TestRunner } from '../components/tests/TestRunner';
 import { TestSolutionsArea } from '../components/tests/TestSolutionsArea';
 import { TestSolutions } from '../components/tests/TestSolutions';
+import { IndependentTestsArea } from '../components/independent-tests/IndependentTestsArea';
 import { resolveTest } from '../data/tests/registry';
 
 export const App: React.FC = () => {
@@ -41,6 +42,10 @@ export const App: React.FC = () => {
     navigate('/tests');
     setIsDrawerOpen(false);
   };
+  const handleNavigateIndependentTests = () => {
+    navigate('/independent-tests');
+    setIsDrawerOpen(false);
+  };
   const handleStartTest = (testId: string) => navigate(`/tests/run/${testId}`);
   const handleOpenTestSolutions = (testId: string) => navigate(`/tests/solutions/${testId}`);
   const currentTest = route.testId ? resolveTest(route.testId) : undefined;
@@ -51,6 +56,7 @@ export const App: React.FC = () => {
         onNavigateHome={handleNavigateHome}
         onNavigateUnit={route.view === 'lesson' ? handleNavigateUnit : undefined}
         onNavigateTests={handleNavigateTests}
+        onNavigateIndependentTests={handleNavigateIndependentTests}
         unitTitle={route.view === 'lesson' && activeUnit ? activeUnit.title : undefined}
         lessonTitle={route.view === 'lesson' && activeLesson ? activeLesson.title : undefined}
         onToggleDrawer={route.view === 'lesson' ? () => setIsDrawerOpen(!isDrawerOpen) : undefined}
@@ -87,11 +93,9 @@ export const App: React.FC = () => {
           </main>
         )}
 
-        {route.view === 'teacher' && (
-          <TeacherArea onNavigateHome={handleNavigateHome} />
-        )}
-
+        {route.view === 'teacher' && <TeacherArea onNavigateHome={handleNavigateHome} />}
         {route.view === 'tests' && <TestsArea onStartTest={handleStartTest} />}
+        {route.view === 'independent-tests' && <IndependentTestsArea />}
 
         {route.view === 'test-runner' && currentTest && (
           <TestRunner
