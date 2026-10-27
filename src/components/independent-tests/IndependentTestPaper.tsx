@@ -13,8 +13,13 @@ import type { IndependentTest, IndependentTestItem } from '../../data/independen
  * حلول هنا؛ الحلول في `IndependentTestSolutions` خلف بوابة كلمة السر.
  */
 
+const toLatinDigits = (value: string): string =>
+  value.replace(/[٠-٩۰-۹]/g, (digit) =>
+    String(digit.charCodeAt(0) - (digit >= '۰' ? 0x06f0 : 0x0660)),
+  );
+
 const ItemNumber: React.FC<{ value: string }> = ({ value }) => (
-  <span className="itest-item-number" aria-hidden="true">{value}</span>
+  <span className="itest-item-number" aria-hidden="true">{toLatinDigits(value)}</span>
 );
 
 const ChoiceList: React.FC<{ item: IndependentTestItem }> = ({ item }) => (
@@ -73,7 +78,7 @@ const Item: React.FC<{ item: IndependentTestItem }> = ({ item }) => (
         <ol className="itest-parts-list">
           {item.parts.map((part) => (
             <li key={part.id} className="itest-part">
-              <span className="itest-item-number" aria-hidden="true">{part.number}</span>
+              <ItemNumber value={part.number} />
               <p className="itest-part-prompt"><MathText text={part.prompt} /></p>
             </li>
           ))}
