@@ -223,7 +223,7 @@ export const firstIndependentTest: IndependentTest = {
                 {
                   id: 'pb2-1-a',
                   number: '١',
-                  prompt: 'أثبت أن المثلثين $MBD$ و $BDN$ طبقان.',
+                  prompt: 'أثبت أن المثلثين $MBD$ و $BDN$ طبوقان.',
                 },
                 {
                   id: 'pb2-1-b',
