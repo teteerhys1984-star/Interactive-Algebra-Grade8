@@ -60,10 +60,10 @@ export const firstTestSolutions: IndependentSolutionMap = {
   'q2-3': {
     steps: [
       'نحسب الجداء: $xy = \\dfrac{4}{7} \\times \\left(-\\dfrac{7}{4}\\right) = -\\dfrac{4 \\times 7}{7 \\times 4} = -1$.',
-      'ثم: $xy - 2 = -1 - 2 = -3$.',
-      'الناتج $-3$ وليس $3$.',
+      'نعوّض في العبارة الأصلية دون تغيير ترتيبها: $2 - xy = 2 - (-1) = 2 + 1 = 3$.',
+      'إذن الطرف الأيسر يساوي الطرف الأيمن، فالعبارة صحيحة.',
     ],
-    finalAnswer: 'خطأ: $xy - 2 = -3$.',
+    finalAnswer: 'صح: $2 - xy = 3$.',
   },
   'q2-4': {
     steps: [
@@ -146,9 +146,9 @@ export const firstTestSolutions: IndependentSolutionMap = {
       'في متوازي الأضلاع $MBND$ كل ضلعين متقابلين متساويان: $MB = DN$ و $MD = BN$.',
       'المثلثان $MBD$ و $BDN$ يشتركان في الضلع $BD$.',
       'وبذلك: $MB = DN$ و $MD = BN$ و $BD$ ضلع مشترك.',
-      'إذن المثلثان طبقان بحسب تطابق الأضلاع الثلاثة.',
+      'إذن المثلثان طبوقان بحسب تطابق الأضلاع الثلاثة.',
     ],
-    finalAnswer: 'المثلثان $MBD$ و $BDN$ طبقان (ت.ت.ت).',
+    finalAnswer: 'المثلثان $MBD$ و $BDN$ طبوقان (ت.ت.ت).',
     figure: 'mbnd-congruence',
   },
   'pb2-1-b': {

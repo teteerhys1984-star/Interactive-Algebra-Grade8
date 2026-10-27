@@ -98,7 +98,7 @@ export const firstIndependentTest: IndependentTest = {
               number: '٣',
               kind: 'true-false',
               prompt:
-                'إذا كان $x = \\dfrac{4}{7}$ و $y = -\\dfrac{7}{4}$ فإن $3 = xy - 2$.',
+                'إذا كان $x = \\dfrac{4}{7}$ و $y = -\\dfrac{7}{4}$ فإن $2 - xy = 3$.',
             },
             {
               id: 'q2-4',
