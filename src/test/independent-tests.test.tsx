@@ -26,6 +26,12 @@ const visibleText = (root: HTMLElement): string => {
 const allItemIds = collectItems().filter((item) => !item.parts).map((item) => item.id);
 const allPartIds = collectItems().flatMap((item) => item.parts?.map((part) => part.id) ?? []);
 
+const renderIndependentTestPaper = () => {
+  const result = render(<IndependentTestsArea />);
+  fireEvent.click(screen.getByRole('button', { name: /دخول إلى الاختبار/ }));
+  return result;
+};
+
 describe('Independent Tests area: first exam (algebra + geometry)', () => {
   beforeEach(() => {
     window.location.hash = '#/independent-tests';
@@ -106,8 +112,18 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
     expect(serialized).not.toContain('انتهت الأسئلة');
   });
 
+  it('shows a card catalog first and opens the paper only after selecting a test', () => {
+    render(<IndependentTestsArea />);
+    expect(screen.getByRole('heading', { name: 'اختبارات مستقلة' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'الاختبار الأول' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'السؤال الأول' })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /دخول إلى الاختبار/ }));
+    expect(screen.getByRole('heading', { name: 'السؤال الأول' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /العودة إلى قائمة الاختبارات/ })).toBeInTheDocument();
+  });
+
   it('renders the questions paper with the re-created geometry figure', () => {
-    const { container } = render(<IndependentTestsArea />);
+    const { container } = renderIndependentTestPaper();
 
     expect(screen.getByRole('heading', { name: 'اختبارات مستقلة' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'السؤال الأول' })).toBeInTheDocument();
@@ -132,7 +148,7 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
   });
 
   it('never shows raw TeX or delimiters to the student', async () => {
-    const { container } = render(<IndependentTestsArea />);
+    const { container } = renderIndependentTestPaper();
     const paperText = visibleText(container);
     expect(paperText).not.toContain('$');
     expect(paperText).not.toContain('\\dfrac');
@@ -151,7 +167,7 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
   });
 
   it('keeps the solutions tab behind the existing password gate', () => {
-    const { container } = render(<IndependentTestsArea />);
+    const { container } = renderIndependentTestPaper();
 
     fireEvent.click(screen.getByRole('button', { name: /الحلول/ }));
     expect(screen.getByRole('heading', { name: 'الحلول محمية بكلمة سر' })).toBeInTheDocument();
@@ -163,7 +179,7 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
   });
 
   it('shows a complete solution for every question and sub-question after unlocking', async () => {
-    const { container } = render(<IndependentTestsArea />);
+    const { container } = renderIndependentTestPaper();
 
     fireEvent.click(screen.getByRole('button', { name: /الحلول/ }));
     fireEvent.change(screen.getByLabelText('كلمة السر'), { target: { value: 'somer173' } });
