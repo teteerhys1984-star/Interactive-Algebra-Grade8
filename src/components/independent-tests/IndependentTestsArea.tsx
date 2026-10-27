@@ -10,6 +10,7 @@ type ActiveTab = 'questions' | 'solutions';
 const SOLUTIONS_PASSWORD = 'somer173';
 
 export const IndependentTestsArea: React.FC = () => {
+  const [selectedTestId, setSelectedTestId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<ActiveTab>('questions');
   const [password, setPassword] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -62,6 +63,8 @@ export const IndependentTestsArea: React.FC = () => {
     setError('');
   };
 
+  const selectedTest = independentTests.find((test) => test.id === selectedTestId);
+
   return (
     <main className="independent-tests-area" dir="rtl">
       <header className="independent-tests-hero">
@@ -71,6 +74,36 @@ export const IndependentTestsArea: React.FC = () => {
         <p>مساحة مخصصة لأسئلة اختبارات الجبر والاختبارات المشتركة (جبر + هندسة)، مع الحلول الكاملة في تبويب مستقل.</p>
       </header>
 
+      {!selectedTest && (
+        <section className="independent-tests-catalog" aria-label="قائمة الاختبارات المستقلة">
+          {independentTests.length === 0 ? (
+            <div className="independent-tests-empty">
+              <div className="independent-tests-empty-icon"><Search size={25} aria-hidden="true" /></div>
+              <h2>الاختبارات ستُضاف هنا</h2>
+              <p>ستظهر الاختبارات المستقلة هنا على شكل بطاقات، ويمكنك فتح أي اختبار عند اختياره.</p>
+            </div>
+          ) : (
+            independentTests.map((test, index) => (
+              <article className="independent-test-card" key={test.id}>
+                <div className="independent-test-card-icon"><FileCheck2 size={25} aria-hidden="true" /></div>
+                <p className="independent-test-card-eyebrow">اختبار مستقل رقم {index + 1}</p>
+                <h2>{test.title}</h2>
+                <p className="independent-test-card-subtitle">{test.subtitle}</p>
+                <p className="independent-test-card-description">{test.description}</p>
+                <button type="button" className="independent-tests-primary-button" onClick={() => { setSelectedTestId(test.id); setActiveTab('questions'); }}>
+                  <BookOpen size={17} aria-hidden="true" /> دخول إلى الاختبار
+                </button>
+              </article>
+            ))
+          )}
+        </section>
+      )}
+
+      {selectedTest && (
+      <>
+      <button type="button" className="independent-tests-back-button" onClick={() => { setSelectedTestId(null); returnToQuestions(); }}>
+        ← العودة إلى قائمة الاختبارات
+      </button>
       <nav className="independent-tests-tabs" aria-label="أقسام الاختبارات المستقلة">
         <button type="button" className={activeTab === 'questions' ? 'is-active' : ''} aria-current={activeTab === 'questions' ? 'page' : undefined} onClick={returnToQuestions}>
           <BookOpen size={18} aria-hidden="true" /> الأسئلة
@@ -81,8 +114,8 @@ export const IndependentTestsArea: React.FC = () => {
       </nav>
 
       {activeTab === 'questions' && (
-        <section className="independent-tests-questions" aria-label="أوراق الأسئلة">
-          {independentTests.length === 0 ? (
+        <section className="independent-tests-questions" aria-label="ورقة الأسئلة"> 
+          {!selectedTest ? (
             <div className="independent-tests-empty">
               <div className="independent-tests-empty-icon"><Search size={25} aria-hidden="true" /></div>
               <h2>الاختبارات ستُضاف هنا</h2>
@@ -90,7 +123,7 @@ export const IndependentTestsArea: React.FC = () => {
               <div className="independent-tests-tags"><span>جبر</span><span>جبر + هندسة</span></div>
             </div>
           ) : (
-            independentTests.map((test) => <IndependentTestPaper key={test.id} test={test} />)
+            <IndependentTestPaper test={selectedTest} />
           )}
         </section>
       )}
@@ -120,13 +153,15 @@ export const IndependentTestsArea: React.FC = () => {
       {activeTab === 'solutions' && unlocked && (
         <section className="independent-tests-solutions" aria-label="أوراق الحلول">
           {solutionsError && <p className="independent-tests-password-error" role="alert">{solutionsError}</p>}
-          {!solutionsError && independentTests.map((test) => (
-            <IndependentTestSolutions key={test.id} test={test} solutions={solutions} />
-          ))}
+          {!solutionsError && selectedTest && (
+            <IndependentTestSolutions test={selectedTest} solutions={solutions} />
+          )}
           <div className="independent-tests-solutions-actions">
             <button type="button" className="independent-tests-primary-button" onClick={returnToQuestions}>العودة إلى الأسئلة</button>
           </div>
         </section>
+      )}
+      </>
       )}
     </main>
   );
