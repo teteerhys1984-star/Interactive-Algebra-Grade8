@@ -34,7 +34,7 @@ const groups: Group[] = [
       ['s58-first-1', tex`احسب $(3x+1)(x+2)$ و$x^2+6x+2$ عند $x=0$.`,
         [tex`الجداء $(1)(2)=2$.`, tex`عبارة السؤال $0^2+6(0)+2=2$.`], tex`$2$ و$2$.`, tex`حتى طرف الطالب الأصلي $3(0)^2+6(0)+2=2$.`],
       ['s58-first-2', tex`هل مساواة الطالب صحيحة عند $x=0$؟`,
-        [tex`الطرف الأيسر يساوي $2$.`, tex`الطرف الأيمن الأصلي $3(0)^2+6(0)+2=2$.`], tex`نعم، عند $x=0$ فقط في هذا الاختبار.`, 'هذا التوافق لا يبرهن المساواة عند جميع القيم.'],
+        [tex`الطرف الأيسر يساوي $2$.`, tex`الطرف الأيمن الأصلي $3(0)^2+6(0)+2=2$.`], tex`نعم، عند $x=0$.`, 'هذا التوافق لا يبرهن المساواة عند جميع القيم.'],
     ],
   },
   {
@@ -48,7 +48,7 @@ const groups: Group[] = [
         [tex`الطرف الأيسر $=12$.`, tex`الطرف الأيمن الأصلي $3(1)^2+6(1)+2=11$.`], tex`لا؛ $12\ne11$.`, tex`حتى عبارة السؤال المطبوعة تعطي $9\ne12$، لكنها ليست الطرف الأصلي.`],
       ['s58-second-3', 'هل يلزم اختبار آخر، وماذا تنصح الطالب؟',
         [tex`القيمة $x=1$ مثال معاكس للمساواة الأصلية.`, 'نراجع النشر بدل محاولة إثبات المساواة بمزيد من الاختبارات.'],
-        'لا يلزم اختبار آخر لنقض صحتها العامة؛ أنصحه بإعادة النشر والاختزال.', tex`الحد المفقود في الكتابة هو $x$ الناتج من $1\times x$.`],
+        'لا يلزم اختبار آخر لنقض صحتها العامة؛ أنصحه بإعادة النشر والاختزال.', tex`الفرق بين النشر الصحيح ونتيجة الطالب هو $x=1\times x$؛ لكن النتيجة وحدها لا تحدّد موضع الخطأ.`],
     ],
   },
   {
@@ -111,7 +111,7 @@ const groups: Group[] = [
         [tex`نضرب $x$ في $x$ و5.`, tex`ونضرب 1 في $x$ و5، ثم نطرح $6x$.`],
         tex`$x\times x+x\times5+1\times x+1\times5-6x$.`, tex`$1\times5=+5$.`],
       ['s59-example-line-2', 'السطر الثاني كما طُبع مع الإشارة الزائدة.',
-        [tex`المطبوع $x^2+5x+x - +5-6x$.`, tex`من السطر السابق $1\times5=+5$، فيكون التصويب $x^2+5x+x+5-6x$.`],
+        [tex`$=x^2+5x+x - +5-6x=x^2+5x+x-6x+5$.`, tex`من السطر السابق $1\times5=+5$، فيكون التصويب $x^2+5x+x+5-6x$.`],
         tex`$x^2+5x+x+5-6x$.`, tex`السطر التالي المطبوع يحتفظ بالحد $+5$.`,
         tex`السطر المطبوع يحوي $- +5$؛ التصويب تفسير من المنصة لا تغيير للنص المنقول.`],
       ['s59-example-line-3', 'اختزال حدود x.',
@@ -209,12 +209,38 @@ const groups: Group[] = [
   },
 ];
 
+// These final answers summarize printed facts rather than quoting a printed
+// answer verbatim. Their source notes preserve the distinction for the teacher.
+const printedAnswerSummaries = new Set([
+  's58-activity-warning', 's58-learn-example', 's58-learn-solution', 's58-learn-warning',
+  's59-example-question', 's59-example-line-4', 's59-special',
+]);
+
 export const unit3Lesson5TeacherSolutions: UnitTeacherSolution[] = groups.flatMap((group) =>
-  group.rows.map(([id, problem, solutionSteps, finalAnswer, check, sourceNote], index) => ({
-    id, group: group.group, blockId: group.blockId, source: group.source,
-    ...(group.subIndexed ? { subIndex: index } : {}),
-    problem, steps: solutionSteps, finalAnswer, principle: group.principle, check,
-    answerOrigin: id === 's59-example-line-2' ? 'مُشتقة من المنصة' : group.origin,
-    ...(sourceNote ? { sourceNote } : {}),
-  })),
+  group.rows.map(([id, problem, solutionSteps, finalAnswer, check, sourceNote], index) => {
+    const steps = solutionSteps.map((step, stepIndex) => {
+      if (id === 's59-example-line-2') {
+        return `${stepIndex === 0 ? 'النص المطبوع في الكتاب' : 'تصويب المنصة'}: ${step}`;
+      }
+      if (id === 's59-example-question' && stepIndex === 0) {
+        return `تصويب المنصة للسطر المطبوع: ${step}`;
+      }
+      return `${group.origin === 'الكتاب' ? 'تلخيص المنصة لما في الكتاب' : 'شرح المنصة'}: ${step}`;
+    });
+    const summaryNote = id === 's59-example-question'
+      ? 'النتيجتان A=x²+5 وA(−30)=905 مطبوعتان؛ جمعهما في جواب واحد والخطوة المصححة والتحقق الإضافي من المنصة.'
+      : 'الفكرة أو القيم المشار إليها مطبوعة في الكتاب؛ صياغة الجواب هنا تلخيص من المنصة وليست نقلًا حرفيًا.';
+    const note = sourceNote ?? (printedAnswerSummaries.has(id) ? summaryNote : undefined);
+    return {
+      id, group: group.group, blockId: group.blockId, source: group.source,
+      ...(group.subIndexed ? { subIndex: index } : {}),
+      problem: `صياغة المنصة للمطلب: ${problem}`,
+      steps, finalAnswer,
+      principle: `توضيح المنصة: ${group.principle}`,
+      check: `تحقق أو ملاحظة من المنصة: ${check}`,
+      answerOrigin: id === 's59-example-line-2' || printedAnswerSummaries.has(id)
+        ? 'مُشتقة من المنصة' : group.origin,
+      ...(note ? { sourceNote: note } : {}),
+    };
+  }),
 );

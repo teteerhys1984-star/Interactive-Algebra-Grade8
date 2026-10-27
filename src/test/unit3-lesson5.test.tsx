@@ -117,10 +117,10 @@ describe('Unit 3 Lesson 5 — identity, provenance and source fidelity', () => {
     expect(block('p60-hassan-work').content).toContain('x^2+7x+12=1^2+7\\times1+12=1+7+12=20');
     expect(block('p59-special-case').content).toContain('A=x^2+5(x-20)(x^2-x+5)');
     expect(block('p59-special-case').content).toContain('400+0=400');
-    expect(block('p59-check-z').mathFormula).toBe('Z=3(5x-1)-4(-2x+3)');
+    expect(block('p59-check-z').content).toContain('$Z=3(5x-1)-4(-2x+3)$');
     expect(block('p59-check-z').subItems!.map((item) => item.solution)).toEqual(['Z=23x-15', 'Z=-15', 'Z=-38', 'Z=0']);
     expect(block('p59-check-z').subItems![3].text).toContain('\\frac{15}{23}');
-    expect(block('p59-check-b').mathFormula).toBe('B=x(-x+3)-3(x^2+2x)');
+    expect(block('p59-check-b').content).toContain('$B=x(-x+3)-3(x^2+2x)$');
     expect(block('p59-check-b').subItems!.map((item) => item.solution)).toEqual(['B=-4x^2-3x', 'B=-1', 'B=-22', 'B=-4.5']);
     expect(block('p59-check-b').subItems![3].text).toContain('-1{,}5');
     expect(block('p60-prism-questions').subItems).toHaveLength(3);
@@ -218,8 +218,8 @@ describe('Unit 3 Lesson 5 — rendering, figures and interaction', () => {
       '(x+3)(x+4)=x(x+4)+3(x+4)=x\\times x+x\\times4+3\\times x+3\\times4',
       '=x^2+4x+3x+12=x^2+(4+3)x+12=x^2+7x+12',
     ]);
-    expect(formulas('إنجاز لينا والسؤال')).toEqual([
-      '(x+3)(x+4)=x\\times x+x\\times4+3\\times x+3\\times4',
+    expect(formulas('إنجاز لينا والسؤال — عنوان تنظيمي من المنصة')).toEqual([
+      '=x\\times x+x\\times4+3\\times x+3\\times4',
       '=x^2+(4+3)x+12',
       '=x^2+7x+12',
     ]);
