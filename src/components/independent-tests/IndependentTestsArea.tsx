@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BookOpen, LockKeyhole, FileCheck2, Search, ShieldCheck } from 'lucide-react';
+import { independentTests } from '../../data/independent-tests/first-test';
+import type { IndependentSolutionMap } from '../../data/independent-tests/types';
+import { IndependentTestPaper } from './IndependentTestPaper';
+import { IndependentTestSolutions } from './IndependentTestSolutions';
 
 type ActiveTab = 'questions' | 'solutions';
 
@@ -10,6 +14,30 @@ export const IndependentTestsArea: React.FC = () => {
   const [password, setPassword] = useState('');
   const [unlocked, setUnlocked] = useState(false);
   const [error, setError] = useState('');
+  const [solutions, setSolutions] = useState<IndependentSolutionMap | null>(null);
+  const [solutionsError, setSolutionsError] = useState('');
+
+  // الحلول في ملف بيانات منفصل يُطلب ديناميكيًا بعد فتح البوابة فقط،
+  // فلا تُحمَّل مع ورقة الأسئلة في الحزمة الأولية.
+  useEffect(() => {
+    if (!unlocked) {
+      setSolutions(null);
+      setSolutionsError('');
+      return;
+    }
+    let active = true;
+    setSolutionsError('');
+    import('../../data/independent-tests/first-test-solutions')
+      .then((module) => {
+        if (active) setSolutions(module.firstTestSolutions);
+      })
+      .catch(() => {
+        if (active) setSolutionsError('تعذّر تحميل ملف الحلول. أعد المحاولة بعد تحديث الصفحة.');
+      });
+    return () => {
+      active = false;
+    };
+  }, [unlocked]);
 
   const openSolutions = () => {
     setActiveTab('solutions');
@@ -53,11 +81,17 @@ export const IndependentTestsArea: React.FC = () => {
       </nav>
 
       {activeTab === 'questions' && (
-        <section className="independent-tests-empty" aria-labelledby="independent-questions-title">
-          <div className="independent-tests-empty-icon"><Search size={25} aria-hidden="true" /></div>
-          <h2 id="independent-questions-title">الاختبارات ستُضاف هنا</h2>
-          <p>هذه المنطقة جاهزة لاستقبال صور الاختبارات وتنظيمها إلى اختبارات جبر مستقلة واختبارات مشتركة بين الجبر والهندسة.</p>
-          <div className="independent-tests-tags"><span>جبر</span><span>جبر + هندسة</span></div>
+        <section className="independent-tests-questions" aria-label="أوراق الأسئلة">
+          {independentTests.length === 0 ? (
+            <div className="independent-tests-empty">
+              <div className="independent-tests-empty-icon"><Search size={25} aria-hidden="true" /></div>
+              <h2>الاختبارات ستُضاف هنا</h2>
+              <p>هذه المنطقة جاهزة لاستقبال أسئلة الاختبارات وتنظيمها إلى اختبارات جبر مستقلة واختبارات مشتركة بين الجبر والهندسة.</p>
+              <div className="independent-tests-tags"><span>جبر</span><span>جبر + هندسة</span></div>
+            </div>
+          ) : (
+            independentTests.map((test) => <IndependentTestPaper key={test.id} test={test} />)
+          )}
         </section>
       )}
 
@@ -84,11 +118,14 @@ export const IndependentTestsArea: React.FC = () => {
       )}
 
       {activeTab === 'solutions' && unlocked && (
-        <section className="independent-tests-empty" aria-labelledby="independent-solutions-ready-title">
-          <div className="independent-tests-empty-icon"><FileCheck2 size={25} aria-hidden="true" /></div>
-          <h2 id="independent-solutions-ready-title">مساحة الحلول جاهزة</h2>
-          <p>ستظهر هنا الحلول التفصيلية ورسومها المطابقة للأسئلة بعد إضافتها ومراجعتها.</p>
-          <button type="button" className="independent-tests-primary-button" onClick={returnToQuestions}>العودة إلى الأسئلة</button>
+        <section className="independent-tests-solutions" aria-label="أوراق الحلول">
+          {solutionsError && <p className="independent-tests-password-error" role="alert">{solutionsError}</p>}
+          {!solutionsError && independentTests.map((test) => (
+            <IndependentTestSolutions key={test.id} test={test} solutions={solutions} />
+          ))}
+          <div className="independent-tests-solutions-actions">
+            <button type="button" className="independent-tests-primary-button" onClick={returnToQuestions}>العودة إلى الأسئلة</button>
+          </div>
         </section>
       )}
     </main>
