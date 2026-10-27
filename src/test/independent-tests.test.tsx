@@ -56,6 +56,11 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
 
     // المسألة الثانية: خمسة بنود مطلوبة.
     expect(firstIndependentTest.sections[2].blocks[1].items[0].parts).toHaveLength(5);
+
+    // تصحيح المصطلح في نص السؤال والحل، لا في الحل وحده.
+    const congruencePrompt = firstIndependentTest.sections[2].blocks[1].items[0].parts?.[0].prompt ?? '';
+    expect(congruencePrompt).toContain('طبوقان');
+    expect(congruencePrompt).not.toContain('طبقان');
   });
 
   it('keeps every number, fraction and choice of the source verbatim', () => {
