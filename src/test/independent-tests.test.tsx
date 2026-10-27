@@ -77,7 +77,7 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
     expect(serializedTest).toContain('طبوقان');
     // Compare whole words so that the correct word "طبوقان" does not fail
     // merely because it contains the character sequence "طبقان".
-    expect(serializedTest).not.toMatch(/طبقان/u);
+    expect(serializedTest).not.toMatch(/(?<![\u0621-\u064A])طبقان(?![\u0621-\u064A])/u);
     // كسور التمرين الأول
     expect(maths).toContain('1 - \\dfrac{\\dfrac{13}{4} - 5}{2 + \\dfrac{7}{2}}');
     expect(maths).toContain('\\left(-6 + \\dfrac{8}{3}\\right)\\left(6 - \\dfrac{3}{4}\\right)');
