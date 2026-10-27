@@ -68,9 +68,9 @@ describe('Unit 3, Lesson 4 — identity, source fidelity, and curriculum safety'
     expect(unit!.number).toBe(3);
     expect(unit!.title).toBe('الحساب بالرموز');
     expect(unit!.lessons.map((l) => l.id)).toEqual([
-      'u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4',
+      'u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4', 'u3-lesson-5',
     ]);
-    expect(unit!.sourcePages).toEqual([46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]);
+    expect(unit!.sourcePages).toEqual([46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]);
 
     const lesson = getLessonById(UNIT_ID, LESSON_ID);
     expect(lesson).toBe(unit3Lesson4Data);
@@ -378,7 +378,8 @@ describe('Unit 3, Lesson 4 — navigation in the real app', () => {
     window.location.hash = `#/unit/${UNIT_ID}`;
     const { container: unitContainer } = render(<App />);
     const links = Array.from(unitContainer.querySelectorAll('a[href*="/lesson/"]')) as HTMLAnchorElement[];
-    expect(links).toHaveLength(4);
+    expect(links).toHaveLength(5);
+    expect(links[4].getAttribute('href')).toBe(`#/unit/${UNIT_ID}/lesson/u3-lesson-5`);
     expect(links[3].getAttribute('href')).toBe(`#/unit/${UNIT_ID}/lesson/${LESSON_ID}`);
     expect(links[2].getAttribute('href')).toBe(`#/unit/${UNIT_ID}/lesson/u3-lesson-3`);
     expect(screen.getByRole('link', { name: /العودة إلى الوحدات/ })).toHaveAttribute('href', '#/');

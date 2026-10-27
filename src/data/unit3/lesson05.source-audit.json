@@ -1,0 +1,205 @@
+{
+  "lessonId": "u3-lesson-5",
+  "unitId": "unit-3",
+  "unitTitle": "الحساب بالرموز",
+  "lesson": "اختبار مساواة رمزية",
+  "sourcePages": [
+    58,
+    59,
+    60
+  ],
+  "sourceFiles": [
+    {
+      "file": "image-1.png",
+      "page": 58,
+      "sha256": "754c9d4e5ebf51fa0fcf927988410e19a818f1bc57fd34b27c26647bf35edd8b",
+      "role": "عنوان الدرس 5، نشاط التحقق من مثال عكسي: اختباران عند 0 و1، بدورك والتنبيه، ثم مثال تعلّم بالتعويض عند 1 والتنبيه إلى حدود الاختبارات العددية."
+    },
+    {
+      "file": "image-2.png",
+      "page": 59,
+      "sha256": "25c7aa822c2be6d689e94c8d516b7e3146635c61d95b1e3f45e3d4ed38393962",
+      "role": "اكتساب معارف: حساب قيمة عبارة رمزية، المثال A وحلّه عند −30، حالة التعبير غير المختزل عند 20، ثم تحقّق من فهمك: Z وB وقيمهما الثلاث."
+    },
+    {
+      "file": "image-3.png",
+      "page": 60,
+      "sha256": "0ac0d81c126217cc9d8edbc9f3a0e15addf5ee031886e3d1b9bf1a3703e824cd",
+      "role": "تدرّب ①: متوازي مستطيلات بثمانية رؤوس وأبعاد x وx+3 وx+5 وثلاثة مطالب؛ ②: إنجازات حسان ووضاح ولينا، ومنها رسم أسهم النشر."
+    }
+  ],
+  "identityAudit": {
+    "officialLessonTitle": "اختبار مساواة رمزية",
+    "evidence": "الشريط الأزرق المرقّم 5 أعلى ص58، واستمرار الدرس في ص59 وص60. المستخدم يحدّد أنه الدرس الأخير من الوحدة الثالثة."
+  },
+  "bookBlockSequence": [
+    "p58-activity-statement",
+    "p58-first-test",
+    "p58-second-test",
+    "p58-your-turn",
+    "p58-activity-warning",
+    "p58-learn-example",
+    "p58-learn-solution",
+    "p58-learn-warning",
+    "p59-knowledge-question",
+    "p59-example-question",
+    "p59-example-solution",
+    "p59-special-case",
+    "p59-check-z",
+    "p59-check-b",
+    "p60-prism-statement",
+    "p60-prism-questions",
+    "p60-identity-statement",
+    "p60-hassan-work",
+    "p60-wadah-work",
+    "p60-lina-figure",
+    "p60-lina-work"
+  ],
+  "sourceNotes": [
+    {
+      "page": 58,
+      "blockId": "p58-activity-statement",
+      "relatedBlockIds": [
+        "p58-first-test",
+        "p58-second-test"
+      ],
+      "status": "printed-source-inconsistency-preserved",
+      "note": "مساواة الطالب الأصلية مطبوعة (3x+1)(x+2)=3x²+6x+2، لكن البند 1 في كل اختبار يطلب صراحة حساب x²+6x+2 بلا المعامل 3. أبقينا الصيغتين في موضعهما؛ لا نغيّر نص السؤال استنادًا إلى التخمين. عند x=0 القيم الثلاث 2، وعند x=1 الجداء 12 وعبارة السؤال 9 وطرف مساواة الطالب 11. شرح المنصة يبيّن التمييز؛ وصحة النشر 3x²+7x+2."
+    },
+    {
+      "page": 59,
+      "blockId": "p59-example-solution",
+      "status": "printed-source-discrepancy-preserved",
+      "note": "السطر الثاني من الحل مطبوع x²+5x+x−+5−6x=x²+5x+x−6x+5. أبقينا الرمز −+5 كما يظهر في المسح. السطر السابق يعطي +1×5 والسطر اللاحق يعطي +5، لذا توضّح كتلة مؤلّفة من المنصة أن إشارة الطرح الزائدة لا تنسجم مع بقية الحل؛ السطر المصحح x²+5x+x+5−6x والنتيجة A=x²+5."
+    },
+    {
+      "page": 59,
+      "blockId": "p59-special-case",
+      "status": "distinct-example-preserved",
+      "note": "التنبيه يقدّم عبارة جديدة باسم A وهي x²+5(x−20)(x²−x+5)، وليست العبارة A=(x+1)(x+5)−6x في المثال السابق. عند x=20 ينعدم العامل x−20، وقيمتها 400."
+    },
+    {
+      "page": 60,
+      "blockId": "p60-prism-statement",
+      "status": "figure-transcribed",
+      "note": "الرسم تخطيطي معاد إنشاؤه وليس نسخة بصرية مطابقة للمسح: A وB وC وD أسفل، E وF وG وH فوقها؛ AE=x+3، وEH=x، وHG=x+5 سم. الحواف الخلفية المخفية AD وDC وDH منقطة. الشكل SVG متجاوب وله عنوان ووصف نصي."
+    },
+    {
+      "page": 60,
+      "blockId": "p60-lina-figure",
+      "status": "figure-transcribed",
+      "note": "رسم لينا يبيّن بالأسهم ضرب كل من x و3 في كل من x و4: xx و4x و3x و12؛ كُتب السطران x²+(4+3)x+12 ثم x²+7x+12 كما في المصدر. SVG متجاوب يحمل وصفًا للأسهم الأربع. في عرض المنصة يُفصل الرسم عن سطر النشر، الذي يبدأ بعلامة المساواة لتجنّب تكرار العاملين الظاهرين في الرسم؛ ولا ينقل جميع ألوان الحدود كما في المسح.",
+      "relatedBlockIds": [
+        "p60-lina-work"
+      ]
+    },
+    {
+      "page": 60,
+      "blockId": "p60-hassan-work",
+      "status": "source-verdict-not-preprinted",
+      "note": "الكتاب يطبع حساب حسان عند x=1 واستنتاجه، ثم يسأل عن صلاحية إنجازه. الحكم بأن اختبار قيمة واحدة لا يثبت مطابقة عامة، وتفاصيل أجوبة تمارين الصفحتين 59–60، حلول مشتقة من المنصة وليست مفتاحًا مطبوعًا في الصور."
+    },
+    {
+      "page": 59,
+      "blockId": "p59-example-solution",
+      "relatedBlockIds": ["p60-lina-figure", "p60-lina-work"],
+      "status": "editorial-presentation-separated",
+      "note": "حُذفت مقدمة الحل وجملة أسهم لينا غير المطبوعتين من كتل الكتاب؛ والعناوين التنظيمية المضافة موسومة بأنها من المنصة. سطر −+5 المطبوع وتصويبه المنفصل محفوظان."
+    },
+    {
+      "page": 59,
+      "blockId": "p59-check-z",
+      "relatedBlockIds": ["p59-check-b"],
+      "status": "grouped-prompts-preserved",
+      "note": "يعرض كل تمرين سؤال النشر ثم سؤال حساب القيمة مرة واحدة وحالاته ① و② و③، مع حلول مشتقة منفصلة لكل حالة ودون شارات ترقيم إضافية."
+    }
+  ],
+  "figureReferences": [
+    {
+      "page": 60,
+      "blockId": "p60-prism-statement",
+      "component": "Unit3Lesson5PrismFigure",
+      "image": "image-3.png"
+    },
+    {
+      "page": 60,
+      "blockId": "p60-lina-figure",
+      "component": "Unit3Lesson5DistributionFigure",
+      "image": "image-3.png"
+    }
+  ],
+  "assessmentProvenance": "اختبار الدرس المستقل من إعداد المنصة. أسئلته العشرون مأخوذة من المطالب والأمثلة والقيم والطرائق الظاهرة في الصفحات الثلاث؛ صيغ الاختيار والمشتتات وأسئلة المطابقة والتقييم مؤلّفة للمنصة. لا تُضاف مسائل من خارج المادة لملء العدد.",
+  "unresolvedAmbiguities": [],
+  "assessmentQuestionSources": {
+    "u3-l5-01": [
+      "p58-first-test#0"
+    ],
+    "u3-l5-02": [
+      "p58-second-test#0"
+    ],
+    "u3-l5-03": [
+      "p58-activity-statement",
+      "p58-second-test#1"
+    ],
+    "u3-l5-04": [
+      "p58-first-test#1",
+      "p58-activity-warning"
+    ],
+    "u3-l5-05": [
+      "p58-your-turn#0"
+    ],
+    "u3-l5-06": [
+      "p58-activity-statement",
+      "p58-your-turn#0"
+    ],
+    "u3-l5-07": [
+      "p58-learn-solution"
+    ],
+    "u3-l5-08": [
+      "p58-learn-solution"
+    ],
+    "u3-l5-09": [
+      "p58-learn-solution",
+      "p58-learn-warning"
+    ],
+    "u3-l5-10": [
+      "p59-example-question",
+      "p59-example-solution#2"
+    ],
+    "u3-l5-11": [
+      "p59-example-solution#3"
+    ],
+    "u3-l5-12": [
+      "p59-special-case"
+    ],
+    "u3-l5-13": [
+      "p59-check-z#0"
+    ],
+    "u3-l5-14": [
+      "p59-check-z#3"
+    ],
+    "u3-l5-15": [
+      "p59-check-b#0"
+    ],
+    "u3-l5-16": [
+      "p59-check-b#1",
+      "p59-check-b#2"
+    ],
+    "u3-l5-17": [
+      "p59-check-b#3"
+    ],
+    "u3-l5-18": [
+      "p60-prism-statement",
+      "p60-prism-questions#1"
+    ],
+    "u3-l5-19": [
+      "p60-prism-questions#2"
+    ],
+    "u3-l5-20": [
+      "p60-hassan-work#0",
+      "p60-wadah-work#0",
+      "p60-lina-figure",
+      "p60-lina-work#0"
+    ]
+  }
+}

@@ -15,6 +15,7 @@ import { unit3Lesson1TestQuestions } from './unit3/lesson-1';
 import { unit3Lesson2TestQuestions } from './unit3/lesson-2';
 import { unit3Lesson3TestQuestions } from './unit3/lesson-3';
 import { unit3Lesson4TestQuestions } from './unit3/lesson-4';
+import { unit3Lesson5TestQuestions } from './unit3/lesson-5';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -187,6 +188,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u3-lesson-4'],
   },
+  {
+    id: 'u3-test-lesson-5',
+    type: 'lesson',
+    unitId: 'unit-3',
+    lessonId: 'u3-lesson-5',
+    title: 'اختبار الدرس الخامس: اختبار مساواة رمزية',
+    description: 'أسئلة هذا الاختبار من إعداد المنصة، ومبنية على كتاب الطالب ص58–60؛ وليست اختبارًا مطبوعًا في الكتاب. اختبر فهمك للمثال المعاكس وحدود التعويض، والنشر والاختزال، وحساب قيم العبارات، ومساحة متوازي المستطيلات، والبرهان الرمزي.',
+    questionIds: unit3Lesson5TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'اختبار المساواة، النشر، حساب القيم، مساحة الأوجه، ومقارنة طرائق البرهان',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u3-lesson-5'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -264,6 +278,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit3Lesson2TestQuestions,
   ...unit3Lesson3TestQuestions,
   ...unit3Lesson4TestQuestions,
+  ...unit3Lesson5TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];

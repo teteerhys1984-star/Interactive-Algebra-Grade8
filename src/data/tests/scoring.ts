@@ -78,8 +78,12 @@ export function parseExactRational(input: string): ExactRational | null {
 }
 
 function sameRational(left: string, right: string): boolean {
-  const a = parseExactRational(left);
-  const b = parseExactRational(right);
+  // A comma is treated as a decimal separator only when this particular
+  // accepted answer explicitly uses it. Other questions keep their old parser.
+  const allowsComma = /^[+-]?\d+,\d+$/.test(right.trim());
+  const normalizeComma = (value: string) => allowsComma ? value.replace(/[,،]/g, '.') : value;
+  const a = parseExactRational(normalizeComma(left));
+  const b = parseExactRational(normalizeComma(right));
   return !!a && !!b && a.numerator === b.numerator && a.denominator === b.denominator;
 }
 
