@@ -176,6 +176,54 @@ describe('Unit 3 Lesson 5 — targeted fidelity corrections', () => {
     work.unmount();
   });
 
+  it('attributes each teacher answer independently of its textbook reference and platform steps', () => {
+    // Each id has been checked against pages 58–60: a printed prompt or a
+    // platform extraction is not itself a printed answer.
+    const derivedIds = [
+      's58-statement', 's58-first-1', 's58-first-2', 's58-second-1', 's58-second-2', 's58-second-3',
+      's58-turn-1', 's58-turn-2', 's58-activity-warning', 's58-learn-example', 's58-learn-solution',
+      's58-learn-warning', 's59-knowledge', 's59-example-question', 's59-example-line-1',
+      's59-example-line-2', 's59-example-line-4', 's59-special', 's59-z-1', 's59-z-2a',
+      's59-z-2b', 's59-z-2c', 's59-b-1', 's59-b-2a', 's59-b-2b', 's59-b-2c',
+      's60-prism-figure', 's60-prism-1', 's60-prism-2', 's60-prism-3', 's60-identity',
+      's60-hassan', 's60-wadah', 's60-lina-figure', 's60-lina',
+    ];
+    const printedIds = ['s59-example-line-3'];
+    expect(unit3Lesson5TeacherSolutions.map((row) => row.id).sort()).toEqual([...derivedIds, ...printedIds].sort());
+    for (const id of derivedIds) expect(teacherSolution(id).answerOrigin, id).toBe('مُشتقة من المنصة');
+    for (const id of printedIds) expect(teacherSolution(id).answerOrigin, id).toBe('الكتاب');
+    for (const row of unit3Lesson5TeacherSolutions) {
+      expect(row.source, row.id).toMatch(/^مرجع المادة في الكتاب: ص/);
+      expect(row.problem, row.id).toContain('صياغة المنصة للمطلب:');
+      expect(row.steps.every((step) => /^(تلخيص المنصة|شرح المنصة|تصويب المنصة|النص المطبوع في الكتاب)/.test(step)), row.id).toBe(true);
+      expect(row.principle, row.id).toContain('توضيح المنصة:');
+      expect(row.check, row.id).toContain('تحقق أو ملاحظة من المنصة:');
+    }
+    expect(teacherSolution('s58-statement').sourceNote).toContain('نتيجة الطالب');
+    expect(teacherSolution('s59-example-line-1').sourceNote).toContain('اقتطاعها');
+    const printed = teacherSolution('s59-example-line-3');
+    expect(printed.finalAnswer).toBe('$A=x^2+5$.');
+    expect(sourceBlock('p59-example-solution').subItems![2].explanation).toContain('$A=x^2+5$');
+    expect(printed.sourceNote).toContain('الخطوات');
+    expect(printed.sourceNote).toContain('المنصة');
+    expect(teacherSolution('s59-example-line-2').steps[0]).toContain('- +5-6x=x^2+5x+x-6x+5');
+
+    sessionStorage.setItem('teacher-access-granted', 'true');
+    const view = render(<TeacherArea onNavigateHome={() => {}} />);
+    fireEvent.click(screen.getByRole('button', { name: /الدرس 5: اختبار مساواة رمزية/ }));
+    const findRow = (text: string) => Array.from(view.container.querySelectorAll('.ta-solution'))
+      .find((detail) => detail.querySelector('summary')?.textContent?.includes(text))!;
+    const derived = findRow('مساواة الطالب:');
+    expect(derived.querySelector('.source-page-badge')).toHaveTextContent('مرجع المادة في الكتاب: ص58');
+    expect(derived.querySelector('.ta-solution-origin')).toHaveTextContent('مُشتقة من المنصة');
+    const printedRow = findRow('اختزال حدود x.');
+    expect(printedRow.querySelector('.source-page-badge')).toHaveTextContent('مرجع المادة في الكتاب: ص59');
+    expect(printedRow.querySelector('.ta-solution-origin')).toHaveTextContent('الكتاب');
+    expect(printedRow).toHaveTextContent('الخطوات');
+    view.unmount();
+    sessionStorage.clear();
+  });
+
   it('identifies printed lines, corrections, paraphrases and derived teacher answers separately', () => {
     const line = teacherSolution('s59-example-line-2');
     expect(line.steps[0]).toContain('النص المطبوع في الكتاب:');
