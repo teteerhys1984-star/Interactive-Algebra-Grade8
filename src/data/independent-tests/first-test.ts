@@ -126,7 +126,7 @@ export const firstIndependentTest: IndependentTest = {
               id: 'ex1-1',
               number: '١',
               kind: 'free',
-              math: '1 - \\dfrac{\\dfrac{13}{4} - 5}{2 + \\dfrac{7}{2}}',
+              math: '1 - \\dfrac{-5 - \\dfrac{13}{4}}{2 + \\dfrac{7}{2}}',
             },
             {
               id: 'ex1-2',
