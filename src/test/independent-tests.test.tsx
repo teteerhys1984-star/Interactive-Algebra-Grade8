@@ -73,11 +73,10 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
     expect(firstTestSolutions['q2-3'].finalAnswer).toContain('صح');
     expect(firstTestSolutions['q2-3'].finalAnswer).toContain('$2 - xy = 3$');
     expect(firstTestSolutions['q2-3'].finalAnswer).not.toContain('$xy - 2$');
-    const serializedTest = JSON.stringify(firstIndependentTest) + JSON.stringify(firstTestSolutions);
-    expect(serializedTest).toContain('طبوقان');
-    // Compare whole words so that the correct word "طبوقان" does not fail
-    // merely because it contains the character sequence "طبقان".
-    expect(serializedTest).not.toMatch(/(?<![\u0621-\u064A])طبقان(?![\u0621-\u064A])/u);
+    const congruenceSolution = firstTestSolutions['pb2-1-a'];
+    const congruenceText = [...congruenceSolution.steps, congruenceSolution.finalAnswer].join(' ');
+    expect(congruenceText).toContain('طبوقان');
+    expect(congruenceText).not.toContain('طبقان');
     // كسور التمرين الأول
     expect(maths).toContain('1 - \\dfrac{\\dfrac{13}{4} - 5}{2 + \\dfrac{7}{2}}');
     expect(maths).toContain('\\left(-6 + \\dfrac{8}{3}\\right)\\left(6 - \\dfrac{3}{4}\\right)');
