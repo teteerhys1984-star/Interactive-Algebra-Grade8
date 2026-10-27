@@ -336,3 +336,65 @@
   .itest-item, .itest-solution-card, .itest-solution-context { padding: .7rem .75rem; }
   .itest-choices { grid-template-columns: 1fr; }
 }
+
+
+/* بطاقات قائمة الاختبارات المستقلة */
+.independent-tests-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1rem;
+}
+.independent-test-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.35rem;
+  border: 1px solid #dbeafe;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(145deg, #fff, #f0fdfa);
+  box-shadow: var(--shadow-sm);
+}
+.independent-test-card-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: .8rem;
+  border-radius: .9rem;
+  color: #0f766e;
+  background: #ccfbf1;
+}
+.independent-test-card-eyebrow {
+  margin: 0 0 .35rem;
+  color: var(--color-teal-700);
+  font-size: .82rem;
+  font-weight: 850;
+}
+.independent-test-card h2 {
+  margin: 0;
+  color: var(--color-slate-900);
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+.independent-test-card-subtitle {
+  margin: .35rem 0 0;
+  color: var(--color-primary-800);
+  font-weight: 800;
+}
+.independent-test-card-description {
+  margin: .7rem 0 1.1rem;
+  color: var(--color-slate-700);
+  line-height: 1.85;
+}
+.independent-test-card .independent-tests-primary-button { margin-top: auto; }
+.independent-tests-back-button {
+  margin: 0 0 1rem;
+  padding: .65rem .9rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--color-slate-700);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
