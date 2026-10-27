@@ -83,7 +83,8 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
     expect(congruenceText).toContain('طبوقان');
     expect(congruenceText).not.toContain('طبقان');
     // كسور التمرين الأول
-    expect(maths).toContain('1 - \\dfrac{\\dfrac{13}{4} - 5}{2 + \\dfrac{7}{2}}');
+    expect(maths).toContain('1 - \\dfrac{-5 - \\dfrac{13}{4}}{2 + \\dfrac{7}{2}}');
+    expect(maths).not.toContain('1 - \\dfrac{\\dfrac{13}{4} - 5}{2 + \\dfrac{7}{2}}');
     expect(maths).toContain('\\left(-6 + \\dfrac{8}{3}\\right)\\left(6 - \\dfrac{3}{4}\\right)');
     // التمرين الثاني والثالث
     expect(maths).toContain('\\dfrac{35 \\times 10^{5} \\times 25 \\times 10^{0}}{10^{-3} \\times 0.07 \\times 10^{7}}');
