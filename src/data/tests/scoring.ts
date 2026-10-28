@@ -91,8 +91,7 @@ function sameAlgebraicExpression(left: string, right: string): boolean {
   const normalizeExpression = (value: string) => value
     .normalize('NFKC')
     .replace(/[−﹣－]/g, '-')
-    .replace(/\\$/g, '')
-    .replace(/\\s+/g, '');
+    .replace(/[$\\s]/g, '');
   return normalizeExpression(left) === normalizeExpression(right);
 }
 
