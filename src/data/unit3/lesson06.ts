@@ -14,7 +14,7 @@ const source = (n: number, section = 'تمرينات الوحدة الثالثة
 });
 
 const item = (label: string, text: string, solutionText: string, working: string[], verifyNote?: string): Sub => {
-  const dollarCount = (solutionText.match(/\\$/g) ?? []).length;
+  const dollarCount = solutionText.split('$').length - 1;
   const mathBalancedSolution = dollarCount % 2 === 1 ? solutionText + '$' : solutionText;
   return {
     label, text, solutionText: `حل المنصة: ${mathBalancedSolution}`, working,
