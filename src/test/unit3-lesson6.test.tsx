@@ -11,7 +11,7 @@ import { unit3Lesson6TestQuestions } from '../data/tests/unit3/lesson-6';
 import type { QuestionAnswer } from '../data/tests/types';
 
 const answers: Record<string, QuestionAnswer> = {
-'u3-l6-01':'b','u3-l6-02':'6x^2-5x+3','u3-l6-03':'b','u3-l6-04':'26',
+'u3-l6-01':'b','u3-l6-02':'b','u3-l6-03':'b','u3-l6-04':'26',
 'u3-l6-05':true,'u3-l6-06':'a','u3-l6-07':'a','u3-l6-08':'20','u3-l6-09':'13',
 'u3-l6-10':'a','u3-l6-11':'8x^2-12x','u3-l6-12':'a','u3-l6-13':'-x-8',
 'u3-l6-14':false,'u3-l6-15':['a','c'],'u3-l6-16':'b','u3-l6-17':'-16',
