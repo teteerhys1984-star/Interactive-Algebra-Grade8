@@ -14,27 +14,11 @@ const source = (n: number, section = 'تمرينات الوحدة الثالثة
 });
 
 const item = (label: string, text: string, solutionText: string, working: string[], verifyNote?: string): Sub => {
-  const mathBalancedSolution = (solutionText.match(/\$/g) ?? []).length % 2 === 1
-    ? `${solutionText}import type { TeacherArea } from '../assessment';
-import type { ContentBlock, LessonData, LessonStep } from '../unit1/lesson01';
-
-/**
- * الوحدة الثالثة — الدرس السادس والأخير: تمرينات الوحدة الثالثة بالكتاب.
- * نص المصدر يحافظ على الأرقام والصيغ المطبوعة؛ مواضع الالتباس موثقة في verifyNote
- * ولا تُصحّح بالتخمين. الحلول مشتقة من المنصة وتظهر داخل لوحات الحل فقط.
- */
-const tex = String.raw;
-type Sub = NonNullable<ContentBlock['subItems']>[number];
-
-const source = (n: number, section = 'تمرينات الوحدة الثالثة بالكتاب') => ({
-  page: 0, section, item: `السؤال ${n}`, display: `تمرينات الوحدة الثالثة • السؤال ${n}`,
-});
-
-
-    : solutionText;
+  const dollarCount = solutionText.split('$').length - 1;
+  const mathBalancedSolution = dollarCount % 2 === 1 ? solutionText + '$' : solutionText;
   return {
-  label, text, solutionText: `حل المنصة: ${mathBalancedSolution}`, working,
-  ...(verifyNote ? { verifyNote } : {}),
+    label, text, solutionText: `حل المنصة: ${mathBalancedSolution}`, working,
+    ...(verifyNote ? { verifyNote } : {}),
   };
 };
 
