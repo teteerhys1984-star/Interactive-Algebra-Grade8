@@ -1,0 +1,34 @@
+import { errorAnalysis, matching, multiSelect, numeric, singleChoice, trueFalse } from '../builders';
+import type { TestQuestion } from '../types';
+
+const tex = String.raw;
+const q = (id: string, prompt: string, difficulty: TestQuestion['difficulty'], conceptId: string,
+  steps: string[], finalAnswer: string, explanation: string) => ({
+  id, prompt, points: 1, difficulty, primaryLessonId: 'u3-lesson-6',
+  curriculumRefs: [{ lessonId: 'u3-lesson-6', conceptId }],
+  solution: { steps, finalAnswer, explanation },
+});
+
+/** اختبار مستقل لتمرينات الوحدة الثالثة؛ يحفظ القيم المطبوعة الملتبسة ولا يفترض تصحيحها. */
+export const unit3Lesson6TestQuestions: TestQuestion[] = [
+  singleChoice({ ...q('u3-l6-01', tex`بسّط $a+(b-2)$.`, 'basic', 'u3l6-parentheses', [tex`نحذف القوس المسبوق بجمع دون تغيير الإشارات.`], tex`a+b-2`, 'الجمع قبل القوس لا يغيّر إشارات الحدود.'), options: [{id:'a',label:tex`a+b+2`},{id:'b',label:tex`a+b-2`},{id:'c',label:tex`a-b+2`}], correctOptionId:'b' }),
+  numeric({ ...q('u3-l6-02', tex`اختزل $9x^2-5x+7-3x^2-4$.`, 'basic', 'u3l6-combine-like-terms', [tex`$9x^2-3x^2=6x^2$.`,tex`$7-4=3$.`], tex`6x^2-5x+3`, 'نجمع الحدود المتشابهة فقط.'), acceptedAnswers:['6x^2-5x+3'], answerFormat:'عبارة جبرية' }),
+  singleChoice({ ...q('u3-l6-03', tex`بسّط $x-(-3+x)+(x-7)$.`, 'basic', 'u3l6-parentheses', [tex`$x+3-x+x-7=x-4$.`], tex`x-4`, 'طرح عدد سالب يحوّل الإشارة إلى جمع.'), options:[{id:'a',label:tex`x+10`},{id:'b',label:tex`x-4`},{id:'c',label:tex`-x-4`}],correctOptionId:'b'}),
+  numeric({ ...q('u3-l6-04', tex`احسب $3x^2-5x+4$ عند $x=-2$.`, 'basic', 'u3l6-substitution', [tex`$3(-2)^2-5(-2)+4=12+10+4$.`], tex`26`, 'نربّع العدد السالب قبل تطبيق المعامل.'), acceptedAnswers:['26'], answerFormat:'عدد صحيح' }),
+  trueFalse({ ...q('u3-l6-05', tex`الانتقال من $(5x-2)(x-1)$ إلى $5x^2-7x+2$ يتضمن النشر ثم الاختزال.`, 'basic', 'u3l6-expansion', [tex`النشر يعطي $5x^2-5x-2x+2$ ثم $5x^2-7x+2$.`], 'صحيح؛ استُخدمت خاصية التوزيع ثم جُمعت الحدود المتشابهة.', 'النشر يسبق الاختزال.'), correctAnswer:true }),
+  singleChoice({ ...q('u3-l6-06', tex`ما نتيجة اختزال $5x-2+2x-1$؟`, 'basic', 'u3l6-combine-like-terms', [tex`$5x+2x=7x$ و$-2-1=-3$.`], tex`7x-3`, 'نجمع الحدود ذات المتغير والثوابت كلًّا على حدة.'), options:[{id:'a',label:tex`7x-3`},{id:'b',label:tex`7x-1`},{id:'c',label:tex`3x-3`}],correctOptionId:'a'}),
+  singleChoice({ ...q('u3-l6-07', tex`انشر واختزل $x(x-4)-5(x^2+2x)$.`, 'intermediate', 'u3l6-expansion', [tex`$x^2-4x-5x^2-10x$.`,tex`$-4x^2-14x$.`], tex`-4x^2-14x`, 'نوزع العامل على جميع الحدود داخل القوس.'), options:[{id:'a',label:tex`-4x^2-14x`},{id:'b',label:tex`-4x^2+6x`},{id:'c',label:tex`4x^2-14x`}],correctOptionId:'a'}),
+  numeric({ ...q('u3-l6-08', tex`انشر واختزل $(2x-5)(x-4)$، ثم احسب الناتج عند $x=0$.`, 'intermediate', 'u3l6-expansion', [tex`النشر: $2x^2-13x+20$.`,tex`عند الصفر تبقى القيمة الثابتة $20$.`], tex`20`, 'التعويض بالصفر يحذف حدود المتغير.'), acceptedAnswers:['20'],answerFormat:'عدد صحيح'}),
+  numeric({ ...q('u3-l6-09', tex`بسّط $5y+2(y-4)$ ثم احسبه عند $y=3$.`, 'intermediate', 'u3l6-substitution', [tex`$5y+2y-8=7y-8$.`,tex`$21-8=13$.`], tex`13`, 'نختزل ثم نعوّض.'),acceptedAnswers:['13'],answerFormat:'عدد صحيح'}),
+  singleChoice({ ...q('u3-l6-10', tex`ما ناتج $3a(5a+2)$؟`, 'basic', 'u3l6-distributive-property', [tex`$3a\cdot5a+3a\cdot2=15a^2+6a$.`], tex`15a^2+6a`, 'يضرب العامل الخارجي في كل حد.'), options:[{id:'a',label:tex`15a^2+6a`},{id:'b',label:tex`15a^2+2`},{id:'c',label:tex`8a^2`}],correctOptionId:'a'}),
+  numeric({ ...q('u3-l6-11', tex`انشر واختزل $-4x(-2x+3)$.`, 'intermediate', 'u3l6-distributive-property', [tex`$8x^2-12x$.`], tex`8x^2-12x`, 'سالب في سالب موجب، وسالب في موجب سالب.'),acceptedAnswers:['8x^2-12x'],answerFormat:'عبارة جبرية'}),
+  singleChoice({ ...q('u3-l6-12', tex`انشر $(x+5)(-4+3x)$ واختزل.`, 'intermediate', 'u3l6-binomial-products', [tex`$-4x+3x^2-20+15x=3x^2+11x-20$.`], tex`3x^2+11x-20`, 'نحسب الجداءات الأربعة ثم نجمع الحدود المتشابهة.'),options:[{id:'a',label:tex`3x^2+11x-20`},{id:'b',label:tex`3x^2-11x-20`},{id:'c',label:tex`3x^2+x+20`}],correctOptionId:'a'}),
+  numeric({ ...q('u3-l6-13', tex`بسّط $-(2x+5)+(x-3)$.`, 'basic', 'u3l6-parentheses', [tex`$-2x-5+x-3=-x-8$.`], tex`-x-8`, 'إشارة السالب خارج القوس تغيّر إشارتي حدّيه.'),acceptedAnswers:['-x-8'],answerFormat:'عبارة جبرية'}),
+  trueFalse({ ...q('u3-l6-14', tex`في $-11a(-2-5a)$ يكون الحد التربيعي سالبًا.`, 'intermediate', 'u3l6-distributive-property', [tex`$(-11a)(-5a)=55a^2$ موجب.`], 'خطأ؛ حاصل ضرب سالبين موجب.', 'تُحدَّد إشارة كل جداء على حدة.'),correctAnswer:false}),
+  multiSelect({ ...q('u3-l6-15', tex`اختر عبارتين مكافئتين لـ $3x(-5x^2+2x)$.`, 'advanced', 'u3l6-distributive-property', [tex`النشر يعطي $-15x^3+6x^2$.`], tex`$-15x^3+6x^2$`, 'يجب ضرب العامل في الحدين.'),options:[{id:'a',label:tex`-15x^3+6x^2`},{id:'b',label:tex`-15x^2+6x`},{id:'c',label:tex`6x^2-15x^3`},{id:'d',label:tex`-15x^3+2x`}],correctOptionIds:['a','c']}),
+  errorAnalysis({ ...q('u3-l6-16', tex`كتب طالب $(x-7)(8-x)=8x-x^2-56-7x$. ما التصحيح اللازم؟`, 'advanced', 'u3l6-binomial-products', [tex`$(-7)(-x)=+7x$ وليس $-7x$.`,tex`الناتج $-x^2+15x-56$.`], tex`تغيير $-7x$ إلى $+7x$`, 'إشارة جداء سالبين موجبة.'),options:[{id:'a',label:tex`$-7x$ صحيح`},{id:'b',label:tex`يجب أن يكون $+7x$`},{id:'c',label:tex`الثابت يصبح $+56$`}],correctOptionId:'b'}),
+  numeric({ ...q('u3-l6-17', tex`انشر واختزل $(x-1)-(7x+3)$ ثم احسبه عند $x=2$.`, 'intermediate', 'u3l6-parentheses', [tex`$x-1-7x-3=-6x-4$.`,tex`عند 2: $-12-4=-16$.`], tex`-16`, 'نوزع إشارة الطرح على القوس الثاني.'),acceptedAnswers:['-16'],answerFormat:'عدد صحيح'}),
+  matching({ ...q('u3-l6-18', tex`طابق كل عبارة مع ناتجها بعد النشر.`, 'advanced', 'u3l6-binomial-products', [tex`نحسب كل جداء ثم نجمع الحدود المتشابهة.`], 'A→1، B→2، C→3', 'المطابقة تعتمد على التوزيع الصحيح.'),leftItems:[{id:'A',label:tex`(x+4)(3-2x)`},{id:'B',label:tex`(2x-3)(-3x+4)`},{id:'C',label:tex`(x-7)(8-x)`}],rightItems:[{id:'1',label:tex`-2x^2-5x+12`},{id:'2',label:tex`-6x^2+17x-12`},{id:'3',label:tex`-x^2+15x-56`}],correctPairs:{A:'1',B:'2',C:'3'}}),
+  singleChoice({ ...q('u3-l6-19', tex`في المسألة اللفظية التي تضم 40 شخصًا، أي تعبير يحافظ على السعرين كما طُبعا في نص السؤال (255 للكبير و175 للطفل) إذا كان عدد الكبار $x$؟`, 'reasoning', 'u3l6-word-model', [tex`عدد الأطفال $40-x$.`,tex`الكلفة $255x+175(40-x)$.`], tex`255x+175(40-x)`, 'نحافظ على 255 كما ورد في نص المسألة ولا نستبدله بقيمة عمل الطالب 225.'),options:[{id:'a',label:tex`255x+175(40-x)`},{id:'b',label:tex`225x+175(40-x)`},{id:'c',label:tex`255(40-x)+175x`}],correctOptionId:'a'}),
+  singleChoice({ ...q('u3-l6-20', tex`في الجدول المطبوع، أي نص يجب نقله حرفيًا دون تصحيح تخميني؟`, 'reasoning', 'u3l6-source-fidelity', [tex`يحافظ النقل الأمين على النص المطبوع حتى تُحسم المراجعة التحريرية.`], tex`0.0 317`, 'القيمة ذات المسافة الداخلية موثقة كالتباس في المصدر.'),options:[{id:'a',label:tex`0.0 317`},{id:'b',label:tex`0.0317`},{id:'c',label:tex`0.00317`}],correctOptionId:'a'}),
+];
