@@ -14,6 +14,6 @@ export const unit3Lesson6Blueprint: LessonTestBlueprint = {
     { conceptId: 'u3l6-source-fidelity', title: 'النقل الأمين للنص المطبوع', questionCount: 1, skills: ['تمييز النص الحرفي عن التصحيح التحريري'] },
   ],
   difficultyPlan: { basic: 6, intermediate: 7, advanced: 4, reasoning: 3 },
-  questionTypePlan: { 'single-choice': 8, numeric: 7, 'true-false': 2, 'error-analysis': 1, matching: 1, 'multi-select': 1 },
+  questionTypePlan: { 'single-choice': 9, numeric: 6, 'true-false': 2, 'error-analysis': 1, matching: 1, 'multi-select': 1 },
   commonMistakes: ['تغيير الإشارات عند حذف الأقواس بصورة غير صحيحة.', 'إغفال حد عند النشر أو الخطأ في إشارة جداء سالبين.', 'استبدال 255 بالقيمة 225 التي ظهرت في عمل الطالب.', 'تصحيح 0.0 317 تخمينًا بدل حفظ النقل الحرفي.'],
 };
