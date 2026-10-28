@@ -10,11 +10,11 @@ const tex = String.raw;
 type Sub = NonNullable<ContentBlock['subItems']>[number];
 
 const source = (n: number, section = 'تمرينات الوحدة الثالثة بالكتاب') => ({
-  page: 0, section, item: `السؤال \${n}`, display: `تمرينات الوحدة الثالثة • السؤال \${n}`,
+  page: 0, section, item: `السؤال ${n}`, display: `تمرينات الوحدة الثالثة • السؤال ${n}`,
 });
 
 const item = (label: string, text: string, solutionText: string, working: string[], verifyNote?: string): Sub => ({
-  label, text, solutionText: `حل المنصة: \${solutionText}`, working,
+  label, text, solutionText: `حل المنصة: ${solutionText}`, working,
   ...(verifyNote ? { verifyNote } : {}),
 });
 
