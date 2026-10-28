@@ -68,7 +68,7 @@ describe('Unit 3, Lesson 4 — identity, source fidelity, and curriculum safety'
     expect(unit!.number).toBe(3);
     expect(unit!.title).toBe('الحساب بالرموز');
     expect(unit!.lessons.map((l) => l.id)).toEqual([
-      'u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4', 'u3-lesson-5', 'u3-lesson-6', 'u3-lesson-6',
+      'u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4', 'u3-lesson-5', 'u3-lesson-6',
     ]);
     expect(unit!.sourcePages).toEqual([46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]);
 
