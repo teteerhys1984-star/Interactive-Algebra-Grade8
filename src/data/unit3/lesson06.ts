@@ -6,7 +6,6 @@ import type { ContentBlock, LessonData, LessonStep } from '../unit1/lesson01';
  * نص المصدر يحافظ على الأرقام والصيغ المطبوعة؛ مواضع الالتباس موثقة في verifyNote
  * ولا تُصحّح بالتخمين. الحلول مشتقة من المنصة وتظهر داخل لوحات الحل فقط.
  */
-const tex = String.raw;
 type Sub = NonNullable<ContentBlock['subItems']>[number];
 
 const source = (n: number, section = 'تمرينات الوحدة الثالثة بالكتاب') => ({

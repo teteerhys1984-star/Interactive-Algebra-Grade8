@@ -25,7 +25,7 @@ describe('Unit 3 textbook exercises lesson', () => {
   });
 
   it('keeps unresolved source notes visible to the teacher', () => {
-    const notes = lesson?.teacherArea.teachingNotes.join(' ') ?? '';
+    const notes = lesson?.teacherArea?.teachingNotes.join(' ') ?? '';
     expect(notes).toContain('المساواة الثانية');
     expect(notes).toContain('0.0 317');
     expect(notes).toContain('255');
