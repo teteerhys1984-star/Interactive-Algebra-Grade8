@@ -16,6 +16,7 @@ import { unit3Lesson2TestQuestions } from './unit3/lesson-2';
 import { unit3Lesson3TestQuestions } from './unit3/lesson-3';
 import { unit3Lesson4TestQuestions } from './unit3/lesson-4';
 import { unit3Lesson5TestQuestions } from './unit3/lesson-5';
+import { unit3Lesson6TestQuestions } from './unit3/lesson-6';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -201,6 +202,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u3-lesson-5'],
   },
+  {
+    id: 'u3-test-lesson-6',
+    type: 'lesson',
+    unitId: 'unit-3',
+    lessonId: 'u3-lesson-6',
+    title: 'اختبار الدرس السادس: تمرينات الوحدة الثالثة',
+    description: 'اختبار مستقل من إعداد المنصة يغطي حذف الأقواس، والاختزال، والتعويض، والنشر، والمسائل اللفظية، مع حفظ مواضع الالتباس في النقل المطبوع.',
+    questionIds: unit3Lesson6TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'حذف الأقواس، الاختزال، التعويض، خاصية التوزيع، جداء حدّين، والنقل الأمين',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u3-lesson-6'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -279,6 +293,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit3Lesson3TestQuestions,
   ...unit3Lesson4TestQuestions,
   ...unit3Lesson5TestQuestions,
+  ...unit3Lesson6TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];
