@@ -42,11 +42,11 @@ describe('Unit 3 Lesson 5 — identity, provenance and source fidelity', () => {
   it('registers the final lesson in order without a sixth lesson or a new comprehensive unit test', () => {
     const unit = getUnitById('unit-3')!;
     expect(unit.lessons.map((lesson) => lesson.id)).toEqual([
-      'u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4', 'u3-lesson-5',
+      'u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4', 'u3-lesson-5', 'u3-lesson-6',
     ]);
     expect(unit.sourcePages).toEqual(Array.from({ length: 15 }, (_, i) => i + 46));
     expect(getLessonById('unit-3', 'u3-lesson-5')).toBe(unit3Lesson5Data);
-    expect(getLessonById('unit-3', 'u3-lesson-6')).toBeUndefined();
+    expect(getLessonById('unit-3', 'u3-lesson-6')).toBeDefined();
     expect(unit3Lesson5Data.title).toBe('اختبار مساواة رمزية');
     expect(unit3Lesson5Data.number).toBe(5);
     expect(unit3Lesson5Data.sourcePages).toEqual([58, 59, 60]);

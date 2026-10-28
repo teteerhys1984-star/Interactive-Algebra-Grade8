@@ -67,7 +67,7 @@ describe('Unit 3, Lesson 3 — identity, source fidelity, and curriculum safety'
     expect(unit!.number).toBe(3);
     expect(unit!.title).toBe('الحساب بالرموز');
     // أُضيف الدرس الخامس والأخير مع الحفاظ على ترتيب الدروس السابقة.
-    expect(unit!.lessons.map((l) => l.id)).toEqual(['u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4', 'u3-lesson-5']);
+    expect(unit!.lessons.map((l) => l.id)).toEqual(['u3-lesson-1', 'u3-lesson-2', 'u3-lesson-3', 'u3-lesson-4', 'u3-lesson-5', 'u3-lesson-6', 'u3-lesson-6']);
 
     const lesson = getLessonById(UNIT_ID, LESSON_ID);
     expect(lesson).toBe(unit3Lesson3Data);

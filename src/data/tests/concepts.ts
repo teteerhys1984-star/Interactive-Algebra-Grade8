@@ -1070,6 +1070,18 @@ export const unit3Lesson5Concepts: CurriculumConcept[] = [
   },
 ];
 
+
+export const unit3Lesson6Concepts: CurriculumConcept[] = [
+  { id: 'u3l6-parentheses', title: 'حذف الأقواس والإشارات', skills: ['remove-parentheses-addition', 'remove-parentheses-subtraction', 'negative-sign-distribution'], taughtInSteps: ['step-1', 'step-3', 'step-6'], sourcePages: [] },
+  { id: 'u3l6-combine-like-terms', title: 'اختزال الحدود المتشابهة', skills: ['combine-like-terms', 'combine-constants'], taughtInSteps: ['step-1', 'step-4', 'step-5'], sourcePages: [] },
+  { id: 'u3l6-substitution', title: 'التعويض وحساب قيمة عبارة', skills: ['substitute-variable-value', 'evaluate-simplified-expression'], taughtInSteps: ['step-1', 'step-5', 'step-9'], sourcePages: [] },
+  { id: 'u3l6-expansion', title: 'النشر والاختزال', skills: ['expand-and-simplify', 'expand-factor-over-parenthesis'], taughtInSteps: ['step-1', 'step-4', 'step-5'], sourcePages: [] },
+  { id: 'u3l6-distributive-property', title: 'خاصية التوزيع والإشارات', skills: ['distributive-property', 'sign-of-product'], taughtInSteps: ['step-4', 'step-5', 'step-6'], sourcePages: [] },
+  { id: 'u3l6-binomial-products', title: 'نشر جداء حدّين', skills: ['expand-binomial-product', 'combine-expanded-terms'], taughtInSteps: ['step-5', 'step-6', 'step-8'], sourcePages: [] },
+  { id: 'u3l6-word-model', title: 'صياغة تعبير من مسألة لفظية', skills: ['translate-word-problem-to-expression'], taughtInSteps: ['step-6'], sourcePages: [] },
+  { id: 'u3l6-source-fidelity', title: 'النقل الأمين للنص المطبوع', skills: ['preserve-source-notation'], taughtInSteps: ['step-2'], sourcePages: [] },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -1085,6 +1097,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u3-lesson-3', unitId: 'unit-3', lessonTitle: 'اختزال عبارة رمزية', concepts: unit3Lesson3Concepts },
   { lessonId: 'u3-lesson-4', unitId: 'unit-3', lessonTitle: 'نشر (a+b)(c+d)', concepts: unit3Lesson4Concepts },
   { lessonId: 'u3-lesson-5', unitId: 'unit-3', lessonTitle: 'اختبار مساواة رمزية', concepts: unit3Lesson5Concepts },
+  { lessonId: 'u3-lesson-6', unitId: 'unit-3', lessonTitle: 'تمرينات الوحدة الثالثة', concepts: unit3Lesson6Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {
