@@ -378,7 +378,8 @@ describe('Unit 3, Lesson 4 — navigation in the real app', () => {
     window.location.hash = `#/unit/${UNIT_ID}`;
     const { container: unitContainer } = render(<App />);
     const links = Array.from(unitContainer.querySelectorAll('a[href*="/lesson/"]')) as HTMLAnchorElement[];
-    expect(links).toHaveLength(5);
+    expect(links).toHaveLength(6);
+    expect(links[5].getAttribute('href')).toBe(`#/unit/${UNIT_ID}/lesson/u3-lesson-6`);
     expect(links[4].getAttribute('href')).toBe(`#/unit/${UNIT_ID}/lesson/u3-lesson-5`);
     expect(links[3].getAttribute('href')).toBe(`#/unit/${UNIT_ID}/lesson/${LESSON_ID}`);
     expect(links[2].getAttribute('href')).toBe(`#/unit/${UNIT_ID}/lesson/u3-lesson-3`);
