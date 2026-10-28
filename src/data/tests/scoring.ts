@@ -87,7 +87,8 @@ function sameRational(left: string, right: string): boolean {
   return !!a && !!b && a.numerator === b.numerator && a.denominator === b.denominator;
 }
 
-function sameAlgebraicExpression(left: string, right: string): boolean {
+/** Shared by grading and solution auditing; normalizes presentation, not algebra. */
+export function sameAlgebraicExpression(left: string, right: string): boolean {
   const normalizeExpression = (value: string) => value
     .normalize('NFKC')
     .replace(/[−﹣－]/g, '-')

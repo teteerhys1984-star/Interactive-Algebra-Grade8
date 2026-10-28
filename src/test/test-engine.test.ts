@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gradeQuestion, parseExactRational, scoreTest } from '../data/tests/scoring';
+import { checkSolutionConsistency } from '../data/tests/solutionConsistency';
 import type {
   CurriculumConceptRef,
   ErrorAnalysisQuestion,
@@ -115,6 +116,56 @@ describe('test engine exact scoring', () => {
     expect(gradeQuestion(numericQuestion, '3/0')).toBe(false);
     expect(parseExactRational('−0٫75')).toEqual({ numerator: -3n, denominator: 4n });
     expect(parseExactRational('1 + 2')).toBeNull();
+  });
+
+  it('normalizes algebraic answers only when their format explicitly requests it', () => {
+    const algebraic: NumericQuestion = {
+      ...numericQuestion,
+      id: 'algebraic',
+      acceptedAnswers: ['8x^2-12x'],
+      answerFormat: 'عبارة جبرية',
+    };
+
+    expect(gradeQuestion(algebraic, '8x^2-12x')).toBe(true);
+    expect(gradeQuestion(algebraic, ' $8x^2 - 12x$ ')).toBe(true);
+    expect(gradeQuestion(algebraic, '８ｘ^2−12x')).toBe(true);
+    expect(gradeQuestion(algebraic, '8x^2+12x')).toBe(false);
+    expect(gradeQuestion(algebraic, '8x-12x')).toBe(false);
+    expect(gradeQuestion(algebraic, undefined)).toBe(false);
+    // The expression path is opt-in, not a replacement for rational grading.
+    expect(gradeQuestion({ ...algebraic, answerFormat: 'عدد صحيح' }, '8x^2-12x')).toBe(false);
+    expect(gradeQuestion(numericQuestion, '0.75')).toBe(true);
+    expect(gradeQuestion(numericQuestion, '٣/٤')).toBe(true);
+    expect(gradeQuestion(numericQuestion, '-3/4')).toBe(false);
+  });
+
+  it('checks the whole algebraic solution answer while retaining numeric consistency checks', () => {
+    const algebraic: NumericQuestion = {
+      ...numericQuestion,
+      id: 'algebraic-solution',
+      acceptedAnswers: ['8x^2-12x'],
+      answerFormat: 'عبارة جبرية',
+      solution: { ...numericQuestion.solution, finalAnswer: '$8x^2 - 12x$' },
+    };
+    expect(checkSolutionConsistency(algebraic).status).toBe('verified');
+    expect(checkSolutionConsistency({
+      ...algebraic,
+      solution: { ...algebraic.solution, finalAnswer: '$８ｘ^2−12x$' },
+    }).status).toBe('verified');
+    expect(checkSolutionConsistency({
+      ...algebraic,
+      solution: { ...algebraic.solution, finalAnswer: '$8x^2 + 12x$' },
+    }).status).toBe('contradiction');
+
+    const rational: NumericQuestion = {
+      ...numericQuestion,
+      solution: { ...numericQuestion.solution, finalAnswer: '$\\frac{3}{4}$' },
+    };
+    expect(checkSolutionConsistency(rational).status).toBe('verified');
+    expect(checkSolutionConsistency({
+      ...rational,
+      solution: { ...rational.solution, finalAnswer: '$-\\frac{3}{4}$' },
+    }).status).toBe('contradiction');
   });
 
   it('requires the full correct ordering', () => {

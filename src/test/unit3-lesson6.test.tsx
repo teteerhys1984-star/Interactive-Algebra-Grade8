@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { getLessonById, getUnitById } from '../data/curriculum';
 import { blueprintForLesson } from '../data/tests/blueprints';
 import { conceptProfileForLesson, resolveConceptReference } from '../data/tests/concepts';
-import { auditTestBank, runTestBankAudit } from '../data/tests/audit';
+import { auditTestBank, createTestBankSnapshot, runTestBankAudit } from '../data/tests/audit';
 import { getLessonTestId } from '../data/tests/lessonTests';
 import { questionBank, resolveTest } from '../data/tests/registry';
 import { gradeQuestion, scoreTest } from '../data/tests/scoring';
@@ -26,6 +26,68 @@ describe('Unit 3 Lesson 6 assessment', () => {
     expect(getLessonById('unit-3','u3-lesson-6')).toBe(unit3Lesson6Data);
     expect(getLessonTestId('u3-lesson-6')).toBe('u3-test-lesson-6');
     expect(resolveTest('u3-test-lesson-6')!.questionCount).toBe(20);
+  });
+
+  it('documents the intentional difficulty profile without bypassing the audit', () => {
+    const blueprint = blueprintForLesson('u3-lesson-6')!;
+    expect(blueprint.difficultyPlan).toEqual({ basic: 8, intermediate: 7, advanced: 3, reasoning: 2 });
+    expect(blueprint.deviationRationale?.trim()).toBeTruthy();
+
+    const snapshot = createTestBankSnapshot();
+    const clean = runTestBankAudit(snapshot);
+    expect(clean.errors).toEqual([]);
+    expect(clean.warnings.filter((warning) => warning.includes('u3-test-lesson-6'))).toEqual([]);
+
+    // Removing the pedagogical explanation must restore the original CI warning.
+    const undocumented = runTestBankAudit(createTestBankSnapshot({
+      blueprints: {
+        ...snapshot.blueprints,
+        'u3-lesson-6': { ...blueprint, deviationRationale: undefined },
+      },
+    }));
+    expect(undocumented.errors).toEqual([]);
+    expect(undocumented.warnings).toContain(
+      'u3-test-lesson-6: difficulty plan deviates from the recommended 6/7/4/3 profile without a documented rationale.',
+    );
+
+    // A rationale explains a deviation; it must never excuse inconsistent counts.
+    const inconsistent = runTestBankAudit(createTestBankSnapshot({
+      blueprints: {
+        ...snapshot.blueprints,
+        'u3-lesson-6': {
+          ...blueprint,
+          difficultyPlan: { ...blueprint.difficultyPlan, intermediate: 6 },
+        },
+      },
+    }));
+    expect(inconsistent.errors).toEqual(expect.arrayContaining([
+      'u3-test-lesson-6: difficulty plan adds up to 19 but the test has 20 questions.',
+      'u3-test-lesson-6: difficulty plan expects 6 "intermediate"; the test has 7.',
+    ]));
+  });
+
+  it('keeps source-step, concept and question-type coverage aligned', () => {
+    const blueprint = blueprintForLesson('u3-lesson-6')!;
+    const test = resolveTest('u3-test-lesson-6')!;
+    const sourceSteps = unit3Lesson6Data.steps.map((step) => step.id);
+    expect(blueprint.sourceSteps).toEqual(sourceSteps);
+
+    const conceptCounts: Record<string, number> = {};
+    const typeCounts: Record<string, number> = {};
+    for (const question of test.questions) {
+      const concept = resolveConceptReference('u3-lesson-6', question.curriculumRefs[0].conceptId)!;
+      expect(concept).toBeDefined();
+      conceptCounts[concept.id] = (conceptCounts[concept.id] ?? 0) + 1;
+      typeCounts[question.type] = (typeCounts[question.type] ?? 0) + 1;
+    }
+    expect(typeCounts).toEqual(blueprint.questionTypePlan);
+    for (const planned of blueprint.concepts) {
+      const concept = resolveConceptReference('u3-lesson-6', planned.conceptId)!;
+      expect(concept.title).toBe(planned.title);
+      expect(concept.taughtInSteps.length).toBeGreaterThan(0);
+      expect(concept.taughtInSteps.every((step) => blueprint.sourceSteps.includes(step))).toBe(true);
+      expect(conceptCounts[planned.conceptId], planned.conceptId).toBe(planned.questionCount);
+    }
   });
 
   it('validates all 20 answers, concept references, blueprint coverage, and audit', () => {

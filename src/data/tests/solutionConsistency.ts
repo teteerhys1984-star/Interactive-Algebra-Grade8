@@ -1,3 +1,4 @@
+import { sameAlgebraicExpression } from './scoring';
 import type { TestQuestion } from './types';
 
 /**
@@ -85,7 +86,7 @@ export function checkSolutionConsistency(question: TestQuestion): SolutionConsis
     case 'numeric': {
       const values = signedRationalsIn(finalAnswer);
       const accepted = question.answerFormat === 'عبارة جبرية'
-        ? question.acceptedAnswers.some((answer) => squash(finalAnswer) === squash(answer))
+        ? question.acceptedAnswers.some((answer) => sameAlgebraicExpression(finalAnswer, answer))
         : question.acceptedAnswers.some((answer) => {
           const expected = rationalValue(answer);
           return Number.isFinite(expected) && values.some((value) => Math.abs(value - expected) < 1e-9);
