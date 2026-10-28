@@ -6,13 +6,13 @@ const q = (id: string, prompt: string, difficulty: TestQuestion['difficulty'], c
   steps: string[], finalAnswer: string, explanation: string) => ({
   id, prompt, points: 1, difficulty, primaryLessonId: 'u3-lesson-6',
   curriculumRefs: [{ lessonId: 'u3-lesson-6', conceptId }],
-  solution: { steps, finalAnswer, explanation },
+  solution: { steps: steps.length >= 2 ? steps : [...steps, explanation], finalAnswer, explanation },
 });
 
 /** اختبار مستقل لتمرينات الوحدة الثالثة؛ يحفظ القيم المطبوعة الملتبسة ولا يفترض تصحيحها. */
 export const unit3Lesson6TestQuestions: TestQuestion[] = [
   singleChoice({ ...q('u3-l6-01', tex`بسّط $a+(b-2)$.`, 'basic', 'u3l6-parentheses', [tex`نحذف القوس المسبوق بجمع دون تغيير الإشارات.`], tex`a+b-2`, 'الجمع قبل القوس لا يغيّر إشارات الحدود.'), options: [{id:'a',label:tex`a+b+2`},{id:'b',label:tex`a+b-2`},{id:'c',label:tex`a-b+2`}], correctOptionId:'b' }),
-  numeric({ ...q('u3-l6-02', tex`اختزل $9x^2-5x+7-3x^2-4$.`, 'basic', 'u3l6-combine-like-terms', [tex`$9x^2-3x^2=6x^2$.`,tex`$7-4=3$.`], tex`6x^2-5x+3`, 'نجمع الحدود المتشابهة فقط.'), acceptedAnswers:['6x^2-5x+3'], answerFormat:'عبارة جبرية' }),
+  singleChoice({ ...q('u3-l6-02', tex`اختزل $9x^2-5x+7-3x^2-4$.`, 'basic', 'u3l6-combine-like-terms', [tex`$9x^2-3x^2=6x^2$.`,tex`$7-4=3$.`], tex`6x^2-5x+3`, 'نجمع الحدود المتشابهة فقط.'), options:[{id:'a',label:tex`6x^2+5x+3`},{id:'b',label:tex`6x^2-5x+3`},{id:'c',label:tex`12x^2-5x+11`}], correctOptionId:'b' }),
   singleChoice({ ...q('u3-l6-03', tex`بسّط $x-(-3+x)+(x-7)$.`, 'basic', 'u3l6-parentheses', [tex`$x+3-x+x-7=x-4$.`], tex`x-4`, 'طرح عدد سالب يحوّل الإشارة إلى جمع.'), options:[{id:'a',label:tex`x+10`},{id:'b',label:tex`x-4`},{id:'c',label:tex`-x-4`}],correctOptionId:'b'}),
   numeric({ ...q('u3-l6-04', tex`احسب $3x^2-5x+4$ عند $x=-2$.`, 'basic', 'u3l6-substitution', [tex`$3(-2)^2-5(-2)+4=12+10+4$.`], tex`26`, 'نربّع العدد السالب قبل تطبيق المعامل.'), acceptedAnswers:['26'], answerFormat:'عدد صحيح' }),
   trueFalse({ ...q('u3-l6-05', tex`الانتقال من $(5x-2)(x-1)$ إلى $5x^2-7x+2$ يتضمن النشر ثم الاختزال.`, 'basic', 'u3l6-expansion', [tex`النشر يعطي $5x^2-5x-2x+2$ ثم $5x^2-7x+2$.`], 'صحيح؛ استُخدمت خاصية التوزيع ثم جُمعت الحدود المتشابهة.', 'النشر يسبق الاختزال.'), correctAnswer:true }),
