@@ -15,6 +15,7 @@ import { unit3Lesson2Data } from './unit3/lesson02';
 import { unit3Lesson3Data } from './unit3/lesson03';
 import { unit3Lesson4Data } from './unit3/lesson04';
 import { unit3Lesson5Data } from './unit3/lesson05';
+import { unit3Lesson6Data } from './unit3/lesson06';
 
 export interface UnitData {
   id: string;
@@ -52,7 +53,7 @@ export const curriculum: UnitData[] = [
     description: 'الوحدة الثالثة من كتاب الجبر للصف الثامن: نظير المجموع والفرق، وحذف الأقواس، واختزال العبارات ونشرها، واختبار المساواة الرمزية.',
     sourcePages: [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
     warmup: unit3WarmupData,
-    lessons: [unit3Lesson1Data, unit3Lesson2Data, unit3Lesson3Data, unit3Lesson4Data, unit3Lesson5Data],
+    lessons: [unit3Lesson1Data, unit3Lesson2Data, unit3Lesson3Data, unit3Lesson4Data, unit3Lesson5Data, unit3Lesson6Data],
   },
 ];
 
