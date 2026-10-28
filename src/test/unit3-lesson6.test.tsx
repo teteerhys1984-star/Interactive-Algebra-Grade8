@@ -34,6 +34,12 @@ describe('Unit 3 Lesson 6 assessment', () => {
     expect(unit3Lesson6Data.steps).toHaveLength(16);
     expect(conceptProfileForLesson('u3-lesson-6')!.concepts).toHaveLength(8);
     expect(blueprintForLesson('u3-lesson-6')!.concepts.reduce((n,c)=>n+c.questionCount,0)).toBe(20);
+    const blueprint = blueprintForLesson('u3-lesson-6')!;
+    const difficultyCounts = test.questions.reduce<Record<string, number>>((counts, question) => {
+      counts[question.difficulty] = (counts[question.difficulty] ?? 0) + 1;
+      return counts;
+    }, {});
+    expect(difficultyCounts).toEqual(blueprint.difficultyPlan);
     for(const q of test.questions) {
       expect(questionBank.filter((entry)=>entry.id===q.id)).toHaveLength(1);
       expect(resolveConceptReference('u3-lesson-6',q.curriculumRefs[0].conceptId)).toBeDefined();
