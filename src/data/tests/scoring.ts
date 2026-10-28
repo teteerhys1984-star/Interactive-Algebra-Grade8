@@ -87,6 +87,14 @@ function sameRational(left: string, right: string): boolean {
   return !!a && !!b && a.numerator === b.numerator && a.denominator === b.denominator;
 }
 
+function sameAlgebraicExpression(left: string, right: string): boolean {
+  const normalizeExpression = (value: string) => value
+    .normalize('NFKC')
+    .replace(/[−﹣－]/g, '-')
+    .replace(/[$\s]/g, '');
+  return normalizeExpression(left) === normalizeExpression(right);
+}
+
 function isString(value: QuestionAnswer | undefined): value is string {
   return typeof value === 'string';
 }
@@ -143,7 +151,9 @@ export function gradeQuestion(
       return typeof answer === 'boolean' && answer === question.correctAnswer;
     case 'numeric':
       return isString(answer)
-        && question.acceptedAnswers.some((accepted) => sameRational(answer, accepted));
+        && question.acceptedAnswers.some((accepted) => question.answerFormat === 'عبارة جبرية'
+          ? sameAlgebraicExpression(answer, accepted)
+          : sameRational(answer, accepted));
     case 'multi-select':
       return Array.isArray(answer)
         && sameUnorderedIds(answer, question.correctOptionIds);
