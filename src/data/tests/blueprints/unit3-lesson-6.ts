@@ -13,7 +13,7 @@ export const unit3Lesson6Blueprint: LessonTestBlueprint = {
     { conceptId: 'u3l6-word-model', title: 'صياغة تعبير من مسألة لفظية', questionCount: 1, skills: ['تمثيل عدد الأطفال بـ 40−x', 'الحفاظ على القيم المعطاة في نص المسألة'] },
     { conceptId: 'u3l6-source-fidelity', title: 'النقل الأمين للنص المطبوع', questionCount: 1, skills: ['تمييز النص الحرفي عن التصحيح التحريري'] },
   ],
-  difficultyPlan: { basic: 8, intermediate: 7, advanced: 3, reasoning: 2 },
+  difficultyPlan: { basic: 8, intermediate: 6, advanced: 3, reasoning: 2 },
   questionTypePlan: { 'single-choice': 9, numeric: 6, 'true-false': 2, 'error-analysis': 1, matching: 1, 'multi-select': 1 },
   commonMistakes: ['تغيير الإشارات عند حذف الأقواس بصورة غير صحيحة.', 'إغفال حد عند النشر أو الخطأ في إشارة جداء سالبين.', 'استبدال 255 بالقيمة 225 التي ظهرت في عمل الطالب.', 'تصحيح 0.0 317 تخمينًا بدل حفظ النقل الحرفي.'],
 };
