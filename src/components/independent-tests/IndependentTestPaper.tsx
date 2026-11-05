@@ -2,7 +2,7 @@ import React from 'react';
 import { GraduationCap, Layers } from 'lucide-react';
 import { Math as Formula } from '../math/Math';
 import { MathText } from '../math/MathText';
-import { MbndParallelogramFigure } from './IndependentTestFigures';
+import { IndependentFigure } from './IndependentTestFigures';
 import type { IndependentTest, IndependentTestItem } from '../../data/independent-tests/types';
 
 /**
@@ -42,7 +42,7 @@ const TrueFalsePlaceholder: React.FC = () => (
 );
 
 const Figure: React.FC<{ item: IndependentTestItem }> = ({ item }) =>
-  item.figure ? <MbndParallelogramFigure variant={item.figure} /> : null;
+  item.figure ? <IndependentFigure variant={item.figure} /> : null;
 
 const Item: React.FC<{ item: IndependentTestItem }> = ({ item }) => (
   <li className="itest-item">

@@ -255,10 +255,4 @@ export const firstIndependentTest: IndependentTest = {
   ],
 };
 
-/** كل الاختبارات المستقلة المتاحة حاليًا في المنطقة. */
-export const independentTests: IndependentTest[] = [firstIndependentTest];
-
-export const findIndependentTest = (id: string): IndependentTest | undefined =>
-  independentTests.find((test) => test.id === id);
-
-export default independentTests;
+export default firstIndependentTest;
