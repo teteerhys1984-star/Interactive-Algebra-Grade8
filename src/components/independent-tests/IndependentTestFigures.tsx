@@ -280,6 +280,46 @@ const TriRightAngle: React.FC<{
   />
 );
 
+/**
+ * مربع الزاوية القائمة على زاوية مائلة: يُبنى من شعاعَي الزاوية نفسيهما،
+ * فيكون ضلعاه موازيين للضلعين المتعامدين ومتساويا الطول، كما في رسم المصدر
+ * (علامة القائمة عند M وعند N تدور مع الساق المائلة ولا تبقى أفقية/رأسية).
+ *
+ * side1 و side2 نقطتان على كل من الضلعين المنطلقين من الرأس (corner)، والعلامة
+ * تُرسم داخل الزاوية بينهما. الطول size من الرأس إلى أول ضلع من المربع.
+ */
+const TriRightAngleOnSides: React.FC<{
+  corner: { x: number; y: number };
+  side1: { x: number; y: number };
+  side2: { x: number; y: number };
+  size?: number;
+  /** اسم الزاوية لأغراض الاختبار (data-* فقط، لا يظهر للمستخدم). */
+  name?: string;
+}> = ({ corner, side1, side2, size = 12, name }) => {
+  const unit = (from: { x: number; y: number }, to: { x: number; y: number }) => {
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const len = Math.hypot(dx, dy) || 1;
+    return { x: dx / len, y: dy / len };
+  };
+  const u = unit(corner, side1);
+  const v = unit(corner, side2);
+  const p1 = { x: corner.x + size * u.x, y: corner.y + size * u.y };
+  const p2 = { x: corner.x + size * u.x + size * v.x, y: corner.y + size * u.y + size * v.y };
+  const p3 = { x: corner.x + size * v.x, y: corner.y + size * v.y };
+  return (
+    <polyline
+      points={`${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y}`}
+      fill="none"
+      stroke={INK}
+      strokeWidth="1.6"
+      strokeLinejoin="miter"
+      data-right-angle={name}
+      data-corner={`${corner.x},${corner.y}`}
+    />
+  );
+};
+
 /** علامة تطابق ضلعين (شرطة مائلة صغيرة على منتصف الضلع). */
 const TickMark: React.FC<{
   from: { x: number; y: number };
@@ -416,8 +456,8 @@ export const TriangleFigure: React.FC<{ variant: IndependentTriangleFigureKey; t
         <Segment from={A} to={H} />
         <Segment from={O} to={N} />
         <Segment from={O} to={M} />
-        <TriRightAngle corner={N} dx={1} dy={1} size={10} />
-        <TriRightAngle corner={M} dx={-1} dy={1} size={10} />
+        <TriRightAngleOnSides corner={N} side1={B} side2={O} size={16} name="ONB" />
+        <TriRightAngleOnSides corner={M} side1={C} side2={O} size={16} name="OMC" />
         <TriRightAngle corner={H} dx={1} dy={1} size={10} />
         <TickMark from={B} to={H} />
         <TickMark from={H} to={C} />
