@@ -547,7 +547,11 @@ describe('Independent Tests area: second exam (algebra + geometry)', () => {
       expect(item, `بند ${itemId}`).toBeDefined();
       const choice = item?.choices?.find((candidate) => candidate.id === expected.choiceId);
       expect(choice?.label, `نص الخيار ${expected.choiceId} في ${itemId}`).toBe(expected.label);
-      expect(secondTestSolutions[itemId].finalAnswer).toContain(expected.choiceId.toUpperCase());
+      // الحل يُطابق قيمةً لا حرفًا: الناتج نفسه يجب أن يُذكر، والحرف — إن ذُكر —
+      // يجب أن يُوصَف بأنه اصطلاح عرض لا نصّ مطبوع.
+      const answer = secondTestSolutions[itemId].finalAnswer;
+      expect(answer, `قيمة ${itemId}`).toContain(expected.label);
+      expect(answer, `تنبيه ${itemId}`).toContain('اصطلاح');
     }
   });
 
@@ -593,14 +597,16 @@ describe('Independent Tests area: second exam (algebra + geometry)', () => {
     const imageOfP = { x: P.x + vector.x, y: P.y + vector.y };
     expect(imageOfP).toEqual(Q); // صورة P هي Q ⇒ الخيار C
 
-    // الحل يجب أن يختار C، ويشرح قراءة الصياغة، ولا يدّعي A ولا ينفي وجود خيار صحيح.
+    // الحل يجب أن يُسمّي العبارة الصحيحة بنصّها، ويشرح قراءة الصياغة، ولا ينفي
+    // وجود خيار صحيح. ولا يُعلّق صحّة الجواب على حرف، لأن الحروف ليست في المصدر.
     const solution = secondTestSolutions['q1-4'];
     const text = [...solution.steps, solution.finalAnswer].join(' ');
-    expect(solution.finalAnswer).toContain('C');
     expect(text).toContain('$Q$ هي صورة $P$');
     expect(text).toContain('صورتها');
     expect(text).not.toContain('لا خيار صحيح');
-    expect(/الإجابة الصحيحة:\s*A/.test(text)).toBe(false);
+    // الحرف — إن ذُكر — مقيَّد بأنه اصطلاح عرض، ولا يُقال إن ترتيبه محسوم.
+    expect(solution.finalAnswer).toContain('اصطلاح');
+    expect(solution.finalAnswer).toContain('غير محسوم');
   });
 
   it('regression guard: q1-4 must never go back to A or to «no correct option»', () => {
@@ -614,7 +620,8 @@ describe('Independent Tests area: second exam (algebra + geometry)', () => {
     expect(claimedA, 'الحل عاد إلى ادعاء الخيار A').toBe(false);
     expect(deniedAnyCorrectOption, 'الحل عاد إلى نفي وجود خيار صحيح').toBe(false);
 
-    expect(solution.finalAnswer).toContain('C');
+    // ولا يُدَّعى أن الحرف محسوم على الورق.
+    expect(solution.finalAnswer).toContain('غير محسوم');
 
     // والحساب المستقل يبرّر C: «الصورة» هي Q والأصل هو P.
     expect(text).toContain('$Q$ هي صورة $P$');
