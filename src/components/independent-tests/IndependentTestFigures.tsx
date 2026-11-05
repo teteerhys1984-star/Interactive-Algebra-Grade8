@@ -337,6 +337,9 @@ export const TriangleFigure: React.FC<{ variant: IndependentTriangleFigureKey; t
   if (variant === 'abc-translation') {
     width = TRI_PAD * 2 + 10 * TRI_SCALE;
     height = TRI_PAD * 2 + 5 * TRI_SCALE;
+  } else if (variant === 'abc-isosceles') {
+    width = TRI_PAD * 2 + 8 * TRI_SCALE;
+    height = TRI_PAD * 2 + 7 * TRI_SCALE;
   }
 
   const body = (() => {

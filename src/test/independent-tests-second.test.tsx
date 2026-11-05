@@ -241,6 +241,10 @@ describe('Independent Tests area: second exam (algebra + geometry)', () => {
     );
     expect(labels).toEqual(expect.arrayContaining(['M', 'N', 'A', 'B', 'C', 'H', 'O', '3', '4', '5']));
     expect(labels).toEqual(expect.arrayContaining(["A'", "B'", "C'"]));
+
+    // التحقق من أبعاد viewBox لرسم المسألة الهندسية (المثلث المتساوي الساقين) لضمان عدم قص جانبه الأيمن أو الرأس C
+    const isoscelesSvg = figures[2];
+    expect(isoscelesSvg.getAttribute('viewBox')).toBe('0 0 452 410');
   });
 
   it('never shows raw TeX or delimiters to the student', async () => {
