@@ -47,6 +47,32 @@ const unlockSecondTestSolutions = async () => {
   fireEvent.click(screen.getByRole('button', { name: /فتح الحلول/ }));
 };
 
+/**
+ * حساب كسري دقيق (بسط/مقام صحيحان) يُستخدم في فحص عبارات الصح والخطأ.
+ * المقارنة العشرية بالفاصلة العائمة تجعل (1/2)×(2/5) لا يساوي (3/5)×(1/3)
+ * رغم أنهما متساويان رياضيًا، فالمقارنة هنا بالضرب التبادلي.
+ */
+const Fraction = {
+  of: (numerator: number, denominator: number): { n: number; d: number } => {
+    const gcd = (a: number, b: number): number => (b === 0 ? Math.abs(a) : gcd(b, a % b));
+    const divisor = gcd(numerator, denominator) || 1;
+    return { n: numerator / divisor, d: denominator / divisor };
+  },
+  mul: (a: { n: number; d: number }, b: { n: number; d: number }) =>
+    Fraction.of(a.n * b.n, a.d * b.d),
+  equal: (a: { n: number; d: number }, b: { n: number; d: number }) => a.n * b.d === b.n * a.d,
+  /** نصف الخُمسين = (1/2) × (2/5). */
+  halfOfTwoFifths: () => Fraction.mul(Fraction.of(1, 2), Fraction.of(2, 5)),
+  /** ثلاثة أخماس الثلث = (3/5) × (1/3). */
+  threeFifthsOfOneThird: () => Fraction.mul(Fraction.of(3, 5), Fraction.of(1, 3)),
+  /** نصف خُمسٍ واحد = (1/2) × (1/5) — التفسير الخاطئ الذي كان في الحل. */
+  halfOfOneFifth: () => Fraction.mul(Fraction.of(1, 2), Fraction.of(1, 5)),
+};
+
+/** هل يدّعي نص الحل أن الخيار A هو الصواب (وهو ما لا يصح في q1-4)؟ */
+const wrongChoiceClaim = (text: string): boolean =>
+  /الإجابة الصحيحة:\s*A/.test(text);
+
 const itemIds = collectItems().filter((item) => !item.parts).map((item) => item.id);
 const partIds = collectItems().flatMap((item) => item.parts?.map((part) => part.id) ?? []);
 
@@ -292,7 +318,6 @@ describe('Independent Tests area: second exam (algebra + geometry)', () => {
       'q1-1': '-\\dfrac{1}{4}', // مقلوب سدس −24، وهو غير موجود في الخيارات (تعارض المصدر)
       'q1-2': '-\\dfrac{1}{10}',
       'q1-3': 'تساوي الزوايا',
-      'q1-4': 'Q', // Q صورة P
       'q1-5': '5.1 \\times 10^{-5}',
       // ثالثاً
       'ex1-1': '10^{12}',
@@ -347,23 +372,125 @@ describe('Independent Tests area: second exam (algebra + geometry)', () => {
     expect(secondIndependentTest.sections[0].blocks[0].items[0].prompt).not.toContain('$-48$');
   });
 
-  it('keeps the true/false verdicts consistent with the solution text', () => {
-    const verdicts: Record<string, 'صح' | 'خطأ'> = {
-      'q2-1': 'صح',
-      'q2-2': 'خطأ',
-      'q2-3': 'خطأ',
-      'q2-4': 'خطأ',
-      'q2-5': 'خطأ',
+  it('keeps every true/false verdict equal to an independent recomputation of its printed sentence', () => {
+    // الأحكام هنا مشتقّة من نص الجملة المطبوع، لا منسوخة من ملف الحلول.
+    const verdictOfSentence: Record<string, () => 'صح' | 'خطأ'> = {
+      // «مقلوب 10^-2 هو 10^+2» ⇔ 1/10^-2 === 10^2
+      'q2-1': () => (1 / Math.pow(10, -2) === Math.pow(10, 2) ? 'صح' : 'خطأ'),
+      // «مقلوب أي عدد غير معدوم أصغر منه» — يُكذّبها أي عدد مقلوبه أكبر منه.
+      'q2-2': () => {
+        const counterExamples = [1 / 2, -2];
+        return counterExamples.some((value) => 1 / value > value) ? 'خطأ' : 'صح';
+      },
+      // «نصف الخُمسين يساوي ثلاثة أخماس الثلث»:
+      // الخُمسان = 2/5، فنصفهما (1/2)×(2/5) = 1/5، و(3/5)×(1/3) = 1/5 ⇒ صح.
+      'q2-3': () => {
+        // الخُمسان = 2/5، ومقارنة الكسور تتم بضرب تبادلي دقيق لا بفاصلة عائمة
+        // (0.2 مقابل 0.19999999999999998 لو قورنت كأعداد عشرية).
+        const halfOfTwoFifths = Fraction.halfOfTwoFifths();
+        const threeFifthsOfOneThird = Fraction.threeFifthsOfOneThird();
+        return Fraction.equal(halfOfTwoFifths, threeFifthsOfOneThird) ? 'صح' : 'خطأ';
+      },
+      // «صورة مستقيمين متوازيين هما مستقيمان متعامدان» — كاذبة بطبائع الانسحاب.
+      'q2-4': () => 'خطأ',
+      // «يتطابق مثلثان إذا تساوت قياس زوايا الأول مع قياسات زوايا الثاني» — كاذبة (تزويج التشابه بالتطابق).
+      'q2-5': () => 'خطأ',
     };
 
-    for (const [id, verdict] of Object.entries(verdicts)) {
+    const computed = Object.fromEntries(
+      Object.entries(verdictOfSentence).map(([id, verdict]) => [id, verdict()]),
+    );
+    expect(computed).toEqual({
+      'q2-1': 'صح',
+      'q2-2': 'خطأ',
+      'q2-3': 'صح',
+      'q2-4': 'خطأ',
+      'q2-5': 'خطأ',
+    });
+
+    for (const [id, verdict] of Object.entries(computed)) {
       expect(secondTestSolutions[id].finalAnswer, `حكم ${id}`).toContain(verdict);
     }
 
-    // التحقق الرياضي المستقل للعبارات القابلة للحساب.
-    expect(Math.pow(10, -2) ** -1).toBe(100); // مقلوب 10^-2 هو 10^2
-    expect(1 / (1 / 2)).toBeGreaterThan(1 / 2); // مقلوب 1/2 أكبر منه
-    expect((1 / 2) * (1 / 5)).not.toBeCloseTo((3 / 5) * (1 / 3), 10); // 1/10 ≠ 1/5
+    // لا يجوز أن يقع الحل في تفسير «الخُمسين» على أنها خُمس واحد.
+    expect((1 / 2) * (1 / 5)).not.toBe((1 / 2) * (2 / 5));
+  });
+
+  it('never reads «الخُمسين» as a single fifth (regression guard for q2-3)', () => {
+    // «الخُمس» = 1/5 و«الخُمسان» = 2/5. هذا الاختبار يفشل فورًا إن عاد أي تفسير
+    // يحسب نصف خُمس واحد بدل نصف خُمسين.
+    const twoFifths = Fraction.of(2, 5);
+    const oneFifth = Fraction.of(1, 5);
+    expect(Fraction.equal(twoFifths, oneFifth)).toBe(false);
+
+    const halfOfTwoFifths = Fraction.halfOfTwoFifths();
+    const halfOfOneFifth = Fraction.halfOfOneFifth();
+    const threeFifthsOfOneThird = Fraction.threeFifthsOfOneThird();
+
+    expect(halfOfTwoFifths).toEqual({ n: 1, d: 5 });
+    expect(threeFifthsOfOneThird).toEqual({ n: 1, d: 5 });
+
+    // الحكم الصحيح من نص المصدر، والحكم الخاطئ الذي كان في الملف سابقًا.
+    expect(Fraction.equal(halfOfTwoFifths, threeFifthsOfOneThird)).toBe(true); // ⇒ صح
+    expect(Fraction.equal(halfOfOneFifth, threeFifthsOfOneThird)).toBe(false); // ⇒ كان سيقول خطأ
+    expect(halfOfOneFifth).toEqual({ n: 1, d: 10 });
+
+    const solution = secondTestSolutions['q2-3'];
+    expect(solution.steps.join(' ')).toContain('\\dfrac{2}{5}');
+    expect(solution.steps.join(' ')).not.toContain('\\dfrac{1}{2} \\times \\dfrac{1}{5}');
+    expect(solution.finalAnswer).toContain('صح');
+    expect(solution.finalAnswer).toContain('\\dfrac{1}{5}');
+  });
+
+  it('picks choices by their printed text, not by a reinterpretation of the solution', () => {
+    const q1 = secondIndependentTest.sections[0].blocks[0].items;
+
+    // كل خيار صحيح يجب أن يطابق نص الخيار المطبوع حرفيًّا.
+    const expectedChoiceText: Record<string, { label: string; choiceId: string }> = {
+      // مقلوب نظير 10 = −1/10 ⇒ الخيار A.
+      'q1-2': { choiceId: 'a', label: '$-\\dfrac{1}{10}$' },
+      // «تساوي الزوايا» ⇒ الخيار B.
+      'q1-3': { choiceId: 'b', label: 'تساوي الزوايا' },
+      // 0.00051×10^-1 = 5.1×10^-5 ⇒ الخيار A.
+      'q1-5': { choiceId: 'a', label: '$5.1 \\times 10^{-5}$' },
+    };
+
+    for (const [itemId, expected] of Object.entries(expectedChoiceText)) {
+      const item = q1.find((candidate) => candidate.id === itemId);
+      expect(item, `بند ${itemId}`).toBeDefined();
+      const choice = item?.choices?.find((candidate) => candidate.id === expected.choiceId);
+      expect(choice?.label, `نص الخيار ${expected.choiceId} في ${itemId}`).toBe(expected.label);
+      expect(secondTestSolutions[itemId].finalAnswer).toContain(expected.choiceId.toUpperCase());
+    }
+
+    // q1-4: النتيجة Q صورة P، وكل خيارات الورقة تنسب الصورة إلى P ⇒ لا خيار صحيح.
+    const q14 = q1.find((item) => item.id === 'q1-4');
+    expect(q14?.choices?.map((choice) => choice.label)).toEqual([
+      '$P$ صورة $Q$',
+      '$Q$ صورة $M$',
+      '$P$ صورتها $Q$',
+    ]);
+    // A و C متطابقان في المعنى: كلاهما يجعل P صورة.
+    const [choiceA, , choiceC] = q14?.choices ?? [];
+    expect(choiceA.label.replace('صورتها', 'صورة')).toBe(choiceC.label.replace('صورتها', 'صورة'));
+
+    // الحساب الفعلي لانسحاب N→M على متوازي الأضلاع MNPQ.
+    const M = { x: 0, y: 0 };
+    const N = { x: 1, y: 0 };
+    const P = { x: 1, y: 1 };
+    const Q = { x: 0, y: 1 };
+    const vector = { x: M.x - N.x, y: M.y - N.y };
+    const imageOfP = { x: P.x + vector.x, y: P.y + vector.y };
+    expect(imageOfP).toEqual(Q); // Q هي صورة P
+    expect(imageOfP).not.toEqual(P);
+
+    const solution = secondTestSolutions['q1-4'];
+    const text = [...solution.steps, solution.finalAnswer].join(' ');
+    expect(text).toContain('$Q$ صورة $P$');
+    // الحل لا يدّعي أن A هو الجواب الصحيح، ويصرّح بالتعارض.
+    expect(text).toContain('لا خيار صحيح');
+    expect(text).toContain('متطابقان');
+    expect(wrongChoiceClaim(text)).toBe(false);
   });
 
   it('keeps the solutions tab behind the same password gate as the first exam', () => {
