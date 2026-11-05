@@ -2,7 +2,7 @@ import React from 'react';
 import { BadgeCheck, ListChecks } from 'lucide-react';
 import { Math as Formula } from '../math/Math';
 import { MathText } from '../math/MathText';
-import { MbndParallelogramFigure } from './IndependentTestFigures';
+import { IndependentFigure } from './IndependentTestFigures';
 import type {
   IndependentSolution,
   IndependentSolutionMap,
@@ -30,7 +30,7 @@ const SolutionBody: React.FC<{ solution: IndependentSolution }> = ({ solution })
         </li>
       ))}
     </ol>
-    {solution.figure && <MbndParallelogramFigure variant={solution.figure} />}
+    {solution.figure && <IndependentFigure variant={solution.figure} />}
     <p className="itest-solution-final">
       <BadgeCheck size={17} aria-hidden="true" />
       <span><MathText text={solution.finalAnswer} /></span>
@@ -42,7 +42,7 @@ const StatementContext: React.FC<{ item: IndependentTestItem }> = ({ item }) => 
   <li className="itest-solution-context">
     {item.prompt && <p className="itest-solution-prompt"><MathText text={item.prompt} /></p>}
     {item.math && <div className="itest-item-math"><Formula math={item.math} display /></div>}
-    {item.figure && <MbndParallelogramFigure variant={item.figure} />}
+    {item.figure && <IndependentFigure variant={item.figure} />}
     {item.partsLabel && <p className="itest-solution-context-label">{item.partsLabel}</p>}
   </li>
 );

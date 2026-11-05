@@ -1,10 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import IndependentTestsArea from '../components/independent-tests/IndependentTestsArea';
-import {
-  firstIndependentTest,
-  independentTests,
-} from '../data/independent-tests/first-test';
+import { independentTests } from '../data/independent-tests';
+import { firstIndependentTest } from '../data/independent-tests/first-test';
 import { firstTestSolutions } from '../data/independent-tests/first-test-solutions';
 import type { IndependentTestItem } from '../data/independent-tests/types';
 
@@ -26,9 +24,16 @@ const visibleText = (root: HTMLElement): string => {
 const allItemIds = collectItems().filter((item) => !item.parts).map((item) => item.id);
 const allPartIds = collectItems().flatMap((item) => item.parts?.map((part) => part.id) ?? []);
 
+/** بطاقة اختبار واحد في القائمة، حتى لا يلتبس زر الدخول بين بطاقتين. */
+const testCard = (title: string): HTMLElement => {
+  const card = screen.getByRole('heading', { name: title }).closest('article');
+  if (!card) throw new Error(`بطاقة الاختبار «${title}» غير موجودة`);
+  return card as HTMLElement;
+};
+
 const renderIndependentTestPaper = () => {
   const result = render(<IndependentTestsArea />);
-  fireEvent.click(screen.getByRole('button', { name: /دخول إلى الاختبار/ }));
+  fireEvent.click(within(testCard('الاختبار الأول')).getByRole('button', { name: /دخول إلى الاختبار/ }));
   return result;
 };
 
@@ -38,7 +43,9 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
   });
 
   it('keeps the paper order of the source: two questions, three exercises, two problems', () => {
-    expect(independentTests).toHaveLength(1);
+    // الاختبار الأول مسجَّل في السجل وموضعه الأول، والقائمة تتسع للاختبارات التالية.
+    expect(independentTests[0]).toBe(firstIndependentTest);
+    expect(independentTests.map((test) => test.id)).toContain('independent-test-1');
     const headings = firstIndependentTest.sections.map((section) => section.heading);
     expect(headings).toEqual(['أولاً', 'ثانياً', 'ثالثاً']);
 
@@ -117,7 +124,8 @@ describe('Independent Tests area: first exam (algebra + geometry)', () => {
     expect(screen.getByRole('heading', { name: 'اختبارات مستقلة' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'الاختبار الأول' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'السؤال الأول' })).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: /دخول إلى الاختبار/ }));
+    // لكل اختبار بطاقة واحدة، ودخول الاختبار الأول لا يعرض ورقة الاختبار الثاني.
+    fireEvent.click(within(testCard('الاختبار الأول')).getByRole('button', { name: /دخول إلى الاختبار/ }));
     expect(screen.getByRole('heading', { name: 'السؤال الأول' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /العودة إلى قائمة الاختبارات/ })).toBeInTheDocument();
   });

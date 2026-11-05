@@ -8,7 +8,7 @@
  */
 
 /** مفاتيح الرسوم التي أُعيد إنشاؤها بـ SVG داخل المنصة. */
-export type IndependentFigureKey = 'mbnd-parallelogram' | 'mbnd-congruence' | 'mbnd-symmetry';
+export type IndependentFigureKey = IndependentMbndFigureKey | IndependentTriangleFigureKey;
 
 export type IndependentItemKind = 'choice' | 'true-false' | 'free';
 
@@ -80,3 +80,9 @@ export interface IndependentSolution {
 
 /** خريطة الحلول: معرّف البند أو البند الفرعي ← حلّه. */
 export type IndependentSolutionMap = Record<string, IndependentSolution>;
+
+/** مفاتيح رسوم الاختبار الأول (متوازي الأضلاع MBND). */
+export type IndependentMbndFigureKey = 'mbnd-parallelogram' | 'mbnd-congruence' | 'mbnd-symmetry';
+
+/** مفاتيح رسوم الاختبار الثاني (المثلثات: MNA والانسحاب والمثلث متساوي الساقين). */
+export type IndependentTriangleFigureKey = 'mna-right-triangle' | 'abc-translation' | 'abc-isosceles';

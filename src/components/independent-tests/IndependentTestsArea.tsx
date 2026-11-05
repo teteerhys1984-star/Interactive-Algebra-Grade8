@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { BookOpen, LockKeyhole, FileCheck2, Search, ShieldCheck } from 'lucide-react';
-import { independentTests } from '../../data/independent-tests/first-test';
+import { independentTests } from '../../data/independent-tests';
 import type { IndependentSolutionMap } from '../../data/independent-tests/types';
 import { IndependentTestPaper } from './IndependentTestPaper';
 import { IndependentTestSolutions } from './IndependentTestSolutions';
 
 type ActiveTab = 'questions' | 'solutions';
+
+/**
+ * يحمل خريطة حلول الاختبار المطلوب. الملفات تُستورد ديناميكيًا (لا استيرادًا
+ * ساكنًا) حتى تبقى الحلول خارج الحزمة الأولية، ويكون لكل اختبار ملفه الخاص.
+ */
+const loadSolutions = async (testId: string): Promise<IndependentSolutionMap | null> => {
+  if (testId === 'independent-test-1') {
+    const module = await import('../../data/independent-tests/first-test-solutions');
+    return module.firstTestSolutions;
+  }
+  if (testId === 'independent-test-2') {
+    const module = await import('../../data/independent-tests/second-test-solutions');
+    return module.secondTestSolutions;
+  }
+  return null;
+};
 
 const SOLUTIONS_PASSWORD = 'somer173';
 
@@ -18,19 +34,22 @@ export const IndependentTestsArea: React.FC = () => {
   const [solutions, setSolutions] = useState<IndependentSolutionMap | null>(null);
   const [solutionsError, setSolutionsError] = useState('');
 
-  // الحلول في ملف بيانات منفصل يُطلب ديناميكيًا بعد فتح البوابة فقط،
-  // فلا تُحمَّل مع ورقة الأسئلة في الحزمة الأولية.
+  // الحلول في ملفات بيانات منفصلة تُطلب ديناميكيًا بعد فتح البوابة فقط،
+  // فلا تُحمَّل مع ورقة الأسئلة في الحزمة الأولية. لكل اختبار ملف حلوله.
   useEffect(() => {
-    if (!unlocked) {
+    if (!unlocked || !selectedTestId) {
       setSolutions(null);
       setSolutionsError('');
       return;
     }
     let active = true;
+    setSolutions(null);
     setSolutionsError('');
-    import('../../data/independent-tests/first-test-solutions')
-      .then((module) => {
-        if (active) setSolutions(module.firstTestSolutions);
+    loadSolutions(selectedTestId)
+      .then((map) => {
+        if (!active) return;
+        if (map) setSolutions(map);
+        else setSolutionsError('لا يوجد ملف حلول مسجّل لهذا الاختبار.');
       })
       .catch(() => {
         if (active) setSolutionsError('تعذّر تحميل ملف الحلول. أعد المحاولة بعد تحديث الصفحة.');
@@ -38,7 +57,7 @@ export const IndependentTestsArea: React.FC = () => {
     return () => {
       active = false;
     };
-  }, [unlocked]);
+  }, [unlocked, selectedTestId]);
 
   const openSolutions = () => {
     setActiveTab('solutions');

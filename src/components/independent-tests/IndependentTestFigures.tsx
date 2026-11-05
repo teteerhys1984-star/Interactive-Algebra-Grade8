@@ -1,5 +1,10 @@
 import React, { useId } from 'react';
-import type { IndependentFigureKey } from '../../data/independent-tests/types';
+import { MathText } from '../math/MathText';
+import type {
+  IndependentFigureKey,
+  IndependentMbndFigureKey,
+  IndependentTriangleFigureKey,
+} from '../../data/independent-tests/types';
 
 /**
  * إعادة إنشاء رسم المسألة الثانية (ورقة الاختبار الأول) بـ SVG.
@@ -136,12 +141,12 @@ const MeasureLabel: React.FC<{ children: React.ReactNode; x: number; y: number }
 );
 
 export interface IndependentFigureProps {
-  variant: IndependentFigureKey;
+  variant: IndependentMbndFigureKey;
   /** وصف نصّي بديل للقارئ الشاشي. */
   title?: string;
 }
 
-const DEFAULT_TITLES: Record<IndependentFigureKey, string> = {
+const DEFAULT_TITLES: Record<IndependentMbndFigureKey, string> = {
   'mbnd-parallelogram': 'متوازي الأضلاع MBND داخل المستطيل ABCD',
   'mbnd-congruence': 'المثلثان MBD و BDN داخل متوازي الأضلاع MBND',
   'mbnd-symmetry': 'المثلثان AMD و BNC متماثلان بالنسبة إلى المركز O',
@@ -245,3 +250,210 @@ export const MbndParallelogramFigure: React.FC<IndependentFigureProps> = ({ vari
 };
 
 export default MbndParallelogramFigure;
+
+/* ===== رسوم الاختبار الثاني ===== */
+
+const TRI_SCALE = 42;
+const TRI_PAD = 58;
+
+const triPt = (
+  x: number,
+  y: number,
+  height: number,
+): { x: number; y: number } => ({
+  x: TRI_PAD + x * TRI_SCALE,
+  y: TRI_PAD + (height - y) * TRI_SCALE,
+});
+
+/** مربع الزاوية القائمة، مرسوم باتجاه داخل الشكل. */
+const TriRightAngle: React.FC<{
+  corner: { x: number; y: number };
+  dx: number;
+  dy: number;
+  size?: number;
+}> = ({ corner, dx, dy, size = 12 }) => (
+  <polyline
+    points={`${corner.x + dx * size},${corner.y} ${corner.x + dx * size},${corner.y + dy * size} ${corner.x},${corner.y + dy * size}`}
+    fill="none"
+    stroke={INK}
+    strokeWidth={1.6}
+  />
+);
+
+/** علامة تطابق ضلعين (شرطة مائلة صغيرة على منتصف الضلع). */
+const TickMark: React.FC<{
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+}> = ({ from, to }) => {
+  const mx = (from.x + to.x) / 2;
+  const my = (from.y + to.y) / 2;
+  return (
+    <line
+      x1={mx - 6}
+      y1={my + 7}
+      x2={mx + 6}
+      y2={my - 7}
+      stroke={INK}
+      strokeWidth={1.8}
+      strokeLinecap="round"
+    />
+  );
+};
+
+const TRI_TITLES: Record<IndependentTriangleFigureKey, string> = {
+  'mna-right-triangle': 'المثلث القائم الزاوية MNA القائم في N',
+  'abc-translation': 'المثلث ABC وصورته وفق انسحاب أفقي إلى اليمين',
+  'abc-isosceles': 'المثلث ABC متساوي الساقين وارتفاعه AH والنقطتان M و N',
+};
+
+const TRI_CAPTIONS: Record<IndependentTriangleFigureKey, string> = {
+  'mna-right-triangle':
+    'الشكل: المثلث MNA قائم الزاوية في N، فيه $NA = 4$ و $NM = 3$ و $MA = 5$.',
+  'abc-translation':
+    'الشكل: المثلث ABC قائم الزاوية في B، و $T_{A \\to A\'}$ انسحاب أفقي إلى اليمين بمقدار 4 سم.',
+  'abc-isosceles':
+    'الشكل: المثلث ABC متساوي الساقين في A، و $AH$ ارتفاعه، و $O$ منتصف $AH$، و $OM \\perp AC$ و $ON \\perp AB$.',
+};
+
+/**
+ * إعادة إنشاء رسوم الاختبار الثاني بـ SVG.
+ *
+ * الرسم الأول: المثلث القائم MNA بقياسات المصدر (NA = 4، NM = 3، MA = 5)
+ * وعلامة القائمة عند N.
+ * الرسم الثاني: المثلث ABC القائم في B، مع خط انسحاب أفقي وموقع الصورة A'B'C'.
+ * الرسم الثالث: المثلث متساوي الساقين ABC، وارتفاعه AH، ومنتصف الارتفاع O،
+ * والعمودان OM و ON على الساقين، وعلامتا تساوي القطعتين BH و HC.
+ */
+export const TriangleFigure: React.FC<{ variant: IndependentTriangleFigureKey; title?: string }> = ({
+  variant,
+  title,
+}) => {
+  const titleId = useId();
+  const description = title ?? TRI_TITLES[variant];
+
+  let width = TRI_PAD * 2 + 5 * TRI_SCALE;
+  let height = TRI_PAD * 2 + 7 * TRI_SCALE;
+
+  if (variant === 'abc-translation') {
+    width = TRI_PAD * 2 + 10 * TRI_SCALE;
+    height = TRI_PAD * 2 + 5 * TRI_SCALE;
+  }
+
+  const body = (() => {
+    if (variant === 'mna-right-triangle') {
+      const M = triPt(0, 0, 4);
+      const N = triPt(3, 0, 4);
+      const A = triPt(3, 4, 4);
+      return (
+        <>
+          <polygon points={`${M.x},${M.y} ${N.x},${N.y} ${A.x},${A.y}`} fill="#f1f5f9" />
+          <Segment from={M} to={N} width={2.2} />
+          <Segment from={N} to={A} width={2.2} />
+          <Segment from={A} to={M} width={2.2} />
+          <TriRightAngle corner={N} dx={-1} dy={-1} />
+          <VertexLabel x={(M.x + N.x) / 2} y={N.y + 20}>3</VertexLabel>
+          <VertexLabel x={N.x + 18} y={(N.y + A.y) / 2}>4</VertexLabel>
+          <VertexLabel x={(M.x + A.x) / 2 - 16} y={(M.y + A.y) / 2 - 6}>5</VertexLabel>
+          <VertexLabel x={M.x - 16} y={M.y + 14} anchor="middle">M</VertexLabel>
+          <VertexLabel x={N.x + 16} y={N.y + 14} anchor="middle">N</VertexLabel>
+          <VertexLabel x={A.x + 15} y={A.y - 13} anchor="middle">A</VertexLabel>
+        </>
+      );
+    }
+
+    if (variant === 'abc-translation') {
+      const A = triPt(0, 3, 3);
+      const B = triPt(0, 0, 3);
+      const C = triPt(3, 0, 3);
+      const A2 = triPt(4, 3, 3);
+      const B2 = triPt(4, 0, 3);
+      const C2 = triPt(7, 0, 3);
+      return (
+        <>
+          <polygon points={`${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`} fill="#f1f5f9" />
+          <polygon
+            points={`${A2.x},${A2.y} ${B2.x},${B2.y} ${C2.x},${C2.y}`}
+            fill={ACCENT_ALGEBRA}
+            fillOpacity="0.14"
+          />
+          <Segment from={A} to={B} width={2.2} />
+          <Segment from={B} to={C} width={2.2} />
+          <Segment from={C} to={A} width={2.2} />
+          <Segment from={A2} to={B2} dashed color={ACCENT_ALGEBRA} width={2.2} />
+          <Segment from={B2} to={C2} dashed color={ACCENT_ALGEBRA} width={2.2} />
+          <Segment from={C2} to={A2} dashed color={ACCENT_ALGEBRA} width={2.2} />
+          <Segment from={A} to={A2} dashed color={AUX} />
+          <Segment from={B} to={B2} dashed color={AUX} />
+          <Segment from={C} to={C2} dashed color={AUX} />
+          <TriRightAngle corner={B} dx={1} dy={1} />
+          <MeasureLabel x={(B.x + B2.x) / 2} y={B.y + 24}>4 cm</MeasureLabel>
+          <VertexLabel x={A.x - 14} y={A.y - 13} anchor="middle">A</VertexLabel>
+          <VertexLabel x={B.x - 16} y={B.y + 13} anchor="middle">B</VertexLabel>
+          <VertexLabel x={C.x + 16} y={C.y + 13} anchor="middle">C</VertexLabel>
+          <VertexLabel x={A2.x - 16} y={A2.y - 13} anchor="middle">A'</VertexLabel>
+          <VertexLabel x={B2.x + 2} y={B2.y + 20} anchor="middle">B'</VertexLabel>
+          <VertexLabel x={C2.x + 18} y={C2.y + 13} anchor="middle">C'</VertexLabel>
+        </>
+      );
+    }
+
+    const H = triPt(4, 0, 7);
+    const B = triPt(0, 0, 7);
+    const C = triPt(8, 0, 7);
+    const A = triPt(4, 7, 7);
+    const O = triPt(4, 3.5, 7);
+    const N = triPt(2.49, 4.36, 7);
+    const M = triPt(5.51, 4.36, 7);
+    return (
+      <>
+        <polygon points={`${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`} fill="#f1f5f9" />
+        <Segment from={A} to={B} width={2.2} />
+        <Segment from={B} to={C} width={2.2} />
+        <Segment from={C} to={A} width={2.2} />
+        <Segment from={A} to={H} />
+        <Segment from={O} to={N} />
+        <Segment from={O} to={M} />
+        <TriRightAngle corner={N} dx={1} dy={1} size={10} />
+        <TriRightAngle corner={M} dx={-1} dy={1} size={10} />
+        <TriRightAngle corner={H} dx={1} dy={1} size={10} />
+        <TickMark from={B} to={H} />
+        <TickMark from={H} to={C} />
+        <circle cx={O.x} cy={O.y} r="3.1" fill={INK} />
+        <VertexLabel x={A.x} y={A.y - 15} anchor="middle">A</VertexLabel>
+        <VertexLabel x={B.x - 16} y={B.y + 13} anchor="middle">B</VertexLabel>
+        <VertexLabel x={C.x + 16} y={C.y + 13} anchor="middle">C</VertexLabel>
+        <VertexLabel x={H.x} y={H.y + 20} anchor="middle">H</VertexLabel>
+        <VertexLabel x={O.x - 14} y={O.y - 8} anchor="middle">O</VertexLabel>
+        <VertexLabel x={N.x - 14} y={N.y - 10} anchor="middle">N</VertexLabel>
+        <VertexLabel x={M.x + 15} y={M.y - 10} anchor="middle">M</VertexLabel>
+      </>
+    );
+  })();
+
+  return (
+    <figure className="itest-figure">
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="itest-figure-svg"
+        role="img"
+        aria-labelledby={titleId}
+      >
+        <title id={titleId}>{description}</title>
+        {body}
+      </svg>
+      <figcaption className="itest-figure-caption">
+        <MathText text={TRI_CAPTIONS[variant]} />
+      </figcaption>
+    </figure>
+  );
+};
+
+/** يعرض الرسم المناسب بحسب مفتاح الشكل المخزَّن في البيانات. */
+export const IndependentFigure: React.FC<{ variant: IndependentFigureKey; title?: string }> = ({
+  variant,
+  title,
+}) =>
+  variant === 'mna-right-triangle' || variant === 'abc-translation' || variant === 'abc-isosceles'
+    ? <TriangleFigure variant={variant} title={title} />
+    : <MbndParallelogramFigure variant={variant} title={title} />;
+
