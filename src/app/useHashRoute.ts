@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export interface RouteState {
-  view: 'home' | 'unit' | 'lesson' | 'teacher' | 'tests' | 'test-runner' | 'test-solutions' | 'independent-tests' | 'temp' | 'temp-grade6';
+  view: 'home' | 'unit' | 'lesson' | 'teacher' | 'tests' | 'test-runner' | 'test-solutions' | 'independent-tests' | 'temp' | 'temp-grade6' | 'temp-grade4';
   unitId?: string;
   lessonId?: string;
   stepIndex?: number;
   testId?: string;
-  /** 1-based page index for the TEMP Grade 6 book reader. */
+  /** 1-based page index for the TEMP book readers (Grade 6, Grade 4). */
   tempPage?: number;
 }
 
@@ -28,12 +28,17 @@ export function parseHash(hash: string): RouteState {
   // Pattern: #/teacher — teacher area (password gated)
   if (parts[0] === 'teacher') return { view: 'teacher' };
 
-  // TEMP (temporary addition): #/temp landing, #/temp/grade6[/:page] book reader.
+  // TEMP (temporary addition): #/temp landing, #/temp/grade6[/:page] and
+  // #/temp/grade4[/:page] book readers.
   // Fully isolated from the Grade 8 curriculum; safe to delete later.
   if (parts[0] === 'temp') {
     if (parts[1] === 'grade6') {
       const page = parts[2] ? parseInt(parts[2], 10) : 1;
       return { view: 'temp-grade6', tempPage: isNaN(page) ? 1 : page };
+    }
+    if (parts[1] === 'grade4') {
+      const page = parts[2] ? parseInt(parts[2], 10) : 1;
+      return { view: 'temp-grade4', tempPage: isNaN(page) ? 1 : page };
     }
     return { view: 'temp' };
   }

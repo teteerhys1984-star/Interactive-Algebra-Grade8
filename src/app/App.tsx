@@ -13,10 +13,12 @@ import { TestSolutionsArea } from '../components/tests/TestSolutionsArea';
 import { TestSolutions } from '../components/tests/TestSolutions';
 import { IndependentTestsArea } from '../components/independent-tests/IndependentTestsArea';
 import { resolveTest } from '../data/tests/registry';
-// TEMP (temporary addition): isolated Grade 6 book area — see src/temp/.
+// TEMP (temporary addition): isolated Grade 6 and Grade 4 book area — see src/temp/.
 import { TempArea } from '../temp/TempArea';
 import { Grade6BookReader } from '../temp/Grade6BookReader';
 import { GRADE6_PAGE_COUNT } from '../temp/grade6Book';
+import { Grade4BookReader } from '../temp/Grade4BookReader';
+import { GRADE4_PAGE_COUNT } from '../temp/grade4Book';
 
 export const App: React.FC = () => {
   const { route, navigate } = useHashRoute();
@@ -57,6 +59,10 @@ export const App: React.FC = () => {
   const handleTempPageChange = (page: number) => {
     const clamped = Math.min(GRADE6_PAGE_COUNT, Math.max(1, page));
     navigate(`/temp/grade6/${clamped}`);
+  };
+  const handleTempGrade4PageChange = (page: number) => {
+    const clamped = Math.min(GRADE4_PAGE_COUNT, Math.max(1, page));
+    navigate(`/temp/grade4/${clamped}`);
   };
   const handleStartTest = (testId: string) => navigate(`/tests/run/${testId}`);
   const handleOpenTestSolutions = (testId: string) => navigate(`/tests/solutions/${testId}`);
@@ -110,12 +116,19 @@ export const App: React.FC = () => {
         {route.view === 'tests' && <TestsArea onStartTest={handleStartTest} />}
         {route.view === 'independent-tests' && <IndependentTestsArea />}
 
-        {/* TEMP (temporary addition): Grade 6 book — isolated from Grade 8. */}
+        {/* TEMP (temporary addition): Grade 6 and Grade 4 books — isolated from Grade 8. */}
         {route.view === 'temp' && <TempArea />}
         {route.view === 'temp-grade6' && (
           <Grade6BookReader
             initialPage={route.tempPage ?? 1}
             onPageChange={handleTempPageChange}
+            onBackToTemp={handleNavigateTemp}
+          />
+        )}
+        {route.view === 'temp-grade4' && (
+          <Grade4BookReader
+            initialPage={route.tempPage ?? 1}
+            onPageChange={handleTempGrade4PageChange}
             onBackToTemp={handleNavigateTemp}
           />
         )}
