@@ -1,0 +1,226 @@
+/* =====================================================================
+   TEMP — temporary Grade 6 book area (isolated).
+   Every selector is scoped under .temp-view so Grade 8 lesson, test,
+   and teacher-area styles are never affected. Reuses the platform's
+   catalog shell (.catalog-view / .catalog-inner / .unit-card) and the
+   "nx" design tokens from variables.css.
+   ===================================================================== */
+
+.temp-view .catalog-section {
+  padding-top: 2.5rem;
+}
+
+.temp-view .catalog-section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* --- TEMP landing: book entry card ---------------------------------- */
+
+.temp-book-card {
+  --accent: var(--color-amber-500);
+  --accent-soft: rgba(245, 158, 11, 0.14);
+  --accent-line: rgba(245, 158, 11, 0.45);
+  max-width: 520px;
+}
+
+.temp-book-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.temp-book-cta {
+  align-self: flex-start;
+}
+
+/* --- Book reader ----------------------------------------------------- */
+
+.temp-reader-inner {
+  max-width: 900px;
+  padding-top: 2rem;
+}
+
+.temp-reader-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.temp-back-link {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.temp-reader-title-block {
+  text-align: start;
+}
+
+.temp-reader-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--nx-text-hi);
+  line-height: 1.5;
+}
+
+.temp-reader-subtitle {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--nx-text-mid);
+  margin-top: 0.15rem;
+}
+
+/* The book page itself: a white "paper" sheet on the dark shell. */
+.temp-page-frame {
+  margin: 0;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 10px;
+  box-shadow:
+    0 30px 60px -24px rgba(2, 6, 17, 0.95),
+    0 0 0 1px var(--nx-line-strong);
+}
+
+.temp-page-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.temp-reader-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.temp-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: 12px;
+  border: 1px solid var(--nx-line);
+  background: var(--nx-surface-1);
+  color: var(--nx-text-hi);
+  font-size: 0.95rem;
+  font-weight: 800;
+  transition: border-color 0.18s ease, background-color 0.18s ease, opacity 0.18s ease;
+}
+
+.temp-nav-btn:hover:not(:disabled) {
+  border-color: var(--nx-line-strong);
+  background: var(--nx-surface-2);
+}
+
+.temp-nav-btn:focus-visible,
+.temp-jump-btn:focus-visible,
+.temp-jump-input:focus-visible {
+  outline: 2px solid var(--nx-cyan-300);
+  outline-offset: 2px;
+}
+
+.temp-nav-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.temp-jump-form {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+.temp-jump-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--nx-text-mid);
+}
+
+.temp-jump-input {
+  width: 4.5rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--nx-line);
+  background: var(--nx-ink-850);
+  color: var(--nx-text-hi);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.temp-jump-range {
+  font-size: 0.8rem;
+  color: var(--nx-text-lo);
+}
+
+.temp-jump-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--accent-line, rgba(245, 158, 11, 0.45));
+  background: var(--color-amber-500);
+  color: #1c1206;
+  font-size: 0.9rem;
+  font-weight: 800;
+  transition: filter 0.18s ease;
+}
+
+.temp-jump-btn:hover {
+  filter: brightness(1.08);
+}
+
+.temp-reader-progress {
+  margin-top: 0.9rem;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--nx-text-mid);
+}
+
+/* --- Mobile ----------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .temp-reader-inner {
+    padding-top: 1.25rem;
+  }
+
+  .temp-reader-title {
+    font-size: 1.25rem;
+  }
+
+  .temp-page-frame {
+    padding: 6px;
+    border-radius: 10px;
+  }
+
+  .temp-reader-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .temp-nav-btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .temp-jump-form {
+    order: -1;
+    width: 100%;
+  }
+}

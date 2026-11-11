@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export interface RouteState {
-  view: 'home' | 'unit' | 'lesson' | 'teacher' | 'tests' | 'test-runner' | 'test-solutions' | 'independent-tests';
+  view: 'home' | 'unit' | 'lesson' | 'teacher' | 'tests' | 'test-runner' | 'test-solutions' | 'independent-tests' | 'temp' | 'temp-grade6';
   unitId?: string;
   lessonId?: string;
   stepIndex?: number;
   testId?: string;
+  /** 1-based page index for the TEMP Grade 6 book reader. */
+  tempPage?: number;
 }
 
 export function parseHash(hash: string): RouteState {
@@ -25,6 +27,16 @@ export function parseHash(hash: string): RouteState {
 
   // Pattern: #/teacher — teacher area (password gated)
   if (parts[0] === 'teacher') return { view: 'teacher' };
+
+  // TEMP (temporary addition): #/temp landing, #/temp/grade6[/:page] book reader.
+  // Fully isolated from the Grade 8 curriculum; safe to delete later.
+  if (parts[0] === 'temp') {
+    if (parts[1] === 'grade6') {
+      const page = parts[2] ? parseInt(parts[2], 10) : 1;
+      return { view: 'temp-grade6', tempPage: isNaN(page) ? 1 : page };
+    }
+    return { view: 'temp' };
+  }
 
   if (parts[0] === 'unit' && parts[1]) {
     const unitId = parts[1];
