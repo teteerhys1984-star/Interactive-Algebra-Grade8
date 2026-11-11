@@ -1,11 +1,12 @@
 import React from 'react';
-import { BookOpen, ClipboardCheck, FileText, GraduationCap } from 'lucide-react';
+import { BookOpen, ClipboardCheck, FileText, FlaskConical, GraduationCap } from 'lucide-react';
 
 interface HeaderProps {
   onNavigateHome?: () => void;
   onNavigateUnit?: () => void;
   onNavigateTests?: () => void;
   onNavigateIndependentTests?: () => void;
+  onNavigateTemp?: () => void;
   unitTitle?: string;
   lessonTitle?: string;
   onToggleDrawer?: () => void;
@@ -16,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigateUnit,
   onNavigateTests,
   onNavigateIndependentTests,
+  onNavigateTemp,
   unitTitle,
   lessonTitle,
   onToggleDrawer,
@@ -59,6 +61,12 @@ export const Header: React.FC<HeaderProps> = ({
             <button type="button" className="nav-btn header-test-nav" onClick={onNavigateIndependentTests} aria-label="فتح الاختبارات المستقلة">
               <FileText size={17} aria-hidden="true" />
               <span>اختبارات مستقلة</span>
+            </button>
+          )}
+          {onNavigateTemp && (
+            <button type="button" className="nav-btn header-temp-nav" onClick={onNavigateTemp} aria-label="فتح تبويب TEMP المؤقت">
+              <FlaskConical size={17} aria-hidden="true" />
+              <span>TEMP</span>
             </button>
           )}
           {unitTitle && (

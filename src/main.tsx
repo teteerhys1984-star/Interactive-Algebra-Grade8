@@ -15,6 +15,7 @@ import './styles/roots.css';
 import './styles/unit3-lesson1.css';
 import './styles/unit3-lesson2.css';
 import './styles/independent-tests.css';
+import './temp/temp.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

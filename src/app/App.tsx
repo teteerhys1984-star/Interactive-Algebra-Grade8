@@ -13,6 +13,10 @@ import { TestSolutionsArea } from '../components/tests/TestSolutionsArea';
 import { TestSolutions } from '../components/tests/TestSolutions';
 import { IndependentTestsArea } from '../components/independent-tests/IndependentTestsArea';
 import { resolveTest } from '../data/tests/registry';
+// TEMP (temporary addition): isolated Grade 6 book area — see src/temp/.
+import { TempArea } from '../temp/TempArea';
+import { Grade6BookReader } from '../temp/Grade6BookReader';
+import { GRADE6_PAGE_COUNT } from '../temp/grade6Book';
 
 export const App: React.FC = () => {
   const { route, navigate } = useHashRoute();
@@ -46,6 +50,14 @@ export const App: React.FC = () => {
     navigate('/independent-tests');
     setIsDrawerOpen(false);
   };
+  const handleNavigateTemp = () => {
+    navigate('/temp');
+    setIsDrawerOpen(false);
+  };
+  const handleTempPageChange = (page: number) => {
+    const clamped = Math.min(GRADE6_PAGE_COUNT, Math.max(1, page));
+    navigate(`/temp/grade6/${clamped}`);
+  };
   const handleStartTest = (testId: string) => navigate(`/tests/run/${testId}`);
   const handleOpenTestSolutions = (testId: string) => navigate(`/tests/solutions/${testId}`);
   const currentTest = route.testId ? resolveTest(route.testId) : undefined;
@@ -57,6 +69,7 @@ export const App: React.FC = () => {
         onNavigateUnit={route.view === 'lesson' ? handleNavigateUnit : undefined}
         onNavigateTests={handleNavigateTests}
         onNavigateIndependentTests={handleNavigateIndependentTests}
+        onNavigateTemp={handleNavigateTemp}
         unitTitle={route.view === 'lesson' && activeUnit ? activeUnit.title : undefined}
         lessonTitle={route.view === 'lesson' && activeLesson ? activeLesson.title : undefined}
         onToggleDrawer={route.view === 'lesson' ? () => setIsDrawerOpen(!isDrawerOpen) : undefined}
@@ -96,6 +109,16 @@ export const App: React.FC = () => {
         {route.view === 'teacher' && <TeacherArea onNavigateHome={handleNavigateHome} />}
         {route.view === 'tests' && <TestsArea onStartTest={handleStartTest} />}
         {route.view === 'independent-tests' && <IndependentTestsArea />}
+
+        {/* TEMP (temporary addition): Grade 6 book — isolated from Grade 8. */}
+        {route.view === 'temp' && <TempArea />}
+        {route.view === 'temp-grade6' && (
+          <Grade6BookReader
+            initialPage={route.tempPage ?? 1}
+            onPageChange={handleTempPageChange}
+            onBackToTemp={handleNavigateTemp}
+          />
+        )}
 
         {route.view === 'test-runner' && currentTest && (
           <TestRunner
