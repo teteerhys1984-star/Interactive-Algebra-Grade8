@@ -26,7 +26,7 @@ const ChoiceList: React.FC<{ item: IndependentTestItem }> = ({ item }) => (
   <ul className="itest-choices" aria-label="الخيارات المقترحة">
     {item.choices?.map((choice) => (
       <li key={choice.id} className="itest-choice">
-        <span className="itest-choice-letter" aria-hidden="true">{choice.id.toUpperCase()}</span>
+        <span className="itest-choice-letter" aria-hidden="true">{choice.displayLabel ?? choice.id.toUpperCase()}</span>
         <span className="itest-choice-label"><MathText text={choice.label} /></span>
       </li>
     ))}

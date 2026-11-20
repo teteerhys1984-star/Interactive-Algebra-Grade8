@@ -8,13 +8,18 @@
  */
 
 /** مفاتيح الرسوم التي أُعيد إنشاؤها بـ SVG داخل المنصة. */
-export type IndependentFigureKey = IndependentMbndFigureKey | IndependentTriangleFigureKey;
+export type IndependentFigureKey =
+  | IndependentMbndFigureKey
+  | IndependentTriangleFigureKey
+  | IndependentWorksheetFigureKey;
 
 export type IndependentItemKind = 'choice' | 'true-false' | 'free';
 
 export interface IndependentTestChoice {
   /** حرف الخيار كما في المصدر: a / b / c. */
   id: string;
+  /** تسمية مطبوعة خاصة عند اختلافها عن الحروف الكبيرة الافتراضية. */
+  displayLabel?: string;
   /** نص الخيار أو صيغته الرياضية المضمّنة بين `$…$`. */
   label: string;
 }
@@ -86,3 +91,9 @@ export type IndependentMbndFigureKey = 'mbnd-parallelogram' | 'mbnd-congruence' 
 
 /** مفاتيح رسوم الاختبار الثاني (المثلثات: MNA والانسحاب والمثلث متساوي الساقين). */
 export type IndependentTriangleFigureKey = 'mna-right-triangle' | 'abc-translation' | 'abc-isosceles';
+
+/** مفاتيح رسوم الاختبار الثالث (المثلثات الثلاثة والمستطيل وقطراه). */
+export type IndependentWorksheetFigureKey =
+  | 'worksheet3-abc-altitudes'
+  | 'worksheet3-abcd-diagonals'
+  | 'worksheet3-abce-extensions';

@@ -1,5 +1,6 @@
 /* Dedicated catalog for independent algebra and combined algebra/geometry exams. */
 .independent-tests-area {
+  font-family: 'IBM Plex Sans Arabic', var(--font-arabic);
   width: min(100% - 2rem, 1120px);
   margin: 0 auto;
   padding: 2rem 0 3rem;

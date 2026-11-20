@@ -4,6 +4,7 @@ import type {
   IndependentFigureKey,
   IndependentMbndFigureKey,
   IndependentTriangleFigureKey,
+  IndependentWorksheetFigureKey,
 } from '../../data/independent-tests/types';
 
 /**
@@ -491,12 +492,139 @@ export const TriangleFigure: React.FC<{ variant: IndependentTriangleFigureKey; t
   );
 };
 
+const WORKSHEET_TITLES: Record<IndependentWorksheetFigureKey, string> = {
+  'worksheet3-abc-altitudes': 'المثلث ABC متساوي الساقين وارتفاعاه BH وCK',
+  'worksheet3-abcd-diagonals': 'المستطيل ABCD وقطراه AC وBD المتقاطعان في O',
+  'worksheet3-abce-extensions': 'المثلث ABC متساوي الأضلاع مع امتدادي AB وBC إلى D وE',
+};
+
+/** رسوم الأسئلة الهندسية في ورقة العمل الثالثة، مرسومة كمسارات SVG مستقلة. */
+export const WorksheetGeometryFigure: React.FC<{
+  variant: IndependentWorksheetFigureKey;
+  title?: string;
+}> = ({ variant, title }) => {
+  const titleId = useId();
+  const description = title ?? WORKSHEET_TITLES[variant];
+  const W = 360;
+  const H = 360;
+
+  const drawing = (() => {
+    if (variant === 'worksheet3-abc-altitudes') {
+      // A=(0,0), B=(-1,1), C=(1,1) يمنح مثلثًا متناظرًا؛ يُسقط B وC
+      // عموديًا على AC وAB على الترتيب، كما في العلامتين المطبوعتين عند H وK.
+      const A = { x: 180, y: 52 };
+      const B = { x: 82, y: 275 };
+      const C = { x: 278, y: 275 };
+      const project = (point: { x: number; y: number }, start: { x: number; y: number }, end: { x: number; y: number }) => {
+        const vx = end.x - start.x;
+        const vy = end.y - start.y;
+        const t = ((point.x - start.x) * vx + (point.y - start.y) * vy) / (vx * vx + vy * vy);
+        return { x: start.x + t * vx, y: start.y + t * vy };
+      };
+      const H = project(B, A, C);
+      const K = project(C, A, B);
+      return (
+        <>
+          <Segment from={A} to={B} width={2.2} />
+          <Segment from={A} to={C} width={2.2} />
+          <Segment from={B} to={C} width={2.2} />
+          <Segment from={B} to={H} dashed />
+          <Segment from={C} to={K} dashed />
+          <TickMark from={A} to={B} />
+          <TickMark from={A} to={C} />
+          <TriRightAngleOnSides corner={H} side1={A} side2={B} size={10} name="worksheet3-H" />
+          <TriRightAngleOnSides corner={K} side1={A} side2={C} size={10} name="worksheet3-K" />
+          <VertexLabel x={A.x} y={A.y - 15}>A</VertexLabel>
+          <VertexLabel x={B.x - 15} y={B.y + 18}>B</VertexLabel>
+          <VertexLabel x={C.x + 15} y={C.y + 18}>C</VertexLabel>
+          <VertexLabel x={H.x + 13} y={H.y - 5}>H</VertexLabel>
+          <VertexLabel x={K.x - 13} y={K.y - 5}>K</VertexLabel>
+        </>
+      );
+    }
+
+    if (variant === 'worksheet3-abcd-diagonals') {
+      const A = { x: 65, y: 245 };
+      const B = { x: 295, y: 245 };
+      const C = { x: 295, y: 135 };
+      const D = { x: 65, y: 135 };
+      const O = { x: 180, y: 190 };
+      return (
+        <>
+          <Segment from={A} to={D} width={2.2} />
+          <Segment from={D} to={C} width={2.2} />
+          <Segment from={C} to={B} width={2.2} />
+          <Segment from={B} to={A} width={2.2} />
+          <Segment from={A} to={C} width={2.2} />
+          <Segment from={D} to={B} width={2.2} />
+          <TriRightAngle corner={A} dx={1} dy={-1} />
+          <TriRightAngle corner={B} dx={-1} dy={-1} />
+          <VertexLabel x={A.x - 12} y={A.y + 18}>A</VertexLabel>
+          <VertexLabel x={B.x + 13} y={B.y + 18}>B</VertexLabel>
+          <VertexLabel x={C.x + 13} y={C.y - 14}>C</VertexLabel>
+          <VertexLabel x={D.x - 12} y={D.y - 14}>D</VertexLabel>
+          <VertexLabel x={O.x} y={O.y - 10}>O</VertexLabel>
+        </>
+      );
+    }
+
+    // المثلث ABC متساوي الأضلاع؛ AB ممتد عبر B إلى D، وBC ممتد عبر C إلى E.
+    const side = 92;
+    const A = { x: 60, y: 285 };
+    const B = { x: A.x + side, y: A.y };
+    const D = { x: B.x + side, y: B.y };
+    const C = { x: A.x + side / 2, y: B.y - side * Math.sqrt(3) / 2 };
+    const E = { x: A.x, y: B.y - side * Math.sqrt(3) };
+    return (
+      <>
+        <Segment from={A} to={B} width={2.2} />
+        <Segment from={B} to={D} width={2.2} />
+        <Segment from={B} to={C} width={2.2} />
+        <Segment from={C} to={E} width={2.2} />
+        <Segment from={A} to={C} width={2.2} />
+        <Segment from={A} to={E} dashed color={AUX} />
+        <Segment from={C} to={D} dashed color={AUX} />
+        <TickMark from={A} to={B} />
+        <TickMark from={B} to={D} />
+        <TickMark from={A} to={C} />
+        <TickMark from={B} to={C} />
+        <TickMark from={C} to={E} />
+        <VertexLabel x={A.x - 12} y={A.y + 18}>A</VertexLabel>
+        <VertexLabel x={B.x} y={B.y + 18}>B</VertexLabel>
+        <VertexLabel x={C.x + 12} y={C.y - 13}>C</VertexLabel>
+        <VertexLabel x={D.x + 15} y={D.y + 18}>D</VertexLabel>
+        <VertexLabel x={E.x} y={E.y - 14}>E</VertexLabel>
+      </>
+    );
+  })();
+
+  return (
+    <figure className="itest-figure">
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="itest-figure-svg"
+        role="img"
+        aria-labelledby={titleId}
+        data-worksheet-figure={variant}
+      >
+        <title id={titleId}>{description}</title>
+        {drawing}
+      </svg>
+      <figcaption className="itest-figure-caption">{description}</figcaption>
+    </figure>
+  );
+};
+
 /** يعرض الرسم المناسب بحسب مفتاح الشكل المخزَّن في البيانات. */
 export const IndependentFigure: React.FC<{ variant: IndependentFigureKey; title?: string }> = ({
   variant,
   title,
 }) =>
-  variant === 'mna-right-triangle' || variant === 'abc-translation' || variant === 'abc-isosceles'
-    ? <TriangleFigure variant={variant} title={title} />
-    : <MbndParallelogramFigure variant={variant} title={title} />;
+  variant === 'worksheet3-abc-altitudes' ||
+  variant === 'worksheet3-abcd-diagonals' ||
+  variant === 'worksheet3-abce-extensions'
+    ? <WorksheetGeometryFigure variant={variant} title={title} />
+    : variant === 'mna-right-triangle' || variant === 'abc-translation' || variant === 'abc-isosceles'
+      ? <TriangleFigure variant={variant} title={title} />
+      : <MbndParallelogramFigure variant={variant} title={title} />;
 
