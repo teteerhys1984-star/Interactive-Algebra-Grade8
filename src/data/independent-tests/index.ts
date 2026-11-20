@@ -1,6 +1,7 @@
 import type { IndependentTest } from './types';
 import { firstIndependentTest } from './first-test';
 import { secondIndependentTest } from './second-test';
+import { thirdIndependentTest } from './third-test';
 
 /**
  * سجل الاختبارات المستقلة المتاحة في منطقة «اختبارات مستقلة».
@@ -8,11 +9,15 @@ import { secondIndependentTest } from './second-test';
  * القائمة في ملف مستقل حتى لا يعتمد أي اختبار على ملف الاختبار الآخر،
  * فإضافة اختبار ثالث لاحقًا تعني سطرًا واحدًا هنا فقط.
  */
-export const independentTests: IndependentTest[] = [firstIndependentTest, secondIndependentTest];
+export const independentTests: IndependentTest[] = [
+  firstIndependentTest,
+  secondIndependentTest,
+  thirdIndependentTest,
+];
 
 export const findIndependentTest = (id: string): IndependentTest | undefined =>
   independentTests.find((test) => test.id === id);
 
-export { firstIndependentTest, secondIndependentTest };
+export { firstIndependentTest, secondIndependentTest, thirdIndependentTest };
 
 export default independentTests;
