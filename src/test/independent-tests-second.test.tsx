@@ -78,7 +78,7 @@ describe('Independent Tests area: second exam (algebra + geometry)', () => {
   });
 
   it('is registered as the second card without disturbing the first exam', () => {
-    expect(independentTests).toHaveLength(3);
+    expect(independentTests).toHaveLength(4);
     expect(independentTests[0]).toBe(firstIndependentTest);
     expect(independentTests[1]).toBe(secondIndependentTest);
     expect(secondIndependentTest.id).toBe('independent-test-2');
