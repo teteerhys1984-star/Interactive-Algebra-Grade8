@@ -42,7 +42,7 @@ describe('الاختبار المستقل الثالث — ورقة عمل ال�
   });
 
   it('is registered after both existing exams without changing their order or identities', () => {
-    expect(independentTests).toHaveLength(3);
+    expect(independentTests).toHaveLength(4);
     expect(independentTests[0]).toBe(firstIndependentTest);
     expect(independentTests[1]).toBe(secondIndependentTest);
     expect(independentTests[2]).toBe(thirdIndependentTest);

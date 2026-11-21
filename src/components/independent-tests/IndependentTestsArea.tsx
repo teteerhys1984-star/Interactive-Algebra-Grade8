@@ -24,6 +24,10 @@ const loadSolutions = async (testId: string): Promise<IndependentSolutionMap | n
     const module = await import('../../data/independent-tests/third-test-solutions');
     return module.thirdTestSolutions;
   }
+  if (testId === 'independent-test-4') {
+    const module = await import('../../data/independent-tests/fourth-test-solutions');
+    return module.fourthTestSolutions;
+  }
   return null;
 };
 
