@@ -67,7 +67,10 @@ function stripSafeParens(s: string): string {
       const right = close + 1 < out.length ? out[close + 1] : '';
       const fusesLeft = /[0-9.]/.test(left) && /^[0-9]/.test(content);
       const fusesRight = /[0-9.]$/.test(content) && /^[0-9]/.test(right);
-      if (fusesLeft || fusesRight) continue; // 2(3) / (2)3 must not become 23
+      // Signed atom right after an operand means implicit multiplication:
+      // `2(-3)` is 2×(-3), not 2-3 — unwrapping would turn × into -/+.
+      const signedAfterOperand = /^[+-]/.test(content) && /[\d.)\p{L}]/u.test(left);
+      if (signedAfterOperand || fusesLeft || fusesRight) continue; // 2(3) / (2)3 must not become 23
       out = out.slice(0, i) + out.slice(i + 1, close) + out.slice(close + 1);
       changed = true;
       break;

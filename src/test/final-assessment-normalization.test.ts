@@ -67,6 +67,16 @@ describe('normalizeAnswer — variable vs multiplication (regression)', () => {
     expect(normalizeAnswer('(2)3')).not.toBe('23');
   });
 
+  it('keeps signed atoms after an operand so implicit multiplication is not turned into subtraction', () => {
+    // 2(-3) means 2×(-3)=-6, not 2-3=-1; same for x(-3) and 3(-x)
+    expect(normalizeAnswer('2(-3)')).not.toBe(normalizeAnswer('2-3'));
+    expect(normalizeAnswer('x(-3)')).not.toBe(normalizeAnswer('x-3'));
+    expect(normalizeAnswer('3(-x)')).not.toBe(normalizeAnswer('3-x'));
+    // safe signed-atom cases still unwrap or commute to the same form
+    expect(normalizeAnswer('(-3)x')).toBe(normalizeAnswer('-3x'));
+    expect(normalizeAnswer('x*(-3)')).toBe(normalizeAnswer('-3x'));
+  });
+
   it('still tolerates spacing, unicode minus and the Arabic decimal separator', () => {
     expect(normalizeAnswer('  -3/5 ')).toBe(normalizeAnswer('−3 / 5'));
     expect(normalizeAnswer('6x')).toBe(normalizeAnswer('6 × x'));
