@@ -88,8 +88,18 @@ export const App: React.FC = () => {
 
         {route.view === 'lesson' && activeLesson && (
           <LessonExperience
+            // Remount per lesson so step, progress, assessment and answer state
+            // can never leak between lessons (including same-index switches).
+            key={`${activeLesson.unitId}/${activeLesson.id}`}
             lesson={activeLesson}
             initialStep={route.stepIndex ?? 0}
+            onStepChange={(stepIndex) => {
+              // Mirror the current step into the URL hash (1-based, canonical form).
+              const target = `/unit/${activeLesson.unitId}/lesson/${activeLesson.id}/${stepIndex + 1}`;
+              if (window.location.hash !== `#${target}`) {
+                navigate(target);
+              }
+            }}
             onNavigateBack={handleNavigateUnit}
             isDrawerOpen={isDrawerOpen}
             onCloseDrawer={() => setIsDrawerOpen(false)}

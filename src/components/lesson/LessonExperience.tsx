@@ -10,6 +10,8 @@ import { FinalAssessment } from '../assessment/FinalAssessment';
 interface LessonExperienceProps {
   lesson: LessonData;
   initialStep?: number;
+  /** Reports every step change (next, prev, outline, restart) so the URL hash can stay in sync. */
+  onStepChange?: (stepIndex: number) => void;
   onNavigateBack: () => void;
   isDrawerOpen?: boolean;
   onCloseDrawer?: () => void;
@@ -18,24 +20,29 @@ interface LessonExperienceProps {
 export const LessonExperience: React.FC<LessonExperienceProps> = ({
   lesson,
   initialStep = 0,
+  onStepChange,
   onNavigateBack,
   isDrawerOpen = false,
   onCloseDrawer = () => {},
 }) => {
-  const [currentStepIndex, setCurrentStepIndex] = useState<number>(initialStep);
+  // Constrain any step index (deep links like /0 or /99, non-numeric, browser
+  // back/forward) to a step that actually exists in this lesson.
+  const clampStep = (index: number) => Math.max(0, Math.min(index, lesson.steps.length - 1));
+
+  const [currentStepIndex, setCurrentStepIndex] = useState<number>(() => clampStep(initialStep));
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [isLessonCompleted, setIsLessonCompleted] = useState<boolean>(false);
   const [showAssessment, setShowAssessment] = useState<boolean>(false);
 
   const hasAssessment = !!lesson.finalAssessment;
 
-  // Sync initialStep when it changes
+  // Sync with the URL-driven step (deep links, browser back/forward), clamping
+  // invalid indexes to a valid step.
   useEffect(() => {
-    if (initialStep >= 0 && initialStep < lesson.steps.length) {
-      setCurrentStepIndex(initialStep);
-      setIsLessonCompleted(false);
-      setShowAssessment(false);
-    }
+    setCurrentStepIndex(clampStep(initialStep));
+    setIsLessonCompleted(false);
+    setShowAssessment(false);
+    // clampStep depends only on lesson.steps.length, which is in the deps.
   }, [initialStep, lesson.steps.length]);
 
   // Mark current step as completed when viewed
@@ -47,16 +54,25 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStepIndex]);
 
+  // Single entry point for every user-driven step change: updates local state
+  // and mirrors the step into the URL hash (via onStepChange).
+  const goToStep = (index: number) => {
+    const clamped = clampStep(index);
+    setCurrentStepIndex(clamped);
+    setIsLessonCompleted(false);
+    setShowAssessment(false);
+    onStepChange?.(clamped);
+  };
+
   const handlePrev = () => {
     if (currentStepIndex > 0) {
-      setCurrentStepIndex((prev) => prev - 1);
-      setIsLessonCompleted(false);
+      goToStep(currentStepIndex - 1);
     }
   };
 
   const handleNext = () => {
     if (currentStepIndex < lesson.steps.length - 1) {
-      setCurrentStepIndex((prev) => prev + 1);
+      goToStep(currentStepIndex + 1);
     } else if (hasAssessment) {
       setShowAssessment(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -76,9 +92,7 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
   };
 
   const handleSelectStep = (index: number) => {
-    setCurrentStepIndex(index);
-    setIsLessonCompleted(false);
-    setShowAssessment(false);
+    goToStep(index);
   };
 
   const handleSelectAssessment = () => {
@@ -88,16 +102,12 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
   };
 
   const handleGoToStepFromAssessment = (index: number) => {
-    setShowAssessment(false);
-    setIsLessonCompleted(false);
-    setCurrentStepIndex(index);
+    goToStep(index);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRestart = () => {
-    setCurrentStepIndex(0);
-    setIsLessonCompleted(false);
-    setShowAssessment(false);
+    goToStep(0);
   };
 
   const currentStep = lesson.steps[currentStepIndex];

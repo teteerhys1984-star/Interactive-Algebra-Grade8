@@ -16,7 +16,7 @@ export const LessonProgress: React.FC<LessonProgressProps> = ({
   return (
     <div className="sidebar-progress">
       <div className="progress-label">
-        <span>نسبة الإنجاز</span>
+        <span>نسبة المشاهدة</span>
         <span>{percentage}%</span>
       </div>
       <div className="progress-track" role="progressbar" aria-valuenow={percentage} aria-valuemin={0} aria-valuemax={100}>
@@ -27,7 +27,7 @@ export const LessonProgress: React.FC<LessonProgressProps> = ({
       </div>
       <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between' }}>
         <span>الخطوة الحالية: {currentStep + 1}</span>
-        <span>مكتمل: {completedSteps.length} من {totalSteps}</span>
+        <span>تمت مشاهدته: {completedSteps.length} من {totalSteps}</span>
       </div>
     </div>
   );

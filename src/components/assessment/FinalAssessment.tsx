@@ -21,17 +21,24 @@ interface FinalAssessmentProps {
 
 /** Normalizes a free-text math answer for tolerant comparison. */
 export function normalizeAnswer(input: string): string {
-  return (input || '')
+  const base = (input || '')
     .trim()
     .toLowerCase()
     .replace(/\s+/g, '')
     .replace(/[\u2212\u2013\u2014]/g, '-') // unicode minus / dashes -> hyphen
-    .replace(/[×x\u00d7*]/g, '') // drop explicit multiplication between number and variable
-    .replace(/[()]/g, '')
-    .replace(/\u066b|\u060c/g, (m) => (m === '\u066b' ? '.' : ',')); // arabic decimal sep
+    .replace(/\u066b|\u060c/g, (m) => (m === '\u066b' ? '.' : ',')) // arabic decimal sep
+    .replace(/[()]/g, '') // parens dropped before multiplication handling
+    .replace(/÷/g, '/'); // division sign behaves like a fraction bar (7÷12 ~ 7/12)
+  // Drop multiplication signs ONLY next to a letter (6*x, x×2 -> 6x, x2) so the
+  // variable letter — x in particular — is always preserved, while digit-digit
+  // signs stay (2*3 must never collapse into 23).
+  return base.replace(
+    /([\p{L}])[*×\u00d7]|[*×\u00d7]([\p{L}])/gu,
+    (_, before, after) => before || after,
+  );
 }
 
-function isCorrect(q: AssessmentQuestion, answer: string | undefined): boolean {
+export function isCorrect(q: AssessmentQuestion, answer: string | undefined): boolean {
   if (answer === undefined || answer === '') return false;
   if (q.acceptedAnswers && q.acceptedAnswers.length > 0) {
     const norm = normalizeAnswer(answer);
