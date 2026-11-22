@@ -29,10 +29,19 @@ export function normalizeAnswer(input: string): string {
     .replace(/\u066b|\u060c/g, (m) => (m === '\u066b' ? '.' : ',')) // arabic decimal sep
     .replace(/[()]/g, '') // parens dropped before multiplication handling
     .replace(/÷/g, '/'); // division sign behaves like a fraction bar (7÷12 ~ 7/12)
+  // Multiplication is commutative: an explicit product with the variable first
+  // ("x*6", "x*-5") must normalize like its commuted form ("6x", "-5x"), the
+  // same way "6*x" already does. Only explicit * × forms are rewritten, and
+  // never right after a digit or dot, so digits can never merge ("2x*3" must
+  // not become "23x") and bare juxtaposition ("x6") is left untouched.
+  const commuted = base.replace(
+    /(?<![\d.])(\p{L}+)([*×\u00d7])(-?\d+(?:\.\d+)?)/gu,
+    '$3$1',
+  );
   // Drop multiplication signs ONLY next to a letter (6*x, x×2 -> 6x, x2) so the
   // variable letter — x in particular — is always preserved, while digit-digit
   // signs stay (2*3 must never collapse into 23).
-  return base.replace(
+  return commuted.replace(
     /([\p{L}])[*×\u00d7]|[*×\u00d7]([\p{L}])/gu,
     (_, before, after) => before || after,
   );

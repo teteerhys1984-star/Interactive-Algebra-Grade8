@@ -22,7 +22,20 @@ describe('normalizeAnswer — variable vs multiplication (regression)', () => {
     expect(normalizeAnswer('6*x')).toBe(normalizeAnswer('6x'));
     expect(normalizeAnswer('6×x')).toBe(normalizeAnswer('6x'));
     expect(normalizeAnswer('6 * x')).toBe(normalizeAnswer('6x'));
-    expect(normalizeAnswer('x*6')).toBe(normalizeAnswer('x6'));
+    expect(normalizeAnswer('x*6')).toBe(normalizeAnswer('6x'));
+    expect(normalizeAnswer('x×6')).toBe(normalizeAnswer('6x'));
+    expect(normalizeAnswer('x * 6')).toBe(normalizeAnswer('6x'));
+  });
+
+  it('commutes variable-first explicit products without merging digits', () => {
+    // x*6 must equal 6x (multiplication is commutative), like 6*x already does.
+    expect(normalizeAnswer('x*6')).toBe('6x');
+    expect(normalizeAnswer('x*-5')).toBe('-5x');
+    // Guard: a digit in front of the letter run blocks the rewrite, so digits
+    // can never merge ("2x*3" must not become "23x"); bare "x6" stays as-is.
+    expect(normalizeAnswer('2x*3')).toBe('2x3');
+    expect(normalizeAnswer('2x*3')).not.toBe('23x');
+    expect(normalizeAnswer('x6')).toBe('x6');
   });
 
   it('keeps digit-digit multiplication so digits never merge', () => {
@@ -70,7 +83,11 @@ describe('isCorrect — Lesson 2 assessment (confirmed failing cases)', () => {
     expect(isCorrect(q9, '-5x')).toBe(true);
     expect(isCorrect(q9, '-5*x')).toBe(true);
     expect(isCorrect(q9, '−5x')).toBe(true);
+    expect(isCorrect(q9, 'x*-5')).toBe(true);
+    expect(isCorrect(q9, 'x × -5')).toBe(true);
     expect(isCorrect(q9, '-5')).toBe(false);
+    // x*6 normalizes to 6x, which must not match the accepted answer -5x
+    expect(isCorrect(q9, 'x*6')).toBe(false);
   });
 });
 
