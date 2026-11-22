@@ -14,6 +14,9 @@ interface LessonDrawerProps {
   hasAssessment?: boolean;
   assessmentActive?: boolean;
   onSelectAssessment?: () => void;
+  hasNotebook?: boolean;
+  notebookActive?: boolean;
+  onSelectNotebook?: () => void;
 }
 
 export const LessonDrawer: React.FC<LessonDrawerProps> = ({
@@ -26,6 +29,9 @@ export const LessonDrawer: React.FC<LessonDrawerProps> = ({
   hasAssessment = false,
   assessmentActive = false,
   onSelectAssessment,
+  hasNotebook = false,
+  notebookActive = false,
+  onSelectNotebook,
 }) => {
   if (!isOpen) return null;
 
@@ -46,7 +52,7 @@ export const LessonDrawer: React.FC<LessonDrawerProps> = ({
         <div style={{ flex: 1, overflowY: 'auto' }}>
           <LessonOutline
             steps={lesson.steps}
-            currentStepIndex={assessmentActive ? -1 : currentStepIndex}
+            currentStepIndex={assessmentActive || notebookActive ? -1 : currentStepIndex}
             completedSteps={completedSteps}
             onSelectStep={(idx) => {
               onSelectStep(idx);
@@ -58,6 +64,16 @@ export const LessonDrawer: React.FC<LessonDrawerProps> = ({
               onSelectAssessment
                 ? () => {
                     onSelectAssessment();
+                    onClose();
+                  }
+                : undefined
+            }
+            hasNotebook={hasNotebook}
+            notebookActive={notebookActive}
+            onSelectNotebook={
+              onSelectNotebook
+                ? () => {
+                    onSelectNotebook();
                     onClose();
                   }
                 : undefined

@@ -1,7 +1,7 @@
 import React from 'react';
 import { LessonStep } from '../../data/unit1/lesson01';
 import { MathText } from '../math/MathText';
-import { Check, ClipboardCheck } from 'lucide-react';
+import { Check, ClipboardCheck, NotebookPen } from 'lucide-react';
 
 interface LessonOutlineProps {
   steps: LessonStep[];
@@ -11,6 +11,10 @@ interface LessonOutlineProps {
   hasAssessment?: boolean;
   assessmentActive?: boolean;
   onSelectAssessment?: () => void;
+  /** يظهر عنصر «دفتر الطالب» فقط للدروس التي لها دفتر مسجل. */
+  hasNotebook?: boolean;
+  notebookActive?: boolean;
+  onSelectNotebook?: () => void;
 }
 
 export const LessonOutline: React.FC<LessonOutlineProps> = ({
@@ -21,6 +25,9 @@ export const LessonOutline: React.FC<LessonOutlineProps> = ({
   hasAssessment = false,
   assessmentActive = false,
   onSelectAssessment,
+  hasNotebook = false,
+  notebookActive = false,
+  onSelectNotebook,
 }) => {
   // Group consecutive steps that share a groupId (presentation only).
   const sections: { groupId?: string; groupTitle?: string; indices: number[] }[] = [];
@@ -110,6 +117,26 @@ export const LessonOutline: React.FC<LessonOutlineProps> = ({
                 <div className="outline-step-title">الاختبار الشامل</div>
                 <div className="outline-step-meta">
                   <span>تقويم نهائي</span>
+                </div>
+              </div>
+            </button>
+          </li>
+        )}
+
+        {hasNotebook && onSelectNotebook && (
+          <li>
+            <button
+              className={`outline-item-btn notebook-outline-btn ${notebookActive ? 'active' : ''}`}
+              onClick={onSelectNotebook}
+              aria-current={notebookActive ? 'true' : undefined}
+            >
+              <div className={`step-indicator ${notebookActive ? 'active' : 'upcoming'}`}>
+                <NotebookPen size={14} />
+              </div>
+              <div className="outline-info">
+                <div className="outline-step-title">دفتر الطالب</div>
+                <div className="outline-step-meta">
+                  <span>مرجع للتدوين والمراجعة</span>
                 </div>
               </div>
             </button>

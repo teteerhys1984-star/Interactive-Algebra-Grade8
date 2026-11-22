@@ -1,0 +1,377 @@
+/* ============================================================================
+   دفتر الطالب (Student Notebook)
+   ---------------------------------------------------------------------------
+   كل القواعد محصورة بمكونات الدفتر (.student-notebook وأبناؤها).
+   قواعد الطباعة أدناه مشروطة كلها بـ body.student-notebook-open — وهي class
+   تضاف فقط أثناء عرض الدفتر (نمط notebook في LessonExperience) — لذلك لا
+   تتأثر طباعة أي واجهة أخرى في التطبيق إطلاقًا.
+   ========================================================================== */
+
+.student-notebook {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* ----------------------------- شريط الأدوات ------------------------------ */
+
+.notebook-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.notebook-print-btn {
+  background: var(--color-primary-600);
+  color: #fff;
+  border: 1px solid var(--color-primary-700);
+}
+
+.notebook-print-btn:hover {
+  background: var(--color-primary-700);
+}
+
+/* -------------------------------- الترويسة ------------------------------- */
+
+.notebook-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background: linear-gradient(135deg, var(--color-primary-50), #fff);
+  border: 1px solid var(--color-primary-200);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.notebook-header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-600);
+  color: #fff;
+}
+
+.notebook-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-primary-900);
+  margin: 0.15rem 0 0.2rem;
+}
+
+.notebook-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* --------------------------------- الأقسام ------------------------------- */
+
+.notebook-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.notebook-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.notebook-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.notebook-section-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.notebook-section-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.notebook-derived-tag {
+  margin-inline-start: auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  border: 1px dashed var(--border-strong);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+}
+
+.notebook-section-body {
+  padding: 0.9rem 1.1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* لمسات لونية للأقسام — من هوية المنصة (variables.css) */
+.notebook-accent-blue .notebook-section-icon { background: var(--color-primary-100); color: var(--color-primary-700); }
+.notebook-accent-blue .notebook-section-header { background: var(--color-primary-50); }
+.notebook-accent-teal .notebook-section-icon { background: var(--color-teal-100); color: var(--color-teal-700); }
+.notebook-accent-teal .notebook-section-header { background: #f0fdfa; }
+.notebook-accent-violet .notebook-section-icon { background: var(--color-violet-50); color: #6d28d9; }
+.notebook-accent-violet .notebook-section-header { background: var(--color-violet-50); }
+.notebook-accent-sky .notebook-section-icon { background: var(--color-sky-50); color: #0369a1; }
+.notebook-accent-sky .notebook-section-header { background: var(--color-sky-50); }
+.notebook-accent-emerald .notebook-section-icon { background: var(--color-emerald-100); color: var(--color-emerald-700); }
+.notebook-accent-emerald .notebook-section-header { background: var(--color-emerald-50); }
+.notebook-accent-rose .notebook-section-icon { background: var(--color-rose-100); color: #be123c; }
+.notebook-accent-rose .notebook-section-header { background: var(--color-rose-50); }
+.notebook-accent-amber .notebook-section-icon { background: var(--color-amber-100); color: var(--color-amber-800); }
+.notebook-accent-amber .notebook-section-header { background: var(--color-amber-50); }
+
+/* --------------------------------- البطاقات ------------------------------ */
+
+.notebook-entry {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.8rem 0.95rem;
+  background: var(--color-slate-50);
+}
+
+.notebook-entry-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--color-primary-800);
+  margin: 0 0 0.35rem;
+}
+
+.notebook-entry-text {
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: var(--text-main);
+  white-space: pre-line;
+}
+
+.notebook-entry-math {
+  margin: 0.5rem 0;
+  padding: 0.55rem 0.75rem;
+  background: #fff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  text-align: center;
+}
+
+.notebook-entry-steps {
+  margin: 0.35rem 0 0;
+  padding-inline-start: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.89rem;
+  line-height: 1.9;
+  color: var(--text-main);
+}
+
+.notebook-entry-steps li::marker {
+  font-weight: 800;
+  color: var(--color-primary-600);
+}
+
+/* ------------------------------ شارات المصادر ---------------------------- */
+
+.notebook-entry-sources {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.notebook-source-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.notebook-origin-book { background: var(--color-primary-50); color: var(--color-primary-700); border-color: var(--color-primary-200); }
+.notebook-origin-adapted { background: var(--color-teal-50, #f0fdfa); color: var(--color-teal-700); border-color: var(--color-teal-100); }
+.notebook-origin-platform { background: var(--color-amber-50); color: var(--color-amber-800); border-color: var(--color-amber-100); }
+
+.notebook-source-note {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* --------------------------------- التذييل ------------------------------- */
+
+.notebook-footer {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  border-top: 1px dashed var(--border-strong);
+  padding-top: 0.8rem;
+  line-height: 1.8;
+}
+
+/* ------------------------------ عنصر الفهرس ------------------------------ */
+
+.notebook-outline-btn .step-indicator {
+  background: var(--color-amber-100);
+  color: var(--color-amber-800);
+}
+
+.notebook-outline-btn.active {
+  background: var(--color-amber-50);
+  border-color: var(--color-amber-500);
+}
+
+.notebook-outline-btn.active .step-indicator {
+  background: var(--color-amber-500);
+  color: #fff;
+}
+
+/* ============================ الطباعة (معزولة) ============================
+   تعمل فقط عندما تكون class «student-notebook-open» على body — وتضاف فقط
+   أثناء نمط العرض notebook. بقية الواجهات لا تطابق أي قاعدة هنا.          */
+
+@media print {
+  body.student-notebook-open .app-header,
+  body.student-notebook-open .app-footer,
+  body.student-notebook-open .lesson-sidebar,
+  body.student-notebook-open .mobile-drawer,
+  body.student-notebook-open .mobile-drawer-overlay,
+  body.student-notebook-open .notebook-toolbar {
+    display: none !important;
+  }
+
+  /* M1: تصفير min-height القائم على 100vh (global.css:18 وglobal.css:41
+     وlesson.css:6) — في وسيط الطباعة تساوي 100vh ارتفاع صفحة كاملة وقد
+     تنتج صفحة أخيرة فارغة. مشروط بـ class الدفتر فلا يمس أي صفحة أخرى. */
+  body.student-notebook-open {
+    min-height: 0 !important;
+  }
+
+  body.student-notebook-open .app-container,
+  body.student-notebook-open .main-content,
+  body.student-notebook-open .lesson-layout,
+  body.student-notebook-open .lesson-viewport {
+    display: block !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* m6: block بدل flex أثناء الطباعة لسلوك ترقيم صفحات أكثر موثوقية مع
+     break-inside، مع تعويض فراغات flex-gap بهوامش صريحة. */
+  body.student-notebook-open .student-notebook {
+    display: block;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.student-notebook-open .notebook-header {
+    margin-bottom: 0.8rem;
+  }
+
+  body.student-notebook-open .notebook-sections {
+    display: block;
+  }
+
+  body.student-notebook-open .notebook-section {
+    margin-bottom: 0.8rem;
+  }
+
+  body.student-notebook-open .notebook-section,
+  body.student-notebook-open .notebook-entry {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+
+  body.student-notebook-open .notebook-section-header {
+    background: #fff !important;
+    border-bottom: 2px solid var(--color-slate-700);
+  }
+
+  body.student-notebook-open .notebook-header {
+    background: #fff !important;
+    border: 1px solid var(--color-slate-400);
+    box-shadow: none;
+  }
+
+  body.student-notebook-open .notebook-entry {
+    background: #fff;
+    border-color: var(--color-slate-300);
+  }
+
+  body.student-notebook-open .notebook-footer {
+    break-before: avoid;
+  }
+
+  body.student-notebook-open * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ملاحظة عزل: لا تُستخدم هنا قاعدة @page عامة — فهي لا تقبل الاشتراط بـ class
+   على body وكانت ستغيّر هوامش طباعة بقية الواجهات. تُترك هوامش الطباعة
+   الافتراضية للمتصفح، وهوامش الدفتر تضبطها القواعد المشروطة أعلاه. */
+
+/* ------------------------------- الاستجابة ------------------------------- */
+
+@media (max-width: 768px) {
+  .student-notebook {
+    padding: 0.9rem 0.6rem 2.5rem;
+  }
+
+  .notebook-toolbar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .notebook-toolbar .nav-action-btn {
+    justify-content: center;
+  }
+
+  .notebook-header {
+    padding: 0.9rem 1rem;
+  }
+
+  .notebook-title {
+    font-size: 1.12rem;
+  }
+
+  .notebook-derived-tag {
+    display: none;
+  }
+}
