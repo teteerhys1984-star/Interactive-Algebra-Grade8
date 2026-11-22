@@ -49,10 +49,22 @@ describe('normalizeAnswer — variable vs multiplication (regression)', () => {
     expect(normalizeAnswer('-1÷6')).toBe(normalizeAnswer('-1/6'));
   });
 
-  it('drops parentheses before multiplication handling', () => {
+  it('drops only redundant outer parens and single-atom parens', () => {
     expect(normalizeAnswer('(-15/2)')).toBe('-15/2');
     expect(normalizeAnswer('6*(x)')).toBe(normalizeAnswer('6x'));
     expect(normalizeAnswer('(-6-8x)')).toBe('-6-8x');
+    expect(normalizeAnswer('(-6-8x)')).toBe(normalizeAnswer('-6-8x'));
+    expect(normalizeAnswer('6*(5)')).toBe(normalizeAnswer('6*5'));
+    expect(normalizeAnswer('6*(5)')).toBe('6*5'); // digit-digit star preserved
+  });
+
+  it('never strips parens that carry meaning (precedence or digit fusion)', () => {
+    expect(normalizeAnswer('(-6-8)x')).not.toBe(normalizeAnswer('-6-8x'));
+    expect(normalizeAnswer('2*(3+4)')).not.toBe(normalizeAnswer('2*3+4'));
+    expect(normalizeAnswer('(2+3)*4')).not.toBe(normalizeAnswer('2+3*4'));
+    // digit-fusion guard: 2(3) and (2)3 must never become 23
+    expect(normalizeAnswer('2(3)')).not.toBe('23');
+    expect(normalizeAnswer('(2)3')).not.toBe('23');
   });
 
   it('still tolerates spacing, unicode minus and the Arabic decimal separator', () => {
@@ -77,6 +89,13 @@ describe('isCorrect — Lesson 2 assessment (confirmed failing cases)', () => {
   it('rejects answers that drop the variable (old normalizer falsely accepted them)', () => {
     expect(isCorrect(q6, '-6-8')).toBe(false);
     expect(isCorrect(q6, '')).toBe(false);
+  });
+
+  it('rejects (-6-8)x (means -14x) while accepting the equivalent (-6-8x)', () => {
+    expect(isCorrect(q6, '(-6-8)x')).toBe(false);
+    expect(isCorrect(q6, '(-6-8x)')).toBe(true);
+    // same meaning as the accepted answer, so it must stay accepted
+    expect(isCorrect(q6, '-6-8x')).toBe(true);
   });
 
   it('accepts -5x variants and rejects the bare coefficient', () => {
