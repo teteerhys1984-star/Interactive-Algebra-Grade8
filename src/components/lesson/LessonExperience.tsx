@@ -6,6 +6,20 @@ import { StepRenderer } from './StepRenderer';
 import { StepNavigator } from './StepNavigator';
 import { CompletionState } from './CompletionState';
 import { FinalAssessment } from '../assessment/FinalAssessment';
+import { StudentNotebook } from './StudentNotebook';
+import { getNotebook } from '../../data/notebooks';
+
+/**
+ * حالة عرض الدرس — اتحاد مميز (discriminated union) يضمن تنافر الحالات الأربع
+ * بنيويًا: لا يمكن مثلًا عرض الدفتر فوق الاختبار الشامل. تحل محل الأعلام
+ * المنفصلة السابقة (showAssessment / isLessonCompleted).
+ * الدفتر ليس خطوة: لا يدخل في completedSteps ولا في حساب التقدم.
+ */
+type LessonView =
+  | { mode: 'step'; index: number }
+  | { mode: 'assessment' }
+  | { mode: 'notebook' }
+  | { mode: 'completed' };
 
 interface LessonExperienceProps {
   lesson: LessonData;
@@ -29,65 +43,89 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
   // back/forward) to a step that actually exists in this lesson.
   const clampStep = (index: number) => Math.max(0, Math.min(index, lesson.steps.length - 1));
 
-  const [currentStepIndex, setCurrentStepIndex] = useState<number>(() => clampStep(initialStep));
+  const [view, setView] = useState<LessonView>(() => ({ mode: 'step', index: clampStep(initialStep) }));
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const [isLessonCompleted, setIsLessonCompleted] = useState<boolean>(false);
-  const [showAssessment, setShowAssessment] = useState<boolean>(false);
+  // Last step the student actually stood on — keeps LessonProgress wording and
+  // the "back from notebook/assessment" target stable while a non-step view
+  // (assessment / notebook / completed) is showing.
+  const [lastStepIndex, setLastStepIndex] = useState<number>(() => clampStep(initialStep));
 
   const hasAssessment = !!lesson.finalAssessment;
+  // الدفتر اختياري ومرتبطة بمعرف الدرس عبر سجل مستقل؛ الدروس بلا دفتر لا
+  // يظهر لها عنصر «دفتر الطالب» ولا يتغير شيء في واجهتها.
+  const notebook = getNotebook(lesson.unitId, lesson.id);
+  const hasNotebook = !!notebook;
 
   // Sync with the URL-driven step (deep links, browser back/forward), clamping
-  // invalid indexes to a valid step.
+  // invalid indexes to a valid step. Also resets any non-step view (assessment,
+  // notebook, completion) — a URL-driven step change always returns to steps.
   useEffect(() => {
-    setCurrentStepIndex(clampStep(initialStep));
-    setIsLessonCompleted(false);
-    setShowAssessment(false);
+    const clamped = clampStep(initialStep);
+    setView({ mode: 'step', index: clamped });
+    setLastStepIndex(clamped);
     // clampStep depends only on lesson.steps.length, which is in the deps.
   }, [initialStep, lesson.steps.length]);
 
-  // Mark current step as completed when viewed
+  // Mark current step as completed when viewed (step mode only — the notebook
+  // is not a step and never counts toward progress), then scroll to top.
   useEffect(() => {
-    if (!completedSteps.includes(currentStepIndex)) {
-      setCompletedSteps((prev) => [...prev, currentStepIndex]);
+    if (view.mode !== 'step') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
+    if (!completedSteps.includes(view.index)) {
+      setCompletedSteps((prev) => [...prev, view.index]);
+    }
+    setLastStepIndex(view.index);
     // Scroll viewport to top on step change
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentStepIndex]);
+  }, [view]);
+
+  // Print isolation: the body class exists ONLY while the notebook view is
+  // showing, so every `@media print` rule in notebook.css (all scoped under
+  // body.student-notebook-open) can never match any other screen.
+  useEffect(() => {
+    if (view.mode !== 'notebook') return;
+    document.body.classList.add('student-notebook-open');
+    return () => document.body.classList.remove('student-notebook-open');
+  }, [view.mode]);
 
   // Single entry point for every user-driven step change: updates local state
   // and mirrors the step into the URL hash (via onStepChange).
   const goToStep = (index: number) => {
     const clamped = clampStep(index);
-    setCurrentStepIndex(clamped);
-    setIsLessonCompleted(false);
-    setShowAssessment(false);
+    setView({ mode: 'step', index: clamped });
+    setLastStepIndex(clamped);
     onStepChange?.(clamped);
   };
 
+  const currentStepIndex = view.mode === 'step' ? view.index : lastStepIndex;
+
   const handlePrev = () => {
-    if (currentStepIndex > 0) {
-      goToStep(currentStepIndex - 1);
+    if (view.mode === 'step' && view.index > 0) {
+      goToStep(view.index - 1);
     }
   };
 
   const handleNext = () => {
-    if (currentStepIndex < lesson.steps.length - 1) {
-      goToStep(currentStepIndex + 1);
+    if (view.mode !== 'step') return;
+    if (view.index < lesson.steps.length - 1) {
+      goToStep(view.index + 1);
     } else if (hasAssessment) {
-      setShowAssessment(true);
+      setView({ mode: 'assessment' });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      setIsLessonCompleted(true);
+      setView({ mode: 'completed' });
     }
   };
 
   // Last-step primary action.
   const handleComplete = () => {
     if (hasAssessment) {
-      setShowAssessment(true);
+      setView({ mode: 'assessment' });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      setIsLessonCompleted(true);
+      setView({ mode: 'completed' });
     }
   };
 
@@ -96,8 +134,12 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
   };
 
   const handleSelectAssessment = () => {
-    setShowAssessment(true);
-    setIsLessonCompleted(false);
+    setView({ mode: 'assessment' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectNotebook = () => {
+    setView({ mode: 'notebook' });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -138,8 +180,11 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
         completedSteps={completedSteps}
         onSelectStep={handleSelectStep}
         hasAssessment={hasAssessment}
-        assessmentActive={showAssessment}
+        assessmentActive={view.mode === 'assessment'}
         onSelectAssessment={handleSelectAssessment}
+        hasNotebook={hasNotebook}
+        notebookActive={view.mode === 'notebook'}
+        onSelectNotebook={handleSelectNotebook}
       />
 
       {/* Drawer for mobile */}
@@ -151,23 +196,33 @@ export const LessonExperience: React.FC<LessonExperienceProps> = ({
         completedSteps={completedSteps}
         onSelectStep={handleSelectStep}
         hasAssessment={hasAssessment}
-        assessmentActive={showAssessment}
+        assessmentActive={view.mode === 'assessment'}
         onSelectAssessment={handleSelectAssessment}
+        hasNotebook={hasNotebook}
+        notebookActive={view.mode === 'notebook'}
+        onSelectNotebook={handleSelectNotebook}
       />
 
       {/* Main Viewport */}
       <main className="lesson-viewport">
-        {isLessonCompleted ? (
+        {view.mode === 'completed' ? (
           <CompletionState
             lessonTitle={lesson.title}
             onRestart={handleRestart}
             onBackToUnit={onNavigateBack}
           />
-        ) : showAssessment && lesson.finalAssessment ? (
+        ) : view.mode === 'assessment' && lesson.finalAssessment ? (
           <FinalAssessment
             assessment={lesson.finalAssessment}
-            onExit={() => setIsLessonCompleted(true)}
+            onExit={() => setView({ mode: 'completed' })}
             onGoToStep={handleGoToStepFromAssessment}
+          />
+        ) : view.mode === 'notebook' && notebook ? (
+          <StudentNotebook
+            notebook={notebook}
+            lessonTitle={lesson.title}
+            unitTitle={lesson.unitTitle}
+            onBack={() => goToStep(lastStepIndex)}
           />
         ) : (
           <>

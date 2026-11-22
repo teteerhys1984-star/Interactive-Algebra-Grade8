@@ -11,6 +11,9 @@ interface LessonSidebarProps {
   hasAssessment?: boolean;
   assessmentActive?: boolean;
   onSelectAssessment?: () => void;
+  hasNotebook?: boolean;
+  notebookActive?: boolean;
+  onSelectNotebook?: () => void;
 }
 
 export const LessonSidebar: React.FC<LessonSidebarProps> = ({
@@ -21,6 +24,9 @@ export const LessonSidebar: React.FC<LessonSidebarProps> = ({
   hasAssessment = false,
   assessmentActive = false,
   onSelectAssessment,
+  hasNotebook = false,
+  notebookActive = false,
+  onSelectNotebook,
 }) => {
   return (
     <aside className="lesson-sidebar">
@@ -32,12 +38,15 @@ export const LessonSidebar: React.FC<LessonSidebarProps> = ({
       <div style={{ flex: 1, overflowY: 'auto' }}>
         <LessonOutline
           steps={lesson.steps}
-          currentStepIndex={assessmentActive ? -1 : currentStepIndex}
+          currentStepIndex={assessmentActive || notebookActive ? -1 : currentStepIndex}
           completedSteps={completedSteps}
           onSelectStep={onSelectStep}
           hasAssessment={hasAssessment}
           assessmentActive={assessmentActive}
           onSelectAssessment={onSelectAssessment}
+          hasNotebook={hasNotebook}
+          notebookActive={notebookActive}
+          onSelectNotebook={onSelectNotebook}
         />
       </div>
 
