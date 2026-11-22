@@ -1,15 +1,19 @@
 import { describe, it, expect } from 'vitest';
-import { allNotebooks, getNotebook } from '../data/notebooks';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { allNotebooks, getNotebook, hasNotebook } from '../data/notebooks';
 import type { NotebookSectionKind, StudentNotebookData } from '../data/notebooks/types';
 import { curriculum, findLesson } from '../data/curriculum';
 import { lesson04Data, lesson04ExerciseGroups } from '../data/unit1/lesson04';
+import { MathText } from '../components/math/MathText';
 
 /**
  * سلامة بيانات دفاتر الطالب — يفرض قواعد الإسناد المعلنة في types.ts:
  *  - book/adapted ⇒ مراجع كتابية (≥1) بصفحات تغطيها بيانات المنصة فعلًا.
  *  - platform ⇒ بلا مراجع كتابية (لا إسناد لمعلومة لا يدعمها المصدر).
- * بالإضافة إلى خصوصيات الدفتر التدريبي: بلا أمثلة محلولة، بلا تسريب حلول،
- * وسجل محطات مطابق لبيانات الدرس الفعلية.
+ * بالإضافة إلى خصوصيات الدفتر التدريبي (lesson-4) وعقود المحتوى وعدم تسرب
+ * حلول التمارين في دفاتر الدروس النظرية (lesson-1, lesson-2, lesson-3) وسلامة
+ * العرض الرياضي عبر KaTeX في كل الدفاتر المسجلة.
  */
 
 const VALID_KINDS: NotebookSectionKind[] = [
@@ -39,23 +43,55 @@ function unitAllowedPages(unitId: string): Set<number> {
   return pages;
 }
 
-const serialize = (notebook: StudentNotebookData): string => JSON.stringify(notebook);
+const collectText = (value: unknown): string => {
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) return value.map(collectText).join('\n');
+  if (value && typeof value === 'object') return Object.values(value).map(collectText).join('\n');
+  return '';
+};
+
+const serialize = (notebook: StudentNotebookData): string => collectText(notebook);
+
+const VISIBLE_TEXT = (html: string): string =>
+  html
+    .replace(/<annotation[\s\S]*?<\/annotation>/g, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 
 describe('Notebook registry scope', () => {
-  it('registers exactly the two pilot notebooks', () => {
+  it('registers exactly the four Unit 1 lesson notebooks (lessons 1–4)', () => {
     const notebooks = allNotebooks();
-    expect(notebooks).toHaveLength(2);
+    expect(notebooks).toHaveLength(4);
     expect(
       notebooks.map((n) => `${n.unitId}/${n.lessonId}`).sort(),
-    ).toEqual(['unit-1/lesson-1', 'unit-1/lesson-4']);
+    ).toEqual([
+      'unit-1/lesson-1',
+      'unit-1/lesson-2',
+      'unit-1/lesson-3',
+      'unit-1/lesson-4',
+    ]);
   });
 
-  it('returns undefined for every lesson without a notebook', () => {
-    expect(getNotebook('unit-1', 'lesson-2')).toBeUndefined();
-    expect(getNotebook('unit-1', 'lesson-3')).toBeUndefined();
-    expect(getNotebook('unit-1', 'warmup')).toBeUndefined();
-    expect(getNotebook('unit-2', 'u2-lesson-1')).toBeUndefined();
-    expect(getNotebook('unit-3', 'u3-lesson-6')).toBeUndefined();
+  it('returns undefined for every warmup and every Unit 2 / Unit 3 lesson', () => {
+    const expectedIds = new Set([
+      'unit-1/lesson-1',
+      'unit-1/lesson-2',
+      'unit-1/lesson-3',
+      'unit-1/lesson-4',
+    ]);
+    for (const unit of curriculum) {
+      for (const lesson of [unit.warmup, ...unit.lessons]) {
+        const key = `${unit.id}/${lesson.id}`;
+        if (expectedIds.has(key)) {
+          expect(hasNotebook(unit.id, lesson.id), key).toBe(true);
+          expect(getNotebook(unit.id, lesson.id), key).toBeDefined();
+        } else {
+          expect(hasNotebook(unit.id, lesson.id), `${key} must NOT have a notebook`).toBe(false);
+          expect(getNotebook(unit.id, lesson.id), `${key} must return undefined`).toBeUndefined();
+        }
+      }
+    }
   });
 
   it('links each notebook to an existing lesson of the same unit', () => {
@@ -243,5 +279,131 @@ describe('Theory notebook (unit-1/lesson-1) content contract', () => {
     // حلول أنشطة الدرس التفاعلية (fill-blank / subItems solutions) لا تتسرب.
     expect(serialized).not.toContain('\\frac{15}{24} - \\frac{4}{24} = \\frac{11}{24}');
     expect(serialized).not.toContain('\\frac{5}{9} + \\frac{3}{9} = \\frac{8}{9}');
+  });
+});
+
+describe('Multiplication notebook (unit-1/lesson-2) content contract', () => {
+  const notebook = getNotebook('unit-1', 'lesson-2')!;
+
+  it('covers all seven reference section kinds and stays within pages 8–11', () => {
+    const kinds = notebook.sections.map((s) => s.kind);
+    for (const expected of VALID_KINDS) {
+      expect(kinds, `lesson-2 notebook must include a ${expected} section`).toContain(expected);
+    }
+    for (const section of notebook.sections) {
+      for (const entry of section.entries) {
+        for (const source of entry.sources) {
+          for (const ref of source.refs ?? []) {
+            expect(ref.page).toBeGreaterThanOrEqual(8);
+            expect(ref.page).toBeLessThanOrEqual(11);
+          }
+        }
+      }
+    }
+  });
+
+  it('does not copy interactive solutions of تحقق من فهمك / تدرّب or uncertain صيغ مبسطة line', () => {
+    const serialized = serialize(notebook);
+    // حلول تمارين ص10–11 لا تتسرب إلى الدفتر.
+    expect(serialized).not.toContain('\\frac{45}{52}');
+    expect(serialized).not.toContain('-\\frac{225}{44}');
+    expect(serialized).not.toContain('-40y');
+    expect(serialized).not.toContain('-21z');
+    expect(serialized).not.toContain('60x');
+    expect(serialized).not.toContain('-\\frac{180}{7}');
+    expect(serialized).not.toContain('\\frac{15}{8}');
+    // البند غير المحسوم في ص9 (verifyNote) لم يُعتمد كنص مرجعي.
+    expect(serialized).not.toContain('(-4) \\times (-6)');
+  });
+
+  it('documents the verifyNote transparency on تحقق من فهمك ② item ③', () => {
+    const exercises = notebook.sections.find((s) => s.kind === 'exercises-to-copy')!;
+    const check2 = exercises.entries.find((e) => e.id === 'hw-check-2');
+    expect(check2).toBeDefined();
+    expect(check2?.sources.some((s) => s.note?.includes('verifyNote') || s.note?.includes('مزدحم الأقواس'))).toBe(true);
+  });
+});
+
+describe('Division notebook (unit-1/lesson-3) content contract', () => {
+  const notebook = getNotebook('unit-1', 'lesson-3')!;
+
+  it('covers all seven reference section kinds and stays within pages 12–16', () => {
+    const kinds = notebook.sections.map((s) => s.kind);
+    for (const expected of VALID_KINDS) {
+      expect(kinds, `lesson-3 notebook must include a ${expected} section`).toContain(expected);
+    }
+    for (const section of notebook.sections) {
+      for (const entry of section.entries) {
+        for (const source of entry.sources) {
+          for (const ref of source.refs ?? []) {
+            expect(ref.page).toBeGreaterThanOrEqual(12);
+            expect(ref.page).toBeLessThanOrEqual(16);
+          }
+        }
+      }
+    }
+  });
+
+  it('includes reciprocal, division, priorities, compound fractions, opposite vs reciprocal, and exact vs approx', () => {
+    const serialized = serialize(notebook);
+    expect(serialized).toContain('x^{-1}');
+    expect(serialized).toContain('\\frac{a}{b} \\div \\frac{d}{c}');
+    expect(serialized).toContain('الأولويات');
+    expect(serialized).toContain('النظير');
+    expect(serialized).toContain('خط الكسر المحاذي للرمز');
+    expect(serialized).toContain('القيمة التامة');
+  });
+
+  it('does not leak p. 16 exercise solutions into the notebook', () => {
+    const serialized = serialize(notebook);
+    expect(serialized).not.toContain('\\frac{15}{17}');
+    expect(serialized).not.toContain('\\frac{33}{50}');
+    expect(serialized).not.toContain('\\frac{28}{15}');
+    expect(serialized).not.toContain('\\frac{21}{40}');
+    expect(serialized).not.toContain('\\frac{5500}{9}');
+    expect(serialized).not.toContain('611.11');
+    expect(serialized).not.toContain('-0.5');
+    expect(serialized).not.toContain('\\frac{21}{20}');
+  });
+});
+
+describe('All notebooks — math rendering & control-character safety', () => {
+  const COMMAND_NAMES = ['neq', 'qquad', 'quad', 'frac', 'dfrac', 'times', 'div', 'cancel', 'text'];
+  const leakedCommand = (name: string) => new RegExp(name.split('').join('\\s*'), 'i');
+
+  it.each(allNotebooks().map((n) => [`${n.unitId}/${n.lessonId}`, n] as const))(
+    '%s renders every math and text field cleanly without KaTeX errors or leaked commands',
+    (_key, notebook) => {
+      const inspectString = (where: string, value: string, display = false) => {
+        // كشف أي حرف تحكم ناتج عن هروب خاطئ مثل \f أو \t داخل السلاسل.
+        expect(value, `${where} has unexpected control character`).not.toMatch(/[\x00-\x09\x0b-\x1f]/);
+
+        const html = renderToStaticMarkup(React.createElement(MathText, { text: value, display }));
+        expect(html, `${where} triggered katex-error`).not.toContain('katex-error');
+        const visible = VISIBLE_TEXT(html);
+        expect(visible, `${where} leaked raw $`).not.toContain('$');
+        expect(visible, `${where} leaked raw backslash`).not.toContain('\\');
+        for (const cmd of COMMAND_NAMES) {
+          expect(leakedCommand(cmd).test(visible), `${where} leaked \\${cmd} :: ${visible}`).toBe(false);
+        }
+      };
+
+      inspectString('review.note', notebook.review.note);
+      for (const section of notebook.sections) {
+        for (const entry of section.entries) {
+          if (entry.title) inspectString(`${entry.id}.title`, entry.title);
+          if (entry.text) inspectString(`${entry.id}.text`, entry.text);
+          if (entry.math) inspectString(`${entry.id}.math`, entry.math, true);
+          entry.steps?.forEach((step, idx) => inspectString(`${entry.id}.steps[${idx}]`, step));
+        }
+      }
+    },
+  );
+
+  it('new notebooks (lesson-2, lesson-3) contain no literal ** markdown syntax', () => {
+    for (const id of ['lesson-2', 'lesson-3']) {
+      const nb = getNotebook('unit-1', id)!;
+      expect(serialize(nb)).not.toContain('**');
+    }
   });
 });

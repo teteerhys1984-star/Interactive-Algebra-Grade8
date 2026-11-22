@@ -2,18 +2,20 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { readFile, readdir } from 'node:fs/promises';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../app/App';
+import { lesson02Data } from '../data/unit1/lesson02';
+import { lesson03Data } from '../data/unit1/lesson03';
 import { lesson04Data, lesson04ExerciseGroups } from '../data/unit1/lesson04';
 
 /**
  * تكامل «دفتر الطالب» مع واجهة الدرس:
- *  - يظهر في الدرسين النموذجيين فقط (lesson-1 وlesson-4 من الوحدة الأولى).
- *  - لا يظهر إطلاقًا في بقية الدروس.
+ *  - يظهر في دروس الوحدة الأولى الأربعة فقط (lesson-1 .. lesson-4).
+ *  - لا يظهر إطلاقًا في الإحماءات ولا في الوحدتين الثانية والثالثة.
  *  - الانتقالات بين step / assessment / notebook / completed حصرية وصحيحة.
  *  - الدفتر ليس خطوة: لا يغير نسبة المشاهدة ولا عداد الخطوات.
  *
  * ملاحظة صريحة: اختبار زر الطباعة أدناه (استدعاء window.print) اختبار مساند
  * فقط — الدليل على عزل الطباعة هو الفحص البصري بمحاكاة media=print في متصفح
- * حقيقي، وهو موثق في تقرير التسليم ولا يمكن إثباته داخل jsdom.
+ * حقيقي، ولا يمكن إثباته داخل jsdom.
  */
 
 const clickOutlineNotebook = () => {
@@ -50,6 +52,67 @@ describe('Student notebook — availability', () => {
     expect(screen.queryByLabelText('الخطوة التالية')).not.toBeInTheDocument();
   });
 
+  it('appears for unit-1/lesson-2 after الاختبار الشامل and opens the notebook view', () => {
+    window.location.hash = '#/unit/unit-1/lesson/lesson-2';
+    const { container } = render(<App />);
+    expect(screen.getByText(/الخطوة 1 من 8/)).toBeInTheDocument();
+
+    // التحقق من موضع زر الدفتر في نهاية الفهرس بعد «الاختبار الشامل».
+    const outlineButtons = Array.from(
+      container.querySelectorAll('.lesson-sidebar .outline-list .outline-item-btn'),
+    );
+    const assessmentIndex = outlineButtons.findIndex((b) => b.textContent?.includes('الاختبار الشامل'));
+    const notebookIndex = outlineButtons.findIndex((b) => b.textContent?.includes('دفتر الطالب'));
+    expect(assessmentIndex).toBeGreaterThan(-1);
+    expect(notebookIndex).toBe(outlineButtons.length - 1);
+    expect(notebookIndex).toBeGreaterThan(assessmentIndex);
+
+    clickOutlineNotebook();
+
+    const notebook = screen.getByTestId('student-notebook');
+    expect(notebook).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /دفتر الطالب — الضرب/ })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'التعريفات والمصطلحات' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'القواعد والخواص' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'الصيغ والعلاقات' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'خطوات الحل المنهجية' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'أمثلة نموذجية محلولة' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'تنبيهات وأخطاء شائعة' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'تمارين مطلوبة للتدوين' })).toBeInTheDocument();
+    expect(screen.queryByLabelText('الخطوة التالية')).not.toBeInTheDocument();
+    expect(document.body.classList.contains('student-notebook-open')).toBe(true);
+  });
+
+  it('appears for unit-1/lesson-3 after الاختبار الشامل and opens the notebook view', () => {
+    window.location.hash = '#/unit/unit-1/lesson/lesson-3';
+    const { container } = render(<App />);
+    expect(screen.getByText(/الخطوة 1 من 10/)).toBeInTheDocument();
+
+    const outlineButtons = Array.from(
+      container.querySelectorAll('.lesson-sidebar .outline-list .outline-item-btn'),
+    );
+    const assessmentIndex = outlineButtons.findIndex((b) => b.textContent?.includes('الاختبار الشامل'));
+    const notebookIndex = outlineButtons.findIndex((b) => b.textContent?.includes('دفتر الطالب'));
+    expect(assessmentIndex).toBeGreaterThan(-1);
+    expect(notebookIndex).toBe(outlineButtons.length - 1);
+    expect(notebookIndex).toBeGreaterThan(assessmentIndex);
+
+    clickOutlineNotebook();
+
+    const notebook = screen.getByTestId('student-notebook');
+    expect(notebook).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /دفتر الطالب — القسمة/ })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'التعريفات والمصطلحات' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'القواعد والخواص' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'الصيغ والعلاقات' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'خطوات الحل المنهجية' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'أمثلة نموذجية محلولة' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'تنبيهات وأخطاء شائعة' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'تمارين مطلوبة للتدوين' })).toBeInTheDocument();
+    expect(screen.queryByLabelText('الخطوة التالية')).not.toBeInTheDocument();
+    expect(document.body.classList.contains('student-notebook-open')).toBe(true);
+  });
+
   it('appears for unit-1/lesson-4 with the derived stations register', () => {
     window.location.hash = '#/unit/unit-1/lesson/lesson-4';
     render(<App />);
@@ -71,11 +134,11 @@ describe('Student notebook — availability', () => {
   });
 
   it.each([
-    ['#/unit/unit-1/lesson/lesson-2', 'lesson-2 (unit 1)'],
-    ['#/unit/unit-1/lesson/lesson-3', 'lesson-3 (unit 1)'],
     ['#/unit/unit-1/warmup', 'unit-1 warmup'],
+    ['#/unit/unit-2/warmup', 'unit-2 warmup'],
     ['#/unit/unit-2/lesson/u2-lesson-1', 'unit-2 lesson-1'],
     ['#/unit/unit-2/lesson/u2-lesson-5', 'unit-2 lesson-5'],
+    ['#/unit/unit-3/warmup', 'unit-3 warmup'],
     ['#/unit/unit-3/lesson/u3-lesson-1', 'unit-3 lesson-1'],
     ['#/unit/unit-3/lesson/u3-lesson-6', 'unit-3 lesson-6'],
   ])('does NOT appear in %s (%s)', (hash) => {
@@ -109,6 +172,50 @@ describe('Student notebook — view-state transitions', () => {
     expect(screen.getByText(/الخطوة 2 من 6/)).toBeInTheDocument();
     expect(screen.getByText('تمت مشاهدته: 2 من 6')).toBeInTheDocument();
   });
+
+  it.each([
+    ['lesson-2', lesson02Data.steps.length, 3],
+    ['lesson-3', lesson03Data.steps.length, 4],
+  ])(
+    'preserves step and progress in %s and transitions assessment → notebook → step with hash sync',
+    (lessonId, totalSteps, targetStep) => {
+      window.location.hash = `#/unit/unit-1/lesson/${lessonId}`;
+      render(<App />);
+      for (let i = 1; i < targetStep; i++) {
+        fireEvent.click(screen.getByLabelText('الخطوة التالية'));
+      }
+      expect(screen.getByText(new RegExp(`الخطوة ${targetStep} من ${totalSteps}`))).toBeInTheDocument();
+      expect(screen.getByText(`تمت مشاهدته: ${targetStep} من ${totalSteps}`)).toBeInTheDocument();
+
+      // فتح الدفتر ثم العودة يحافظان على الخطوة ونسبة المشاهدة.
+      clickOutlineNotebook();
+      expect(screen.getByTestId('student-notebook')).toBeInTheDocument();
+      expect(screen.getByText(`تمت مشاهدته: ${targetStep} من ${totalSteps}`)).toBeInTheDocument();
+      expect(document.body.classList.contains('student-notebook-open')).toBe(true);
+
+      fireEvent.click(screen.getByLabelText('العودة إلى الدرس'));
+      expect(screen.queryByTestId('student-notebook')).not.toBeInTheDocument();
+      expect(screen.getByText(new RegExp(`الخطوة ${targetStep} من ${totalSteps}`))).toBeInTheDocument();
+      expect(screen.getByText(`تمت مشاهدته: ${targetStep} من ${totalSteps}`)).toBeInTheDocument();
+      expect(document.body.classList.contains('student-notebook-open')).toBe(false);
+
+      // الانتقال إلى الاختبار الشامل ← الدفتر ← خطوة محددة.
+      const assessmentBtn = screen.getByText('الاختبار الشامل').closest('button')!;
+      fireEvent.click(assessmentBtn);
+      expect(screen.queryByTestId('student-notebook')).not.toBeInTheDocument();
+      expect(document.body.classList.contains('student-notebook-open')).toBe(false);
+
+      clickOutlineNotebook();
+      expect(screen.getByTestId('student-notebook')).toBeInTheDocument();
+      expect(document.body.classList.contains('student-notebook-open')).toBe(true);
+
+      const stepButtons = document.querySelectorAll('.lesson-sidebar .outline-list .outline-item-btn');
+      fireEvent.click(stepButtons[1] as HTMLElement);
+      expect(screen.getByText(new RegExp(`الخطوة 2 من ${totalSteps}`))).toBeInTheDocument();
+      expect(window.location.hash).toBe(`#/unit/unit-1/lesson/${lessonId}/2`);
+      expect(document.body.classList.contains('student-notebook-open')).toBe(false);
+    },
+  );
 
   it('moves assessment → notebook → step exclusively in lesson-4 and re-syncs the hash', async () => {
     window.location.hash = `#/unit/unit-1/lesson/lesson-4/${lesson04Data.steps.length}`;
@@ -149,28 +256,37 @@ describe('Student notebook — view-state transitions', () => {
     expect(screen.queryByTestId('student-notebook')).not.toBeInTheDocument();
   });
 
-  it('opens the notebook from the mobile drawer, closing the drawer (real view state)', () => {
-    window.location.hash = '#/unit/unit-1/lesson/lesson-1';
-    render(<App />);
+  it.each(['lesson-1', 'lesson-2', 'lesson-3'])(
+    'opens the notebook from the mobile drawer in %s, closing the drawer and returning to the step',
+    (lessonId) => {
+      window.location.hash = `#/unit/unit-1/lesson/${lessonId}/2`;
+      render(<App />);
 
-    // فتح الدرج فعليًا من زر الرأس (مسار الهاتف).
-    fireEvent.click(screen.getByLabelText('فتح قائمة الدرس'));
-    const drawer = document.querySelector('.mobile-drawer');
-    expect(drawer, 'drawer must be open').not.toBeNull();
+      // فتح الدرج فعليًا من زر الرأس (مسار الهاتف).
+      fireEvent.click(screen.getByLabelText('فتح قائمة الدرس'));
+      const drawer = document.querySelector('.mobile-drawer');
+      expect(drawer, 'drawer must be open').not.toBeNull();
 
-    // اختيار «دفتر الطالب» من داخل الدرج نفسه (لا من السايدبار).
-    const drawerNotebookBtn = Array.from(drawer!.querySelectorAll('button')).find((b) =>
-      b.textContent?.includes('دفتر الطالب'),
-    );
-    expect(drawerNotebookBtn, 'notebook item inside the drawer').toBeDefined();
-    fireEvent.click(drawerNotebookBtn as HTMLElement);
+      // اختيار «دفتر الطالب» من داخل الدرج نفسه (لا من السايدبار).
+      const drawerNotebookBtn = Array.from(drawer!.querySelectorAll('button')).find((b) =>
+        b.textContent?.includes('دفتر الطالب'),
+      );
+      expect(drawerNotebookBtn, 'notebook item inside the drawer').toBeDefined();
+      fireEvent.click(drawerNotebookBtn as HTMLElement);
 
-    // تحقق من حالة العرض: الدفتر ظاهر والدرج أُغلق فعليًا.
-    expect(screen.getByTestId('student-notebook')).toBeInTheDocument();
-    expect(document.querySelector('.mobile-drawer')).toBeNull();
-    expect(document.querySelector('.mobile-drawer-overlay')).toBeNull();
-    expect(document.body.classList.contains('student-notebook-open')).toBe(true);
-  });
+      // تحقق من حالة العرض: الدفتر ظاهر والدرج أُغلق فعليًا.
+      expect(screen.getByTestId('student-notebook')).toBeInTheDocument();
+      expect(document.querySelector('.mobile-drawer')).toBeNull();
+      expect(document.querySelector('.mobile-drawer-overlay')).toBeNull();
+      expect(document.body.classList.contains('student-notebook-open')).toBe(true);
+
+      // العودة للدرس تعيد نفس الخطوة 2 وتزيل class الطباعة.
+      fireEvent.click(screen.getByLabelText('العودة إلى الدرس'));
+      expect(screen.queryByTestId('student-notebook')).not.toBeInTheDocument();
+      expect(screen.getByText(/الخطوة 2 من/)).toBeInTheDocument();
+      expect(document.body.classList.contains('student-notebook-open')).toBe(false);
+    },
+  );
 
   it('toggles body.student-notebook-open only while the notebook view is showing', () => {
     window.location.hash = '#/unit/unit-1/lesson/lesson-1';
@@ -190,15 +306,18 @@ describe('Student notebook — view-state transitions', () => {
     expect(document.body.classList.contains('student-notebook-open')).toBe(false);
   });
 
-  it('print button triggers window.print (supplementary check only — see file note)', () => {
-    const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {});
-    window.location.hash = '#/unit/unit-1/lesson/lesson-1';
-    render(<App />);
-    clickOutlineNotebook();
-    fireEvent.click(screen.getByLabelText('طباعة دفتر الطالب'));
-    expect(printSpy).toHaveBeenCalledTimes(1);
-    printSpy.mockRestore();
-  });
+  it.each(['lesson-1', 'lesson-2', 'lesson-3'])(
+    'print button triggers window.print in %s (supplementary check only — see file note)',
+    (lessonId) => {
+      const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {});
+      window.location.hash = `#/unit/unit-1/lesson/${lessonId}`;
+      render(<App />);
+      clickOutlineNotebook();
+      fireEvent.click(screen.getByLabelText('طباعة دفتر الطالب'));
+      expect(printSpy).toHaveBeenCalledTimes(1);
+      printSpy.mockRestore();
+    },
+  );
 });
 
 describe('Print isolation — static CSS audit (selector-level guarantee)', () => {
@@ -212,7 +331,7 @@ describe('Print isolation — static CSS audit (selector-level guarantee)', () =
     let index = css.indexOf('@media print');
     while (index !== -1) {
       let depth = 0;
-      let start = css.indexOf('{', index);
+      const start = css.indexOf('{', index);
       let cursor = start;
       for (; cursor < css.length; cursor++) {
         if (css[cursor] === '{') depth++;
