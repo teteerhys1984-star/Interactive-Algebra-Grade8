@@ -20,18 +20,96 @@ interface FinalAssessmentProps {
 }
 
 /** Normalizes a free-text math answer for tolerant comparison. */
+/** Paren content that is safe to unwrap anywhere: a signed number (5, -3.5)
+ * or a juxtaposition run of letters/digits (x, 5x, xy, x2) — no binary operator. */
+const SAFE_PAREN_CONTENT = /^[-+]?(?:\d+(?:\.\d+)?|\d*\p{L}+\d*)$/u;
+
+/** Index of the ')' matching the '(' at `open`, or -1 when unbalanced. */
+function matchingParen(s: string, open: number): number {
+  let depth = 0;
+  for (let i = open; i < s.length; i++) {
+    if (s[i] === '(') depth += 1;
+    else if (s[i] === ')') {
+      depth -= 1;
+      if (depth === 0) return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ * Conservatively remove parentheses — only where removal cannot change meaning:
+ * (a) redundant outer parens wrapping the whole expression: `(-6-8x)` → `-6-8x`;
+ * (b) parens around a single safe atom: `6*(x)` → `6*x`, `6*(5)` → `6*5`.
+ * A pair is kept whenever unwrapping would change precedence or fuse digits:
+ * `(-6-8)x`, `2*(3+4)`, `(2+3)*4`, `2(3)` keep their parentheses. Unbalanced
+ * input keeps every paren as well (conservative reject instead of guessing).
+ */
+function stripSafeParens(s: string): string {
+  let out = s;
+  let changed = true;
+  while (changed) {
+    changed = false;
+    // (a) whole-string wrapper: ((-6-8x)) → (-6-8x) → -6-8x
+    if (out.startsWith('(') && matchingParen(out, 0) === out.length - 1) {
+      out = out.slice(1, -1);
+      changed = true;
+      continue;
+    }
+    // (b) single safe atoms, never fusing digit runs across the removal
+    for (let i = 0; i < out.length; i++) {
+      if (out[i] !== '(') continue;
+      const close = matchingParen(out, i);
+      if (close < 0) continue;
+      const content = out.slice(i + 1, close);
+      if (!SAFE_PAREN_CONTENT.test(content)) continue;
+      const left = i > 0 ? out[i - 1] : '';
+      const right = close + 1 < out.length ? out[close + 1] : '';
+      const fusesLeft = /[0-9.]/.test(left) && /^[0-9]/.test(content);
+      const fusesRight = /[0-9.]$/.test(content) && /^[0-9]/.test(right);
+      // Signed atom right after an operand means implicit multiplication:
+      // `2(-3)` is 2×(-3), not 2-3 — unwrapping would turn × into -/+.
+      const signedAfterOperand = /^[+-]/.test(content) && /[\d.)\p{L}]/u.test(left);
+      if (signedAfterOperand || fusesLeft || fusesRight) continue; // 2(3) / (2)3 must not become 23
+      out = out.slice(0, i) + out.slice(i + 1, close) + out.slice(close + 1);
+      changed = true;
+      break;
+    }
+  }
+  return out;
+}
+
 export function normalizeAnswer(input: string): string {
-  return (input || '')
+  const base = (input || '')
     .trim()
     .toLowerCase()
     .replace(/\s+/g, '')
     .replace(/[\u2212\u2013\u2014]/g, '-') // unicode minus / dashes -> hyphen
-    .replace(/[×x\u00d7*]/g, '') // drop explicit multiplication between number and variable
-    .replace(/[()]/g, '')
-    .replace(/\u066b|\u060c/g, (m) => (m === '\u066b' ? '.' : ',')); // arabic decimal sep
+    .replace(/\u066b|\u060c/g, (m) => (m === '\u066b' ? '.' : ',')) // arabic decimal sep
+    .replace(/÷/g, '/'); // division sign behaves like a fraction bar (7÷12 ~ 7/12)
+  // Drop only provably-redundant parens (see stripSafeParens) before the
+  // multiplication handling, so `6*(x)` matches `6x` while `(-6-8)x`,
+  // `2*(3+4)` and `(2+3)*4` keep the parens that carry their meaning.
+  const safe = stripSafeParens(base);
+  // Multiplication is commutative: an explicit product with the variable first
+  // ("x*6", "x*-5") must normalize like its commuted form ("6x", "-5x"), the
+  // same way "6*x" already does. Only explicit * × forms are rewritten, and
+  // never right after a digit or dot, so digits can never merge ("2x*3" must
+  // not become "23x") and bare juxtaposition ("x6") is left untouched.
+  const commuted = safe.replace(
+    /(?<![\d.])(\p{L}+)([*×\u00d7])(-?\d+(?:\.\d+)?)/gu,
+    '$3$1',
+  );
+  // Drop multiplication signs ONLY next to a letter (6*x, x×2 -> 6x, x2) so the
+  // variable letter — x in particular — is always preserved, while digit-digit
+  // signs stay (2*3 must never collapse into 23).
+  return commuted.replace(
+    /([\p{L}])[*×\u00d7]|[*×\u00d7]([\p{L}])/gu,
+    (_, before, after) => before || after,
+  );
 }
 
-function isCorrect(q: AssessmentQuestion, answer: string | undefined): boolean {
+export function isCorrect(q: AssessmentQuestion, answer: string | undefined): boolean {
   if (answer === undefined || answer === '') return false;
   if (q.acceptedAnswers && q.acceptedAnswers.length > 0) {
     const norm = normalizeAnswer(answer);

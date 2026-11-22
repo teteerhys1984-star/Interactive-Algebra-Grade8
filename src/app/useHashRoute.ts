@@ -16,6 +16,15 @@ export function parseHash(hash: string): RouteState {
 
   const parts = clean.split('/').filter(Boolean);
 
+  // Lesson step indexes arrive 1-based from the URL; invalid values (/0,
+  // non-numeric) are constrained to step 1 here, and LessonExperience clamps
+  // oversized indexes (e.g. /99) against the actual lesson length.
+  const toStepIndex = (raw?: string): number => {
+    if (!raw) return 0;
+    const parsed = parseInt(raw, 10) - 1;
+    return isNaN(parsed) || parsed < 0 ? 0 : parsed;
+  };
+
   if (parts[0] === 'independent-tests') return { view: 'independent-tests' };
 
   // Student Test Area: catalog, attempts, and independently browsable worked solutions.
@@ -46,26 +55,22 @@ export function parseHash(hash: string): RouteState {
   if (parts[0] === 'unit' && parts[1]) {
     const unitId = parts[1];
     if (parts[2] === 'warmup') {
-      const stepIndex = parts[3] ? parseInt(parts[3], 10) - 1 : 0;
-      return { view: 'lesson', unitId, lessonId: 'warmup', stepIndex: isNaN(stepIndex) ? 0 : stepIndex };
+      return { view: 'lesson', unitId, lessonId: 'warmup', stepIndex: toStepIndex(parts[3]) };
     }
     if (parts[2] === 'lesson' && parts[3]) {
       const lessonId = parts[3];
-      const stepIndex = parts[4] ? parseInt(parts[4], 10) - 1 : 0;
-      return { view: 'lesson', unitId, lessonId, stepIndex: isNaN(stepIndex) ? 0 : stepIndex };
+      return { view: 'lesson', unitId, lessonId, stepIndex: toStepIndex(parts[4]) };
     }
     return { view: 'unit', unitId };
   }
 
   if (parts[0] === 'lesson' && parts[1]) {
     const lessonId = parts[1];
-    const stepIndex = parts[2] ? parseInt(parts[2], 10) - 1 : 0;
-    return { view: 'lesson', unitId: 'unit-1', lessonId, stepIndex: isNaN(stepIndex) ? 0 : stepIndex };
+    return { view: 'lesson', unitId: 'unit-1', lessonId, stepIndex: toStepIndex(parts[2]) };
   }
 
   if (parts[0] === 'warmup') {
-    const stepIndex = parts[1] ? parseInt(parts[1], 10) - 1 : 0;
-    return { view: 'lesson', unitId: 'unit-1', lessonId: 'warmup', stepIndex: isNaN(stepIndex) ? 0 : stepIndex };
+    return { view: 'lesson', unitId: 'unit-1', lessonId: 'warmup', stepIndex: toStepIndex(parts[1]) };
   }
 
   return { view: 'home' };
