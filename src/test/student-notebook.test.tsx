@@ -9,9 +9,9 @@ import { lesson04Data, lesson04ExerciseGroups } from '../data/unit1/lesson04';
 /**
  * تكامل «دفتر الطالب» مع واجهة الدرس:
  *  - يظهر في دروس الوحدة الأولى الأربعة (lesson-1 .. lesson-4) ودروس الوحدة
- *    الثانية الأربعة الأولى (u2-lesson-1 .. u2-lesson-4).
+ *    الثانية الأربعة الأولى (u2-lesson-1 .. u2-lesson-4)، ودروس الوحدة الثالثة الخمسة الأولى.
  *  - لا يظهر إطلاقًا في الإحماءات ولا في درس تمارين الوحدة الثانية
- *    (u2-lesson-5) ولا في الوحدة الثالثة.
+ *    (u2-lesson-5) ولا في إحماء الوحدة الثالثة أو درسها السادس.
  *  - الانتقالات بين step / assessment / notebook / completed حصرية وصحيحة.
  *  - الدفتر ليس خطوة: لا يغير نسبة المشاهدة ولا عداد الخطوات.
  *
@@ -210,12 +210,37 @@ describe('Student notebook — availability', () => {
     },
   );
 
+  it.each([[1, 14], [2, 9], [3, 9], [4, 10], [5, 8]])(
+    'unit-3 lesson %i: notebook is last, exclusive, preserves progress and the last step',
+    async (number, total) => {
+      const base = `#/unit/unit-3/lesson/u3-lesson-${number}`;
+      window.location.hash = `${base}/2`;
+      const { container } = render(<App />);
+      expect(screen.getByText(stepBadge(`u3-lesson-${number}`, 2, total))).toBeInTheDocument();
+      const buttons = Array.from(container.querySelectorAll('.lesson-sidebar .outline-list .outline-item-btn'));
+      expect(buttons.at(-1)).toHaveTextContent('دفتر الطالب');
+      expect(buttons.some((button) => button.textContent?.includes('الاختبار الشامل'))).toBe(false);
+      const beforeProgress = container.querySelector('.lesson-sidebar .sidebar-progress')?.textContent;
+      expect(beforeProgress).toContain(`تمت مشاهدته: 1 من ${total}`);
+      const beforeHash = window.location.hash;
+      clickOutlineNotebook();
+      expect(screen.getByTestId('student-notebook')).toBeInTheDocument();
+      expect(screen.queryByLabelText('الخطوة التالية')).not.toBeInTheDocument();
+      expect(window.location.hash).toBe(beforeHash);
+      expect(container.querySelector('.lesson-sidebar .sidebar-progress')?.textContent).toBe(beforeProgress);
+      fireEvent.click(screen.getByRole('button', { name: 'العودة إلى الدرس' }));
+      expect(screen.queryByTestId('student-notebook')).not.toBeInTheDocument();
+      expect(screen.getByText(stepBadge(`u3-lesson-${number}`, 2, total))).toBeInTheDocument();
+      await waitFor(() => expect(window.location.hash).toBe(`${base}/2`));
+      expect(container.querySelector('.lesson-sidebar .sidebar-progress')?.textContent).toBe(beforeProgress);
+    },
+  );
+
   it.each([
     ['#/unit/unit-1/warmup', 'unit-1 warmup'],
     ['#/unit/unit-2/warmup', 'unit-2 warmup'],
     ['#/unit/unit-2/lesson/u2-lesson-5', 'unit-2 lesson-5 (unit exercises)'],
     ['#/unit/unit-3/warmup', 'unit-3 warmup'],
-    ['#/unit/unit-3/lesson/u3-lesson-1', 'unit-3 lesson-1'],
     ['#/unit/unit-3/lesson/u3-lesson-6', 'unit-3 lesson-6'],
   ])('does NOT appear in %s (%s)', (hash) => {
     window.location.hash = hash;

@@ -7,6 +7,11 @@ import { unit2Lesson1Notebook } from './unit2-lesson1';
 import { unit2Lesson2Notebook } from './unit2-lesson2';
 import { unit2Lesson3Notebook } from './unit2-lesson3';
 import { unit2Lesson4Notebook } from './unit2-lesson4';
+import { unit3Lesson1Notebook } from './unit3-lesson1';
+import { unit3Lesson2Notebook } from './unit3-lesson2';
+import { unit3Lesson3Notebook } from './unit3-lesson3';
+import { unit3Lesson4Notebook } from './unit3-lesson4';
+import { unit3Lesson5Notebook } from './unit3-lesson5';
 
 /**
  * سجل دفاتر الطالب — طبقة مستقلة عن `LessonData` (لا تعديل على بنية الدروس).
@@ -15,7 +20,8 @@ import { unit2Lesson4Notebook } from './unit2-lesson4';
  *
  * مسجّل حاليًا لدروس الوحدة الأولى الأربعة (1–4) ولدروس الوحدة الثانية
  * الأربعة الأولى (u2-lesson-1 … u2-lesson-4)، دون الإحماء ودون درس تمارين
- * الوحدة الثانية (u2-lesson-5) ودون الوحدة الثالثة.
+ * الوحدة الثانية (u2-lesson-5)، مع دروس الوحدة الثالثة التعليمية الخمسة
+ * (u3-lesson-1 … u3-lesson-5) دون إحمائها أو درسها السادس.
  */
 const notebooks: StudentNotebookData[] = [
   unit1Lesson1Notebook,
@@ -26,6 +32,11 @@ const notebooks: StudentNotebookData[] = [
   unit2Lesson2Notebook,
   unit2Lesson3Notebook,
   unit2Lesson4Notebook,
+  unit3Lesson1Notebook,
+  unit3Lesson2Notebook,
+  unit3Lesson3Notebook,
+  unit3Lesson4Notebook,
+  unit3Lesson5Notebook,
 ];
 
 export function getNotebook(unitId: string, lessonId: string): StudentNotebookData | undefined {

@@ -1,4 +1,7 @@
 import { describe, it, expect } from 'vitest';
+import { createHash } from 'node:crypto';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { allNotebooks, getNotebook, hasNotebook } from '../data/notebooks';
@@ -61,9 +64,9 @@ const VISIBLE_TEXT = (html: string): string =>
     .trim();
 
 describe('Notebook registry scope', () => {
-  it('registers exactly the eight Unit 1 and Unit 2 lesson notebooks (lessons 1–4 of each)', () => {
+  it('registers the eight existing notebooks and exactly five Unit 3 notebooks', () => {
     const notebooks = allNotebooks();
-    expect(notebooks).toHaveLength(8);
+    expect(notebooks).toHaveLength(13);
     expect(
       notebooks.map((n) => `${n.unitId}/${n.lessonId}`).sort(),
     ).toEqual([
@@ -75,10 +78,15 @@ describe('Notebook registry scope', () => {
       'unit-2/u2-lesson-2',
       'unit-2/u2-lesson-3',
       'unit-2/u2-lesson-4',
+      'unit-3/u3-lesson-1',
+      'unit-3/u3-lesson-2',
+      'unit-3/u3-lesson-3',
+      'unit-3/u3-lesson-4',
+      'unit-3/u3-lesson-5',
     ]);
   });
 
-  it('returns undefined for every warmup, Unit 2 lesson-5, and every Unit 3 lesson', () => {
+  it('returns undefined for every lesson outside the explicit registry', () => {
     const expectedIds = new Set([
       'unit-1/lesson-1',
       'unit-1/lesson-2',
@@ -88,6 +96,11 @@ describe('Notebook registry scope', () => {
       'unit-2/u2-lesson-2',
       'unit-2/u2-lesson-3',
       'unit-2/u2-lesson-4',
+      'unit-3/u3-lesson-1',
+      'unit-3/u3-lesson-2',
+      'unit-3/u3-lesson-3',
+      'unit-3/u3-lesson-4',
+      'unit-3/u3-lesson-5',
     ]);
     for (const unit of curriculum) {
       for (const lesson of [unit.warmup, ...unit.lessons]) {
@@ -592,6 +605,119 @@ describe('All notebooks — math rendering & control-character safety', () => {
     for (const id of ['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3', 'u2-lesson-4']) {
       const nb = getNotebook('unit-2', id)!;
       expect(serialize(nb)).not.toContain('**');
+    }
+  });
+});
+
+const unit3Ids = [1, 2, 3, 4, 5].map((i) => `u3-lesson-${i}`);
+const unit3Notebooks = unit3Ids.map((id) => getNotebook('unit-3', id)!);
+
+describe('Unit 3 notebook source and content contracts', () => {
+  it.each(unit3Notebooks.map((n) => [n.lessonId, n] as const))(
+    '%s references real non-authored blocks in this lesson and keeps math out of section titles',
+    (id, notebook) => {
+      const lesson = findLesson(id)!.lesson;
+      const sourceBlocks = lesson.steps.flatMap((step) => step.blocks).filter((block) => !block.authored);
+      for (const section of notebook.sections) {
+        expect(section.title).not.toMatch(/[$=\\]/);
+        for (const entry of section.entries) {
+          for (const source of entry.sources) {
+            for (const ref of source.refs ?? []) {
+              expect(lesson.sourcePages, `${id}/${entry.id}: page ${ref.page}`).toContain(ref.page);
+              expect(sourceBlocks.some((b) => b.sourceRef.page === ref.page && b.sourceRef.section === ref.section),
+                `${id}/${entry.id}: no book block for ${ref.page}/${ref.section}`).toBe(true);
+            }
+            if (source.origin === 'platform') expect(source.refs).toBeUndefined();
+          }
+        }
+      }
+      expect(serialize(notebook)).not.toContain('**');
+    },
+  );
+
+  it('keeps the source discrepancies visible and distinguishes platform corrections', () => {
+    for (const [index, expected] of [[0, 'verifyNote'], [1, 'verifyNote'], [2, 'verifyNote'], [3, 'verifyNote'], [4, 'verifyNote']] as const) {
+      expect(serialize(unit3Notebooks[index])).toContain(expected);
+      expect(serialize(unit3Notebooks[index])).toContain('المنصة');
+    }
+    const last = serialize(unit3Notebooks[4]);
+    expect(last).toContain('سؤالَي الحساب');
+    expect(last).toContain('عبارة التنبيه مستقلة');
+  });
+
+  it('retains important mathematical conditions and leaves textbook exercises unanswered', () => {
+    expect(serialize(unit3Notebooks[0])).toContain('(-n)^2');
+    expect(serialize(unit3Notebooks[1])).toContain('لا تقسم على صفر');
+    expect(serialize(unit3Notebooks[2])).toContain('للأسس الصحيحة غير السالبة');
+    expect(serialize(unit3Notebooks[3])).toContain('x>3');
+    expect(serialize(unit3Notebooks[4])).toContain('مقامًا صفرًا');
+    expect(serialize(unit3Notebooks[4])).toContain('السنتيمتر المربع');
+    const prohibited = [
+      ['A = 24', 'B = -24', '-x - 2'],
+      ['-\\frac{25}{4}', '-x - 8', '-6x - 4'],
+      ['23x-15', '-4x^2-3x', '2x^2-13x-4'],
+      ['63x^2+551x+440', '6x^3-3x^2-30x', 'x^2+4x'],
+      ['23x-15', '-4x^2-3x', '6x^2+32x+30', '340'],
+    ];
+    const normalize = (s: string) => s.replace(/\s/g, '');
+    unit3Notebooks.forEach((nb, i) => {
+      const content = normalize(serialize(nb));
+      prohibited[i].forEach((answer) => expect(content, `${nb.lessonId}: ${answer}`).not.toContain(normalize(answer)));
+      const exercises = nb.sections.find((section) => section.kind === 'exercises-to-copy');
+      expect(exercises?.entries.length).toBeGreaterThan(0);
+      expect(collectText(exercises)).not.toMatch(/الحل\s*[:：]|النتيجة\s*[:：]/);
+    });
+  });
+
+  it('original worked example problems do not appear in lessons, teacher solutions or Unit 3 test banks', () => {
+    const expressions = [
+      '7n^2-13n+19', '(11m-8)-(4m-17)+(-2m+3)', '6q^2+7q-(2q^2-5q+9)',
+      '(-7r)(3s)', '(3w-7)(2w+11)', '(2z-7)^2', '2t(t-3)(t+7)',
+      '(t+17)^2=t^2+289', '5r^2+(r-13)(7r+2)',
+    ];
+    const normalize = (s: string) => s.replace(/[\s\\]/g, '');
+    const roots = ['src/data/unit3', 'src/data/tests/unit3'];
+    const files = roots.flatMap((root) => readdirSync(root).filter((name) => name.endsWith('.ts')).map((name) => join(root, name)));
+    for (const expression of expressions) {
+      expect(unit3Notebooks.some((nb) => normalize(serialize(nb)).includes(normalize(expression))), expression).toBe(true);
+      for (const file of files) {
+        expect(normalize(readFileSync(file, 'utf8')), `${file} already contains ${expression}`).not.toContain(normalize(expression));
+      }
+    }
+    for (const nb of unit3Notebooks) {
+      const examples = nb.sections.find((section) => section.kind === 'worked-examples')!;
+      for (const entry of examples.entries) expect(entry.sources.every((source) => source.origin === 'platform')).toBe(true);
+    }
+  });
+
+  it('checks the authored example calculations over several values', () => {
+    for (const n of [-3, 0, 2, 4]) {
+      expect(-(7*n*n-13*n+19)).toBe(-7*n*n+13*n-19);
+      expect((11*n-8)-(4*n-17)+(-2*n+3)).toBe(5*n+12);
+      expect(6*n*n+7*n-(2*n*n-5*n+9)).toBe(4*n*n+12*n-9);
+      expect((-7*n)*(3*n)).toBe(-21*n*n);
+      expect((3*n-7)*(2*n+11)).toBe(6*n*n+19*n-77);
+      expect((2*n-7)**2).toBe(4*n*n-28*n+49);
+      expect(2*n*(n-3)*(n+7)).toBeCloseTo(2*n**3+8*n*n-42*n);
+    }
+    expect((1+17)**2).toBe(324);
+    expect(1**2+289).toBe(290);
+    expect(5*13**2+(13-13)*(7*13+2)).toBe(845);
+  });
+
+  it('preserves the eight existing notebook files byte-for-byte against the approved baseline', () => {
+    const hashes: Record<string, string> = {
+      'unit1-lesson1.ts': '965f6c4b7249d0c4d04d9ba3c2d3e6d9289f6faa38e6a3c92355a7c8f9dc8d07',
+      'unit1-lesson2.ts': '1957d68ca5d25a900ee15085872fb862abdbb3344956820a387131a18a8ff0a0',
+      'unit1-lesson3.ts': '712968a4787203823cdb355812012c16f1f4e235d5b969000bd70632ce099467',
+      'unit1-lesson4.ts': '43e154b854ee40f5fbad564223570f176691cb0fec0e031b8b2f196b84793933',
+      'unit2-lesson1.ts': '7460337792ca18a58e9339953ff9629a2794d9003775d0130cbad3c8cede7a62',
+      'unit2-lesson2.ts': '5419fb6228e2cd29d7b6f09344ed94ec8b93c4465fbc2bbcccdda52230316933',
+      'unit2-lesson3.ts': '45b19e77ad1395e83c8dd63ad2f3c2fdf873728aa6b365f09e96d419fb62c8af',
+      'unit2-lesson4.ts': '0ce0575c5849af4b25058a421591fd571a625fc7dc635b53aec25652e398c075',
+    };
+    for (const [file, expected] of Object.entries(hashes)) {
+      expect(createHash('sha256').update(readFileSync(join('src/data/notebooks', file))).digest('hex'), file).toBe(expected);
     }
   });
 });
