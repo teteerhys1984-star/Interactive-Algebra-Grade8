@@ -3,20 +3,29 @@ import { unit1Lesson1Notebook } from './unit1-lesson1';
 import { unit1Lesson2Notebook } from './unit1-lesson2';
 import { unit1Lesson3Notebook } from './unit1-lesson3';
 import { unit1Lesson4Notebook } from './unit1-lesson4';
+import { unit2Lesson1Notebook } from './unit2-lesson1';
+import { unit2Lesson2Notebook } from './unit2-lesson2';
+import { unit2Lesson3Notebook } from './unit2-lesson3';
+import { unit2Lesson4Notebook } from './unit2-lesson4';
 
 /**
  * سجل دفاتر الطالب — طبقة مستقلة عن `LessonData` (لا تعديل على بنية الدروس).
  * الدفتر يرتبط بمعرّف الدرس، والدروس التي لا يتوفر لها دفتر ترجع `undefined`
  * فلا يظهر عنصر «دفتر الطالب» في واجهتها إطلاقًا.
  *
- * مسجّل حاليًا لدروس الوحدة الأولى الأربعة (1–4) دون الإحماء ودون الوحدتين
- * الثانية والثالثة.
+ * مسجّل حاليًا لدروس الوحدة الأولى الأربعة (1–4) ولدروس الوحدة الثانية
+ * الأربعة الأولى (u2-lesson-1 … u2-lesson-4)، دون الإحماء ودون درس تمارين
+ * الوحدة الثانية (u2-lesson-5) ودون الوحدة الثالثة.
  */
 const notebooks: StudentNotebookData[] = [
   unit1Lesson1Notebook,
   unit1Lesson2Notebook,
   unit1Lesson3Notebook,
   unit1Lesson4Notebook,
+  unit2Lesson1Notebook,
+  unit2Lesson2Notebook,
+  unit2Lesson3Notebook,
+  unit2Lesson4Notebook,
 ];
 
 export function getNotebook(unitId: string, lessonId: string): StudentNotebookData | undefined {

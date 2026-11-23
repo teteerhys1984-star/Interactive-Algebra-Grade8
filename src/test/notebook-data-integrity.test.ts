@@ -5,6 +5,7 @@ import { allNotebooks, getNotebook, hasNotebook } from '../data/notebooks';
 import type { NotebookSectionKind, StudentNotebookData } from '../data/notebooks/types';
 import { curriculum, findLesson } from '../data/curriculum';
 import { lesson04Data, lesson04ExerciseGroups } from '../data/unit1/lesson04';
+import { unit2Lesson1Data } from '../data/unit2/lesson01';
 import { MathText } from '../components/math/MathText';
 
 /**
@@ -60,9 +61,9 @@ const VISIBLE_TEXT = (html: string): string =>
     .trim();
 
 describe('Notebook registry scope', () => {
-  it('registers exactly the four Unit 1 lesson notebooks (lessons 1–4)', () => {
+  it('registers exactly the eight Unit 1 and Unit 2 lesson notebooks (lessons 1–4 of each)', () => {
     const notebooks = allNotebooks();
-    expect(notebooks).toHaveLength(4);
+    expect(notebooks).toHaveLength(8);
     expect(
       notebooks.map((n) => `${n.unitId}/${n.lessonId}`).sort(),
     ).toEqual([
@@ -70,15 +71,23 @@ describe('Notebook registry scope', () => {
       'unit-1/lesson-2',
       'unit-1/lesson-3',
       'unit-1/lesson-4',
+      'unit-2/u2-lesson-1',
+      'unit-2/u2-lesson-2',
+      'unit-2/u2-lesson-3',
+      'unit-2/u2-lesson-4',
     ]);
   });
 
-  it('returns undefined for every warmup and every Unit 2 / Unit 3 lesson', () => {
+  it('returns undefined for every warmup, Unit 2 lesson-5, and every Unit 3 lesson', () => {
     const expectedIds = new Set([
       'unit-1/lesson-1',
       'unit-1/lesson-2',
       'unit-1/lesson-3',
       'unit-1/lesson-4',
+      'unit-2/u2-lesson-1',
+      'unit-2/u2-lesson-2',
+      'unit-2/u2-lesson-3',
+      'unit-2/u2-lesson-4',
     ]);
     for (const unit of curriculum) {
       for (const lesson of [unit.warmup, ...unit.lessons]) {
@@ -92,6 +101,11 @@ describe('Notebook registry scope', () => {
         }
       }
     }
+  });
+
+  it('excludes the Unit 2 exercise lesson (u2-lesson-5) explicitly', () => {
+    expect(hasNotebook('unit-2', 'u2-lesson-5')).toBe(false);
+    expect(getNotebook('unit-2', 'u2-lesson-5')).toBeUndefined();
   });
 
   it('links each notebook to an existing lesson of the same unit', () => {
@@ -367,6 +381,176 @@ describe('Division notebook (unit-1/lesson-3) content contract', () => {
   });
 });
 
+/** يتحقق أن كل مرجع كتابي داخل الدفتر يقع ضمن نطاق صفحات الدرس المستهدف. */
+function expectNotebookPagesWithin(
+  notebook: StudentNotebookData,
+  minPage: number,
+  maxPage: number,
+): void {
+  for (const section of notebook.sections) {
+    for (const entry of section.entries) {
+      for (const source of entry.sources) {
+        for (const ref of source.refs ?? []) {
+          expect(ref.page, `${entry.id}: page ${ref.page}`).toBeGreaterThanOrEqual(minPage);
+          expect(ref.page, `${entry.id}: page ${ref.page}`).toBeLessThanOrEqual(maxPage);
+        }
+      }
+    }
+  }
+}
+
+describe('Powers of ten notebook (unit-2/u2-lesson-1) content contract', () => {
+  const notebook = getNotebook('unit-2', 'u2-lesson-1')!;
+
+  it('covers all seven reference section kinds and stays within pages 26–28', () => {
+    const kinds = notebook.sections.map((s) => s.kind);
+    for (const expected of VALID_KINDS) {
+      expect(kinds, `u2-lesson-1 notebook must include a ${expected} section`).toContain(expected);
+    }
+    expectNotebookPagesWithin(notebook, 26, 28);
+  });
+
+  it('includes powers of ten, negative exponents and standard form', () => {
+    const serialized = serialize(notebook);
+    expect(serialized).toContain('10^{n}');
+    expect(serialized).toContain('10^{-n}');
+    expect(serialized).toContain('مقلوب');
+    expect(serialized).toContain('الصيغة المعيارية');
+    expect(serialized).toContain('a\\times10^{n}');
+    expect(serialized).toContain('1\\le|a|<10');
+  });
+
+  it('does not leak p. 28 exercise solutions or the final assessment explanations', () => {
+    const serialized = serialize(notebook);
+    for (const leaked of [
+      '4\\,500\\,000\\,000\\,000',
+      '5.6633\\times10^{3}',
+      '0.000\\,000\\,01',
+      '2.5\\times10^{-5}',
+      '9.8\\times10^{-1}',
+    ]) {
+      expect(serialized, `leaked ${leaked}`).not.toContain(leaked);
+    }
+    for (const question of unit2Lesson1Data.finalAssessment?.questions ?? []) {
+      expect(serialized).not.toContain(question.explanation);
+      if (question.hint) expect(serialized).not.toContain(question.hint);
+    }
+  });
+});
+
+describe('Powers of ten rules notebook (unit-2/u2-lesson-2) content contract', () => {
+  const notebook = getNotebook('unit-2', 'u2-lesson-2')!;
+
+  it('covers all seven reference section kinds and stays within pages 29–31', () => {
+    const kinds = notebook.sections.map((s) => s.kind);
+    for (const expected of VALID_KINDS) {
+      expect(kinds, `u2-lesson-2 notebook must include a ${expected} section`).toContain(expected);
+    }
+    expectNotebookPagesWithin(notebook, 29, 31);
+  });
+
+  it('includes the four rules, scientific-notation calculation and bounding', () => {
+    const serialized = serialize(notebook);
+    expect(serialized).toContain('10^{n+m}');
+    expect(serialized).toContain('10^{n-m}');
+    expect(serialized).toContain('10^{n\\times m}');
+    expect(serialized).toContain('10^{-n}');
+    expect(serialized).toContain('9.3\\times10^{-9}');
+    expect(serialized).toContain('10^{6}<A<10^{7}');
+    expect(serialized).toContain('10^{-2}<B<10^{-1}');
+  });
+
+  it('does not leak p. 31 exercise solutions into the notebook', () => {
+    const serialized = serialize(notebook);
+    for (const leaked of [
+      '10^{2-(-4)}=10^{6}',
+      '10^{-2\\times4}=10^{-8}',
+      '10^{-1}\\times10^{-7}=10^{-8}',
+      '10^{2\\times3}\\times10^{4}=10^{6+4}=10^{10}',
+      '10^{-1}\\times10^{-8}=10^{-9}',
+      '\\frac{10^{10}}{10^{7}}=10^{3}',
+      '\\frac{10^{13}}{10^{15}}=10^{-2}',
+      '10^{7}\\times10^{-7}',
+    ]) {
+      expect(serialized, `leaked ${leaked}`).not.toContain(leaked);
+    }
+  });
+});
+
+describe('Integer powers of a rational number notebook (unit-2/u2-lesson-3) content contract', () => {
+  const notebook = getNotebook('unit-2', 'u2-lesson-3')!;
+
+  it('covers all seven reference section kinds and stays within pages 32–34', () => {
+    const kinds = notebook.sections.map((s) => s.kind);
+    for (const expected of VALID_KINDS) {
+      expect(kinds, `u2-lesson-3 notebook must include a ${expected} section`).toContain(expected);
+    }
+    expectNotebookPagesWithin(notebook, 32, 34);
+  });
+
+  it('includes the four rules, signs, zero domain and order of operations', () => {
+    const serialized = serialize(notebook);
+    expect(serialized).toContain('a^{n+m}');
+    expect(serialized).toContain('a^{n-m}');
+    expect(serialized).toContain('a^{n}\\times b^{n}');
+    expect(serialized).toContain('\\frac{a^{n}}{b^{n}}');
+    expect(serialized).toContain('أولويات العمليات');
+    expect(serialized).toContain('0^{0}');
+    expect(serialized).toContain('(-3)^{2}=9');
+  });
+
+  it('does not leak p. 34 exercise solutions into the notebook', () => {
+    const serialized = serialize(notebook);
+    for (const leaked of [
+      '-\\frac{125}{8}',
+      '\\frac{27}{64}',
+      '\\frac{1}{32}',
+      '8^{10}',
+      '(-4)^{8}',
+      '\\left(\\frac{2}{3}\\right)^{12}',
+    ]) {
+      expect(serialized, `leaked ${leaked}`).not.toContain(leaked);
+    }
+  });
+});
+
+describe('Square roots notebook (unit-2/u2-lesson-4) content contract', () => {
+  const notebook = getNotebook('unit-2', 'u2-lesson-4')!;
+
+  it('covers all seven reference section kinds and stays within pages 35–37', () => {
+    const kinds = notebook.sections.map((s) => s.kind);
+    for (const expected of VALID_KINDS) {
+      expect(kinds, `u2-lesson-4 notebook must include a ${expected} section`).toContain(expected);
+    }
+    expectNotebookPagesWithin(notebook, 35, 37);
+  });
+
+  it('includes the definition, the two results and the four root properties', () => {
+    const serialized = serialize(notebook);
+    expect(serialized).toContain('\\sqrt{a\\times b}=\\sqrt{a}\\times\\sqrt{b}');
+    expect(serialized).toContain('\\sqrt{\\frac{a}{b}}=\\frac{\\sqrt{a}}{\\sqrt{b}}');
+    expect(serialized).toContain('\\left(\\sqrt{b}\\right)^{n}=\\sqrt{b^{n}}');
+    expect(serialized).toContain('\\sqrt{b^{n}}=b^{\\frac{n}{2}}');
+    expect(serialized).toContain('ليس للعدد السالب جذر تربيعي');
+    expect(serialized).toContain('\\sqrt{0}=0');
+  });
+
+  it('does not leak p. 37 exercise solutions into the notebook', () => {
+    const serialized = serialize(notebook);
+    for (const leaked of [
+      '5\\sqrt{3}',
+      '4\\sqrt{2}',
+      '6\\sqrt{3}',
+      '5.48',
+      '\\sqrt{225}=15',
+      '\\sqrt{15\\,625}',
+      '675',
+    ]) {
+      expect(serialized, `leaked ${leaked}`).not.toContain(leaked);
+    }
+  });
+});
+
 describe('All notebooks — math rendering & control-character safety', () => {
   const COMMAND_NAMES = ['neq', 'qquad', 'quad', 'frac', 'dfrac', 'times', 'div', 'cancel', 'text'];
   const leakedCommand = (name: string) => new RegExp(name.split('').join('\\s*'), 'i');
@@ -400,9 +584,13 @@ describe('All notebooks — math rendering & control-character safety', () => {
     },
   );
 
-  it('new notebooks (lesson-2, lesson-3) contain no literal ** markdown syntax', () => {
+  it('new notebooks (Unit 1 lessons 2–3 and all Unit 2 lessons) contain no literal ** markdown syntax', () => {
     for (const id of ['lesson-2', 'lesson-3']) {
       const nb = getNotebook('unit-1', id)!;
+      expect(serialize(nb)).not.toContain('**');
+    }
+    for (const id of ['u2-lesson-1', 'u2-lesson-2', 'u2-lesson-3', 'u2-lesson-4']) {
+      const nb = getNotebook('unit-2', id)!;
       expect(serialize(nb)).not.toContain('**');
     }
   });
