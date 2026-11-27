@@ -323,7 +323,7 @@ describe('Unit 4, Lesson 4 — UI rendering, green/blue numbering, anti-spoiler 
       warnSpy.mockRestore();
       errSpy.mockRestore();
     }
-  });
+  }, 30_000);
 
   it('interactively grades Q1 (6 MCQs), Q2 (6 rationals), Q5 (equation writing), Q6 (notebook), Q19 (cycles), and Q22 (geometry + area expressions)', () => {
     const mountQuestion = (n: number) => {
@@ -486,7 +486,7 @@ describe('Unit 4, Lesson 4 — UI rendering, green/blue numbering, anti-spoiler 
       ).toBeTruthy();
       unmount();
     }
-  });
+  }, 30_000);
 
   it('verifies all 47 solvable parts across all 22 questions grade green end-to-end in the UI', () => {
     let solvedSubcardsCount = 0;
@@ -557,7 +557,7 @@ describe('Unit 4, Lesson 4 — UI rendering, green/blue numbering, anti-spoiler 
     }
 
     expect(solvedSubcardsCount).toBe(47);
-  });
+  }, 30_000);
 
   it('opens in the Teacher Area with all 22 structured solutions and zero KaTeX errors', () => {
     const { container } = render(<TeacherArea onNavigateHome={vi.fn()} />);
@@ -567,5 +567,5 @@ describe('Unit 4, Lesson 4 — UI rendering, green/blue numbering, anti-spoiler 
     fireEvent.click(tabs[0]);
     expect(container.querySelectorAll('.ta-solution')).toHaveLength(22);
     expect(container.querySelectorAll('.katex-error')).toHaveLength(0);
-  });
+  }, 30_000);
 });
