@@ -519,6 +519,555 @@
   white-space: nowrap;
 }
 
+/* ─────────────── الدرس 4: تمارين الوحدة الرابعة (الأسئلة 1–22) ─────────────── */
+
+/* الترميز اللوني المعتمد من الكتاب:
+   - رقم السؤال الرئيسي باللون الأخضر (#16a34a / #15803d)
+   - أرقام الأسئلة الفرعية التابعة له باللون الأزرق (#2563eb / #1d4ed8) */
+[data-lesson-id="u4-lesson-4"] .step-num-badge,
+[data-lesson-id="u4-lesson-4"] .exercise-mode .step-num-badge {
+  background-color: #16a34a;
+  color: #ffffff;
+  border: 1.5px solid #86efac;
+  box-shadow: 0 1px 3px rgba(22, 163, 74, 0.25);
+}
+
+[data-lesson-id="u4-lesson-4"] .step-indicator {
+  background-color: #dcfce7;
+  color: #15803d;
+  border: 1.5px solid #22c55e;
+  font-weight: 800;
+}
+
+[data-lesson-id="u4-lesson-4"] .outline-item.active .step-indicator {
+  background-color: #16a34a;
+  color: #ffffff;
+  border-color: #15803d;
+}
+
+[data-lesson-id="u4-lesson-4"] .exercise-source {
+  border-inline-start-color: #16a34a;
+}
+
+[data-lesson-id="u4-lesson-4"] .exercise-source .exercise-section-title {
+  color: #15803d;
+}
+
+[data-lesson-id="u4-lesson-4"] .step-badge-mini {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: 1.5px solid #93c5fd;
+  font-weight: 800;
+}
+
+[data-lesson-id="u4-lesson-4"] .step-header-mini {
+  color: #1d4ed8;
+  font-weight: 800;
+}
+
+[data-lesson-id="u4-lesson-4"] .solver-steps .step-card {
+  border-inline-start: 3px solid #3b82f6;
+}
+
+.u4-main-num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background-color: #16a34a;
+  color: #ffffff;
+  border: 2px solid #86efac;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(22, 163, 74, 0.28);
+}
+
+.u4-sub-num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 27px;
+  height: 27px;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: 1.5px solid #93c5fd;
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* بطاقة التحقق التفاعلي لتمارين الوحدة الرابعة */
+.u4-ex-verifier {
+  direction: rtl;
+  background-color: #ffffff;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem;
+  margin: 0.5rem 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.u4-ex-verifier-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.95rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.u4-ex-verifier-titles {
+  min-width: 0;
+}
+
+.u4-ex-verifier-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #14532d;
+}
+
+.u4-ex-verifier-sub {
+  margin: 0.2rem 0 0;
+  font-size: 0.88rem;
+  color: var(--color-slate-600);
+}
+
+.u4-ex-subcards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.u4-ex-subcard {
+  background-color: var(--color-slate-50);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+}
+
+.u4-ex-subcard--sub {
+  border-inline-start: 3.5px solid #2563eb;
+}
+
+.u4-ex-subcard--single {
+  border-inline-start: 3.5px solid #16a34a;
+}
+
+.u4-ex-subcard-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.u4-ex-subcard-prompt {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--color-slate-800);
+  line-height: 1.75;
+  min-width: 0;
+}
+
+/* خيارات الأسئلة المتعددة */
+.u4-ex-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.u4-ex-choice-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  width: 100%;
+  text-align: start;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-strong);
+  background-color: #ffffff;
+  color: var(--color-slate-800);
+  font-family: inherit;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.u4-ex-choice-btn:hover {
+  border-color: var(--color-primary-400);
+  background-color: var(--color-primary-50);
+}
+
+.u4-ex-choice-btn.is-selected {
+  border-color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+}
+
+.u4-ex-choice-btn.is-correct {
+  border-color: var(--color-emerald-600);
+  background-color: var(--color-emerald-50);
+}
+
+.u4-ex-choice-btn.is-wrong {
+  border-color: var(--color-rose-500);
+  background-color: var(--color-rose-50);
+}
+
+.u4-ex-choice-num {
+  color: #dc2626;
+  font-weight: 800;
+  font-size: 1.02rem;
+  flex-shrink: 0;
+}
+
+.u4-ex-choice-label {
+  min-width: 0;
+}
+
+/* حقول الإدخال الرياضية */
+.u4-ex-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.45rem;
+}
+
+.u4-ex-field-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.u4-ex-field-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.u4-ex-input-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: 100%;
+}
+
+.u4-ex-prefix,
+.u4-ex-suffix {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+}
+
+.u4-ex-input {
+  width: 145px;
+  max-width: 100%;
+  padding: 0.48rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-strong);
+  background-color: #ffffff;
+  color: var(--color-slate-900);
+  font-family: 'KaTeX_Main', ui-monospace, monospace;
+  font-size: 0.96rem;
+  text-align: left;
+}
+
+.u4-ex-input--wide {
+  width: 245px;
+}
+
+.u4-ex-input.is-correct,
+.u4-cycle-input.is-correct {
+  border-color: var(--color-emerald-600);
+  background-color: var(--color-emerald-50);
+}
+
+.u4-ex-input.is-wrong,
+.u4-cycle-input.is-wrong {
+  border-color: var(--color-rose-500);
+  background-color: var(--color-rose-50);
+}
+
+/* أزرار التحقق وإعادة المحاولة */
+.u4-ex-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.u4-ex-check-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1.05rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-primary-700);
+  background-color: var(--color-primary-600);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.u4-ex-check-btn:hover {
+  background-color: var(--color-primary-700);
+}
+
+.u4-ex-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.43rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background-color: #ffffff;
+  color: var(--color-slate-700);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.u4-ex-reset-btn:hover {
+  background-color: var(--color-slate-100);
+}
+
+.u4-ex-feedback {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+.u4-ex-feedback svg {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.u4-ex-feedback.is-success {
+  background-color: var(--color-emerald-50);
+  border: 1px solid var(--color-emerald-200);
+  color: var(--color-emerald-900);
+}
+
+.u4-ex-feedback.is-error {
+  background-color: var(--color-rose-50);
+  border: 1px solid var(--color-rose-200);
+  color: var(--color-rose-900);
+}
+
+.u4-ex-feedback-body {
+  min-width: 0;
+}
+
+/* رسوم التمارين وملاحظات السؤال 6 ومخطط السؤال 19 */
+.u4-ex-figure {
+  margin: 0.85rem auto;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.u4-ex-figure svg {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.35rem;
+}
+
+.u4-ex-figure--wide svg {
+  max-width: 500px;
+}
+
+.u4-ex6-notebook {
+  direction: rtl;
+  margin: 0.85rem 0;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: #fffdf8;
+  border: 1px solid var(--border-strong);
+}
+
+.u4-ex6-heading {
+  font-weight: 800;
+  color: #1e3a8a;
+  margin-bottom: 0.6rem;
+  font-size: 0.96rem;
+}
+
+.u4-ex6-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.u4-ex6-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.u4-ex6-eq {
+  font-weight: 700;
+  color: var(--color-slate-900);
+}
+
+.u4-ex6-note {
+  color: #b91c1c;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.u4-cycle-widget {
+  display: flex;
+  justify-content: center;
+  margin: 0.65rem 0;
+}
+
+.u4-cycle-diamond {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(64px, 84px));
+  align-items: center;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 0.65rem;
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.u4-cycle-slot--top {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.u4-cycle-op--ul {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.u4-cycle-op--ur {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.u4-cycle-slot--left {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.u4-cycle-slot--right {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.u4-cycle-op--ll {
+  grid-column: 1;
+  grid-row: 4;
+}
+
+.u4-cycle-op--lr {
+  grid-column: 3;
+  grid-row: 4;
+}
+
+.u4-cycle-slot--bottom {
+  grid-column: 2;
+  grid-row: 5;
+}
+
+.u4-cycle-op {
+  color: #dc2626;
+  font-weight: 800;
+  font-size: 0.92rem;
+  font-family: 'KaTeX_Main', serif;
+  white-space: nowrap;
+}
+
+.u4-cycle-input {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 2px solid #334155;
+  background-color: #ffffff;
+  color: var(--color-slate-900);
+  font-family: 'KaTeX_Main', ui-monospace, monospace;
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.u4-ex-choice-btn:focus-visible,
+.u4-ex-input:focus-visible,
+.u4-cycle-input:focus-visible,
+.u4-ex-check-btn:focus-visible,
+.u4-ex-reset-btn:focus-visible {
+  outline: 3px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+@media (max-width: 520px) {
+  .u4-ex-verifier {
+    padding: 0.85rem;
+  }
+
+  .u4-ex-subcard {
+    padding: 0.75rem;
+  }
+
+  .u4-ex-input,
+  .u4-ex-input--wide {
+    width: 100%;
+  }
+
+  .u4-ex-check-btn,
+  .u4-ex-reset-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .u4-cycle-diamond {
+    grid-template-columns: repeat(3, minmax(56px, 72px));
+    padding: 0.45rem;
+  }
+
+  .u4-cycle-input {
+    width: 48px;
+    height: 48px;
+    font-size: 0.9rem;
+  }
+}
+
 /* ─────────────────────────── تقليل الحركة ─────────────────────────── */
 
 /* نمط المشروع نفسه (catalog.css / lesson2.css / lesson4.css): عند تفعيل

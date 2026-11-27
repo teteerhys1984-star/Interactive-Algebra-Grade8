@@ -1,0 +1,53 @@
+{
+  "lessonId": "u4-lesson-4",
+  "title": "تمارين الوحدة الرابعة",
+  "unitId": "unit-4",
+  "sourceFiles": [
+    { "file": "image-1.png", "questions": [1], "subItemCounts": { "1": 6 } },
+    { "file": "image-2.png", "questions": [2], "subItemCounts": { "2": 6 } },
+    { "file": "image-3.png", "questions": [3, 4], "subItemCounts": { "3": 2, "4": 2 } },
+    { "file": "image-4.png", "questions": [5, 6], "subItemCounts": { "5": 2, "6": 0 } },
+    { "file": "image-5.png", "questions": [7, 8], "subItemCounts": { "7": 0, "8": 0 } },
+    { "file": "image-6.png", "questions": [9, 10, 11], "subItemCounts": { "9": 0, "10": 2, "11": 0 } },
+    { "file": "image-7.png", "questions": [12], "subItemCounts": { "12": 0 } },
+    { "file": "image-8.png", "questions": [13, 14], "subItemCounts": { "13": 2, "14": 2 } },
+    { "file": "image-9.png", "questions": [15], "subItemCounts": { "15": 2 } },
+    { "file": "image-10.png", "questions": [16], "subItemCounts": { "16": 0 } },
+    { "file": "image-11.png", "questions": [17, 18], "subItemCounts": { "17": 0, "18": 0 } },
+    { "file": "image-12.png", "questions": [19], "subItemCounts": { "19": 2 } },
+    { "file": "image-13.png", "questions": [20], "subItemCounts": { "20": 3 } },
+    { "file": "image-14.png", "questions": [21, 22], "subItemCounts": { "21": 2, "22": 5 } }
+  ],
+  "totalMainQuestions": 22,
+  "totalSubQuestions": 38,
+  "standaloneMainQuestions": [6, 7, 8, 9, 11, 12, 16, 17, 18],
+  "numberingColorScheme": {
+    "mainQuestionNumber": "green",
+    "subQuestionNumber": "blue"
+  },
+  "bookQuestionSequence": [
+    "u4-l4-q1",
+    "u4-l4-q2",
+    "u4-l4-q3",
+    "u4-l4-q4",
+    "u4-l4-q5",
+    "u4-l4-q6",
+    "u4-l4-q7",
+    "u4-l4-q8",
+    "u4-l4-q9",
+    "u4-l4-q10",
+    "u4-l4-q11",
+    "u4-l4-q12",
+    "u4-l4-q13",
+    "u4-l4-q14",
+    "u4-l4-q15",
+    "u4-l4-q16",
+    "u4-l4-q17",
+    "u4-l4-q18",
+    "u4-l4-q19",
+    "u4-l4-q20",
+    "u4-l4-q21",
+    "u4-l4-q22"
+  ],
+  "unresolvedAmbiguities": []
+}

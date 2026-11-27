@@ -43,7 +43,12 @@ const EXPECTED_TEST_ANSWERS: Record<string, QuestionAnswer> = {
 describe('Unit 4, Lesson 3 — identity and source fidelity', () => {
   it('registers «اصطناع معادلة» as lesson 3 over pages 75–77 and closes the unit', () => {
     const unit = getUnitById('unit-4')!;
-    expect(unit.lessons.map((lesson) => lesson.id)).toEqual(['u4-lesson-1', 'u4-lesson-2', 'u4-lesson-3']);
+    expect(unit.lessons.map((lesson) => lesson.id)).toEqual([
+      'u4-lesson-1',
+      'u4-lesson-2',
+      'u4-lesson-3',
+      'u4-lesson-4',
+    ]);
 
     const lesson = getLessonById('unit-4', LESSON_ID)!;
     expect(lesson).toBe(unit4Lesson3Data);

@@ -59,6 +59,7 @@ describe('Unit 4, Lesson 2 — identity and source fidelity', () => {
       'u4-lesson-1',
       'u4-lesson-2',
       'u4-lesson-3',
+      'u4-lesson-4',
     ]);
   });
 
