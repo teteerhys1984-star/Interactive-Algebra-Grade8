@@ -458,13 +458,15 @@ describe('TEMP tab — Grade 4 book (temporary addition)', () => {
     expect(nextButton()).toBeDisabled();
   });
 
-  it('14. Grade 8 curriculum is untouched: still 3 units, home shows no TEMP book', () => {
-    expect(curriculum).toHaveLength(3);
-    expect(curriculum.map((unit) => unit.id)).toEqual(['unit-1', 'unit-2', 'unit-3']);
+  it('14. Grade 8 curriculum keeps its published units (4 with Unit 4) and home shows no TEMP book', () => {
+    // Unit 4 (معادلات من الدرجة الأولى) is part of the published curriculum since
+    // the Unit 4 PR; the TEMP books still add no unit and no lesson.
+    expect(curriculum).toHaveLength(4);
+    expect(curriculum.map((unit) => unit.id)).toEqual(['unit-1', 'unit-2', 'unit-3', 'unit-4']);
 
     render(<App />);
     // Home still renders the Grade 8 unit catalog and neither TEMP book.
-    expect(screen.getAllByRole('link', { name: /دخول إلى الوحدة/ })).toHaveLength(3);
+    expect(screen.getAllByRole('link', { name: /دخول إلى الوحدة/ })).toHaveLength(4);
     expect(screen.queryByText(GRADE4_TITLE)).not.toBeInTheDocument();
     expect(screen.queryByText(GRADE6_BOOK_TITLE)).not.toBeInTheDocument();
   });

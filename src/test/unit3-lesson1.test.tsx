@@ -73,7 +73,8 @@ describe('Unit 3, Lesson 1 — identity, warm-up integration, and curriculum saf
   });
 
   it('preserves Unit 1, Unit 2, and does NOT activate any Unit 3 comprehensive unit test', () => {
-    expect(curriculum.map((u) => u.id)).toEqual(['unit-1', 'unit-2', 'unit-3']);
+    // الوحدة الرابعة أُضيفت في PR خاصّ بها؛ ولا اختبار وحدة للوحدة الثالثة حتى الآن.
+    expect(curriculum.map((u) => u.id)).toEqual(['unit-1', 'unit-2', 'unit-3', 'unit-4']);
     expect(curriculum[0].lessons.map((l) => l.id)).toEqual([
       'lesson-1',
       'lesson-2',

@@ -16,6 +16,10 @@ import { unit3Lesson3Data } from './unit3/lesson03';
 import { unit3Lesson4Data } from './unit3/lesson04';
 import { unit3Lesson5Data } from './unit3/lesson05';
 import { unit3Lesson6Data } from './unit3/lesson06';
+import { unit4WarmupData } from './unit4/warmup';
+import { unit4Lesson1Data } from './unit4/lesson01';
+import { unit4Lesson2Data } from './unit4/lesson02';
+import { unit4Lesson3Data } from './unit4/lesson03';
 
 export interface UnitData {
   id: string;
@@ -54,6 +58,15 @@ export const curriculum: UnitData[] = [
     sourcePages: [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
     warmup: unit3WarmupData,
     lessons: [unit3Lesson1Data, unit3Lesson2Data, unit3Lesson3Data, unit3Lesson4Data, unit3Lesson5Data, unit3Lesson6Data],
+  },
+  {
+    id: 'unit-4',
+    number: 4,
+    title: 'معادلات من الدرجة الأولى',
+    description: 'الوحدة الرابعة من كتاب الجبر للصف الثامن: خواصّ المساواة، وحلّ معادلات من الدرجة الأولى بمجهول واحد، واصطناع معادلة من نصّ مسألة وحلّها.',
+    sourcePages: [67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
+    warmup: unit4WarmupData,
+    lessons: [unit4Lesson1Data, unit4Lesson2Data, unit4Lesson3Data],
   },
 ];
 

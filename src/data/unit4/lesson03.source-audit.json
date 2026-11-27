@@ -1,0 +1,90 @@
+{
+  "lessonId": "u4-lesson-3",
+  "unitId": "unit-4",
+  "unitTitle": "معادلات من الدرجة الأولى",
+  "warmupTitle": "انطلاقة نشطة",
+  "lesson": "اصطناع معادلة",
+  "sourcePages": [
+    75,
+    76,
+    77
+  ],
+  "sourceFiles": [
+    {
+      "file": "image-9.png",
+      "page": 75,
+      "role": "نشاط «بناء معادلة» (حوار هاني وهالة، استكشاف عددي، استخدام رمز، حلّ، تأويل) وتعلّم مثال بُشر وسامية",
+      "sha256": "61c4f1548b68ecfe06b953c144ded850dfb237a4d6da56b75c8dc434b0cd0c46"
+    },
+    {
+      "file": "image-10.png",
+      "page": 76,
+      "role": "مثال الحفلة كاملًا: اختيار المجهول، وضع المعادلة، جدول المعطيات، الحلّ خطوةً خطوة، التحقّق، النتيجة",
+      "sha256": "e640edbf05afb7706d52c761acf637079c095c1fe6c0a1586fa942b97031c342"
+    },
+    {
+      "file": "image-11.png",
+      "page": 77,
+      "role": "تحقّق من فهمك (فطائر الجبنة والزعتر) وتدرّب ① (معمل الأدوية)",
+      "sha256": "de96f223b514f8d820f1cd87b7b39ca5e929055e92564c3b3b1e8a70a50417bb"
+    }
+  ],
+  "identityAudit": {
+    "officialLessonTitle": "اصطناع معادلة",
+    "warmupPageHeading": "انطلاقة نشطة",
+    "evidence": "الشريط الأزرق المرقّم (3) في أعلى الصفحة 75 يحمل «اصطناع معادلة» ويبدأ بنشاط «بناء معادلة» (حوار هاني وهالة عن أقراص CD)."
+  },
+  "bookBlockSequence": [
+    "p75-activity-head",
+    "p75-guess",
+    "p75-symbol-head",
+    "p75-build",
+    "p75-solve",
+    "p75-interpret",
+    "p75-learn-head",
+    "p75-bashar",
+    "p75-bashar-setup",
+    "p76-head",
+    "p76-problem",
+    "p76-choose-unknown",
+    "p76-set-equation",
+    "p76-table",
+    "p76-solve",
+    "p76-verify",
+    "p76-result",
+    "p77-problem",
+    "p77-symbol",
+    "p77-items",
+    "p77-drill",
+    "p77-drill-1",
+    "p77-drill-2",
+    "p77-drill-3"
+  ],
+  "sourceNotes": [
+    {
+      "page": 75,
+      "blockId": "p75-bashar-setup",
+      "status": "resolved-partial",
+      "note": "تظهر قرب المعادلة $x+(x+5)=27$ علامة حمراء صغيرة تشبه «١١» في صورة المصدر. رُجّح أنها من علامات تحرير الصورة لا من نصّ الكتاب، ولم تُنقل؛ ووُثّق ذلك في verifyNote."
+    },
+    {
+      "page": 76,
+      "blockId": "p76-solve",
+      "status": "resolved-exact",
+      "note": "الخطوات السبع مطبوعة بترتيب غير أقصر (طرح 3 أولًا ثم طرح 2x ثم الضرب في −1). أُبقي الترتيب المطبوع كما هو، وأُضيف شرح من المنصة يبيّن الترتيب الأقصر $2x-8=x+3 \\Rightarrow x=11$ دون حذف المطبوع."
+    },
+    {
+      "page": 77,
+      "blockId": "p77-drill",
+      "status": "resolved-by-zoom",
+      "note": "عدد العبوات المطبوع بخطّ زخرفي قد يُقرأ «II» أو «12». أُثبت 12 لاتّساقه مع الحساب: $10x+15 = 12x-35$ يعطي $2x=50$ و$x=25$ وعدد الأقراص $10\\times25+15 = 265$."
+    },
+    {
+      "page": 77,
+      "blockId": "p77-items",
+      "status": "resolved-exact",
+      "note": "الأسعار المطبوعة $30{,}50$ و$28{,}50$ ليرة سورية، و50 قطعة، و1515 ليرة سورية مجموعًا؛ والرمز $y$ لعدد قطع الزعتر."
+    }
+  ],
+  "unresolvedAmbiguities": []
+}

@@ -1,0 +1,537 @@
+/* ==========================================================================
+   Unit 4 — «معادلات من الدرجة الأولى» (ص67–77)
+   مختبرات الميزان وخطوات الحلّ والربط، ورسوم ص72/ص71/ص74.
+   متجاوب حتى 320px، RTL للنص وLTR معزول للرياضيات.
+   ========================================================================== */
+
+/* ─────────────────────────── مختبر الميزان ─────────────────────────── */
+
+.u4-balance-lab,
+.u4-steps-lab,
+.u4-match-lab {
+  direction: rtl;
+}
+
+.u4-balance-head,
+.u4-steps-head,
+.u4-match-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.u4-balance-title,
+.u4-steps-title,
+.u4-match-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-primary-800);
+}
+
+.u4-balance-status,
+.u4-steps-status,
+.u4-match-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background-color: var(--color-slate-100);
+  color: var(--color-slate-700);
+  border: 1px solid var(--border-subtle);
+}
+
+.u4-balance-status.is-balanced,
+.u4-steps-status.is-solved {
+  background-color: var(--color-emerald-50);
+  color: var(--color-emerald-700);
+  border-color: var(--color-emerald-200);
+}
+
+.u4-balance-status.is-tilted {
+  background-color: var(--color-amber-50);
+  color: var(--color-amber-800);
+  border-color: var(--color-amber-100);
+}
+
+.u4-balance-stage {
+  position: relative;
+  padding: 0.35rem 0 0.75rem;
+}
+
+.u4-balance-beam {
+  width: 72%;
+  max-width: 420px;
+  height: 8px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #94a3b8, #475569, #94a3b8);
+  transform-origin: center center;
+  transition: transform 0.35s ease;
+}
+
+.u4-balance-pans {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 0.6rem;
+  /* المعادلة تحتها تُعرض LTR، فتُثبَّت الكفّة «اليسرى» على اليسار البصري
+     بدل أن يقلبها اتجاه RTL للحاوية. */
+  direction: ltr;
+}
+
+.u4-balance-pan {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.6rem 0.5rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-primary-200);
+  background-color: var(--color-primary-50);
+  font-size: 1.05rem;
+  transition: transform 0.35s ease;
+  /* اتجاه النصّ العربي داخل الكفّة يبقى RTL. */
+  direction: rtl;
+}
+
+.u4-balance-pan-right {
+  border-color: var(--color-teal-100);
+  background-color: var(--color-teal-50);
+}
+
+.u4-balance-pan-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-slate-500);
+}
+
+.u4-balance-equation {
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+
+.u4-balance-readout {
+  margin: 0.6rem 0 0;
+  font-size: 0.88rem;
+  color: var(--color-slate-600);
+  text-align: center;
+}
+
+.u4-balance-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.8rem 0 0.5rem;
+}
+
+.u4-balance-btn {
+  flex: 1 1 190px;
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-primary-200);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-800);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.u4-balance-btn:hover {
+  background-color: var(--color-primary-100);
+}
+
+.u4-balance-btn.is-one-sided {
+  border-color: var(--color-rose-200);
+  background-color: var(--color-rose-50);
+  color: var(--color-rose-900);
+}
+
+.u4-balance-btn.is-one-sided:hover {
+  background-color: var(--color-rose-100);
+}
+
+.u4-balance-footer,
+.u4-steps-footer,
+.u4-match-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+}
+
+.u4-balance-log,
+.u4-steps-history {
+  margin: 0.7rem 0 0;
+  padding-inline-start: 1.1rem;
+  font-size: 0.86rem;
+  color: var(--color-slate-700);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* ─────────────────────────── مختبر الخطوات ─────────────────────────── */
+
+.u4-steps-current {
+  margin: 0 0 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  font-size: 1.08rem;
+  overflow-x: auto;
+}
+
+.u4-steps-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-slate-500);
+  margin-inline-end: 0.35rem;
+}
+
+.u4-steps-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.55rem;
+}
+
+.u4-steps-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1 1 150px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-slate-600);
+}
+
+.u4-steps-field select,
+.u4-steps-field input {
+  padding: 0.45rem 0.55rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--color-slate-800);
+}
+
+.u4-steps-field input {
+  text-align: center;
+}
+
+.u4-steps-apply {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-primary-600);
+  background-color: var(--color-primary-600);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.u4-steps-apply:hover {
+  background-color: var(--color-primary-700);
+  border-color: var(--color-primary-700);
+}
+
+.u4-steps-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0.7rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+.u4-steps-message.is-ok {
+  background-color: var(--color-emerald-50);
+  color: var(--color-emerald-900);
+  border: 1px solid var(--color-emerald-200);
+}
+
+.u4-steps-message.is-warn {
+  background-color: var(--color-amber-50);
+  color: var(--color-amber-800);
+  border: 1px solid var(--color-amber-100);
+}
+
+.u4-steps-message.is-bad {
+  background-color: var(--color-rose-50);
+  color: var(--color-rose-900);
+  border: 1px solid var(--color-rose-200);
+}
+
+/* ─────────────────────────── مختبر الربط ─────────────────────────── */
+
+.u4-match-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.u4-match-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.u4-match-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  min-height: 46px;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-slate-800);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: start;
+}
+
+.u4-match-cell:hover:not(:disabled) {
+  border-color: var(--color-primary-400);
+  background-color: var(--color-primary-50);
+}
+
+.u4-match-cell.is-active {
+  border-color: var(--color-primary-600);
+  box-shadow: 0 0 0 2px var(--color-primary-100);
+  background-color: var(--color-primary-50);
+}
+
+.u4-match-cell.is-matched {
+  border-color: var(--color-emerald-200);
+  background-color: var(--color-emerald-50);
+  color: var(--color-emerald-900);
+  cursor: default;
+}
+
+.u4-match-cell.is-wrong {
+  border-color: var(--color-rose-500);
+  background-color: var(--color-rose-50);
+}
+
+.u4-match-cell:disabled {
+  cursor: default;
+}
+
+.u4-match-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0.7rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+.u4-match-message.is-bad {
+  background-color: var(--color-rose-50);
+  color: var(--color-rose-900);
+  border: 1px solid var(--color-rose-200);
+}
+
+.u4-match-verdict {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+  color: var(--color-emerald-900);
+}
+
+.u4-match-reasons {
+  margin: 0;
+  padding-inline-start: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.87rem;
+  color: var(--color-slate-700);
+}
+
+/* ─────────────────────────── الرسوم ─────────────────────────── */
+
+.u4-tiles-figure,
+.u4-triangle-figure,
+.u4-rectangle-figure {
+  margin: 1rem auto;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.u4-tiles-figure svg,
+.u4-triangle-figure svg,
+.u4-rectangle-figure svg {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ─────────────────────────── تركيز لوحة المفاتيح ─────────────────────────── */
+
+/* حلقة تركيز واضحة لكل عنصر تحكّم تفاعلي في الوحدة. لا نُزيل `outline`
+   الافتراضي في أي مكان، وهذه الحلقة تُستعمل بدلًا منه حيث نُعيد ضبط الحدود. */
+.u4-balance-btn:focus-visible,
+.u4-steps-apply:focus-visible,
+.u4-steps-field select:focus-visible,
+.u4-steps-field input:focus-visible,
+.u4-match-cell:focus-visible,
+.u4-balance-lab .reveal-btn:focus-visible,
+.u4-steps-lab .reveal-btn:focus-visible,
+.u4-match-lab .reveal-btn:focus-visible {
+  outline: 3px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────── استجابة الشاشات الصغيرة ─────────────────────────── */
+
+@media (max-width: 520px) {
+  .u4-balance-pans {
+    gap: 0.4rem;
+  }
+
+  .u4-balance-pan {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.3rem;
+  }
+
+  .u4-balance-btn {
+    flex: 1 1 100%;
+    font-size: 0.82rem;
+  }
+
+  .u4-steps-field {
+    flex: 1 1 100%;
+  }
+
+  .u4-steps-apply {
+    width: 100%;
+  }
+
+  .u4-match-cell {
+    font-size: 0.82rem;
+    padding: 0.45rem 0.4rem;
+    min-height: 42px;
+  }
+
+  .u4-match-grid {
+    gap: 0.4rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .u4-balance-title,
+  .u4-steps-title,
+  .u4-match-title {
+    font-size: 0.9rem;
+  }
+
+  .u4-balance-pan-label {
+    font-size: 0.66rem;
+  }
+
+  .u4-match-cell {
+    font-size: 0.74rem;
+  }
+}
+
+/* ─────────────────────── جدول ص76: تنظيم معطيات المسألة ─────────────────────── */
+
+.u4-party-table-figure {
+  margin: 1rem auto;
+  max-width: 480px;
+  width: 100%;
+}
+
+.u4-party-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-size: 1rem;
+}
+
+.u4-party-table-caption {
+  caption-side: top;
+  padding-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-slate-500);
+  text-align: start;
+}
+
+.u4-party-table th,
+.u4-party-table td {
+  border: 1px solid var(--border-subtle);
+  padding: 0.55rem 0.75rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.u4-party-table thead th {
+  background-color: var(--color-primary-50);
+  color: var(--color-slate-700);
+  font-weight: 700;
+}
+
+.u4-party-table tbody th {
+  background-color: var(--color-slate-50);
+  font-weight: 600;
+  text-align: start;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────── تقليل الحركة ─────────────────────────── */
+
+/* نمط المشروع نفسه (catalog.css / lesson2.css / lesson4.css): عند تفعيل
+   «تقليل الحركة» نُطفئ انتقالات الميزان والبطاقات بدل إبطائها. */
+@media (prefers-reduced-motion: reduce) {
+  .u4-balance-beam,
+  .u4-balance-pan,
+  .u4-balance-btn,
+  .u4-steps-apply,
+  .u4-match-cell,
+  .u4-balance-lab .reveal-btn,
+  .u4-steps-lab .reveal-btn,
+  .u4-match-lab .reveal-btn {
+    transition: none;
+  }
+}

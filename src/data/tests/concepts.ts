@@ -1082,6 +1082,167 @@ export const unit3Lesson6Concepts: CurriculumConcept[] = [
   { id: 'u3l6-source-fidelity', title: 'النقل الأمين للنص المطبوع', skills: ['preserve-source-notation'], taughtInSteps: ['step-2'], sourcePages: [] },
 ];
 
+export const unit4Lesson1Concepts: CurriculumConcept[] = [
+  {
+    id: 'u4l1-equality-properties',
+    title: 'خواصّ المساواة: الجمع والطرح والضرب والقسمة على الطرفين',
+    skills: ['add-subtract-both-sides', 'multiply-divide-both-sides', 'preserve-equivalence'],
+    taughtInSteps: ['step-1', 'step-3', 'step-4'],
+    sourcePages: [68, 69],
+    commonMistakes: ['إجراء العملية على طرف واحد فقط، أو القسمة على صفر.'],
+  },
+  {
+    id: 'u4l1-solving-basic',
+    title: 'حلّ معادلة من الشكل ax + b = c بخطوتين',
+    skills: ['isolate-variable-two-steps', 'solve-with-negative-coefficient', 'solve-with-fraction-coefficient'],
+    taughtInSteps: ['step-5', 'step-8', 'step-9'],
+    sourcePages: [69, 70],
+    commonMistakes: ['الخطأ في إشارة الحدّ المنقول، أو الاكتفاء بالجمع دون القسمة على المعامل.'],
+  },
+  {
+    id: 'u4l1-equivalent-transforms',
+    title: 'سلاسل التحويل المتكافئة وربط المساويات',
+    skills: ['chain-equivalent-steps', 'match-equivalent-equations', 'order-solution-steps'],
+    taughtInSteps: ['step-7', 'step-8'],
+    sourcePages: [70],
+    commonMistakes: ['ربط مساويتين بعملية لا تُجرى على الطرفين معًا.'],
+  },
+  {
+    id: 'u4l1-proof-and-structure',
+    title: 'برهنة علاقة رمزية بمبدأ x = y ⇔ x − y = 0',
+    skills: ['prove-by-zero-difference', 'distribute-in-proof', 'distinguish-example-from-proof'],
+    taughtInSteps: ['step-6'],
+    sourcePages: [69],
+    commonMistakes: ['اعتبار اختبار عددي واحد برهانًا، أو نسيان عامل مشترك عند الاختزال.'],
+  },
+  {
+    id: 'u4l1-formula-solving',
+    title: 'حلّ صيغة هندسية بالنسبة إلى أحد رموزها',
+    skills: ['solve-formula-for-variable', 'substitute-into-solved-formula', 'perimeter-and-area-formulas'],
+    taughtInSteps: ['step-11'],
+    sourcePages: [71],
+    commonMistakes: ['القسمة على 2 قبل نقل الحدّ الآخر، أو إغفال شرط المقام غير المعدوم.'],
+  },
+  {
+    id: 'u4l1-relation-composition',
+    title: 'تركيب قاعدتَي المساواة على علاقة معطاة',
+    skills: ['compose-equality-rules', 'translate-age-relation', 'build-related-equation'],
+    taughtInSteps: ['step-10'],
+    sourcePages: [70, 71],
+    commonMistakes: ['تطبيق القاعدة على حدّ واحد من طرف بدل الطرف كاملًا.'],
+  },
+];
+
+export const unit4Lesson2Concepts: CurriculumConcept[] = [
+  {
+    id: 'u4l2-equation-meaning',
+    title: 'معنى المعادلة والحلّ والتحقّق',
+    skills: ['identify-solution', 'verify-by-substitution', 'distinguish-evaluate-from-solve'],
+    taughtInSteps: ['step-5', 'step-7'],
+    sourcePages: [73],
+    commonMistakes: ['الخلط بين حساب قيمة تركيب عند عدد وبين حلّ المعادلة.'],
+  },
+  {
+    id: 'u4l2-isolate-unknown',
+    title: 'حلّ ax + b = cx + d بعزل المجهول',
+    skills: ['collect-variable-terms', 'divide-by-coefficient', 'solve-two-sided-equation'],
+    taughtInSteps: ['step-2', 'step-3', 'step-6'],
+    sourcePages: [72, 73],
+    commonMistakes: ['طرح حدّ المجهول من طرف واحد، أو القسمة على المعامل بإشارة خاطئة.'],
+  },
+  {
+    id: 'u4l2-brackets-equations',
+    title: 'حلّ معادلة تحوي أقواسًا بالنشر أولًا',
+    skills: ['expand-then-solve', 'distribute-negative-factor', 'divide-whole-bracket'],
+    taughtInSteps: ['step-4', 'step-12'],
+    sourcePages: [72, 74],
+    commonMistakes: ['القسمة على الحدّ الأول داخل القوس فقط بدل القوس كاملًا.'],
+  },
+  {
+    id: 'u4l2-table-of-values',
+    title: 'قراءة حلّ معادلة من جدول قيم تركيب خطّي',
+    skills: ['complete-value-table', 'read-solution-from-table', 'link-table-to-equation'],
+    taughtInSteps: ['step-7', 'step-8'],
+    sourcePages: [73, 74],
+    commonMistakes: ['قراءة القيمة من السطر الخطأ، أو الاعتقاد أن الجدول يُثبت وحدة الحلّ.'],
+  },
+  {
+    id: 'u4l2-solutions-of-products',
+    title: 'معادلات من الدرجة الثانية والجداء المعدوم',
+    skills: ['zero-product-property', 'difference-of-squares', 'cube-root-solution'],
+    taughtInSteps: ['step-9'],
+    sourcePages: [74],
+    commonMistakes: ['الاكتفاء بحلّ واحد في معادلة لها حلّان.'],
+  },
+  {
+    id: 'u4l2-fraction-equations',
+    title: 'معادلات بمعاملات كسرية أو سالبة',
+    skills: ['multiply-by-reciprocal', 'handle-fraction-coefficient', 'keep-signs-in-division'],
+    taughtInSteps: ['step-6', 'step-10'],
+    sourcePages: [73, 74],
+    commonMistakes: ['إهمال إشارة الناقص عند الضرب في المقلوب.'],
+  },
+  {
+    id: 'u4l2-rectangle-model',
+    title: 'ترجمة محيط مستطيل إلى معادلة وحلّها بطريقتين',
+    skills: ['perimeter-to-equation', 'solve-with-two-methods', 'interpret-geometric-solution'],
+    taughtInSteps: ['step-13'],
+    sourcePages: [74],
+    commonMistakes: ['الخلط بين المحيط والمساحة، أو قسمة حدّ واحد داخل القوس.'],
+  },
+];
+
+export const unit4Lesson3Concepts: CurriculumConcept[] = [
+  {
+    id: 'u4l3-model-two-expressions',
+    title: 'تعبيران للكمّية نفسها أساسًا لكتابة المعادلة',
+    skills: ['build-equation-from-narrative', 'equate-two-expressions', 'verify-guess-in-context'],
+    taughtInSteps: ['step-1', 'step-2'],
+    sourcePages: [75],
+    commonMistakes: ['كتابة تعبير واحد ونسيان الطرف الآخر، أو اعتبار التخمين برهانًا.'],
+  },
+  {
+    id: 'u4l3-choose-unknown',
+    title: 'اختيار المجهول والتعبير عن الكمّيات الأخرى بدلالته',
+    skills: ['choose-single-variable', 'express-other-quantity', 'translate-comparison-relation'],
+    taughtInSteps: ['step-3', 'step-4'],
+    sourcePages: [75, 76],
+    commonMistakes: ['استعمال مجهولين لمعادلة واحدة، أو قلب علاقة «مثلي».'],
+  },
+  {
+    id: 'u4l3-two-state-table',
+    title: 'تنظيم معطيات مسألة ذات حالتين في جدول',
+    skills: ['build-before-after-table', 'apply-change-to-one-side', 'use-table-to-write-equation'],
+    taughtInSteps: ['step-4'],
+    sourcePages: [76],
+    commonMistakes: ['تطبيق التغيّر على الجهتين معًا.'],
+  },
+  {
+    id: 'u4l3-mixed-quantities',
+    title: 'مسائل الخلط: كمّيتان بسعرين ومجموع معروف',
+    skills: ['complement-quantity', 'total-cost-equation', 'solve-mixed-quantity'],
+    taughtInSteps: ['step-5'],
+    sourcePages: [77],
+    commonMistakes: ['ضرب السعر في العدد الخطأ، أو نسيان أن العددين مجموعهما الكلّ.'],
+  },
+  {
+    id: 'u4l3-capacity-model',
+    title: 'مسائل السعة والعبوات بتعبيرين للعدد نفسه',
+    skills: ['model-capacity-problem', 'use-remainder-and-shortage', 'compute-total-from-model'],
+    taughtInSteps: ['step-6'],
+    sourcePages: [77],
+    commonMistakes: ['الخلط بين عدد العبوات وسعة العبوة.'],
+  },
+  {
+    id: 'u4l3-interpret-and-check',
+    title: 'تأويل الحلّ والتحقّق في نصّ المسألة',
+    skills: ['verify-in-context', 'answer-with-requested-quantity', 'state-result-with-units'],
+    taughtInSteps: ['step-2', 'step-4', 'step-6'],
+    sourcePages: [76, 77],
+    commonMistakes: ['تقديم قيمة المجهول جوابًا بينما السؤال يطلب كمّية أخرى.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -1098,6 +1259,9 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u3-lesson-4', unitId: 'unit-3', lessonTitle: 'نشر (a+b)(c+d)', concepts: unit3Lesson4Concepts },
   { lessonId: 'u3-lesson-5', unitId: 'unit-3', lessonTitle: 'اختبار مساواة رمزية', concepts: unit3Lesson5Concepts },
   { lessonId: 'u3-lesson-6', unitId: 'unit-3', lessonTitle: 'تمرينات الوحدة الثالثة', concepts: unit3Lesson6Concepts },
+  { lessonId: 'u4-lesson-1', unitId: 'unit-4', lessonTitle: 'مساواة وعمليات', concepts: unit4Lesson1Concepts },
+  { lessonId: 'u4-lesson-2', unitId: 'unit-4', lessonTitle: 'حل معادلة', concepts: unit4Lesson2Concepts },
+  { lessonId: 'u4-lesson-3', unitId: 'unit-4', lessonTitle: 'اصطناع معادلة', concepts: unit4Lesson3Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

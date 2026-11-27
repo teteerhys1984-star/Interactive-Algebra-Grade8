@@ -64,9 +64,9 @@ const VISIBLE_TEXT = (html: string): string =>
     .trim();
 
 describe('Notebook registry scope', () => {
-  it('registers the eight existing notebooks and exactly five Unit 3 notebooks', () => {
+  it('registers the eight existing notebooks, five Unit 3 notebooks, and three Unit 4 notebooks', () => {
     const notebooks = allNotebooks();
-    expect(notebooks).toHaveLength(13);
+    expect(notebooks).toHaveLength(16);
     expect(
       notebooks.map((n) => `${n.unitId}/${n.lessonId}`).sort(),
     ).toEqual([
@@ -83,6 +83,9 @@ describe('Notebook registry scope', () => {
       'unit-3/u3-lesson-3',
       'unit-3/u3-lesson-4',
       'unit-3/u3-lesson-5',
+      'unit-4/u4-lesson-1',
+      'unit-4/u4-lesson-2',
+      'unit-4/u4-lesson-3',
     ]);
   });
 
@@ -101,6 +104,9 @@ describe('Notebook registry scope', () => {
       'unit-3/u3-lesson-3',
       'unit-3/u3-lesson-4',
       'unit-3/u3-lesson-5',
+      'unit-4/u4-lesson-1',
+      'unit-4/u4-lesson-2',
+      'unit-4/u4-lesson-3',
     ]);
     for (const unit of curriculum) {
       for (const lesson of [unit.warmup, ...unit.lessons]) {
@@ -718,6 +724,52 @@ describe('Unit 3 notebook source and content contracts', () => {
     };
     for (const [file, expected] of Object.entries(hashes)) {
       expect(createHash('sha256').update(readFileSync(join('src/data/notebooks', file))).digest('hex'), file).toBe(expected);
+    }
+  });
+});
+
+const unit4Ids = [1, 2, 3].map((i) => `u4-lesson-${i}`);
+const unit4Notebooks = unit4Ids.map((id) => getNotebook('unit-4', id)!);
+
+describe('Unit 4 notebook source and content contracts', () => {
+  it.each(unit4Notebooks.map((n) => [n.lessonId, n] as const))(
+    '%s references real non-authored blocks in this lesson and keeps math out of section titles',
+    (id, notebook) => {
+      const lesson = findLesson(id)!.lesson;
+      const sourceBlocks = lesson.steps.flatMap((step) => step.blocks).filter((block) => !block.authored);
+      for (const section of notebook.sections) {
+        expect(section.title).not.toMatch(/[$=\\]/);
+        for (const entry of section.entries) {
+          for (const source of entry.sources) {
+            for (const ref of source.refs ?? []) {
+              expect(lesson.sourcePages, `${id}/${entry.id}: page ${ref.page}`).toContain(ref.page);
+              // القسم الفرعي لكل مرجع يجب أن يطابق عنوان كتلة كتابية حقيقية
+              // في الدرس نفسه — لا أقسام مخترعة ولا دمجًا لأقسام مختلفة.
+              expect(
+                sourceBlocks.some((block) => block.sourceRef.page === ref.page && block.sourceRef.section === ref.section),
+                `${id}/${entry.id}: no book block for ${ref.page}/${ref.section}`,
+              ).toBe(true);
+            }
+            if (source.origin === 'platform') expect(source.refs).toBeUndefined();
+          }
+        }
+      }
+      expect(serialize(notebook)).not.toContain('**');
+    },
+  );
+
+  it('documents the Unit 4 source discrepancies instead of silently correcting them', () => {
+    expect(serialize(unit4Notebooks[0])).toContain('c \\neq 0');
+    expect(serialize(unit4Notebooks[0])).toContain('بفراغٍ بين $2L$ و $l$');
+    expect(serialize(unit4Notebooks[1])).toContain('نحصل على $x = \\frac{9}{2}$ لا');
+    expect(serialize(unit4Notebooks[2])).toContain('اختيار المجهول');
+  });
+
+  it('leaves the textbook exercises unanswered in the Unit 4 notebooks', () => {
+    for (const notebook of unit4Notebooks) {
+      const exercises = notebook.sections.find((section) => section.kind === 'exercises-to-copy');
+      expect(exercises?.entries.length).toBeGreaterThan(0);
+      expect(collectText(exercises)).not.toMatch(/الحل\s*[:：]|النتيجة\s*[:：]/);
     }
   });
 });
