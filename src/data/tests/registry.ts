@@ -17,6 +17,9 @@ import { unit3Lesson3TestQuestions } from './unit3/lesson-3';
 import { unit3Lesson4TestQuestions } from './unit3/lesson-4';
 import { unit3Lesson5TestQuestions } from './unit3/lesson-5';
 import { unit3Lesson6TestQuestions } from './unit3/lesson-6';
+import { unit4Lesson1TestQuestions } from './unit4/lesson-1';
+import { unit4Lesson2TestQuestions } from './unit4/lesson-2';
+import { unit4Lesson3TestQuestions } from './unit4/lesson-3';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -215,6 +218,45 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u3-lesson-6'],
   },
+  {
+    id: 'u4-test-lesson-1',
+    type: 'lesson',
+    unitId: 'unit-4',
+    lessonId: 'u4-lesson-1',
+    title: 'اختبار الدرس الأول: مساواة وعمليات',
+    description: 'اختبر فهمك لخواصّ المساواة، وحلّ المعادلة بخطوتين، وسلاسل التحويل المتكافئة، والبرهان الرمزي، وحلّ صيغة هندسية بالنسبة إلى أحد رموزها.',
+    questionIds: unit4Lesson1TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'خواصّ المساواة، العزل بخطوتين، التحويلات المتكافئة، البرهان، الصيغ الهندسية، وتركيب القواعد',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u4-lesson-1'],
+  },
+  {
+    id: 'u4-test-lesson-2',
+    type: 'lesson',
+    unitId: 'unit-4',
+    lessonId: 'u4-lesson-2',
+    title: 'اختبار الدرس الثاني: حل معادلة',
+    description: 'اختبر فهمك لمعنى الحلّ والتحقّق، وعزل المجهول في معادلات بمجهول في الطرفين، والأقواس، وجدول القيم، والجداء المعدوم وفرق المربّعين، والمعاملات الكسرية.',
+    questionIds: unit4Lesson2TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'معنى الحلّ، العزل، الأقواس، جدول القيم، الجداء المعدوم، الكسور، ونموذج المستطيل',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u4-lesson-2'],
+  },
+  {
+    id: 'u4-test-lesson-3',
+    type: 'lesson',
+    unitId: 'unit-4',
+    lessonId: 'u4-lesson-3',
+    title: 'اختبار الدرس الثالث: اصطناع معادلة',
+    description: 'اختبر فهمك لترجمة نصّ مسألة إلى معادلة: اختيار المجهول، وتمثيل الكمّيات الأخرى، وجدول الحالتين، ومسائل الخلط والسعة، وتأويل الحلّ والتحقّق.',
+    questionIds: unit4Lesson3TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'تعبيران للكمّية نفسها، اختيار المجهول، جدول قبل/بعد، مسائل الخلط، السعة، والتأويل',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u4-lesson-3'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -294,6 +336,9 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit3Lesson4TestQuestions,
   ...unit3Lesson5TestQuestions,
   ...unit3Lesson6TestQuestions,
+  ...unit4Lesson1TestQuestions,
+  ...unit4Lesson2TestQuestions,
+  ...unit4Lesson3TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];

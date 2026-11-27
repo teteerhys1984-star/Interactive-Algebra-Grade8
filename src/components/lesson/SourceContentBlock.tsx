@@ -41,6 +41,10 @@ import { Unit3Lesson3AreaFigure } from './Unit3Lesson3AreaFigure';
 import { Unit3Lesson4LShapeFigure, Unit3Lesson4RectangleFigure } from './Unit3Lesson4Figures';
 import { Unit3Lesson5DistributionFigure, Unit3Lesson5PrismFigure } from './Unit3Lesson5Figures';
 import { Unit3Lesson5SubstitutionLab } from '../interactive/Unit3Lesson5SubstitutionLab';
+import { EquationBalanceLab } from '../interactive/EquationBalanceLab';
+import { EquationStepsLab, rat } from '../interactive/EquationStepsLab';
+import { EquationMatchLab } from '../interactive/EquationMatchLab';
+import { Unit4MentalTilesFigure, Unit4PartyTable, Unit4RectangleFigure, Unit4TriangleFigure } from './Unit4Figures';
 import {
   Sparkles,
   BookOpen,
@@ -79,6 +83,25 @@ const normaliseTex = (tex: string): string =>
     .replace(/\\left|\\right/g, '')
     .replace(/\\,|\\;|\\!|\\quad|\\qquad/g, '')
     .replace(/[{}\s]/g, '');
+
+/**
+ * بيانات الوحدة الرابعة تحفظ معاملات المعادلة نصوصًا (مثل `'1'` و `'-1'`) كما
+ * وردت في الكتاب. هذه الدالة تحوّلها إلى كسر تامّ للاستعمال في مختبر الخطوات،
+ * وتقبل الصيغتين `a/b` و `-a/b` إضافةً إلى الأعداد الصحيحة.
+ */
+const toRational = (value: string | number | undefined) => {
+  if (typeof value === 'number') return rat(value);
+  if (!value) return rat(0);
+  const text = String(value).trim().replace(/\s+/g, '');
+  const fraction = text.match(/^(-?)(\d+)\/(\d+)$/);
+  if (fraction) return rat((fraction[1] === '-' ? -1 : 1) * Number(fraction[2]), Number(fraction[3]));
+  return rat(Number(text) || 0);
+};
+
+const toLinear = (side: { a?: string | number; b?: string | number } | undefined) => ({
+  a: toRational(side?.a),
+  b: toRational(side?.b),
+});
 
 /** True when `formula` is already visible as inline/block math inside `content`. */
 export const isMathDuplicatedInText = (content: string, formula?: string): boolean => {
@@ -362,6 +385,36 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
       {block.interactiveType === 'u3l5-distribution-figure' && <Unit3Lesson5DistributionFigure />}
 
       {block.interactiveType === 'u3l5-substitution-lab' && <Unit3Lesson5SubstitutionLab />}
+
+      {block.interactiveType === 'u4-balance' && block.interactiveData?.left && block.interactiveData?.right && (
+        <EquationBalanceLab
+          left={block.interactiveData.left}
+          right={block.interactiveData.right}
+          variable={block.interactiveData.variable}
+          secretValue={block.interactiveData.secretValue}
+          unit={block.interactiveData.unit}
+        />
+      )}
+
+      {block.interactiveType === 'u4-steps' && (
+        <EquationStepsLab
+          left={toLinear(block.interactiveData?.left)}
+          right={toLinear(block.interactiveData?.right)}
+          variable={block.interactiveData?.variable}
+        />
+      )}
+
+      {block.interactiveType === 'u4-match' && block.interactiveData?.pairs && (
+        <EquationMatchLab pairs={block.interactiveData.pairs} rightOrder={block.interactiveData.rightOrder} />
+      )}
+
+      {block.interactiveType === 'u4-party-table' && <Unit4PartyTable />}
+
+      {block.interactiveType === 'u4-mental-tiles' && <Unit4MentalTilesFigure />}
+
+      {block.interactiveType === 'u4-triangle-figure' && <Unit4TriangleFigure />}
+
+      {block.interactiveType === 'u4-rectangle-figure' && <Unit4RectangleFigure />}
 
       {block.interactiveType === 'warmup-rectangle-svg' && (
         <div

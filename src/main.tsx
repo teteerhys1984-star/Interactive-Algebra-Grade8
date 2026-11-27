@@ -14,6 +14,7 @@ import './styles/tests.css';
 import './styles/roots.css';
 import './styles/unit3-lesson1.css';
 import './styles/unit3-lesson2.css';
+import './styles/unit4.css';
 import './styles/independent-tests.css';
 import './styles/notebook.css';
 import './temp/temp.css';

@@ -1,0 +1,94 @@
+{
+  "lessonId": "u4-lesson-2",
+  "unitId": "unit-4",
+  "unitTitle": "معادلات من الدرجة الأولى",
+  "warmupTitle": "انطلاقة نشطة",
+  "lesson": "حل معادلة",
+  "sourcePages": [
+    72,
+    73,
+    74
+  ],
+  "sourceFiles": [
+    {
+      "file": "image-6.png",
+      "page": 72,
+      "role": "نشاط «إدراك حلّ المعادلة»: مخططات الحساب الذهني الأربعة، وخواصّ المساواة، والحلّ المطلوب لمعادلتين، والمعادلة بقوسين",
+      "sha256": "d37ddc6d10a4275819a65499fddace41c4210a9fead1a7bcbc8138897fa96408"
+    },
+    {
+      "file": "image-7.png",
+      "page": 73,
+      "role": "تعريف المعادلة والحلّ، والمعرفة المسبقة، ومثال $5x-6=14$، وإضاءة، وتحقّق من فهمك ①② (سلاسل وجدول)",
+      "sha256": "723476ac4a490c44e9275b35b8ed14796c5686f6a6294ec33150f427c8903e01"
+    },
+    {
+      "file": "image-8.png",
+      "page": 74,
+      "role": "«استفد» ③ وتدرّب ①–⑥ ومسألة محيط المستطيل",
+      "sha256": "f803c09d636d8f51646d5d9e34e93a22ad512394ee1980ca127e10cad1efb730"
+    }
+  ],
+  "identityAudit": {
+    "officialLessonTitle": "حل معادلة",
+    "warmupPageHeading": "انطلاقة نشطة",
+    "evidence": "الشريط الأزرق المرقّم (2) في أعلى الصفحة 72 يحمل «حل معادلة» ويبدأ بنشاط «إدراك حلّ المعادلة $ax+b=c$ خطوةً خطوة»، وهو امتداد لما بدأ في الدرس الأول؛ ولا صفحة تمهيد جديدة هنا."
+  },
+  "bookBlockSequence": [
+    "p72-activity-head",
+    "p72-mental",
+    "p72-with-properties",
+    "p72-solve-two",
+    "p72-solve-bracket",
+    "p73-definition",
+    "p73-prior-knowledge",
+    "p73-procedure-head",
+    "p73-procedure-steps",
+    "p73-illumination",
+    "p73-check-1",
+    "p73-check-2",
+    "p74-derive",
+    "p74-drill-1",
+    "p74-drill-2",
+    "p74-drill-3",
+    "p74-drill-4",
+    "p74-drill-5",
+    "p74-rectangle",
+    "p74-rectangle-1",
+    "p74-rectangle-2",
+    "p74-rectangle-3"
+  ],
+  "sourceNotes": [
+    {
+      "page": 72,
+      "blockId": "p72-mental-figure",
+      "status": "resolved-by-zoom",
+      "note": "مخططات الحالات الأربعة: ① ثلاث بلاطات ⇄ بلاطتان و50؛ ② خمس بلاطات ⇄ 80 وثلاث بلاطات؛ ③ بلاطتان و80 ⇄ 120؛ ④ ثلاث بلاطات و35 ⇄ بلاطتان و62. البلاطة الصفراء تحمل x (مساحتها x م²) والمستطيل الأبيض يحمل عددًا (مساحته ذلك العدد). صيغ المساواة مشتقة من الأشكال وموسومة بذلك في verifyNote."
+    },
+    {
+      "page": 72,
+      "blockId": "p72-solve-bracket",
+      "status": "resolved-exact",
+      "note": "$2(9+2x) = 14$ ومنها $x = -1$ (لا $-2$): $18+4x = 14 \\Rightarrow 4x = -4 \\Rightarrow x = -1$."
+    },
+    {
+      "page": 73,
+      "blockId": "p73-check-1",
+      "status": "resolved-partial",
+      "note": "سلاسل «تحقّق من فهمك ①» مطبوعة بفراغات متعدّدة. أُثبتت الخطوات المتوسطة الوحيدة المتّسقة مع الحلّ: ① 3x=6، ② −2x=−9، ③ 3=9x، ④ 3x=−8. وُثّق ذلك في verifyNote لكلّ بند."
+    },
+    {
+      "page": 73,
+      "blockId": "p73-check-2",
+      "status": "resolved-exact",
+      "note": "رؤوس جدول $4x-5$ سبع: $0, 0{,}25, -2, \\frac{5}{4}, 10, \\frac{7}{4}, 1$؛ والقيم المقابلة محسوبة من المنصة: $-5, -4, -13, 0, 35, 2, -1$."
+    },
+    {
+      "page": 74,
+      "blockId": "p74-drill-1",
+      "status": "resolved-exact",
+      "note": "المجموعة المعروضة {−5, 0, ⅓, 5}؛ المعادلات الست: $2x(3x-1)=0$، $x^2-25=0$، $5x=3x+10$، $2x^3=250$، $3x(x+5)=0$، $3x^2+14x-5=0$."
+    }
+  ],
+  "unresolvedAmbiguities": []
+}

@@ -156,14 +156,16 @@ describe('TEMP tab — Grade 6 book (temporary addition)', () => {
     expect(parseHash('#/temp/unknown')).toEqual({ view: 'temp' });
   });
 
-  it('11. Grade 8 curriculum is untouched: still 3 units, home shows only unit cards', () => {
-    expect(curriculum).toHaveLength(3);
-    expect(curriculum.map((u) => u.id)).toEqual(['unit-1', 'unit-2', 'unit-3']);
+  it('11. Grade 8 curriculum keeps its published units (4 with Unit 4) and home shows only unit cards', () => {
+    // Unit 4 is part of the published curriculum since the Unit 4 PR; the TEMP
+    // Grade 6 book still adds no unit and no lesson.
+    expect(curriculum).toHaveLength(4);
+    expect(curriculum.map((u) => u.id)).toEqual(['unit-1', 'unit-2', 'unit-3', 'unit-4']);
 
     render(<App />);
     // Home still renders the Grade 8 unit catalog and no TEMP book card.
     const unitLinks = screen.getAllByRole('link', { name: /دخول إلى الوحدة/ });
-    expect(unitLinks).toHaveLength(3);
+    expect(unitLinks).toHaveLength(4);
     expect(screen.queryByText(GRADE6_BOOK_TITLE)).not.toBeInTheDocument();
   });
 });

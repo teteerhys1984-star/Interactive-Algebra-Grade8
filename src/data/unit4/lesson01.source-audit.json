@@ -1,0 +1,107 @@
+{
+  "lessonId": "u4-lesson-1",
+  "unitId": "unit-4",
+  "unitTitle": "معادلات من الدرجة الأولى",
+  "warmupTitle": "انطلاقة نشطة",
+  "lesson": "مساواة وعمليات",
+  "sourcePages": [
+    68,
+    69,
+    70,
+    71
+  ],
+  "sourceFiles": [
+    {
+      "file": "image-2.png",
+      "page": 68,
+      "role": "نشاط «الأخذ بالقاعدة»: مخطط الميزان وأربع حالات، والتخمين، وقاعدة (1) ومثالها",
+      "sha256": "623ef6b9947e17b04cf0597d2cada87c1fee9877f515f0b059afc35219ea32ad"
+    },
+    {
+      "file": "image-3.png",
+      "page": 69,
+      "role": "قاعدة (2) ومثالاها، ومثال حلّ $x-1=5$، و«اكتساب معارف» (إثباتات)",
+      "sha256": "b5386d3f644ae44c3a40ab6c3d25b920bf871637a4587792c5ad3c79d41f7b5a"
+    },
+    {
+      "file": "image-4.png",
+      "page": 70,
+      "role": "تحقّق من فهمك ①② (الربط والخطوات) وتدرّب ①②",
+      "sha256": "b734bb456dbe1610e52ab6f2b702b2c04937f07c97aa7d638fc05d2417f11ede"
+    },
+    {
+      "file": "image-5.png",
+      "page": 71,
+      "role": "تطبيقات: ③ (مرّتين) و⑤ العمر و⑥ مساحة المثلث و⑦ محيط المستطيل",
+      "sha256": "b2014dbb51ed9786566c001d5a85823341738ce72d1900c8be6441c542a31ac9"
+    }
+  ],
+  "identityAudit": {
+    "officialLessonTitle": "مساواة وعمليات",
+    "warmupPageHeading": "انطلاقة نشطة",
+    "evidence": "الصفحة 67 تحمل ترويسة الوحدة الرابعة «معادلات من الدرجة الأولى» وعنوان الصفحة التمهيدية «انطلاقة نشطة» (سبعة أسئلة اختيار من متعدد)، بينما يحمل الشريط الأزرق المرقّم (1) في أعلى الصفحة 68 عنوان الدرس الأول «مساواة وعمليات»."
+  },
+  "bookBlockSequence": [
+    "p68-activity-head",
+    "p68-activity-test",
+    "p68-cases",
+    "p68-guess",
+    "p68-balance-lab",
+    "p68-rule-1",
+    "p68-rule-1-formula",
+    "p68-example-rule-1",
+    "p68-rule-2",
+    "p68-rule-2-formula",
+    "p69-example-rule-2",
+    "p69-solved-example",
+    "p69-solved-steps",
+    "p69-knowledge-head",
+    "p69-knowledge-setup",
+    "p69-knowledge-add",
+    "p69-knowledge-sub",
+    "p69-knowledge-mul",
+    "p69-knowledge-div",
+    "p70-check-1",
+    "p70-check-2",
+    "p70-practice-1",
+    "p70-practice-2",
+    "p71-compose-1",
+    "p71-compose-2",
+    "p71-age",
+    "p71-triangle",
+    "p71-rectangle"
+  ],
+  "sourceNotes": [
+    {
+      "page": 68,
+      "blockId": "p68-activity-head",
+      "status": "resolved-by-zoom",
+      "note": "الصيغة المطبوعة «a = b ⇒ a + c = b + c, ac = bc» تقع داخل سطر عربي، فتُعرض بعض حروفها بترتيب بصري معكوس في المسح؛ نُقلت كما هي بلا تصويب وأُضيف verifyNote."
+    },
+    {
+      "page": 68,
+      "blockId": "p68-activity-test",
+      "status": "resolved-exact",
+      "note": "أربع حالات على الميزان: إضافة 30 g للكفّتين، أكل 100 g من كلّ كفّة، مقارنة كعكتين بكعكتين (3x = 3y)، وأكل ربع كلّ كفّة (¾x = ¾y). الكعكة x والكعكة الصغيرة y كما في المصدر."
+    },
+    {
+      "page": 70,
+      "blockId": "p70-check-1",
+      "status": "resolved-by-zoom",
+      "note": "أزواج الربط الخمسة مشتقة من الأسهم المطبوعة: x−5=3 ↔ x=3+5، و2x=12 ↔ x=6، و5x=3 ↔ x=3÷5، و2+x=12 ↔ x=12−2، وx+5=3 ↔ x=3−5."
+    },
+    {
+      "page": 71,
+      "blockId": "p71-rectangle",
+      "status": "printed-source-discrepancy-documented",
+      "note": "المصدر يطبع محيط المستطيل «P = 2L l» بلا علامة جمع بين $2L$ و$l$ (تحقّق بتكبير 4×). المطلوب التالي «انسخ وأكمل: 2L = …» وسياق محيط المستطيل يفرضان الصيغة $P = 2L + 2l$، وهي المعتمدة مع توثيق الفرق في verifyNote."
+    },
+    {
+      "page": 71,
+      "blockId": "p71-compose-1",
+      "status": "resolved-exact",
+      "note": "الرقم ③ مطبوع مرّتين في الصفحة: مرّة مع $3x+20=7$ ومرّة مع $\\frac{x}{3}-4=2$. نُقل الترقيم المزدوج كما هو."
+    }
+  ],
+  "unresolvedAmbiguities": []
+}
