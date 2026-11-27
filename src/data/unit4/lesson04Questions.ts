@@ -12,6 +12,8 @@ export interface Unit4ExerciseSourceSubItem {
   solutionText?: string;
   working: string[];
   explanation?: string;
+  figureId?: Unit4ExerciseFigureId;
+  solutionFigureId?: Unit4ExerciseFigureId;
 }
 
 export interface Unit4ExerciseQuestionSpec {
@@ -22,6 +24,7 @@ export interface Unit4ExerciseQuestionSpec {
   bookSubtitle?: string;
   stem: string;
   figureId?: Unit4ExerciseFigureId;
+  solutionFigureId?: Unit4ExerciseFigureId;
   subItems?: Unit4ExerciseSourceSubItem[];
   think: string;
   hint: string;
@@ -80,7 +83,8 @@ export const unit4ExerciseQuestions: Unit4ExerciseQuestionSpec[] = [
       },
       {
         label: 'الحالة الرابعة',
-        text: 'محيط المستطيل المرسوم في الشّكل المرافق يساوي $36\\text{ m}$ (عرضه $x$ وطوله مقسّم إلى $5$ و $x$ و $3$). يمكن التعبير عن ذلك بالمعادلة: ① $2 \\times 2x + 8 = 36$ ② $2(2x + 8) = 36$ ③ $2(x^2 + 8) = 36$',
+        text: 'محيط المستطيل المرسوم في الشّكل المرافق يساوي $36\\text{ m}$. يمكن التعبير عن ذلك بالمعادلة: ① $2 \\times 2x + 8 = 36$ ② $2(2x + 8) = 36$ ③ $2(x^2 + 8) = 36$',
+        figureId: 'u4-ex1-rect',
         solution: '2(2x + 8) = 36',
         solutionText: 'الإجابة الصحيحة هي ②: $2(2x + 8) = 36$.',
         working: [
@@ -911,6 +915,7 @@ export const unit4ExerciseQuestions: Unit4ExerciseQuestionSpec[] = [
     title: 'محاصصة',
     bookSubtitle: 'محاصصة',
     stem: 'وزعت إحدى السيدات $50$ قطعة سكاكر على أطفالها الثلاثة، ليلى وماهر ومناف.\nحصة مناف منها تعادل مثلي حصة ماهر.\nحصة ليلى تزيد بخمس قطع عن حصة مناف.',
+    figureId: 'u4-ex13-candies',
     subItems: [
       {
         label: 'الفرع 1',
@@ -1498,6 +1503,7 @@ export const unit4ExerciseQuestions: Unit4ExerciseQuestionSpec[] = [
     bookSubtitle: 'مثلث علمت مساحته',
     stem: '$ABCD$ مستطيل. $AB = 5\\text{ cm}$ و $AD = 4\\text{ cm}$.\n$E$ نقطة من $[AB]$ تحقق $AE = 1\\text{ cm}$.\n$F$ نقطة من $[BC]$.\nنرمز إلى طول $[BF]$ بالرمز $x$ مقدراً بالسنتيمترات.',
     figureId: 'u4-ex22-rect-triangle',
+    solutionFigureId: 'u4-ex22-solution-rect',
     subItems: [
       {
         label: 'الفرع 1',
@@ -1540,6 +1546,7 @@ export const unit4ExerciseQuestions: Unit4ExerciseQuestionSpec[] = [
       {
         label: 'الفرع 5',
         text: 'ارسم الشكل في الحالة التي تكون فيها مساحة المثلث $EDF$ مساوية $9.5\\text{ cm}^2$.',
+        solutionFigureId: 'u4-ex22-solution-rect',
         solutionText: 'تكون مساحة المثلث $EDF$ مساوية $9.5\\text{ cm}^2$ عندما $x = 3\\text{ cm}$: نرسم المستطيل $ABCD$ ببعدي $5\\text{ cm}$ و $4\\text{ cm}$، ونعيّن $E$ على $[AB]$ بحيث $AE = 1\\text{ cm}$، ونعيّن $F$ على $[BC]$ بحيث $BF = 3\\text{ cm}$ (أي $FC = 1\\text{ cm}$)، ثم نصل رؤوس المثلث $EDF$.',
         working: [
           'من الفرع الرابع: $\\mathcal{A}_{EDF} = 9.5 \\iff 8 + 0.5x = 9.5 \\iff x = 3\\text{ cm}$.',

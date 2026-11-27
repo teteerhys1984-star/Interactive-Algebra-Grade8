@@ -296,6 +296,23 @@ describe('Unit 4, Lesson 4 — UI rendering, green/blue numbering, anti-spoiler 
           expect(subBadges.length, `Step ${qNum} standalone has zero blue sub badges`).toBe(0);
         }
 
+        // On Step 1, verify Q1 sub-item 4's rectangle figure is rendered inside «من الكتاب» (.exercise-source)
+        if (qNum === 1) {
+          expect(
+            container.querySelector(
+              '.exercise-source figure[aria-label*="مستطيل عرضه x وطوله مقسم إلى ثلاثة أجزاء"]',
+            ),
+          ).toBeTruthy();
+        }
+        // On Step 13, verify Q13's candy-sharing vignette is rendered inside «من الكتاب» (.exercise-source)
+        if (qNum === 13) {
+          expect(
+            container.querySelector(
+              '.exercise-source figure[aria-label*="توزيع 50 قطعة سكاكر"]',
+            ),
+          ).toBeTruthy();
+        }
+
         // Open hint + worked solution and verify zero KaTeX errors on revealed panels
         const hintBtn = container.querySelector('button.hint-disclosure') as HTMLButtonElement;
         expect(hintBtn).toBeTruthy();
@@ -306,6 +323,13 @@ describe('Unit 4, Lesson 4 — UI rendering, green/blue numbering, anti-spoiler 
         fireEvent.click(solBtn);
 
         expect(container.querySelector(`#u4-l4-step-${qNum}-solution-panel`)).toBeTruthy();
+        if (qNum === 22) {
+          expect(
+            container.querySelector(
+              '#u4-l4-step-22-solution-panel figure[aria-label*="في الحالة x = 3 cm"]',
+            ),
+          ).toBeTruthy();
+        }
         expect(container.querySelectorAll('.katex-error').length, `Step ${qNum} revealed .katex-error`).toBe(0);
 
         if (idx < 21) {

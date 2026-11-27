@@ -46,7 +46,7 @@ import { EquationStepsLab, rat } from '../interactive/EquationStepsLab';
 import { EquationMatchLab } from '../interactive/EquationMatchLab';
 import { Unit4ExerciseCheck } from '../interactive/Unit4ExerciseCheck';
 import { Unit4MentalTilesFigure, Unit4PartyTable, Unit4RectangleFigure, Unit4TriangleFigure } from './Unit4Figures';
-import { Unit4ExercisesFigure } from './Unit4ExercisesFigures';
+import { Unit4ExercisesFigure, type Unit4ExerciseFigureId } from './Unit4ExercisesFigures';
 import {
   Sparkles,
   BookOpen,
@@ -462,6 +462,11 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
                 <div style={{ fontSize: '0.95rem', color: 'var(--color-slate-800)' }}>
                   <MathText text={item.text} />
                 </div>
+                {item.figureId && (
+                  <div style={{ margin: '0.65rem 0' }}>
+                    <Unit4ExercisesFigure figureId={item.figureId as Unit4ExerciseFigureId} />
+                  </div>
+                )}
                 {item.math && (
                   <div style={{ margin: '0.75rem 0' }}>
                     <Math math={item.math} display />
@@ -513,6 +518,11 @@ export const SourceContentBlock: React.FC<SourceContentBlockProps> = ({ block, h
                         {item.explanation && (
                           <div style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>
                             <MathText text={item.explanation} />
+                          </div>
+                        )}
+                        {item.solutionFigureId && (
+                          <div style={{ marginTop: '0.75rem' }}>
+                            <Unit4ExercisesFigure figureId={item.solutionFigureId as Unit4ExerciseFigureId} />
                           </div>
                         )}
                       </div>

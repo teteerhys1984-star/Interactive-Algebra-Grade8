@@ -65,6 +65,8 @@ function buildStep(q: Unit4ExerciseQuestionSpec): LessonStep {
         solutionText: sub.solutionText,
         working: sub.working,
         explanation: sub.explanation,
+        figureId: sub.figureId,
+        solutionFigureId: sub.solutionFigureId,
       })),
     },
     {
@@ -101,6 +103,7 @@ function buildStep(q: Unit4ExerciseQuestionSpec): LessonStep {
       authored: true,
       deferUntilSolution: true,
       content: q.solutionSteps.join('\n'),
+      solutionFigureId: q.solutionFigureId,
     },
     {
       id: `insight-${q.n}`,

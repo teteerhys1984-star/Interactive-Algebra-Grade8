@@ -8,6 +8,7 @@ export type Unit4ExerciseFigureId =
   | 'u4-ex6-student-work'
   | 'u4-ex7-triangle'
   | 'u4-ex10-perimeters'
+  | 'u4-ex13-candies'
   | 'u4-ex16-cuboid'
   | 'u4-ex17-stamp'
   | 'u4-ex19-cycles'
@@ -280,6 +281,55 @@ const Ex10PerimetersFigure: React.FC = () => (
       <text x="287" y="38" textAnchor="middle" fill="#1e293b" fontSize="16" fontFamily="KaTeX_Math, serif">
         x + 1
       </text>
+    </svg>
+  </figure>
+);
+
+/** Q13: Illustrative vignette for dividing 50 candies among Laila, Maher, and Manaf. */
+const Ex13CandiesFigure: React.FC = () => (
+  <figure
+    className="u4-figure u4-ex-figure"
+    dir="rtl"
+    aria-label="توزيع 50 قطعة سكاكر على الأطفال الثلاثة: ليلى وماهر ومناف"
+  >
+    <svg viewBox="0 0 300 132" role="img">
+      <title>توزيع 50 قطعة سكاكر — السؤال 13</title>
+      <rect x="8" y="8" width="284" height="116" rx="12" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1.6" />
+      <rect x="92" y="16" width="116" height="26" rx="13" fill="#dcfce7" stroke="#16a34a" strokeWidth="1.4" />
+      <text x="150" y="34" textAnchor="middle" fill="#166534" fontSize="13" fontWeight="700">
+        50 قطعة سكاكر
+      </text>
+      {/* Three share badges without spoiling numeric answer */}
+      <g>
+        <circle cx="62" cy="80" r="22" fill="#fef3c7" stroke="#d97706" strokeWidth="1.6" />
+        <circle cx="56" cy="77" r="4" fill="#ef4444" />
+        <circle cx="68" cy="77" r="4" fill="#3b82f6" />
+        <circle cx="62" cy="86" r="4" fill="#10b981" />
+        <text x="62" y="116" textAnchor="middle" fill="#1e293b" fontSize="12.5" fontWeight="700">
+          ماهر
+        </text>
+      </g>
+      <g>
+        <circle cx="150" cy="80" r="22" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.6" />
+        <circle cx="143" cy="75" r="4" fill="#f59e0b" />
+        <circle cx="157" cy="75" r="4" fill="#ec4899" />
+        <circle cx="145" cy="86" r="4" fill="#10b981" />
+        <circle cx="156" cy="86" r="4" fill="#6366f1" />
+        <text x="150" y="116" textAnchor="middle" fill="#1e293b" fontSize="12.5" fontWeight="700">
+          مناف
+        </text>
+      </g>
+      <g>
+        <circle cx="238" cy="80" r="22" fill="#fce7f3" stroke="#db2777" strokeWidth="1.6" />
+        <circle cx="231" cy="74" r="4" fill="#ef4444" />
+        <circle cx="245" cy="74" r="4" fill="#3b82f6" />
+        <circle cx="231" cy="85" r="4" fill="#f59e0b" />
+        <circle cx="245" cy="85" r="4" fill="#10b981" />
+        <circle cx="238" cy="80" r="3.8" fill="#8b5cf6" />
+        <text x="238" y="116" textAnchor="middle" fill="#1e293b" fontSize="12.5" fontWeight="700">
+          ليلى
+        </text>
+      </g>
     </svg>
   </figure>
 );
@@ -593,6 +643,8 @@ export const Unit4ExercisesFigure: React.FC<Unit4ExercisesFigureProps> = ({ figu
       return <Ex7TriangleFigure />;
     case 'u4-ex10-perimeters':
       return <Ex10PerimetersFigure />;
+    case 'u4-ex13-candies':
+      return <Ex13CandiesFigure />;
     case 'u4-ex16-cuboid':
       return <Ex16CuboidFigure />;
     case 'u4-ex17-stamp':
