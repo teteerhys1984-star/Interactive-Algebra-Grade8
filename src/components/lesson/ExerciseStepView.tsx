@@ -3,6 +3,7 @@ import { ContentBlock, LessonStep } from '../../data/unit1/lesson01';
 import { SourceContentBlock } from './SourceContentBlock';
 import { MathText } from '../math/MathText';
 import { Math } from '../math/Math';
+import { Unit4ExercisesFigure, type Unit4ExerciseFigureId } from './Unit4ExercisesFigures';
 import { BookOpen, Brain, Lightbulb, PenTool, Search, CheckCircle2, ChevronDown, Sparkles, AlertTriangle } from 'lucide-react';
 
 interface ExerciseStepViewProps {
@@ -164,6 +165,11 @@ export const ExerciseStepView: React.FC<ExerciseStepViewProps> = ({ step, stepIn
               {solutionBlock.mathFormula && (
                 <div className="exercise-math-display">
                   <Math math={solutionBlock.mathFormula} display />
+                </div>
+              )}
+              {solutionBlock.solutionFigureId && (
+                <div style={{ marginTop: '0.75rem' }}>
+                  <Unit4ExercisesFigure figureId={solutionBlock.solutionFigureId as Unit4ExerciseFigureId} />
                 </div>
               )}
             </div>

@@ -72,9 +72,15 @@ export interface ContentBlock {
      */
     working?: string[];
     verifyNote?: string;
+    /** Optional figure ID rendered alongside this sub-item in the source card. */
+    figureId?: string;
+    /** Optional figure ID rendered inside this sub-item's revealed solution panel. */
+    solutionFigureId?: string;
   }[];
   interactiveType?: string;
   interactiveData?: any;
+  /** Optional figure ID rendered inside the step-by-step solution panel when revealed. */
+  solutionFigureId?: string;
   /**
    * When true, this block is added pedagogical explanation authored by the
    * platform (a teacher-style aid) rather than verbatim textbook source. The

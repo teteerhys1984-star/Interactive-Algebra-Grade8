@@ -20,6 +20,7 @@ import { unit4WarmupData } from './unit4/warmup';
 import { unit4Lesson1Data } from './unit4/lesson01';
 import { unit4Lesson2Data } from './unit4/lesson02';
 import { unit4Lesson3Data } from './unit4/lesson03';
+import { unit4Lesson4Data } from './unit4/lesson04';
 
 export interface UnitData {
   id: string;
@@ -66,7 +67,7 @@ export const curriculum: UnitData[] = [
     description: 'الوحدة الرابعة من كتاب الجبر للصف الثامن: خواصّ المساواة، وحلّ معادلات من الدرجة الأولى بمجهول واحد، واصطناع معادلة من نصّ مسألة وحلّها.',
     sourcePages: [67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
     warmup: unit4WarmupData,
-    lessons: [unit4Lesson1Data, unit4Lesson2Data, unit4Lesson3Data],
+    lessons: [unit4Lesson1Data, unit4Lesson2Data, unit4Lesson3Data, unit4Lesson4Data],
   },
 ];
 

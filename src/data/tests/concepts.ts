@@ -1243,6 +1243,72 @@ export const unit4Lesson3Concepts: CurriculumConcept[] = [
   },
 ];
 
+export const unit4Lesson4Concepts: CurriculumConcept[] = [
+  {
+    id: 'u4l4-linear-solving-steps',
+    title: 'حلّ المعادلات الخطية ومراحل التحويل المتكافئ',
+    skills: ['solve-two-sided-linear', 'justify-step-chain', 'isolate-second-variable'],
+    taughtInSteps: ['u4-l4-step-1', 'u4-l4-step-2', 'u4-l4-step-4'],
+    sourcePages: [],
+    commonMistakes: ['نقل حدّ إلى الطرف الآخر دون تغيير إشارته.'],
+  },
+  {
+    id: 'u4l4-fractions-and-signs',
+    title: 'المعادلات ذات المعاملات الكسرية والسالبة',
+    skills: ['solve-negative-fraction-coeff', 'remaining-fraction-stage', 'fractional-part-addition'],
+    taughtInSteps: ['u4-l4-step-2', 'u4-l4-step-14', 'u4-l4-step-17'],
+    sourcePages: [],
+    commonMistakes: ['إغفال إشارة الكسر السالب عند الضرب بالمقلوب، أو أخذ كسر من الكلّ بدل الباقي.'],
+  },
+  {
+    id: 'u4l4-text-and-writing',
+    title: 'التعبير عن نصٍّ بمعادلة وصياغة الحلّ المتكامل',
+    skills: ['translate-operations-with-brackets', 'critique-student-solution', 'answer-requested-quantity'],
+    taughtInSteps: ['u4-l4-step-1', 'u4-l4-step-5', 'u4-l4-step-6'],
+    sourcePages: [],
+    commonMistakes: ['نسيان الأقواس عند مضاعفة مجموع، أو التوقف عند قيمة المجهول دون حساب المطلوب.'],
+  },
+  {
+    id: 'u4l4-word-and-age-models',
+    title: 'مسائل المحاصصة والأعمار والأعداد المتتالية والربح والخسارة',
+    skills: ['model-before-after-change', 'consecutive-integers-sum', 'win-loss-net-balance', 'future-age-multiple'],
+    taughtInSteps: [
+      'u4-l4-step-8',
+      'u4-l4-step-9',
+      'u4-l4-step-11',
+      'u4-l4-step-12',
+      'u4-l4-step-13',
+      'u4-l4-step-15',
+      'u4-l4-step-18',
+    ],
+    sourcePages: [],
+    commonMistakes: ['إضافة السنوات إلى أحد الشخصين دون الآخر، أو عكس إشارة الخسارة الصافية.'],
+  },
+  {
+    id: 'u4l4-geometry-and-volumes',
+    title: 'توظيف المعادلات في المحيطات والمساحات والحجوم',
+    skills: ['unit-conversion-perimeter', 'equal-perimeters-or-areas', 'prism-volume-ratio', 'complement-area-in-rectangle'],
+    taughtInSteps: [
+      'u4-l4-step-3',
+      'u4-l4-step-7',
+      'u4-l4-step-10',
+      'u4-l4-step-16',
+      'u4-l4-step-20',
+      'u4-l4-step-22',
+    ],
+    sourcePages: [],
+    commonMistakes: ['الجمع بين الديسيمتر والسنتيمتر دون تحويل، أو نسيان تغيير الإشارة عند طرح مجموع مساحات.'],
+  },
+  {
+    id: 'u4l4-cycles-and-feasibility',
+    title: 'المخططات العددية والتحقّق من الإمكان الهندسي للحلّ',
+    skills: ['solve-operation-cycle', 'check-triangle-inequality', 'locate-point-on-segment'],
+    taughtInSteps: ['u4-l4-step-19', 'u4-l4-step-21', 'u4-l4-step-22'],
+    sourcePages: [],
+    commonMistakes: ['قبول أطوال موجبة لمثلث دون اختبار متراجحة المثلث.'],
+  },
+];
+
 export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'lesson-1', unitId: 'unit-1', lessonTitle: 'الجمع والطرح', concepts: lesson1Concepts },
   { lessonId: 'lesson-2', unitId: 'unit-1', lessonTitle: 'الضرب', concepts: lesson2Concepts },
@@ -1262,6 +1328,7 @@ export const lessonConceptProfiles: readonly LessonConceptProfile[] = [
   { lessonId: 'u4-lesson-1', unitId: 'unit-4', lessonTitle: 'مساواة وعمليات', concepts: unit4Lesson1Concepts },
   { lessonId: 'u4-lesson-2', unitId: 'unit-4', lessonTitle: 'حل معادلة', concepts: unit4Lesson2Concepts },
   { lessonId: 'u4-lesson-3', unitId: 'unit-4', lessonTitle: 'اصطناع معادلة', concepts: unit4Lesson3Concepts },
+  { lessonId: 'u4-lesson-4', unitId: 'unit-4', lessonTitle: 'تمارين الوحدة الرابعة', concepts: unit4Lesson4Concepts },
 ];
 
 export function conceptProfileForLesson(lessonId: string): LessonConceptProfile | undefined {

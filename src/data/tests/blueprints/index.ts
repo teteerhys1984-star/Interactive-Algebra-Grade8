@@ -17,6 +17,7 @@ import { unit3Lesson6Blueprint } from './unit3-lesson-6';
 import { unit4Lesson1Blueprint } from './unit4-lesson-1';
 import { unit4Lesson2Blueprint } from './unit4-lesson-2';
 import { unit4Lesson3Blueprint } from './unit4-lesson-3';
+import { unit4Lesson4Blueprint } from './unit4-lesson-4';
 
 /**
  * Content blueprint of every lesson test, keyed by `lessonId`.
@@ -43,6 +44,7 @@ export const lessonBlueprints: Record<string, LessonTestBlueprint> = {
   'u4-lesson-1': unit4Lesson1Blueprint,
   'u4-lesson-2': unit4Lesson2Blueprint,
   'u4-lesson-3': unit4Lesson3Blueprint,
+  'u4-lesson-4': unit4Lesson4Blueprint,
 };
 
 export function blueprintForLesson(lessonId: string): LessonTestBlueprint | undefined {

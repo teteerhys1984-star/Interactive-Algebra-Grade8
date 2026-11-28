@@ -1,0 +1,186 @@
+{
+  "lessonId": "u4-lesson-4",
+  "title": "تمارين الوحدة الرابعة",
+  "unitId": "unit-4",
+  "platformUploadAudit": {
+    "mountedDirectory": "/tmp/arena-coding-uploads",
+    "mountedFileCount": 14,
+    "mountedFiles": [
+      "image-1.png",
+      "image-2.png",
+      "image-3.png",
+      "image-4.png",
+      "image-5.png",
+      "image-6.png",
+      "image-7.png",
+      "image-8.png",
+      "image-9.png",
+      "image-10.png",
+      "image-11.png",
+      "image-12.png",
+      "image-13.png",
+      "image-14.png"
+    ],
+    "unmountedFilesNote": "وصلت إلى بيئة العمل (/tmp/arena-coding-uploads) 14 ملف صورة فريداً فقط (image-1.png حتى image-14.png) تغطّي الأسئلة 1 حتى 22 بتسلسل متصل بلا أي فجوة رقمية؛ ولم يُحمَّل أي ملف باسم image-15 أو image-16 داخل الحاوية."
+  },
+  "sourceFiles": [
+    {
+      "file": "image-1.png",
+      "dimensions": "1102x987",
+      "bytes": 300124,
+      "sha256": "aaa108ee5203b3a0079857f51a98152d85bbcdbe96110f52e18745c58426fa87",
+      "questions": [1],
+      "subItemCounts": { "1": 6 },
+      "figures": ["u4-ex1-rect"]
+    },
+    {
+      "file": "image-2.png",
+      "dimensions": "1297x304",
+      "bytes": 93617,
+      "sha256": "1da84d298cd1ab9a7b598ba5e49f2321328fe5c590c0ca8d874c0f685527dcb8",
+      "questions": [2],
+      "subItemCounts": { "2": 6 },
+      "figures": []
+    },
+    {
+      "file": "image-3.png",
+      "dimensions": "1537x886",
+      "bytes": 564997,
+      "sha256": "7e2dacb559c3cb03bafda97ee0520b4234635ee2403420ef527d46872c52084b",
+      "questions": [3, 4],
+      "subItemCounts": { "3": 2, "4": 2 },
+      "figures": ["u4-ex3-circle", "u4-ex4-blocks"]
+    },
+    {
+      "file": "image-4.png",
+      "dimensions": "1564x1000",
+      "bytes": 434013,
+      "sha256": "1ba027fa92c3d910be56282c461bb1a31deb950290cf920965231cbdfadbcc2b",
+      "questions": [5, 6],
+      "subItemCounts": { "5": 2, "6": 0 },
+      "figures": ["u4-ex6-student-work"]
+    },
+    {
+      "file": "image-5.png",
+      "dimensions": "1609x729",
+      "bytes": 343785,
+      "sha256": "19e82d37111f8902d3916778912305c8f240c6fba0c400db2575f6d204e66bda",
+      "questions": [7, 8],
+      "subItemCounts": { "7": 0, "8": 0 },
+      "figures": ["u4-ex7-triangle"]
+    },
+    {
+      "file": "image-6.png",
+      "dimensions": "1587x892",
+      "bytes": 345436,
+      "sha256": "adfd3147eebaf573f3dab20cba1fa30a65b7516ddcc0ceb7ccca5f35ad87d5fe",
+      "questions": [9, 10, 11],
+      "subItemCounts": { "9": 0, "10": 2, "11": 0 },
+      "figures": ["u4-ex10-perimeters"]
+    },
+    {
+      "file": "image-7.png",
+      "dimensions": "1429x316",
+      "bytes": 99821,
+      "sha256": "67a9dc5f8ebd239f00ad2b2c795d7f490bb781a429eb9cd05bdf5704752e8ce2",
+      "questions": [12],
+      "subItemCounts": { "12": 0 },
+      "figures": []
+    },
+    {
+      "file": "image-8.png",
+      "dimensions": "1309x988",
+      "bytes": 451049,
+      "sha256": "79ddaef91000a8abcacd209a3e2a013ee038089c4b142952976e1d724a161bbc",
+      "questions": [13, 14],
+      "subItemCounts": { "13": 2, "14": 2 },
+      "figures": ["u4-ex13-candies"]
+    },
+    {
+      "file": "image-9.png",
+      "dimensions": "1503x550",
+      "bytes": 175373,
+      "sha256": "dfb2dde5ddf8ddd75b8c88ad3a809debd65c98f1eecae238f9767210afc26a0e",
+      "questions": [15],
+      "subItemCounts": { "15": 2 },
+      "figures": []
+    },
+    {
+      "file": "image-10.png",
+      "dimensions": "1561x667",
+      "bytes": 432050,
+      "sha256": "01d2a69064c9b12b43504be9656c4ddd871ddb4206511ebdacc926dff06ed84a",
+      "questions": [16],
+      "subItemCounts": { "16": 0 },
+      "figures": ["u4-ex16-cuboid"]
+    },
+    {
+      "file": "image-11.png",
+      "dimensions": "1533x771",
+      "bytes": 350197,
+      "sha256": "13d25a6018634ab98ebc565f5789b466153b41937b7d6ff517d3f9e28841550d",
+      "questions": [17, 18],
+      "subItemCounts": { "17": 0, "18": 0 },
+      "figures": ["u4-ex17-stamp"]
+    },
+    {
+      "file": "image-12.png",
+      "dimensions": "1353x594",
+      "bytes": 155543,
+      "sha256": "cb1378c08de0855bffac350606f354ae872135270414765e8cd0ecd1415c90c2",
+      "questions": [19],
+      "subItemCounts": { "19": 2 },
+      "figures": ["u4-ex19-cycles"]
+    },
+    {
+      "file": "image-13.png",
+      "dimensions": "1591x909",
+      "bytes": 331857,
+      "sha256": "2ada4c8d87e3b8dbd940ddccfe8671bc00307f7a8df8b00618674daea4fc61f5",
+      "questions": [20],
+      "subItemCounts": { "20": 3 },
+      "figures": ["u4-ex20-triangles"]
+    },
+    {
+      "file": "image-14.png",
+      "dimensions": "1216x916",
+      "bytes": 321758,
+      "sha256": "610fdd2cba82e7d76bb55196067c9af96c1a559b74f9a007ec5b9f337bcad26a",
+      "questions": [21, 22],
+      "subItemCounts": { "21": 2, "22": 5 },
+      "figures": ["u4-ex21-sketch", "u4-ex22-rect-triangle", "u4-ex22-solution-rect"]
+    }
+  ],
+  "totalMainQuestions": 22,
+  "totalSubQuestions": 38,
+  "standaloneMainQuestions": [6, 7, 8, 9, 11, 12, 16, 17, 18],
+  "numberingColorScheme": {
+    "mainQuestionNumber": "green",
+    "subQuestionNumber": "blue"
+  },
+  "bookQuestionSequence": [
+    "u4-l4-q1",
+    "u4-l4-q2",
+    "u4-l4-q3",
+    "u4-l4-q4",
+    "u4-l4-q5",
+    "u4-l4-q6",
+    "u4-l4-q7",
+    "u4-l4-q8",
+    "u4-l4-q9",
+    "u4-l4-q10",
+    "u4-l4-q11",
+    "u4-l4-q12",
+    "u4-l4-q13",
+    "u4-l4-q14",
+    "u4-l4-q15",
+    "u4-l4-q16",
+    "u4-l4-q17",
+    "u4-l4-q18",
+    "u4-l4-q19",
+    "u4-l4-q20",
+    "u4-l4-q21",
+    "u4-l4-q22"
+  ],
+  "unresolvedAmbiguities": []
+}

@@ -20,6 +20,7 @@ import { unit3Lesson6TestQuestions } from './unit3/lesson-6';
 import { unit4Lesson1TestQuestions } from './unit4/lesson-1';
 import { unit4Lesson2TestQuestions } from './unit4/lesson-2';
 import { unit4Lesson3TestQuestions } from './unit4/lesson-3';
+import { unit4Lesson4TestQuestions } from './unit4/lesson-4';
 import type { ResolvedTest, TestDefinition, TestQuestion, TestType } from './types';
 
 const lessonDefinitions: TestDefinition[] = [
@@ -257,6 +258,19 @@ const lessonDefinitions: TestDefinition[] = [
     estimatedMinutes: 25,
     blueprint: lessonBlueprints['u4-lesson-3'],
   },
+  {
+    id: 'u4-test-lesson-4',
+    type: 'lesson',
+    unitId: 'unit-4',
+    lessonId: 'u4-lesson-4',
+    title: 'اختبار الدرس الرابع: تمارين الوحدة الرابعة',
+    description: 'اختبار مستقل من إعداد المنصة يقيس مهارات تمارين الوحدة الرابعة: حلّ معادلات الدرجة الأولى بمعاملات صحيحة وكسرية، وتشكيل المعادلة من نصّ أو شكل هندسي، ومسائل المحاصصة والأعمار والحجوم والمساحات، والتحقّق من الإمكان الهندسي للحلّ.',
+    questionIds: unit4Lesson4TestQuestions.map((question) => question.id),
+    difficultyLabel: 'متدرّج: أساسي، متوسط، متقدم، وتفكير',
+    coverageLabel: 'حلّ المعادلات، الكسور والإشارات، صياغة النصوص، المسائل الحياتية، الهندسة والحجوم، والتحقّق',
+    estimatedMinutes: 25,
+    blueprint: lessonBlueprints['u4-lesson-4'],
+  },
 ];
 
 const unitDefinitions: TestDefinition[] = [
@@ -339,6 +353,7 @@ export const questionBank: readonly TestQuestion[] = [
   ...unit4Lesson1TestQuestions,
   ...unit4Lesson2TestQuestions,
   ...unit4Lesson3TestQuestions,
+  ...unit4Lesson4TestQuestions,
   ...unit2TestQuestions,
   ...unit1TestQuestions,
 ];
